@@ -1,0 +1,42 @@
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Jost:wght@300;400;500;600;700&display=swap");
+
+:root {
+  --gold: #B8975A;
+  --gold-light: #D4AF78;
+  --gold-pale: #F5EDD8;
+  --ink: #1A1814;
+  --ink-soft: #3A3630;
+  --ink-muted: #6E6860;
+  --cream: #FAF8F4;
+  --white: #FFFFFF;
+  --rule: rgba(184, 151, 90, 0.25);
+  --navy: #1B2240;
+  --surface: #F5F5F7;
+  --surface-soft: #FBFBFD;
+  --graphite: #080807;
+  --glass: rgba(255, 255, 255, 0.72);
+  --dark-glass: rgba(12, 11, 9, 0.72);
+
+  --font-display: "Cormorant Garamond", Georgia, serif;
+  --font-body: "Jost", "DM Sans", Arial, sans-serif;
+
+  --ease-premium: cubic-bezier(0.22, 1, 0.36, 1);
+  --max: 1180px;
+  --max-narrow: 840px;
+  --nav-height: 56px;
+
+  --space-xs: clamp(0.5rem, 0.45rem + 0.25vw, 0.75rem);
+  --space-sm: clamp(0.9rem, 0.75rem + 0.55vw, 1.25rem);
+  --space-md: clamp(1.35rem, 1rem + 1vw, 2rem);
+  --space-lg: clamp(2.2rem, 1.55rem + 2vw, 3.8rem);
+  --space-xl: clamp(3.4rem, 2.2rem + 4vw, 6.5rem);
+  --space-2xl: clamp(5rem, 3.4rem + 7vw, 10rem);
+  --space-3xl: clamp(7rem, 5rem + 10vw, 15rem);
+
+  --radius-sm: 14px;
+  --radius-md: 22px;
+  --radius-lg: 32px;
+  --radius-xl: 44px;
+  --section: var(--space-2xl);
+  --section-tight: var(--space-xl);
+}
