@@ -45,3 +45,5 @@ The interactive global reach map uses `react-simple-maps` and a local topojson f
 - `public/geographies/countries-110m.json`
 
 For Hostinger or Apache hosting, upload the generated `dist/.htaccess` file with the rest of the build so React Router routes work on refresh and browser back/forward.
+
+For Vercel hosting, `vercel.json` provides the same React Router fallback so direct page reloads and browser back/forward work on routes such as `/international`, `/eventus`, `/luxury-export`, and `/contact`.
