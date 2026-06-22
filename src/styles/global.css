@@ -224,16 +224,18 @@ p {
 .reveal,
 .image-reveal {
   opacity: 0;
-  transform: translateY(28px) scale(0.985);
+  transform: translate3d(0, 22px, 0) scale(0.992);
+  will-change: opacity, transform;
   transition:
-    opacity 820ms var(--ease-premium) var(--delay),
-    transform 820ms var(--ease-premium) var(--delay);
+    opacity 680ms var(--ease-premium) var(--delay),
+    transform 680ms var(--ease-premium) var(--delay);
 }
 
 .reveal.is-visible,
 .image-reveal.is-visible {
   opacity: 1;
-  transform: translateY(0) scale(1);
+  transform: translate3d(0, 0, 0) scale(1);
+  will-change: auto;
 }
 
 .navbar {
@@ -1131,6 +1133,8 @@ p {
   scroll-padding-inline: 0;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
+  overscroll-behavior-inline: contain;
+  contain: layout paint;
   -webkit-overflow-scrolling: touch;
 }
 
@@ -1211,6 +1215,7 @@ p {
   box-shadow: 0 18px 52px rgba(26, 24, 20, 0.045);
   transition:
     background 360ms var(--ease-premium),
+    box-shadow 360ms var(--ease-premium),
     transform 360ms var(--ease-premium);
 }
 
@@ -1252,10 +1257,13 @@ p {
     linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(250, 248, 243, 0.78)),
     var(--white);
   box-shadow: 0 28px 80px rgba(26, 24, 20, 0.075);
+  backface-visibility: hidden;
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
 }
 
 .product-carousel-item.product-panel:hover {
-  transform: translateY(-5px);
+  transform: translate3d(0, -5px, 0);
   box-shadow: 0 34px 96px rgba(26, 24, 20, 0.1);
 }
 
