@@ -22,9 +22,23 @@ const displayNames = {
   "United Arab Emirates": "UAE",
 };
 
-export default function GlobalReach() {
+const defaultHighlights = [
+  { value: "13", label: "Trade focus countries" },
+  { value: "4", label: "Regional corridors" },
+  { value: "1", label: "Chennai-led operating base" },
+];
+
+export default function GlobalReach({
+  variant = "standard",
+  eyebrow = "Trade Network",
+  title = "OUR GLOBAL REACH",
+  text,
+  highlights = [],
+}) {
   const [tooltip, setTooltip] = useState(null);
   const geographyUrl = useMemo(() => `${import.meta.env.BASE_URL}geographies/countries-110m.json`, []);
+  const sectionId = variant === "home" ? "home-global-reach-title" : "global-reach-title";
+  const highlightItems = highlights.length ? highlights : defaultHighlights;
 
   const showTooltip = (event, countryName) => {
     const bounds = event.currentTarget.ownerSVGElement?.getBoundingClientRect();
@@ -48,14 +62,29 @@ export default function GlobalReach() {
   };
 
   return (
-    <section className="global-reach-section" aria-labelledby="global-reach-title">
+    <section
+      className={`global-reach-section global-reach-${variant}`.trim()}
+      aria-labelledby={sectionId}
+    >
       <div className="global-reach-container">
         <Reveal className="global-reach-heading">
-          <span className="eyebrow">Trade Network</span>
-          <h2 id="global-reach-title">OUR GLOBAL REACH</h2>
+          <span className="eyebrow">{eyebrow}</span>
+          <h2 id={sectionId}>{title}</h2>
+          {text ? <p>{text}</p> : null}
         </Reveal>
 
         <Reveal className="global-reach-map-wrap" delay={120}>
+          {variant === "home" ? (
+            <div className="global-reach-stats" aria-label="Global reach highlights">
+              {highlightItems.map((item) => (
+                <article key={item.label}>
+                  <strong>{item.value}</strong>
+                  <span>{item.label}</span>
+                </article>
+              ))}
+            </div>
+          ) : null}
+
           <ComposableMap
             projection="geoEqualEarth"
             projectionConfig={{ scale: 155 }}

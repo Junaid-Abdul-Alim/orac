@@ -1414,6 +1414,14 @@ p {
   line-height: 0.92;
 }
 
+.global-reach-heading p {
+  max-width: 680px;
+  margin: 22px auto 0;
+  color: rgba(22, 20, 15, 0.66);
+  font-size: 1.04rem;
+  line-height: 1.75;
+}
+
 .global-reach-map-wrap {
   position: relative;
   max-width: 1120px;
@@ -1421,6 +1429,74 @@ p {
   padding: clamp(18px, 3vw, 34px);
   border: 1px solid rgba(21, 19, 71, 0.08);
   background: #ffffff;
+}
+
+.global-reach-home {
+  background:
+    linear-gradient(180deg, #ffffff 0%, #faf8f3 100%);
+}
+
+.global-reach-home .global-reach-container {
+  width: min(100% - 40px, 1240px);
+}
+
+.global-reach-home .global-reach-map-wrap {
+  max-width: 1180px;
+  padding: clamp(24px, 4vw, 50px);
+  border-color: rgba(21, 19, 71, 0.1);
+  border-radius: 36px;
+  background:
+    radial-gradient(circle at 50% 42%, rgba(184, 151, 90, 0.1), transparent 35%),
+    linear-gradient(180deg, #ffffff 0%, #fbfaf7 100%);
+  box-shadow: 0 28px 90px rgba(21, 19, 71, 0.08);
+}
+
+.global-reach-home .global-reach-map {
+  opacity: 0.98;
+}
+
+.global-reach-stats {
+  position: absolute;
+  left: clamp(20px, 4vw, 48px);
+  top: clamp(20px, 4vw, 48px);
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  width: min(520px, calc(100% - 40px));
+  border: 1px solid rgba(21, 19, 71, 0.1);
+  background: rgba(255, 255, 255, 0.86);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  backdrop-filter: blur(18px) saturate(160%);
+}
+
+.global-reach-stats article {
+  display: grid;
+  gap: 4px;
+  min-height: 92px;
+  align-content: center;
+  padding: 18px;
+  border-right: 1px solid rgba(21, 19, 71, 0.08);
+}
+
+.global-reach-stats article:last-child {
+  border-right: 0;
+}
+
+.global-reach-stats strong {
+  color: #151347;
+  font-family: var(--font-display);
+  font-size: 2.35rem;
+  font-weight: 500;
+  line-height: 0.9;
+}
+
+.global-reach-stats span {
+  color: rgba(22, 20, 15, 0.62);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  line-height: 1.35;
+  text-transform: uppercase;
 }
 
 .global-reach-map {
@@ -1892,8 +1968,26 @@ p {
     margin-bottom: 28px;
   }
 
+  .global-reach-heading p {
+    font-size: 0.98rem;
+  }
+
   .global-reach-map-wrap {
     padding: 12px;
+  }
+
+  .global-reach-home .global-reach-map-wrap {
+    display: grid;
+    gap: 18px;
+    padding: 18px;
+    border-radius: 28px;
+  }
+
+  .global-reach-stats {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: 100%;
   }
 
   .global-reach-tooltip {
@@ -1965,6 +2059,24 @@ p {
   .global-reach-map-wrap {
     margin-inline: -8px;
     padding: 8px;
+  }
+
+  .global-reach-home .global-reach-map-wrap {
+    margin-inline: 0;
+  }
+
+  .global-reach-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .global-reach-stats article {
+    min-height: 78px;
+    border-right: 0;
+    border-bottom: 1px solid rgba(21, 19, 71, 0.08);
+  }
+
+  .global-reach-stats article:last-child {
+    border-bottom: 0;
   }
 }
 
