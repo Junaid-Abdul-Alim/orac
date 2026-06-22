@@ -2,7 +2,7 @@ import React from "react";
 import Reveal from "../components/common/Reveal";
 import SectionHeader from "../components/common/SectionHeader";
 import ServiceCard from "../components/common/ServiceCard";
-import ProductPanel from "../components/common/ProductPanel";
+import ProductCarousel from "../components/common/ProductCarousel";
 import ProcessTimeline from "../components/common/ProcessTimeline";
 import CinematicBanner from "../components/common/CinematicBanner";
 import GlobalReach from "../components/common/GlobalReach";
@@ -93,16 +93,11 @@ export default function OracInternational() {
                   <h3>{category.title}</h3>
                   <p>{category.intro}</p>
                 </Reveal>
-                <div className="product-grid">
-                  {category.products.map((product, index) => (
-                    <ProductPanel
-                      key={product.name}
-                      product={product}
-                      image={productImageSlot(product.name)}
-                      index={index}
-                    />
-                  ))}
-                </div>
+                <ProductCarousel
+                  products={category.products}
+                  getImage={productImageSlot}
+                  label={`${category.title} export products`}
+                />
               </section>
             ))}
           </div>
@@ -125,16 +120,11 @@ export default function OracInternational() {
                   <h3>{category.title}</h3>
                   <p>{category.intro}</p>
                 </Reveal>
-                <div className="product-grid">
-                  {category.products.map((product, index) => (
-                    <ProductPanel
-                      key={product.name}
-                      product={product}
-                      image={productImageSlot(product.name)}
-                      index={index}
-                    />
-                  ))}
-                </div>
+                <ProductCarousel
+                  products={category.products}
+                  getImage={productImageSlot}
+                  label={`${category.title} import products`}
+                />
               </section>
             ))}
           </div>
