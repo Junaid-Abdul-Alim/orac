@@ -2,13 +2,14 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { companies } from "../../data/companyData";
 import { contactDetails } from "../../data/contactData";
+import oracLogo from "../../assets/logos/orac-orange.svg";
 
 export default function Footer() {
   return (
     <footer className="footer">
       <div className="container footer-inner">
         <div className="footer-brand">
-          <span className="eyebrow">ORAC</span>
+          <img className="footer-logo" src={oracLogo} alt="ORAC" />
           <h2>One vision. Multiple business worlds.</h2>
         </div>
 

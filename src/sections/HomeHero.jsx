@@ -2,6 +2,7 @@ import React from "react";
 import BusinessDock from "../components/common/BusinessDock";
 import Button from "../components/common/Button";
 import Reveal from "../components/common/Reveal";
+import oracLogo from "../assets/logos/orac-orange.svg";
 
 export default function HomeHero() {
   return (
@@ -9,7 +10,9 @@ export default function HomeHero() {
       <div className="container home-hero-inner">
         <Reveal className="home-hero-copy">
           <span className="eyebrow">ORAC Ecosystem</span>
-          <h1>ORAC</h1>
+          <h1 className="home-hero-logo-heading">
+            <img src={oracLogo} alt="ORAC" />
+          </h1>
           <p className="hero-line">Trade. Events. Photography.</p>
           <p className="hero-subtext">
             A house of ventures built on vision, discipline, and the conviction that great things are always worth the

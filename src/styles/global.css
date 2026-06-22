@@ -570,6 +570,20 @@ p {
   line-height: 0.95;
 }
 
+.home-hero-logo-heading {
+  display: flex;
+  justify-content: center;
+  margin: 0;
+}
+
+.home-hero-logo-heading img {
+  display: block;
+  width: min(560px, 88vw);
+  max-height: 168px;
+  object-fit: contain;
+  filter: drop-shadow(0 22px 42px rgba(184, 87, 40, 0.12));
+}
+
 .contact-heading h1 {
   color: var(--ink);
   font-size: 4.5rem;
@@ -1733,6 +1747,13 @@ p {
 .footer-brand {
   display: grid;
   gap: 18px;
+}
+
+.footer-logo {
+  display: block;
+  width: min(148px, 42vw);
+  height: auto;
+  filter: drop-shadow(0 18px 34px rgba(184, 87, 40, 0.16));
 }
 
 .footer h2 {

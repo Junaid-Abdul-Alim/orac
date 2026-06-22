@@ -3,7 +3,7 @@ import { useEffect, useId, useRef, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { companies } from "../../data/companyData";
 import BusinessSwitcher from "../common/BusinessSwitcher";
-import oracLogo from "../../assets/logos/orac-black.svg";
+import oracLogo from "../../assets/logos/orac-orange.svg";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
