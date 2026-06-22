@@ -269,14 +269,17 @@ p {
 }
 
 .brand {
-  display: grid;
-  gap: 1px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: clamp(88px, 8vw, 118px);
+  min-height: 42px;
   line-height: 1;
 }
 
 .brand-logo {
   display: block;
-  width: clamp(76px, 7vw, 104px);
+  width: clamp(82px, 7.2vw, 112px);
   height: auto;
 }
 
@@ -350,17 +353,21 @@ p {
   box-shadow: 0 24px 80px rgba(26, 24, 20, 0.12);
   opacity: 0;
   pointer-events: none;
+  visibility: hidden;
   transform: translateY(8px) scale(0.985);
   transform-origin: top right;
   transition:
     opacity 280ms var(--ease-premium),
-    transform 280ms var(--ease-premium);
+    transform 280ms var(--ease-premium),
+    visibility 0s linear 280ms;
 }
 
 .company-menu.is-open .business-switcher-panel {
   opacity: 1;
   pointer-events: auto;
+  visibility: visible;
   transform: translateY(0) scale(1);
+  transition-delay: 0s;
 }
 
 .business-switcher-panel a {
@@ -1379,6 +1386,90 @@ p {
   background: rgba(255, 255, 255, 0.9);
 }
 
+.global-reach-section {
+  padding: clamp(84px, 10vw, 132px) 0;
+  background: #ffffff;
+  color: #000000;
+  overflow: hidden;
+}
+
+.global-reach-container {
+  width: min(100% - 40px, 1180px);
+  margin: 0 auto;
+}
+
+.global-reach-heading {
+  max-width: 760px;
+  margin: 0 auto 44px;
+  text-align: center;
+}
+
+.global-reach-heading h2 {
+  margin: 10px 0 0;
+  color: #000000;
+  font-family: var(--font-display);
+  font-size: clamp(2.8rem, 6vw, 5.8rem);
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 0.92;
+}
+
+.global-reach-map-wrap {
+  position: relative;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: clamp(18px, 3vw, 34px);
+  border: 1px solid rgba(21, 19, 71, 0.08);
+  background: #ffffff;
+}
+
+.global-reach-map {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.global-country {
+  fill: #e5e5e5;
+  stroke: #ffffff;
+  stroke-width: 0.55;
+  outline: none;
+  transition:
+    fill 220ms var(--ease-premium),
+    filter 220ms var(--ease-premium);
+}
+
+.global-country.is-highlighted {
+  fill: #151347;
+  cursor: pointer;
+}
+
+.global-country.is-highlighted:hover,
+.global-country.is-highlighted:focus {
+  fill: #25217a;
+  filter: drop-shadow(0 6px 10px rgba(21, 19, 71, 0.18));
+}
+
+.global-reach-tooltip {
+  position: absolute;
+  left: var(--tooltip-x);
+  top: var(--tooltip-y);
+  z-index: 3;
+  padding: 8px 12px;
+  border: 1px solid rgba(21, 19, 71, 0.14);
+  background: rgba(255, 255, 255, 0.96);
+  color: #151347;
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  text-transform: uppercase;
+  transform: translate(14px, -120%);
+  box-shadow: 0 16px 42px rgba(21, 19, 71, 0.12);
+  pointer-events: none;
+  white-space: nowrap;
+}
+
 .quote-block {
   padding: var(--space-2xl) 0;
 }
@@ -1793,6 +1884,22 @@ p {
     aspect-ratio: 16 / 10;
   }
 
+  .global-reach-container {
+    width: min(100% - 28px, 1180px);
+  }
+
+  .global-reach-heading {
+    margin-bottom: 28px;
+  }
+
+  .global-reach-map-wrap {
+    padding: 12px;
+  }
+
+  .global-reach-tooltip {
+    transform: translate(-50%, -130%);
+  }
+
   .footer-bottom {
     display: grid;
   }
@@ -1845,6 +1952,19 @@ p {
 
   .hero-brand-logo {
     max-height: 84px;
+  }
+
+  .global-reach-section {
+    padding: 68px 0;
+  }
+
+  .global-reach-heading h2 {
+    font-size: 2.7rem;
+  }
+
+  .global-reach-map-wrap {
+    margin-inline: -8px;
+    padding: 8px;
   }
 }
 

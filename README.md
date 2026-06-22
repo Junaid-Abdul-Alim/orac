@@ -8,7 +8,6 @@ Premium React + Vite website for ORAC Holding and its business verticals.
 - `/international`
 - `/eventus`
 - `/luxury-export`
-- `/evolution`
 - `/contact`
 
 ## Setup
@@ -37,4 +36,12 @@ Image locations are centralized in:
 - `src/data/internationalImages.js`
 - `src/data/eventusImages.js`
 
-Current visual slots are intentionally prepared as premium placeholders so final brand images can be added without touching component structure.
+International page images are stored locally in `src/assets/images/international`.
+Source notes for those assets are kept beside the files.
+
+The interactive global reach map uses `react-simple-maps` and a local topojson file:
+
+- `src/components/common/GlobalReach.jsx`
+- `public/geographies/countries-110m.json`
+
+For Hostinger or Apache hosting, upload the generated `dist/.htaccess` file with the rest of the build so React Router routes work on refresh and browser back/forward.

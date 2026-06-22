@@ -5,6 +5,7 @@ import ServiceCard from "../components/common/ServiceCard";
 import ProductPanel from "../components/common/ProductPanel";
 import ProcessTimeline from "../components/common/ProcessTimeline";
 import CinematicBanner from "../components/common/CinematicBanner";
+import GlobalReach from "../components/common/GlobalReach";
 import ContactCTA from "../sections/ContactCTA";
 import Hero from "../components/common/Hero";
 import { exportCategories, importCategories, internationalServices, internationalStats, tradeProcess } from "../data/internationalData";
@@ -63,6 +64,8 @@ export default function OracInternational() {
           </div>
         </div>
       </section>
+
+      <GlobalReach />
 
       <section className="section muted-section">
         <div className="container">

@@ -2,11 +2,11 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { companies } from "../../data/companyData";
 
-export default function BusinessSwitcher({ onNavigate }) {
+export default function BusinessSwitcher({ id, onNavigate }) {
   return (
-    <div className="business-switcher-panel">
+    <div className="business-switcher-panel" id={id} role="menu" aria-label="ORAC companies">
       {companies.map((company) => (
-        <NavLink key={company.id} to={company.route} onClick={onNavigate}>
+        <NavLink key={company.id} to={company.route} onClick={onNavigate} role="menuitem">
           {company.logo ? <img className="business-switcher-logo" src={company.logo} alt="" /> : null}
           <span>{company.name}</span>
           <small>{company.purpose}</small>

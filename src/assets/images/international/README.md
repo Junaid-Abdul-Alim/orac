@@ -1,16 +1,25 @@
-Replace these image slots with final ORAC International assets:
+International page image notes
 
-- hero-trade.jpg
-- pulses-lentils.jpg
-- spices.jpg
-- coconut-coir.jpg
-- quartz-minerals.jpg
-- cargo-shipping.jpg
-- automotive-accessories.jpg
-- grill-lights.jpg
-- led-headlights.jpg
-- winches.jpg
-- damping-sheets.jpg
-- air-compressors.jpg
+These images are local site assets selected from free-to-use Unsplash photo sources.
+They replaced the earlier Husarich/Cropses hotlinked images so the ORAC website does
+not rely on unlicensed company-owned product imagery or third-party redirects.
 
-Use optimized JPG or WebP exports with cinematic crops and no embedded text.
+Unsplash License:
+https://unsplash.com/license
+
+Source photo pages used:
+- https://unsplash.com/photos/spices-are-displayed-in-a-market-stall-jaQdGWNJ2WA
+- https://unsplash.com/photos/five-gray-spoons-filled-with-assorted-color-powders-near-chilli-vA1L1jRTM70
+- https://unsplash.com/photos/0P-RFP6Za4A
+- https://unsplash.com/photos/uYG1PCwjgIU
+- https://unsplash.com/photos/cashew-nuts-FG29J5efMYQ
+- https://unsplash.com/photos/-ui6FpfwT1g
+- https://unsplash.com/photos/zNIIdqN9YJc
+- https://unsplash.com/photos/QiiFKzzsH3w
+- https://unsplash.com/photos/XGB72JP6Kms
+- https://unsplash.com/photos/xNTkgtOTGz4
+- https://unsplash.com/photos/CPmW6VHb1Yg
+- https://unsplash.com/photos/v73htotbdLw
+- https://unsplash.com/photos/onion-lot-U4YdDVliDlA
+
+Replace these with final ORAC-owned product photography whenever available.

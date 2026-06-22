@@ -1,5 +1,5 @@
 import React from "react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { companies } from "../../data/companyData";
 import BusinessSwitcher from "../common/BusinessSwitcher";
@@ -11,6 +11,7 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
   const businessMenuRef = useRef(null);
+  const businessMenuId = useId();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -54,11 +55,20 @@ export default function Navbar() {
     };
   }, []);
 
+  const onBusinessKeyDown = (event) => {
+    if (event.key === "ArrowDown") {
+      event.preventDefault();
+      setBusinessOpen(true);
+      window.requestAnimationFrame(() => {
+        businessMenuRef.current?.querySelector("a")?.focus();
+      });
+    }
+  };
+
   return (
     <header className={`navbar ${scrolled || open ? "is-solid" : ""}`}>
       <Link className="brand" to="/" aria-label="ORAC Holding home">
         <img className="brand-logo" src={oracLogo} alt="ORAC" />
-        <small>Holding</small>
       </Link>
 
       <nav className="desktop-nav" aria-label="Primary navigation">
@@ -66,18 +76,18 @@ export default function Navbar() {
         <div
           className={`company-menu business-switcher ${businessOpen ? "is-open" : ""}`}
           ref={businessMenuRef}
-          onMouseEnter={() => setBusinessOpen(true)}
-          onMouseLeave={() => setBusinessOpen(false)}
         >
           <button
             type="button"
-            aria-haspopup="true"
+            aria-haspopup="menu"
+            aria-controls={businessMenuId}
             aria-expanded={businessOpen}
             onClick={() => setBusinessOpen((value) => !value)}
+            onKeyDown={onBusinessKeyDown}
           >
-            Businesses
+            Companies
           </button>
-          <BusinessSwitcher onNavigate={() => setBusinessOpen(false)} />
+          <BusinessSwitcher id={businessMenuId} onNavigate={() => setBusinessOpen(false)} />
         </div>
         <NavLink to="/contact">Contact</NavLink>
       </nav>
@@ -96,7 +106,7 @@ export default function Navbar() {
       <nav className={`mobile-menu ${open ? "is-open" : ""}`} aria-label="Mobile navigation">
         <NavLink to="/">Home</NavLink>
         <div className="mobile-menu-group">
-          <span>Businesses</span>
+          <span>Companies</span>
           {companies.map((company) => (
             <NavLink key={company.id} to={company.route}>
               <span>{company.name}</span>

@@ -9,7 +9,6 @@ export const assetPaths = {
   international: internationalImages.hero.src,
   eventus: eventusImages.hero.src,
   luxuryExport: "",
-  evolution: "",
 };
 
 export const companies = [
@@ -51,18 +50,6 @@ export const companies = [
     route: "/luxury-export",
     image: assetPaths.luxuryExport,
     logo: oracLuxeLogo,
-    summary: "Opening Soon.",
-    cta: "Opening Soon",
-  },
-  {
-    id: "evolution",
-    name: "ORAC EVOLUTION",
-    shortName: "Evolution",
-    label: "Opening Soon",
-    purpose: "Opening Soon.",
-    status: "Opening Soon",
-    route: "/evolution",
-    image: assetPaths.evolution,
     summary: "Opening Soon.",
     cta: "Opening Soon",
   },
