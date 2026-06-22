@@ -7,26 +7,26 @@ const imageSlot = (label = "Image to be added", alt = "Image to be added") => ({
 export const eventusImages = {
   hero: {
     src: "",
-    alt: "ORAC Eventus premium wedding celebration",
+    alt: "ORAC Eventus wedding celebration",
     label: "Image to be added",
     title: "Weddings, Celebrations & Moments, Mastered",
     description: "Add the primary ORAC Eventus celebration image here.",
   },
   services: {
     "Decor & Styling": imageSlot("Image to be added", "Mandap decor and wedding styling by ORAC Eventus"),
-    "Venues & Logistics": imageSlot("Image to be added", "Premium wedding venue setup and logistics"),
+    "Venues & Logistics": imageSlot("Image to be added", "Wedding venue setup and logistics"),
     "Catering Services": imageSlot("Image to be added", "Wedding catering and live counters"),
     Entertainment: imageSlot("Image to be added", "Wedding entertainment and live sound"),
     "Gifting & Keepsakes": imageSlot("Image to be added", "Wedding gifting and keepsakes"),
     "Guest Experience": imageSlot("Image to be added", "Guest experience and hospitality at a wedding"),
   },
   gallery: [
-    imageSlot("Image to be added", "Mandap decor for a premium wedding"),
+    imageSlot("Image to be added", "Mandap decor for a wedding"),
     imageSlot("Image to be added", "Floral stage setup for a wedding celebration"),
-    imageSlot("Image to be added", "Wedding venue setup with premium styling"),
+    imageSlot("Image to be added", "Wedding venue setup with considered styling"),
     imageSlot("Image to be added", "Catering and live counters for wedding guests"),
     imageSlot("Image to be added", "Entertainment setup for a celebration"),
-    imageSlot("Image to be added", "Guest experience details for a premium event"),
+    imageSlot("Image to be added", "Guest experience details for an event"),
   ],
 };
 
@@ -41,6 +41,6 @@ export const velorawedImages = {
     imageSlot("Image to be added", "VELORAWED aerial drone wedding coverage"),
     imageSlot("Image to be added", "VELORAWED pre-wedding shoot"),
     imageSlot("Image to be added", "VELORAWED family portrait photography"),
-    imageSlot("Image to be added", "VELORAWED premium wedding album design"),
+    imageSlot("Image to be added", "VELORAWED wedding album design"),
   ],
 };

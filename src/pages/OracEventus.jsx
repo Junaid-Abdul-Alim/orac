@@ -15,7 +15,7 @@ export default function OracEventus() {
     <>
       <Hero
         lockup={["ORAC", "Eventus"]}
-        eyebrow="Premium Event Management"
+        eyebrow="Event Management"
         title="ORAC EVENTUS"
         kicker="Weddings, Celebrations & Moments, Mastered"
         text="Building celebrations that are felt, not just seen."

@@ -9,4 +9,4 @@ Replace these image slots with final ORAC Eventus assets:
 - gifting.jpg
 - guest-experience.jpg
 
-Use warm, premium wedding/event photography with clean crops and no embedded text.
+Use warm wedding/event photography with clean crops and no embedded text.

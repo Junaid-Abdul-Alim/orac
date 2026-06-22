@@ -296,7 +296,7 @@ export const importCategories = [
       {
         name: "Sun Film",
         tag: "Auto / Tint",
-        story: "Premium window film for UV rejection, heat reduction, and privacy.",
+        story: "Window film for UV rejection, heat reduction, and privacy.",
         spec: "VLT range 5%-70% / Ceramic and nano series",
         origin: "Sourced: USA, South Korea",
       },
@@ -352,7 +352,7 @@ export const importCategories = [
       {
         name: "Black Matpe",
         tag: "Agri Import / Pulse",
-        story: "Myanmar's prized black lentil, used by Indian dal mills to produce premium urad dal.",
+        story: "Myanmar's prized black lentil, used by Indian dal mills to produce refined urad dal.",
         spec: "Moisture <=12% / Bold and medium grade",
         origin: "Myanmar, Brazil",
       },

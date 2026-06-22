@@ -50,7 +50,7 @@ export const internationalImages = {
     alt: "Assorted herbs and spices prepared for international trade",
     label: "Trade image",
     title: "Source. Verify. Move with care.",
-    description: "Premium herbs and spices imagery for ORAC International trade presentation.",
+    description: "Herbs and spices imagery for ORAC International trade presentation.",
   },
   banner: {
     src: spicesSpoons,
@@ -60,7 +60,7 @@ export const internationalImages = {
     description: "Agricultural sourcing image for the ORAC International trade section.",
   },
   exports: {
-    "Pulses & Lentils": imageSlot("Product image", "Premium pulses and lentils for export", pulsesBowls),
+    "Pulses & Lentils": imageSlot("Product image", "Selected pulses and lentils for export", pulsesBowls),
     "Spices & Aromatics": imageSlot("Trade image", "Spices and aromatics sourced for export", spicesSpoons),
     "Fresh, Dry & Processed Agri": imageSlot("Product image", "Fresh onions and agricultural produce", onions),
     "Fibres, Coir & Industrial": imageSlot("Image to be added", "Fibres coir and industrial export materials"),
@@ -68,7 +68,7 @@ export const internationalImages = {
   imports: {
     "Automotive Parts & Accessories": imageSlot(
       "Image to be added",
-      "Premium automotive accessories for import into India"
+      "Automotive accessories for import into India"
     ),
     "Grill Lights": imageSlot("Image to be added", "Vehicle grill lights imported by ORAC International"),
     "Projector & LED Headlights": imageSlot("Image to be added", "Projector and LED headlights for automotive import"),

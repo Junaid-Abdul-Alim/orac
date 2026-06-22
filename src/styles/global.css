@@ -992,6 +992,7 @@ p {
 .product-panel,
 .contact-card,
 .reason-panel-list article,
+.editorial-panel,
 .premium-panel {
   border: 1px solid rgba(184, 151, 90, 0.14);
   border-radius: 28px;
@@ -1038,6 +1039,7 @@ p {
   font-weight: 600;
 }
 
+.editorial-panel,
 .premium-panel {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -1812,6 +1814,7 @@ p {
   .split-layout,
   .editorial-layout,
   .velorawed-layout,
+  .editorial-panel,
   .premium-panel,
   .velorawed-visuals,
   .footer-inner {

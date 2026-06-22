@@ -44,7 +44,7 @@ export default function OracInternational() {
 
       <section className="section about-trade-section">
         <div className="container">
-          <div className="premium-panel about-trade-panel">
+          <div className="editorial-panel about-trade-panel">
             <Reveal>
               <span className="eyebrow">About ORAC International</span>
               <p>

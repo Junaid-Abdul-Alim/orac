@@ -37,7 +37,7 @@ export const eventusServices = [
   },
   {
     title: "Memory Design",
-    points: ["Premium wedding album design", "Framed photography and wall art", "Aerial drone coverage"],
+    points: ["Wedding album design", "Framed photography and wall art", "Aerial drone coverage"],
   },
   {
     title: "Guest Experience",

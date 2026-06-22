@@ -1,6 +1,6 @@
 # ORAC Holding Website
 
-Premium React + Vite website for ORAC Holding and its business verticals.
+React + Vite website for ORAC Holding and its business verticals.
 
 ## Routes
 
