@@ -3,12 +3,13 @@ import { internationalImages } from "./internationalImages";
 import oracEventusLogo from "../assets/logos/orac-eventus.svg";
 import oracInternationalLogo from "../assets/logos/orac-international.svg";
 import oracLuxeLogo from "../assets/logos/orac-luxe.svg";
+import luxeAtelier from "../assets/images/luxe/fashion-atelier.jpg";
 
 export const assetPaths = {
-  holding: "",
+  holding: internationalImages.hero.src,
   international: internationalImages.hero.src,
   eventus: eventusImages.hero.src,
-  luxuryExport: "",
+  luxuryExport: luxeAtelier,
 };
 
 export const companies = [

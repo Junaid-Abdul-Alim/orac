@@ -1,9 +1,22 @@
 import React from "react";
 import BrandLockup from "./BrandLockup";
 import Button from "./Button";
+import ImagePanel from "./ImagePanel";
 import Reveal from "./Reveal";
 
-export default function Hero({ eyebrow, title, kicker, text, meta, cta, secondaryCta, dark = true, lockup, heroNote }) {
+export default function Hero({
+  eyebrow,
+  title,
+  kicker,
+  text,
+  meta,
+  cta,
+  secondaryCta,
+  dark = true,
+  lockup,
+  heroNote,
+  image,
+}) {
   return (
     <section className={`product-hero ${dark ? "product-hero-dark" : "product-hero-light"}`}>
       <div className="container product-hero-inner">
@@ -25,6 +38,18 @@ export default function Hero({ eyebrow, title, kicker, text, meta, cta, secondar
             </div>
           ) : null}
         </Reveal>
+        {image?.src ? (
+          <ImagePanel
+            image={image}
+            label={image.label || eyebrow}
+            title={image.title}
+            description={image.description}
+            className="product-hero-image"
+            priority
+            dark={dark}
+            delay={90}
+          />
+        ) : null}
         <Reveal className="hero-brand-panel" delay={120}>
           <span className="hero-brand-rule" />
           <small>{heroNote || meta || lockup?.join(" / ")}</small>
