@@ -1,7 +1,8 @@
 import React from "react";
+import { ClipboardCheck, FileCheck2, Handshake, SearchCheck, Ship, Truck } from "lucide-react";
 import Reveal from "../components/common/Reveal";
 import SectionHeader from "../components/common/SectionHeader";
-import ServiceCard from "../components/common/ServiceCard";
+import IconBadge from "../components/common/IconBadge";
 import ProductCategoryShowcase from "../components/common/ProductCategoryShowcase";
 import ProcessTimeline from "../components/common/ProcessTimeline";
 import CinematicBanner from "../components/common/CinematicBanner";
@@ -10,6 +11,17 @@ import ContactCTA from "../sections/ContactCTA";
 import Hero from "../components/common/Hero";
 import { exportCategories, importCategories, internationalServices, internationalStats, tradeProcess } from "../data/internationalData";
 import { internationalImages, productImageSlot } from "../data/internationalImages";
+
+const serviceDescriptions = [
+  "Outbound trade movement for selected Indian categories.",
+  "Inbound channels for selected industrial and market needs.",
+  "Supplier discovery, category fit, and origin conversations.",
+  "Commercial coordination from enquiry to movement.",
+  "Producer, vendor, and supplier follow-through.",
+  "Quality checks, document readiness, and shipment support.",
+];
+
+const serviceIcons = [Ship, Truck, SearchCheck, Handshake, ClipboardCheck, FileCheck2];
 
 export default function OracInternational() {
   return (
@@ -69,11 +81,31 @@ export default function OracInternational() {
 
       <section className="section muted-section">
         <div className="container">
-          <SectionHeader eyebrow="What We Do" title="Trade work with the details kept visible." />
-          <div className="service-grid service-grid-compact">
-            {internationalServices.map((service, index) => (
-              <ServiceCard key={service} title={service} index={index} />
-            ))}
+          <div className="trade-capability-showcase">
+            <div className="trade-capability-copy">
+              <SectionHeader eyebrow="What We Do" title="Trade work with the details kept visible." />
+              <Reveal className="trade-capability-statement">
+                <span>From source to shipment</span>
+                <p>
+                  ORAC International keeps the essential work close: finding the right supply,
+                  coordinating the right people, and keeping every trade conversation clear.
+                </p>
+              </Reveal>
+            </div>
+            <div className="trade-capability-grid" aria-label="ORAC International capabilities">
+              {internationalServices.map((service, index) => (
+                <Reveal as="article" className="trade-capability-card" key={service} delay={index * 65}>
+                  <div className="trade-capability-top">
+                    <IconBadge icon={serviceIcons[index]} className="icon-badge-soft" size={17} />
+                    <span className="trade-capability-number">{String(index + 1).padStart(2, "0")}</span>
+                  </div>
+                  <div>
+                    <h3>{service}</h3>
+                    <p>{serviceDescriptions[index]}</p>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -81,30 +113,34 @@ export default function OracInternational() {
       <section className="section">
         <div className="container">
           <ProductCategoryShowcase
-            eyebrow="Products / Categories"
-            title="Selected categories, presented for business conversations."
-            text="Every export product is sourced from India's growing regions with traceability, quality checks, and the character of the land it comes from."
-            categories={exportCategories}
+            eyebrow="Trade Catalogue"
+            title="Export and import products, organized for clear business conversations."
+            text="ORAC International connects Indian export categories with selected import channels for automotive, agricultural, and industrial trade."
+            collections={[
+              {
+                id: "exports",
+                label: "Export Collection",
+                short: "Export",
+                description:
+                  "Products sourced from India's growing and manufacturing regions, prepared for international trade enquiries.",
+                categories: exportCategories,
+              },
+              {
+                id: "imports",
+                label: "Import Collection",
+                short: "Import",
+                description:
+                  "Selected products sourced through international channels for India's aftermarket, processing, and industrial sectors.",
+                categories: importCategories,
+              },
+            ]}
             getImage={productImageSlot}
-            label="Export product categories"
+            label="ORAC International trade catalogue"
           />
         </div>
       </section>
 
       <CinematicBanner image={internationalImages.banner} />
-
-      <section className="section import-section">
-        <div className="container">
-          <ProductCategoryShowcase
-            eyebrow="Import Portfolio"
-            title="Bringing the World's Best to India."
-            text="ORAC International sources automotive accessories, agricultural commodities, and industrial scrap for India's processing, aftermarket, manufacturing, and recycling sectors."
-            categories={importCategories}
-            getImage={productImageSlot}
-            label="Import product categories"
-          />
-        </div>
-      </section>
 
       <section className="section process-section">
         <div className="container">

@@ -1,6 +1,7 @@
 import React from "react";
 import { useEffect, useId, useRef, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
+import { ChevronDown } from "lucide-react";
 import { companies } from "../../data/companyData";
 import BusinessSwitcher from "../common/BusinessSwitcher";
 import oracLogo from "../../assets/logos/orac-orange.svg";
@@ -85,7 +86,8 @@ export default function Navbar() {
             onClick={() => setBusinessOpen((value) => !value)}
             onKeyDown={onBusinessKeyDown}
           >
-            Companies
+            <span>Companies</span>
+            <ChevronDown className="nav-chevron" size={14} strokeWidth={1.8} aria-hidden="true" />
           </button>
           <BusinessSwitcher id={businessMenuId} onNavigate={() => setBusinessOpen(false)} />
         </div>
