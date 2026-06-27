@@ -611,6 +611,15 @@ p {
   font-size: 1.05rem;
 }
 
+.hero-luxe-line {
+  color: var(--gold);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
 .hero-meta {
   color: rgba(26, 24, 20, 0.48);
 }
@@ -657,7 +666,7 @@ p {
 .business-dock {
   width: min(900px, 100%);
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 10px;
   margin-top: var(--space-md);
 }
@@ -939,6 +948,16 @@ p {
   font-size: 1.02rem;
 }
 
+.holding-statement {
+  display: block;
+  margin-top: 8px;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: clamp(1.55rem, 2.8vw, 2.3rem);
+  font-weight: 600;
+  line-height: 1.12;
+}
+
 .editorial-list span {
   display: flex;
   align-items: center;
@@ -972,7 +991,6 @@ p {
   font-size: 2.2rem;
 }
 
-.leadership-grid,
 .stat-grid,
 .service-grid,
 .product-grid,
@@ -980,6 +998,12 @@ p {
 .reason-panel-list {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.leadership-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 16px;
 }
 
@@ -1677,10 +1701,20 @@ p {
   cursor: pointer;
 }
 
+.global-country.is-india {
+  fill: #b42318;
+}
+
 .global-country.is-highlighted:hover,
 .global-country.is-highlighted:focus {
   fill: #25217a;
   filter: drop-shadow(0 6px 10px rgba(21, 19, 71, 0.18));
+}
+
+.global-country.is-india:hover,
+.global-country.is-india:focus {
+  fill: #d14336;
+  filter: drop-shadow(0 6px 10px rgba(180, 35, 24, 0.2));
 }
 
 .global-reach-tooltip {

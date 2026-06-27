@@ -5,27 +5,46 @@ import Reveal from "./Reveal";
 const highlightedCountries = new Set([
   "India",
   "China",
-  "United Arab Emirates",
-  "Turkey",
-  "Sudan",
-  "Somalia",
-  "Mexico",
-  "Malaysia",
-  "Indonesia",
   "Vietnam",
-  "Bangladesh",
   "Thailand",
-  "Papua New Guinea",
+  "Indonesia",
+  "Israel",
+  "United Arab Emirates",
+  "Tanzania",
+  "Ethiopia",
+  "Madagascar",
+  "Sudan",
+  "Mozambique",
+  "Malawi",
+  "Cameroon",
+  "Nigeria",
+  "Niger",
+  "Chad",
+  "Senegal",
+  "C\u00f4te d'Ivoire",
+  "Benin",
+  "Ghana",
+  "Brazil",
+  "United States of America",
+  "Canada",
+  "Australia",
+  "South Korea",
+  "Saudi Arabia",
+  "Germany",
+  "France",
+  "Spain",
 ]);
 
 const displayNames = {
   "United Arab Emirates": "UAE",
+  "United States of America": "USA",
+  "C\u00f4te d'Ivoire": "Cote d'Ivoire",
 };
 
 const defaultHighlights = [
-  { value: "13", label: "Trade focus countries" },
-  { value: "4", label: "Regional corridors" },
-  { value: "1", label: "Chennai-led operating base" },
+  { value: "29", label: "Focused countries" },
+  { value: "5", label: "Regional corridors" },
+  { value: "India", label: "Based operation" },
 ];
 
 export default function GlobalReach({
@@ -99,6 +118,7 @@ export default function GlobalReach({
                 geographies.map((geo) => {
                   const countryName = geo.properties.name;
                   const isHighlighted = highlightedCountries.has(countryName);
+                  const isIndia = countryName === "India";
 
                   return (
                     <Geography
@@ -106,22 +126,28 @@ export default function GlobalReach({
                       geography={geo}
                       tabIndex={isHighlighted ? 0 : -1}
                       aria-label={countryName}
-                      className={isHighlighted ? "global-country is-highlighted" : "global-country"}
+                      className={[
+                        "global-country",
+                        isHighlighted ? "is-highlighted" : "",
+                        isIndia ? "is-india" : "",
+                      ]
+                        .filter(Boolean)
+                        .join(" ")}
                       style={{
                         default: {
-                          fill: isHighlighted ? "#151347" : "#E5E5E5",
+                          fill: isIndia ? "#B42318" : isHighlighted ? "#151347" : "#E5E5E5",
                           stroke: "#FFFFFF",
                           strokeWidth: 0.55,
                           outline: "none",
                         },
                         hover: {
-                          fill: isHighlighted ? "#25217A" : "#E5E5E5",
+                          fill: isIndia ? "#D14336" : isHighlighted ? "#25217A" : "#E5E5E5",
                           stroke: "#FFFFFF",
                           strokeWidth: 0.55,
                           outline: "none",
                         },
                         pressed: {
-                          fill: isHighlighted ? "#1D1966" : "#E5E5E5",
+                          fill: isIndia ? "#8F1D14" : isHighlighted ? "#1D1966" : "#E5E5E5",
                           stroke: "#FFFFFF",
                           strokeWidth: 0.55,
                           outline: "none",

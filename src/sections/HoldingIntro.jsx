@@ -7,27 +7,31 @@ export default function HoldingIntro() {
   return (
     <section className="section holding-intro" id="about">
       <div className="container split-layout">
-        <SectionHeader eyebrow="Who We Are" title="A group of practitioners who turned experience into enterprises." />
+        <SectionHeader eyebrow="About ORAC Holdings" title="We build institutions designed to endure." />
         <Reveal className="rich-copy">
           <p>
-            ORAC Holdings is the parent company of a growing group of independent ventures, each one built from the
-            ground up by people who know their craft deeply.
+            ORAC Holdings is the foundation of a growing portfolio of ventures, united by a single philosophy: build
+            with purpose, lead with integrity, and create lasting value.
           </p>
           <p>
-            We are not a corporation that branched into business; we are a group of practitioners who turned their
-            experience into enterprises. From moving commodities across continents to creating memories that last a
-            lifetime, every ORAC company carries a shared ethic.
+            Every ORAC company was born from hands-on expertise, not corporate theory. We are entrepreneurs, operators,
+            and specialists who transformed years of experience into enduring enterprises. From connecting global
+            markets through international trade to curating extraordinary celebrations and shaping modern fashion, each
+            venture reflects an uncompromising commitment to excellence.
           </p>
           <p>
-            Do the work properly, build trust slowly, and never let short-term thinking compromise long-term character.
+            At ORAC, growth is never measured by size alone. It is measured by trust earned, relationships built, and
+            standards upheld. We believe that reputations are built over decades, not quarters; that discipline outlasts
+            trends; and that true success belongs to those who never compromise character for short-term gain.
           </p>
+          <strong className="holding-statement">We build institutions designed to endure.</strong>
         </Reveal>
       </div>
 
       <div className="container leadership-panel">
         <Reveal className="leadership-intro">
           <span className="eyebrow">The People Behind ORAC</span>
-          <h3>Built by people close to the craft.</h3>
+          <h3>Leadership across the ORAC group.</h3>
         </Reveal>
         <div className="leadership-grid">
           {leadership.map((leader, index) => (
@@ -35,7 +39,7 @@ export default function HoldingIntro() {
               <span>{leader.role}</span>
               <h4>{leader.name}</h4>
               <p className="leader-focus">{leader.focus}</p>
-              <p>{leader.body}</p>
+              {leader.body ? <p>{leader.body}</p> : null}
             </Reveal>
           ))}
         </div>

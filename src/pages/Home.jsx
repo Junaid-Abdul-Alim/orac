@@ -18,11 +18,11 @@ export default function Home() {
         variant="home"
         eyebrow="International Outlook"
         title="OUR GLOBAL REACH"
-        text="ORAC is being built from Chennai with trade corridors across Asia, Africa, and selected global markets. The map reflects the countries currently shaping ORAC International's sourcing, export, and relationship network."
+        text="ORAC operates from India with 29 focused countries and five regional corridors across Asia, Africa, the Middle East, Europe, North America, South America, and Australia."
       />
       <QuoteBlock
         quote="Don't give up on your dreams. Because when you have a dream worth chasing, nothing in this world has the power to stop you."
-        caption="Ohm Pranav P.R., Founder & MD, ORAC Holdings"
+        caption="Ohm Pranav, Founder & Chairman, ORAC Holdings"
       />
       <InternationalPreview />
       <EventusPreview />

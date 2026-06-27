@@ -9,8 +9,8 @@ export default function CompanyPortfolio() {
       <div className="container">
         <SectionHeader
           eyebrow="Our Companies"
-          title="The ventures currently presented by ORAC."
-          text="The supplied company content currently details ORAC International and ORAC Eventus. ORAC Luxe is shown only as opening soon."
+          title="A focused portfolio of ORAC ventures."
+          text="ORAC International, ORAC Eventus, and ORAC Luxe - each dedicated to excellence in global trade, event planning, and fashion."
         />
         <div className="business-showcase-grid">
           {companies.map((company, index) => (

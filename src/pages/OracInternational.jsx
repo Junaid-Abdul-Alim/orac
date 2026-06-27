@@ -30,7 +30,7 @@ export default function OracInternational() {
           <SectionHeader eyebrow="Founder" title="Ohm Pranav Percholli Ramaraja" />
           <Reveal className="rich-copy">
             <p>
-              Founder & Managing Director. Rajapalayam, Tamil Nadu. Chennai-based and Singapore-connected.
+              Founder & Chairman. Rajapalayam, Tamil Nadu. Chennai-based and Singapore-connected.
             </p>
             <p>
               Rajapalayam is a town with trade in its bones: cotton, textiles, commerce. Ohm Pranav grew up watching

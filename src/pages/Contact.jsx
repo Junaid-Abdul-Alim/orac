@@ -16,7 +16,7 @@ export default function Contact() {
           </p>
           <div className="contact-hero-panel" aria-hidden="true">
             <span />
-            <small>Chennai / Singapore / Thanjavur / Africa</small>
+            <small>India / Singapore / Africa</small>
           </div>
         </Reveal>
 
@@ -24,7 +24,7 @@ export default function Contact() {
           <Reveal as="article" className="contact-card" delay={0}>
             <span>General enquiry</span>
             <h2>ORAC Holding</h2>
-            <p>Ohm Pranav P.R. / Founder & Managing Director / Chennai, India</p>
+            <p>Ohm Pranav / Founder & Chairman / India</p>
             <a href={`mailto:${contactDetails.holding.email}`}>{contactDetails.holding.email}</a>
             <a href={`mailto:${contactDetails.holding.secondaryEmail}`}>{contactDetails.holding.secondaryEmail}</a>
             <a href={`tel:${contactDetails.holding.phone.replaceAll(" ", "")}`}>{contactDetails.holding.phone}</a>

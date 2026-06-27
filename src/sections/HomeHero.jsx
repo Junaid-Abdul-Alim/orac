@@ -13,11 +13,11 @@ export default function HomeHero() {
           <h1 className="home-hero-logo-heading">
             <img src={oracLogo} alt="ORAC" />
           </h1>
-          <p className="hero-line">Trade. Events. Photography.</p>
+          <p className="hero-line">Trade &bull; Events &bull; Couture</p>
           <p className="hero-subtext">
-            A house of ventures built on vision, discipline, and the conviction that great things are always worth the
-            time they take.
+            A House of Ventures. Built on Vision. Forged by Discipline. Defined by Legacy.
           </p>
+          <p className="hero-luxe-line">LUXE - A Fashion House</p>
           <BusinessDock className="hero-business-dock" />
           <div className="hero-actions">
             <Button to="/#companies">Explore Businesses</Button>
@@ -28,7 +28,7 @@ export default function HomeHero() {
         </Reveal>
         <Reveal className="hero-brand-panel home-brand-panel" delay={120}>
           <span className="hero-brand-rule" />
-          <small>Chennai / Singapore / Africa</small>
+          <small>India / Singapore / Africa</small>
         </Reveal>
       </div>
     </section>
