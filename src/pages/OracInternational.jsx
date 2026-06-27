@@ -2,7 +2,7 @@ import React from "react";
 import Reveal from "../components/common/Reveal";
 import SectionHeader from "../components/common/SectionHeader";
 import ServiceCard from "../components/common/ServiceCard";
-import ProductCarousel from "../components/common/ProductCarousel";
+import ProductCategoryShowcase from "../components/common/ProductCategoryShowcase";
 import ProcessTimeline from "../components/common/ProcessTimeline";
 import CinematicBanner from "../components/common/CinematicBanner";
 import GlobalReach from "../components/common/GlobalReach";
@@ -80,27 +80,14 @@ export default function OracInternational() {
 
       <section className="section">
         <div className="container">
-          <SectionHeader
+          <ProductCategoryShowcase
             eyebrow="Products / Categories"
             title="Selected categories, presented for business conversations."
             text="Every export product is sourced from India's growing regions with traceability, quality checks, and the character of the land it comes from."
+            categories={exportCategories}
+            getImage={productImageSlot}
+            label="Export product categories"
           />
-          <div className="product-category-stack">
-            {exportCategories.map((category) => (
-              <section className="product-category" key={category.title}>
-                <Reveal className="product-category-head">
-                  <span className="eyebrow">Export Portfolio</span>
-                  <h3>{category.title}</h3>
-                  <p>{category.intro}</p>
-                </Reveal>
-                <ProductCarousel
-                  products={category.products}
-                  getImage={productImageSlot}
-                  label={`${category.title} export products`}
-                />
-              </section>
-            ))}
-          </div>
         </div>
       </section>
 
@@ -108,26 +95,14 @@ export default function OracInternational() {
 
       <section className="section import-section">
         <div className="container">
-          <SectionHeader
+          <ProductCategoryShowcase
             eyebrow="Import Portfolio"
             title="Bringing the World's Best to India."
             text="ORAC International sources automotive accessories, agricultural commodities, and industrial scrap for India's processing, aftermarket, manufacturing, and recycling sectors."
+            categories={importCategories}
+            getImage={productImageSlot}
+            label="Import product categories"
           />
-          <div className="product-category-stack">
-            {importCategories.map((category) => (
-              <section className="product-category" key={category.title}>
-                <Reveal className="product-category-head">
-                  <h3>{category.title}</h3>
-                  <p>{category.intro}</p>
-                </Reveal>
-                <ProductCarousel
-                  products={category.products}
-                  getImage={productImageSlot}
-                  label={`${category.title} import products`}
-                />
-              </section>
-            ))}
-          </div>
         </div>
       </section>
 
