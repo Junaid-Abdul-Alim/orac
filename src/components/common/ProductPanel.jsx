@@ -41,6 +41,8 @@ const productSummary = (product) => {
 };
 
 export default function ProductPanel({ product, image, index = 0, className = "" }) {
+  const hasSecondaryImage = Boolean(image?.secondarySrc);
+
   return (
     <Reveal
       as="article"
@@ -49,13 +51,21 @@ export default function ProductPanel({ product, image, index = 0, className = ""
     >
       {image ? (
         <div className="product-panel-image">
-          <div className="product-panel-image-surface">
+          <div className={`product-panel-image-surface ${hasSecondaryImage ? "has-secondary-image" : ""}`.trim()}>
             <SafeImage
               src={image.src}
               alt={image.alt || product.name}
               className="product-panel-photo"
               fallbackLabel={image.label || product.name}
             />
+            {hasSecondaryImage ? (
+              <SafeImage
+                src={image.secondarySrc}
+                alt={image.secondaryAlt || product.name}
+                className="product-panel-photo product-panel-photo-secondary"
+                fallbackLabel={image.label || product.name}
+              />
+            ) : null}
           </div>
         </div>
       ) : null}

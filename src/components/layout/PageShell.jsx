@@ -1,4 +1,8 @@
 import React from "react";
 export default function PageShell({ children }) {
-  return <main>{children}</main>;
+  return (
+    <main id="main-content" tabIndex={-1}>
+      {children}
+    </main>
+  );
 }

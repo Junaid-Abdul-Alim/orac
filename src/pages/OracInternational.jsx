@@ -114,8 +114,8 @@ export default function OracInternational() {
         <div className="container">
           <ProductCategoryShowcase
             eyebrow="Trade Catalogue"
-            title="Export and import products, organized for clear business conversations."
-            text="ORAC International connects Indian export categories with selected import channels for automotive, agricultural, and industrial trade."
+            title="Export & Import Catalogue"
+            text="A focused view of ORAC International's export products and selected import channels for agricultural, automotive, and industrial trade."
             collections={[
               {
                 id: "exports",

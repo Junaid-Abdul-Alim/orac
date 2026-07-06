@@ -16,11 +16,22 @@ export default function Hero({
   lockup,
   heroNote,
   image,
+  brandLogo,
+  showBrandPanel = true,
 }) {
   return (
     <section className={`product-hero ${dark ? "product-hero-dark" : "product-hero-light"}`}>
       <div className="container product-hero-inner">
         <Reveal className="product-hero-copy">
+          {brandLogo?.src ? (
+            <img
+              className={`hero-logo-mark ${brandLogo.className || ""}`.trim()}
+              src={brandLogo.src}
+              alt={brandLogo.alt || ""}
+              loading={brandLogo.loading || "eager"}
+              decoding="async"
+            />
+          ) : null}
           {lockup ? <BrandLockup items={lockup} /> : null}
           {eyebrow ? <span className="eyebrow">{eyebrow}</span> : null}
           <h1>{title}</h1>
@@ -50,10 +61,12 @@ export default function Hero({
             delay={90}
           />
         ) : null}
-        <Reveal className="hero-brand-panel" delay={120}>
-          <span className="hero-brand-rule" />
-          <small>{heroNote || meta || lockup?.join(" / ")}</small>
-        </Reveal>
+        {showBrandPanel ? (
+          <Reveal className="hero-brand-panel" delay={120}>
+            <span className="hero-brand-rule" />
+            <small>{heroNote || meta || lockup?.join(" / ")}</small>
+          </Reveal>
+        ) : null}
       </div>
     </section>
   );

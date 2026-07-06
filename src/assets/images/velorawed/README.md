@@ -1,10 +1,10 @@
 Replace these image slots with final VELORAWED assets:
 
-- candid-wedding.jpg
-- cinematic-film.jpg
-- drone-shot.jpg
-- pre-wedding.jpg
-- album-design.jpg
-- family-portraits.jpg
+- wedding-photographer.webp
+- wedding-film-camera.webp
+- wedding-videographer.webp
+- camera-tripod.webp
+- bridal-entry.webp
 
 Use cinematic photography/cinematography stills with dark, refined grading and no embedded text.
+Keep production assets optimized as WebP.

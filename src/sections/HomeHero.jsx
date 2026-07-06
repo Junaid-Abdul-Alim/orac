@@ -9,15 +9,15 @@ export default function HomeHero() {
     <section className="home-hero">
       <div className="container home-hero-inner">
         <Reveal className="home-hero-copy">
-          <span className="eyebrow">ORAC Ecosystem</span>
+          <span className="eyebrow">ORAC Holding</span>
           <h1 className="home-hero-logo-heading">
-            <img src={oracLogo} alt="ORAC" />
+            <span className="sr-only">ORAC Holding</span>
+            <img src={oracLogo} alt="ORAC" decoding="async" fetchPriority="high" />
           </h1>
-          <p className="hero-line">Trade &bull; Events &bull; Couture</p>
+          <p className="hero-line">ORAC - TRADE | EVENTS | COUTURE</p>
           <p className="hero-subtext">
             A House of Ventures. Built on Vision. Forged by Discipline. Defined by Legacy.
           </p>
-          <p className="hero-luxe-line">LUXE - A Fashion House</p>
           <BusinessDock className="hero-business-dock" />
           <div className="hero-actions">
             <Button to="/#companies">Explore Businesses</Button>
@@ -28,7 +28,7 @@ export default function HomeHero() {
         </Reveal>
         <Reveal className="hero-brand-panel home-brand-panel" delay={120}>
           <span className="hero-brand-rule" />
-          <small>India / Singapore / Africa</small>
+          <small>INDIA - SINGAPORE - AFRICA</small>
         </Reveal>
       </div>
     </section>

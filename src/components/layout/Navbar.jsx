@@ -1,8 +1,9 @@
 import React from "react";
 import { useEffect, useId, useRef, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Mail, MessageCircle } from "lucide-react";
 import { companies } from "../../data/companyData";
+import { contactDetails } from "../../data/contactData";
 import BusinessSwitcher from "../common/BusinessSwitcher";
 import oracLogo from "../../assets/logos/orac-orange.svg";
 
@@ -13,6 +14,9 @@ export default function Navbar() {
   const location = useLocation();
   const businessMenuRef = useRef(null);
   const businessMenuId = useId();
+  const primaryPhone = contactDetails.holding.phone.replace(/\D/g, "");
+  const whatsappUrl = `https://wa.me/${primaryPhone}`;
+  const emailUrl = `mailto:${contactDetails.holding.email}`;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -69,11 +73,13 @@ export default function Navbar() {
   return (
     <header className={`navbar ${scrolled || open ? "is-solid" : ""}`}>
       <Link className="brand" to="/" aria-label="ORAC Holding home">
-        <img className="brand-logo" src={oracLogo} alt="ORAC" />
+        <img className="brand-logo" src={oracLogo} alt="ORAC" decoding="async" fetchPriority="high" />
       </Link>
 
       <nav className="desktop-nav" aria-label="Primary navigation">
-        <NavLink to="/">Home</NavLink>
+        <NavLink to="/" end>
+          Home
+        </NavLink>
         <div
           className={`company-menu business-switcher ${businessOpen ? "is-open" : ""}`}
           ref={businessMenuRef}
@@ -89,9 +95,17 @@ export default function Navbar() {
             <span>Companies</span>
             <ChevronDown className="nav-chevron" size={14} strokeWidth={1.8} aria-hidden="true" />
           </button>
-          <BusinessSwitcher id={businessMenuId} onNavigate={() => setBusinessOpen(false)} />
+          <BusinessSwitcher id={businessMenuId} open={businessOpen} onNavigate={() => setBusinessOpen(false)} />
         </div>
         <NavLink to="/contact">Contact</NavLink>
+        <div className="nav-contact-actions" aria-label="Quick contact links">
+          <a href={whatsappUrl} target="_blank" rel="noreferrer" aria-label="Contact ORAC on WhatsApp">
+            <MessageCircle size={16} strokeWidth={1.7} aria-hidden="true" />
+          </a>
+          <a href={emailUrl} aria-label="Email ORAC">
+            <Mail size={16} strokeWidth={1.7} aria-hidden="true" />
+          </a>
+        </div>
       </nav>
 
       <button
@@ -105,18 +119,30 @@ export default function Navbar() {
         <span />
       </button>
 
-      <nav className={`mobile-menu ${open ? "is-open" : ""}`} aria-label="Mobile navigation">
-        <NavLink to="/">Home</NavLink>
+      <nav className={`mobile-menu ${open ? "is-open" : ""}`} aria-label="Mobile navigation" hidden={!open}>
+        <NavLink to="/" end>
+          Home
+        </NavLink>
         <div className="mobile-menu-group">
           <span>Companies</span>
           {companies.map((company) => (
             <NavLink key={company.id} to={company.route}>
               <span>{company.name}</span>
-              <small>{company.status === "Active" ? company.purpose : "Opening Soon"}</small>
+              <small>{company.purpose}</small>
             </NavLink>
           ))}
         </div>
         <NavLink to="/contact">Contact</NavLink>
+        <div className="mobile-contact-actions" aria-label="Quick contact links">
+          <a href={whatsappUrl} target="_blank" rel="noreferrer" onClick={() => setOpen(false)}>
+            <MessageCircle size={17} strokeWidth={1.7} aria-hidden="true" />
+            <span>WhatsApp</span>
+          </a>
+          <a href={emailUrl} onClick={() => setOpen(false)}>
+            <Mail size={17} strokeWidth={1.7} aria-hidden="true" />
+            <span>Email</span>
+          </a>
+        </div>
       </nav>
     </header>
   );

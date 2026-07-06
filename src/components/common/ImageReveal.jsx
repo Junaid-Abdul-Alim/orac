@@ -9,19 +9,36 @@ export default function ImageReveal({ as: Tag = "div", className = "", children,
     const element = ref.current;
     if (!element) return undefined;
 
+    const fallback = window.setTimeout(() => {
+      setVisible(true);
+    }, Math.max(900, delay + 700));
+
+    if (!("IntersectionObserver" in window)) {
+      setVisible(true);
+      window.clearTimeout(fallback);
+      return undefined;
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setVisible(true);
+          window.clearTimeout(fallback);
           observer.unobserve(entry.target);
         }
       },
-      { threshold: 0.14 }
+      {
+        rootMargin: "0px 0px 18% 0px",
+        threshold: 0.05,
+      }
     );
 
     observer.observe(element);
-    return () => observer.disconnect();
-  }, []);
+    return () => {
+      window.clearTimeout(fallback);
+      observer.disconnect();
+    };
+  }, [delay]);
 
   return (
     <Tag

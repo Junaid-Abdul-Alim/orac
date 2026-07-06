@@ -11,11 +11,10 @@ const businessIcons = {
 };
 
 export default function BusinessCard({ business, index = 0 }) {
-  const isOpeningSoon = business.status !== "Active";
   const BusinessIcon = businessIcons[business.id];
 
   return (
-    <article className={`business-card business-card-${business.id} ${isOpeningSoon ? "is-opening" : ""}`}>
+    <article className={`business-card business-card-${business.id}`}>
       <Link to={business.route} aria-label={`${business.name} - ${business.label}`}>
         <div className="business-card-visual" aria-hidden="true">
           {business.image ? (
@@ -29,7 +28,7 @@ export default function BusinessCard({ business, index = 0 }) {
           <span className="business-card-scrim" />
           <span className="business-card-number">{String(index + 1).padStart(2, "0")}</span>
           {business.logo ? (
-            <img className="business-card-logo" src={business.logo} alt="" />
+            <img className="business-card-logo" src={business.logo} alt="" loading="lazy" decoding="async" />
           ) : (
             <span className="business-card-orbit" />
           )}
@@ -37,11 +36,11 @@ export default function BusinessCard({ business, index = 0 }) {
         <div className="business-card-body">
           <div className="business-card-status-row">
             <IconBadge icon={BusinessIcon} className="icon-badge-soft" size={16} />
-            <p className="business-card-status">{business.status}</p>
+            <p className="business-card-status">{business.label}</p>
           </div>
           <h3>{business.name}</h3>
           <p>{business.purpose}</p>
-          <span className="business-card-action">{isOpeningSoon ? "Opening Soon" : "Explore"}</span>
+          <span className="business-card-action">Explore</span>
         </div>
       </Link>
     </article>

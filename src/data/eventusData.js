@@ -30,14 +30,14 @@ export const eventusServices = [
   {
     title: "Gifting & Keepsakes",
     points: [
-      "Welcome gifts and return gifts",
-      "Customised as per budget and theme",
+      "Welcome gifts and return gifts, fully customised",
+      "Curated as per budget and theme",
       "Bulk sourcing with reliable timelines",
     ],
   },
   {
     title: "Memory Design",
-    points: ["Wedding album design", "Framed photography and wall art", "Aerial drone coverage"],
+    points: ["Wedding album design", "Framed photography and wall art", "Aerial drone coverage of venue and events"],
   },
   {
     title: "Guest Experience",
@@ -45,24 +45,38 @@ export const eventusServices = [
   },
   {
     title: "Planning & Coordination",
-    points: ["Single point of contact event manager", "Day-of execution team", "Vendor quality checks"],
+    points: ["Single point of contact event manager", "Day-of execution team on ground", "Vendor quality checks throughout"],
   },
 ];
 
 export const eventusProcess = [
   { title: "Consultation", body: "We understand your vision, guest count, and budget." },
   { title: "Planning", body: "Decor, venue, catering, and vendors locked with clear pricing." },
-  { title: "Execution", body: "Our team manages every detail on the ground." },
+  { title: "Execution", body: "Our team manages every detail on the ground, on the day." },
   { title: "Delivery", body: "VELORAWED delivers your films, albums, and memories." },
 ];
 
+export const eventusPromise = [
+  {
+    title: "Event Partner",
+    body: "Planning, decor, and execution handled by one accountable team.",
+  },
+  {
+    title: "Visual Studio",
+    body: "Photography and cinematography delivered through VELORAWED.",
+  },
+  {
+    title: "Vision",
+    body: "Every detail, every vendor, and every moving part kept under one clear timeline.",
+  },
+];
+
 export const velorawedServices = [
-  "Candid photography",
+  "Candid photography across every event, from Haldi to reception",
   "Traditional & posed family photography",
-  "Cinematic wedding films",
-  "Same-day highlight edits",
+  "Cinematic wedding films & same-day highlight edits",
   "Aerial drone photography and video",
-  "Pre-wedding and destination wedding shoots",
+  "Pre-wedding & destination wedding shoots",
 ];
 
 export const clientReasons = [
@@ -72,19 +86,19 @@ export const clientReasons = [
   },
   {
     title: "Photography Built In",
-    body: "VELORAWED is built to work in sync with the ORAC Eventus planning team.",
+    body: "Most event planners outsource photography to whoever is available. ORAC Eventus works with VELORAWED, built specifically to stay in sync with the planning team.",
   },
   {
     title: "Transparent Planning",
-    body: "Clear pricing, clear timelines, and regular updates through the planning process.",
+    body: "Clear pricing, clear timelines, and regular updates through the planning process so you always know where things stand.",
   },
   {
     title: "Rooted in Local Expertise",
     body:
-      "Based in Chennai, with deep familiarity in traditional South Indian wedding customs, vendors, and venues.",
+      "Based in Chennai, with deep familiarity in traditional South Indian wedding customs, vendors, and venues, plus the network to execute destination weddings beyond the city.",
   },
   {
     title: "Flexible, Not Fixed",
-    body: "Engage ORAC Eventus for a single service or hand over the entire celebration.",
+    body: "Engage ORAC Eventus for a single service - decor, photography, or catering coordination - or hand over the entire celebration.",
   },
 ];

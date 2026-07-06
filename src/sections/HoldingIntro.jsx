@@ -7,22 +7,21 @@ export default function HoldingIntro() {
   return (
     <section className="section holding-intro" id="about">
       <div className="container split-layout">
-        <SectionHeader eyebrow="About ORAC Holdings" title="We build institutions designed to endure." />
+        <SectionHeader eyebrow="About ORAC Holding" title="We build institutions designed to endure." />
         <Reveal className="rich-copy">
           <p>
-            ORAC Holdings is the foundation of a growing portfolio of ventures, united by a single philosophy: build
-            with purpose, lead with integrity, and create lasting value.
+            ORAC Holding is the parent house for a focused group of ventures across trade, events, and fashion.
           </p>
           <p>
             Every ORAC company was born from hands-on expertise, not corporate theory. We are entrepreneurs, operators,
-            and specialists who transformed years of experience into enduring enterprises. From connecting global
-            markets through international trade to curating extraordinary celebrations and shaping modern fashion, each
-            venture reflects an uncompromising commitment to excellence.
+            and specialists who turned years of practical work into operating businesses. From connecting global
+            markets through international trade to shaping celebrations and modern fashion, each venture has a clear
+            role inside the group.
           </p>
           <p>
             At ORAC, growth is never measured by size alone. It is measured by trust earned, relationships built, and
-            standards upheld. We believe that reputations are built over decades, not quarters; that discipline outlasts
-            trends; and that true success belongs to those who never compromise character for short-term gain.
+            standards upheld. We believe reputations are built over decades, not quarters, and that discipline outlasts
+            short-term attention.
           </p>
           <strong className="holding-statement">We build institutions designed to endure.</strong>
         </Reveal>

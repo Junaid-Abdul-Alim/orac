@@ -1,7 +1,7 @@
 {
   "rewrites": [
     {
-      "source": "/((?!assets/|geographies/|favicon.svg).*)",
+      "source": "/((?!assets/|geographies/|favicon.svg|robots.txt|site.webmanifest).*)",
       "destination": "/index.html"
     }
   ]

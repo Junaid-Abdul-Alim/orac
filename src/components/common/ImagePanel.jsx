@@ -21,7 +21,7 @@ export default function ImagePanel({
           src={image?.src}
           alt={image?.alt || title || label || ""}
           priority={priority}
-          fallbackLabel={image?.label || label || "Image to be added"}
+          fallbackLabel={image?.label || label || "ORAC visual"}
         />
         <div className="image-panel-overlay" />
       </div>

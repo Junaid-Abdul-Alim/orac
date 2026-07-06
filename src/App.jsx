@@ -10,19 +10,36 @@ import OracEventus from "./pages/OracEventus";
 import LuxuryExport from "./pages/LuxuryExport";
 import Contact from "./pages/Contact";
 
+const pageTitles = {
+  "/": "ORAC Holding | Trade, Events, Couture",
+  "/international": "ORAC International | Global Import & Export",
+  "/eventus": "ORAC Eventus | Weddings & Celebrations",
+  "/luxury-export": "The House of Azrin | ORAC Luxe",
+  "/contact": "Contact ORAC Holding",
+};
+
 function ScrollManager() {
   const { pathname, hash } = useLocation();
 
   useEffect(() => {
+    document.title = pageTitles[pathname] || "ORAC Holding";
+
     if (hash) {
       window.setTimeout(() => {
         const target = document.getElementById(decodeURIComponent(hash.slice(1)));
-        target?.scrollIntoView({ behavior: "smooth", block: "start" });
+        if (!target) return;
+
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+        if (!target.hasAttribute("tabindex")) {
+          target.setAttribute("tabindex", "-1");
+        }
+        target.focus({ preventScroll: true });
       }, 0);
       return;
     }
 
     window.scrollTo({ top: 0, behavior: "auto" });
+    document.getElementById("main-content")?.focus({ preventScroll: true });
   }, [pathname, hash]);
 
   return null;
@@ -32,6 +49,9 @@ export default function App() {
   return (
     <>
       <ScrollManager />
+      <a className="skip-link" href="#main-content">
+        Skip to main content
+      </a>
       <Navbar />
       <PageShell>
         <Routes>

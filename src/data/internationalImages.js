@@ -1,141 +1,178 @@
-import spicesMarket from "../assets/images/international/spices-market.jpg";
-import spicesSpoons from "../assets/images/international/spices-spoons.jpg";
-import pulsesBowls from "../assets/images/international/pulses-bowls.jpg";
-import lentils from "../assets/images/international/lentils.jpg";
-import cashews from "../assets/images/international/cashews.jpg";
-import cardamom from "../assets/images/international/cardamom.jpg";
-import sesameSeeds from "../assets/images/international/sesame-seeds.jpg";
-import saffronCardamom from "../assets/images/international/saffron-cardamom.jpg";
-import turmericPowder from "../assets/images/international/turmeric-powder.jpg";
-import cuminSeeds from "../assets/images/international/cumin-seeds.jpg";
-import corianderSeeds from "../assets/images/international/coriander-seeds.jpg";
-import redChilliPowder from "../assets/images/international/red-chilli-powder.jpg";
-import onions from "../assets/images/international/onions.jpg";
-import coirFibre from "../assets/images/international/coir-fibre.jpg";
-import automotiveLightbar from "../assets/images/international/automotive-lightbar.jpg";
-import vehicleHeadlight from "../assets/images/international/vehicle-headlight.jpg";
-import offroadVehicle from "../assets/images/international/offroad-vehicle.jpg";
-import autoScrap from "../assets/images/international/auto-scrap.jpg";
-import industrialMetal from "../assets/images/international/industrial-metal.jpg";
-import mangoes from "../assets/images/international/mangoes.jpg";
-import tamarind from "../assets/images/international/tamarind.jpg";
-import moringaLeaves from "../assets/images/international/moringa-leaves.jpg";
-import textileFactory from "../assets/images/international/textile-factory.jpg";
-import lotusSeedPod from "../assets/images/international/lotus-seed-pod.jpg";
-import neemLeaves from "../assets/images/international/neem-leaves.jpg";
-import hibiscus from "../assets/images/international/hibiscus.jpg";
-import soybean from "../assets/images/international/soybean.jpg";
-import cardboardBoxes from "../assets/images/international/cardboard-boxes.jpg";
-import aluminiumCans from "../assets/images/international/aluminium-cans.jpg";
-import plasticRecycling from "../assets/images/international/plastic-recycling.jpg";
-import kidneyBeans from "../assets/images/international/kidney-beans.jpg";
-import quartzCrystals from "../assets/images/international/quartz-crystals.jpg";
-import papadFlatbread from "../assets/images/international/papad-flatbread.jpg";
+const catalogAssets = import.meta.glob("../assets/images/international/catalog/*.jpg", {
+  eager: true,
+  query: "?url",
+  import: "default",
+});
 
-const imageSlot = (label = "Image to be added", alt = "Image to be added", src = "") => ({
+const catalogImage = (fileName) =>
+  catalogAssets[`../assets/images/international/catalog/${fileName}`] || "";
+
+const imageSlot = (label = "ORAC visual", alt = "ORAC visual", src = "", options = {}) => ({
   src,
   alt,
   label,
+  ...options,
 });
 
-const localImage = (src, alt) => imageSlot("Product image", alt, src);
+const localImage = (fileName, alt, options) =>
+  imageSlot("Product image", alt, catalogImage(fileName), options);
 
 const productImages = {
-  "Urad Dal": localImage(pulsesBowls, "Assorted pulses for export trade"),
-  "Toor Dal": localImage(pulsesBowls, "Pulses arranged in bowls for agricultural trade"),
-  "Masoor Dal": localImage(lentils, "Red lentils for pulse trade"),
-  "Cashew Nuts": localImage(cashews, "Cashew nuts for export"),
-  Cardamom: localImage(cardamom, "Cardamom pods arranged for trade"),
-  "Red Chilli & Powder": localImage(redChilliPowder, "Red chilli powder and spices"),
-  "Cumin Seeds & Powder": localImage(cuminSeeds, "Cumin seeds for export"),
-  "Turmeric & Powder": localImage(turmericPowder, "Turmeric powder for export"),
-  "Coriander Seeds & Powder": localImage(corianderSeeds, "Coriander seeds for export"),
-  Saffron: localImage(saffronCardamom, "Saffron and cardamom spice detail"),
-  Onion: localImage(onions, "Onions for agricultural trade"),
-  "Mango & Mango Concentrate": localImage(mangoes, "Ripe mangoes for export trade"),
-  Tamarind: localImage(tamarind, "Tamarind pods for agricultural trade"),
-  "Moringa Powder": localImage(moringaLeaves, "Moringa leaves for wellness export products"),
-  "Sesame Seeds": localImage(sesameSeeds, "Sesame seeds for export"),
-  Millets: localImage(pulsesBowls, "Grain and pulse bowls for agricultural trade"),
-  Papad: localImage(papadFlatbread, "Traditional flatbread and papad-style food products"),
-  "Phool Makhana": localImage(lotusSeedPod, "Lotus seed pod representing makhana trade"),
-  "Neem Oil": localImage(neemLeaves, "Neem leaves for agricultural oil products"),
-  "Waste Cotton": localImage(textileFactory, "Textile factory for cotton fibre trade"),
-  "Cotton Yarn": localImage(textileFactory, "Cotton yarn and textile production"),
-  "Silk Fibre": localImage(textileFactory, "Textile fibre production for export"),
-  "Coco Fibre": localImage(coirFibre, "Coconut coir fibre for industrial trade"),
-  "Coco Peat": localImage(coirFibre, "Coconut coir and peat material for export"),
-  "Jute Bags - Customised": localImage(coirFibre, "Natural fibre packaging material"),
-  "Quartz Lumps": localImage(quartzCrystals, "Quartz crystals and mineral material"),
-  "Grill Lights": localImage(automotiveLightbar, "Vehicle grill lights for automotive import"),
-  "Projector & LED Headlights": localImage(vehicleHeadlight, "Vehicle headlight for automotive import"),
-  "Damping Sheets": localImage(autoScrap, "Automotive material and parts for import"),
-  "4x4 Winches": localImage(offroadVehicle, "Off-road vehicle equipment for import"),
-  "On-Board Air Compressors": localImage(offroadVehicle, "Off-road vehicle equipment for import"),
-  "PPF - Paint Protection Film": localImage(vehicleHeadlight, "Automotive paint protection and detailing import"),
-  "Dashboard Gadgets": localImage(automotiveLightbar, "Automotive dashboard and lighting accessories"),
-  "Ambient Strip Lights": localImage(automotiveLightbar, "Automotive interior and exterior lighting"),
-  "Camping & Off-Road Kits": localImage(offroadVehicle, "Off-road camping and recovery equipment"),
-  "Sun Film": localImage(vehicleHeadlight, "Automotive tint and protection import"),
-  "Raw Cotton": localImage(textileFactory, "Raw cotton and textile fibre import"),
-  "Soya Bean": localImage(soybean, "Soybean products for agricultural import"),
-  "Raw Cashew Nuts": localImage(cashews, "Cashew nuts for import trade"),
-  "Stone Flower": localImage(hibiscus, "Botanical product for spice and herbal import"),
-  "Pigeon Peas": localImage(pulsesBowls, "Pulses for import trade"),
-  "Kidney Beans": localImage(kidneyBeans, "Red kidney beans for import trade"),
-  "Black Matpe": localImage(lentils, "Dark lentils and pulses for import trade"),
-  "Cassia Tora Seeds": localImage(sesameSeeds, "Seeds for industrial and agricultural import"),
-  "Dry Hibiscus Flower": localImage(hibiscus, "Hibiscus flower for botanical import"),
-  "Sesame Seeds - African": localImage(sesameSeeds, "Sesame seeds for African import trade"),
-  "PVC Regrind": localImage(plasticRecycling, "Plastic recycling material for PVC regrind import"),
-  "OCC - Corrugated Carton Scrap": localImage(cardboardBoxes, "Corrugated carton scrap for paper recycling"),
-  "Used Beverage Can Scrap": localImage(aluminiumCans, "Used beverage cans for aluminium recycling"),
+  "Urad Dal": localImage("urad-dal.jpg", "Urad dal export product visual"),
+  "Toor Dal": localImage("toor-dal.jpg", "Toor dal export product visual"),
+  "Masoor Dal": localImage("masoor-dal.jpg", "Masoor dal export product visual"),
+  "Cashew Nuts": localImage("cashew-nuts.jpg", "Cashew nuts export product visual"),
+  Cardamom: localImage("cardamom.jpg", "Cardamom export product visual"),
+  "Red Chilli & Powder": localImage("red-chilli-powder.jpg", "Red chilli and powder export product visual"),
+  "Cumin Seeds & Powder": localImage("cumin-seeds-powder.jpg", "Cumin seeds and powder export product visual"),
+  "Turmeric & Powder": localImage("turmeric-powder.jpg", "Turmeric and powder export product visual"),
+  "Coriander Seeds & Powder": localImage(
+    "coriander-seeds-powder.jpg",
+    "Coriander seeds and powder export product visual"
+  ),
+  Saffron: localImage("saffron.jpg", "Saffron export product visual"),
+  Onion: localImage("onions.jpg", "Onion export product visual"),
+  "Mango & Mango Concentrate": localImage(
+    "mango-mango-concentrate.jpg",
+    "Mango and mango concentrate export product visual"
+  ),
+  Tamarind: localImage("tamarind.jpg", "Tamarind export product visual"),
+  "Moringa Powder": localImage("moringa-powder.jpg", "Moringa powder export product visual"),
+  "Sesame Seeds": localImage("sesame-seeds.jpg", "Sesame seeds export product visual"),
+  Millets: localImage("millets.jpg", "Millets export product visual"),
+  Papad: localImage("papad.jpg", "Papad export product visual"),
+  "Phool Makhana": localImage("phool-makhana.jpg", "Phool makhana export product visual"),
+  "Neem Oil": localImage("neem-oil.jpg", "Neem oil export product visual"),
+  "Waste Cotton": localImage("waste-cotton-bale.jpg", "Waste cotton bale export product visual"),
+  "Cotton Yarn": localImage("cotton-yarn.jpg", "Cotton yarn export product visual"),
+  "Silk Fibre": localImage("silk-fiber.jpg", "Silk fibre export product visual"),
+  "Coco Fibre": localImage("coir-fiber.jpg", "Coir fibre export product visual"),
+  "Coco Peat": localImage("coco-peat-blocks.jpg", "Coco peat blocks export product visual"),
+  "Jute Bags - Customised": localImage("jute-bags.jpg", "Customised jute bag export product visual"),
+  "Quartz Lumps": localImage("quartz-lumps.jpg", "Quartz lumps export product visual"),
+  "Grill Lights": localImage("grill-lights.jpg", "Vehicle grill lights import product visual"),
+  "Projector & LED Headlights": localImage("projector-lights.jpg", "Projector lights import product visual", {
+    secondarySrc: catalogImage("led-headlights.jpg"),
+    secondaryAlt: "LED headlights import product visual",
+  }),
+  "Damping Sheets": localImage("damping-sheets.jpg", "Automotive damping sheets import product visual"),
+  "4x4 Winches": localImage("4x4-winches.jpg", "4x4 winches import product visual"),
+  "On-Board Air Compressors": localImage(
+    "on-board-air-compressor.jpg",
+    "On-board air compressor import product visual"
+  ),
+  "PPF - Paint Protection Film": localImage(
+    "ppf-paint-protection-film.jpg",
+    "Paint protection film import product visual"
+  ),
+  "Dashboard Gadgets": localImage("ambient-strip-lights.jpg", "Automotive dashboard lighting accessory visual"),
+  "Ambient Strip Lights": localImage("ambient-strip-lights.jpg", "Ambient strip lights import product visual"),
+  "Camping & Off-Road Kits": localImage(
+    "camping-off-road-kits.jpg",
+    "Camping and off-road kits import product visual"
+  ),
+  "Sun Film": localImage("sun-film.jpg", "Automotive sun film import product visual"),
+  "Raw Cotton": localImage("raw-cotton.jpg", "Raw cotton import product visual"),
+  "Soya Bean": localImage("soya-beans.jpg", "Soya beans import product visual"),
+  "Raw Cashew Nuts": localImage("raw-cashew-nuts.jpg", "Raw cashew nuts import product visual"),
+  "Stone Flower": localImage("stone-flower.jpg", "Stone flower import product visual"),
+  "Pigeon Peas": localImage("pigeon-peas.jpg", "Pigeon peas import product visual"),
+  "Kidney Beans": localImage("kidney-beans.jpg", "Kidney beans import product visual"),
+  "Black Matpe": localImage("black-matpe.jpg", "Black matpe import product visual"),
+  "Cassia Tora Seeds": localImage("cassia-tora-seeds.jpg", "Cassia tora seeds import product visual"),
+  "Dry Hibiscus Flower": localImage("dry-hibiscus-flower.jpg", "Dry hibiscus flower import product visual"),
+  "Sesame Seeds - African": localImage("sesame-seeds.jpg", "Sesame seeds import product visual"),
+  "PVC Regrind": localImage("pvc-regrind-scrap.jpg", "PVC regrind scrap import product visual"),
+  "OCC - Corrugated Carton Scrap": localImage(
+    "old-corrugated-carton-scrap.jpg",
+    "Old corrugated carton scrap import product visual"
+  ),
+  "Used Beverage Can Scrap": localImage(
+    "used-beverage-cans-scrap.jpg",
+    "Used beverage cans scrap import product visual"
+  ),
 };
 
 export const productImageSlot = (productName) =>
-  productImages[productName] || imageSlot("Image to be added", `${productName} product image`);
+  productImages[productName] || imageSlot("Product visual", `${productName} product image`);
 
 export const internationalImages = {
   hero: {
-    src: spicesMarket,
-    alt: "Assorted herbs and spices prepared for international trade",
+    src: catalogImage("red-chilli-powder.jpg"),
+    alt: "Red chilli and powder prepared as an ORAC International export product",
     label: "Trade image",
     title: "Source. Verify. Move with care.",
-    description: "Herbs and spices imagery for ORAC International trade presentation.",
+    description: "ORAC International product imagery prepared for export and import conversations.",
   },
   banner: {
-    src: spicesSpoons,
-    alt: "Spices arranged in spoons for sourcing and export",
+    src: catalogImage("coir-fiber.jpg"),
+    alt: "Coir fibre export product visual from ORAC International",
     label: "Trade image",
     title: "Source. Verify. Move with care.",
-    description: "Agricultural sourcing image for the ORAC International trade section.",
+    description: "A catalogue-led view of sourcing, verification, and movement.",
   },
   exports: {
-    "Pulses & Lentils": imageSlot("Product image", "Selected pulses and lentils for export", pulsesBowls),
-    "Spices & Aromatics": imageSlot("Trade image", "Spices and aromatics sourced for export", spicesSpoons),
-    "Fresh, Dry & Processed Agri": imageSlot("Product image", "Fresh onions and agricultural produce", onions),
-    "Fibres, Coir & Industrial": imageSlot("Product image", "Coir fibres and industrial export materials", coirFibre),
+    "Pulses & Lentils": imageSlot(
+      "Product image",
+      "Selected pulses and lentils for export",
+      catalogImage("toor-dal.jpg")
+    ),
+    "Spices & Aromatics": imageSlot(
+      "Trade image",
+      "Spices and aromatics sourced for export",
+      catalogImage("cardamom.jpg")
+    ),
+    "Fresh, Dry & Processed Agri": imageSlot(
+      "Product image",
+      "Fresh, dry, and processed agri products",
+      catalogImage("mango-mango-concentrate.jpg")
+    ),
+    "Fibres, Coir & Industrial": imageSlot(
+      "Product image",
+      "Coir fibres and industrial export materials",
+      catalogImage("coir-fiber.jpg")
+    ),
   },
   imports: {
     "Automotive Parts & Accessories": imageSlot(
       "Import image",
       "Automotive accessories for import into India",
-      automotiveLightbar
+      catalogImage("camping-off-road-kits.jpg")
     ),
-    "Grill Lights": imageSlot("Import image", "Vehicle grill lights imported by ORAC International", automotiveLightbar),
+    "Grill Lights": imageSlot(
+      "Import image",
+      "Vehicle grill lights imported by ORAC International",
+      catalogImage("grill-lights.jpg")
+    ),
     "Projector & LED Headlights": imageSlot(
       "Import image",
       "Projector and LED headlights for automotive import",
-      vehicleHeadlight
+      catalogImage("projector-lights.jpg")
     ),
-    "Damping Sheets": imageSlot("Import image", "Automotive damping sheets for ride refinement", autoScrap),
-    "4x4 Winches": imageSlot("Import image", "4x4 winches for off-road automotive import", offroadVehicle),
+    "Damping Sheets": imageSlot(
+      "Import image",
+      "Automotive damping sheets for ride refinement",
+      catalogImage("damping-sheets.jpg")
+    ),
+    "4x4 Winches": imageSlot(
+      "Import image",
+      "4x4 winches for off-road automotive import",
+      catalogImage("4x4-winches.jpg")
+    ),
     "On-Board Air Compressors": imageSlot(
       "Import image",
       "On-board air compressors for off-road vehicles",
-      offroadVehicle
+      catalogImage("on-board-air-compressor.jpg")
     ),
-    "Agri Imports - Africa & Asia": imageSlot("Product image", "Agricultural imports from Africa and Asia", pulsesBowls),
-    "Industrial & Scrap Imports": imageSlot("Import image", "Industrial and scrap imports", industrialMetal),
+    "Agri Imports - Africa & Asia": imageSlot(
+      "Product image",
+      "Agricultural imports from Africa and Asia",
+      catalogImage("pigeon-peas.jpg")
+    ),
+    "Industrial & Scrap Imports": imageSlot(
+      "Import image",
+      "Industrial and scrap imports",
+      catalogImage("used-beverage-cans-scrap.jpg")
+    ),
   },
 };

@@ -1,13 +1,13 @@
-import eventusHero from "../assets/images/eventus/eventus-hero.jpg";
-import weddingCouple from "../assets/images/eventus/wedding-couple.jpg";
-import bridalEntry from "../assets/images/eventus/bridal-entry.jpg";
-import cateringTable from "../assets/images/eventus/catering-table.jpg";
-import eventTable from "../assets/images/eventus/event-table.jpg";
-import floralTable from "../assets/images/eventus/floral-table.jpg";
-import weddingFilmCamera from "../assets/images/velorawed/wedding-film-camera.jpg";
-import weddingVideographer from "../assets/images/velorawed/wedding-videographer.jpg";
-import weddingPhotographer from "../assets/images/velorawed/wedding-photographer.jpg";
-import cameraTripod from "../assets/images/velorawed/camera-tripod.jpg";
+import eventusHero from "../assets/images/eventus/eventus-hero.webp";
+import weddingCouple from "../assets/images/eventus/wedding-couple.webp";
+import bridalEntry from "../assets/images/eventus/bridal-entry.webp";
+import cateringTable from "../assets/images/eventus/catering-table.webp";
+import eventTable from "../assets/images/eventus/event-table.webp";
+import floralTable from "../assets/images/eventus/floral-table.webp";
+import weddingFilmCamera from "../assets/images/velorawed/wedding-film-camera.webp";
+import weddingVideographer from "../assets/images/velorawed/wedding-videographer.webp";
+import weddingPhotographer from "../assets/images/velorawed/wedding-photographer.webp";
+import cameraTripod from "../assets/images/velorawed/camera-tripod.webp";
 
 const imageSlot = (label = "Image", alt = "Image", src) => ({
   src,
@@ -29,7 +29,9 @@ export const eventusImages = {
     "Catering Services": imageSlot("Eventus image", "Wedding catering and live counters", cateringTable),
     Entertainment: imageSlot("Eventus image", "Wedding entertainment and live sound", eventTable),
     "Gifting & Keepsakes": imageSlot("Eventus image", "Wedding keepsakes and celebration details", bridalEntry),
+    "Memory Design": imageSlot("Eventus image", "Wedding albums, films, and memory design by VELORAWED", weddingFilmCamera),
     "Guest Experience": imageSlot("Eventus image", "Guest experience and hospitality at a wedding", weddingCouple),
+    "Planning & Coordination": imageSlot("Eventus image", "Wedding planning coordination and event team details", floralTable),
   },
   gallery: [
     imageSlot("Eventus image", "Mandap decor for a wedding", eventusHero),

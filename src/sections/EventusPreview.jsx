@@ -16,12 +16,12 @@ export default function EventusPreview() {
           <SectionHeader
             eyebrow="ORAC Eventus"
             title="Building celebrations that are felt, not just seen."
-            text="ORAC Eventus is a Chennai-based full-service event management company built around one belief: a wedding or celebration should feel effortless for the family hosting it and unforgettable for everyone who attends it."
+            text="ORAC Eventus is a Chennai-based full-service event management company built around one belief: the family should feel supported from the first call to the final frame."
           />
           <Reveal className="editorial-list">
             <span>Planning, decor and execution</span>
             <span>Photography and cinematography through VELORAWED</span>
-            <span>One accountable team for every moving part</span>
+            <span>Clear timelines, clear pricing and one accountable team</span>
           </Reveal>
           <Reveal>
             <Button to="/eventus">Visit Eventus</Button>

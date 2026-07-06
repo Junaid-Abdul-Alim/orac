@@ -5,28 +5,32 @@ export default function SafeImage({
   src,
   alt = "",
   className = "",
-  fallbackLabel = "Image to be added",
+  fallbackLabel = "Visual unavailable",
   loading = "lazy",
   priority = false,
 }) {
   const [failed, setFailed] = useState(!src);
+  const [loaded, setLoaded] = useState(false);
+  const fetchPriority = priority ? "high" : undefined;
 
   if (failed) {
     return (
       <div className={`safe-image-fallback ${className}`.trim()} role="img" aria-label={alt || fallbackLabel}>
         <span>{fallbackLabel}</span>
-        <small>Add final image asset</small>
+        <small>ORAC visual asset</small>
       </div>
     );
   }
 
   return (
     <img
-      className={className}
+      className={`safe-image ${loaded ? "is-loaded" : ""} ${className}`.trim()}
       src={src}
       alt={alt}
       loading={priority ? "eager" : loading}
       decoding="async"
+      fetchPriority={fetchPriority}
+      onLoad={() => setLoaded(true)}
       onError={() => setFailed(true)}
     />
   );

@@ -1,0 +1,18 @@
+{
+  "name": "ORAC Holding",
+  "short_name": "ORAC",
+  "description": "A business house for trade, events, and fashion.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#FAF8F3",
+  "theme_color": "#FAF8F3",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
