@@ -1,4 +1,3 @@
-import React from "react";
 import Reveal from "./Reveal";
 
 export default function SectionHeader({ eyebrow, title, text, align = "left" }) {

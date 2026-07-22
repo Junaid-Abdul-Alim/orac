@@ -1,4 +1,3 @@
-import React from "react";
 import CompanyPortfolio from "../sections/CompanyPortfolio";
 import ContactCTA from "../sections/ContactCTA";
 import EventusPreview from "../sections/EventusPreview";
@@ -20,7 +19,7 @@ export default function Home() {
         variant="home"
         eyebrow="International Outlook"
         title="OUR GLOBAL REACH"
-        text="ORAC operates from India with 29 focused countries and five regional corridors across Asia, Africa, the Middle East, Europe, North America, South America, and Australia."
+        text="ORAC operates from India with 30 focused countries and five regional corridors across Asia, Africa, the Middle East, Europe, North America, South America, and Australia."
       />
       <EventusPreview />
       <LuxePreview />

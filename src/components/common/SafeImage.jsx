@@ -1,4 +1,3 @@
-import React from "react";
 import { useState } from "react";
 
 export default function SafeImage({
@@ -11,7 +10,7 @@ export default function SafeImage({
 }) {
   const [failed, setFailed] = useState(!src);
   const [loaded, setLoaded] = useState(false);
-  const fetchPriority = priority ? "high" : undefined;
+  const fetchpriority = priority ? "high" : undefined;
 
   if (failed) {
     return (
@@ -29,7 +28,7 @@ export default function SafeImage({
       alt={alt}
       loading={priority ? "eager" : loading}
       decoding="async"
-      fetchPriority={fetchPriority}
+      fetchpriority={fetchpriority}
       onLoad={() => setLoaded(true)}
       onError={() => setFailed(true)}
     />

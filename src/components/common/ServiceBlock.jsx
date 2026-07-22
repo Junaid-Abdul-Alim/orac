@@ -1,4 +1,3 @@
-import React from "react";
 import { Camera, Gift, MapPinned, Music, Palette, Route, Sparkles, Utensils } from "lucide-react";
 import Reveal from "./Reveal";
 import ImagePanel from "./ImagePanel";

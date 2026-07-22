@@ -1,18 +1,12 @@
+import { imageSlot } from "./imageSlot";
+
 const catalogAssets = import.meta.glob("../assets/images/international/catalog/*.jpg", {
   eager: true,
   query: "?url",
   import: "default",
 });
 
-const catalogImage = (fileName) =>
-  catalogAssets[`../assets/images/international/catalog/${fileName}`] || "";
-
-const imageSlot = (label = "ORAC visual", alt = "ORAC visual", src = "", options = {}) => ({
-  src,
-  alt,
-  label,
-  ...options,
-});
+const catalogImage = (fileName) => catalogAssets[`../assets/images/international/catalog/${fileName}`] || "";
 
 const localImage = (fileName, alt, options) =>
   imageSlot("Product image", alt, catalogImage(fileName), options);
@@ -24,7 +18,10 @@ const productImages = {
   "Cashew Nuts": localImage("cashew-nuts.jpg", "Cashew nuts export product visual"),
   Cardamom: localImage("cardamom.jpg", "Cardamom export product visual"),
   "Red Chilli & Powder": localImage("red-chilli-powder.jpg", "Red chilli and powder export product visual"),
-  "Cumin Seeds & Powder": localImage("cumin-seeds-powder.jpg", "Cumin seeds and powder export product visual"),
+  "Cumin Seeds & Powder": localImage(
+    "cumin-seeds-powder.jpg",
+    "Cumin seeds and powder export product visual"
+  ),
   "Turmeric & Powder": localImage("turmeric-powder.jpg", "Turmeric and powder export product visual"),
   "Coriander Seeds & Powder": localImage(
     "coriander-seeds-powder.jpg",
@@ -65,8 +62,14 @@ const productImages = {
     "ppf-paint-protection-film.jpg",
     "Paint protection film import product visual"
   ),
-  "Dashboard Gadgets": localImage("ambient-strip-lights.jpg", "Automotive dashboard lighting accessory visual"),
-  "Ambient Strip Lights": localImage("ambient-strip-lights.jpg", "Ambient strip lights import product visual"),
+  "Dashboard Gadgets": localImage(
+    "ambient-strip-lights.jpg",
+    "Automotive dashboard lighting accessory visual"
+  ),
+  "Ambient Strip Lights": localImage(
+    "ambient-strip-lights.jpg",
+    "Ambient strip lights import product visual"
+  ),
   "Camping & Off-Road Kits": localImage(
     "camping-off-road-kits.jpg",
     "Camping and off-road kits import product visual"

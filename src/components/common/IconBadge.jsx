@@ -1,5 +1,3 @@
-import React from "react";
-
 export default function IconBadge({ icon: Icon, className = "", size = 18, label = "" }) {
   if (!Icon) return null;
 

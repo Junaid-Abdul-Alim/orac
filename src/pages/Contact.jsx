@@ -1,4 +1,3 @@
-import React from "react";
 import { CalendarDays, Gem, Globe2, Landmark, MapPinned } from "lucide-react";
 import BrandLockup from "../components/common/BrandLockup";
 import IconBadge from "../components/common/IconBadge";

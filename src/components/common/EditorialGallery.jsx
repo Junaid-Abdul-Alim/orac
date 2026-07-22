@@ -1,4 +1,3 @@
-import React from "react";
 import ImagePanel from "./ImagePanel";
 
 export default function EditorialGallery({ images, dark = false }) {

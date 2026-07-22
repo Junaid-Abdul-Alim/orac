@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import { Mail, MapPin } from "lucide-react";
 import { companies } from "../../data/companyData";
@@ -16,7 +15,8 @@ export default function Footer() {
           <span className="footer-kicker">ORAC Holding</span>
           <h2>Trade, events, and fashion under one house.</h2>
           <p>
-            A focused business house building ventures with clear roles, careful execution, and long-term intent.
+            A focused business house building ventures with clear roles, careful execution, and long-term
+            intent.
           </p>
           <div className="footer-corridors" aria-label="ORAC corridors">
             {corridors.map((corridor) => (

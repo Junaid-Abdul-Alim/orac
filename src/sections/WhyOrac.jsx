@@ -1,4 +1,3 @@
-import React from "react";
 import Reveal from "../components/common/Reveal";
 import SectionHeader from "../components/common/SectionHeader";
 

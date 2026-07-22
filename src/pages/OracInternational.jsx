@@ -1,4 +1,3 @@
-import React from "react";
 import { ClipboardCheck, FileCheck2, Handshake, SearchCheck, Ship, Truck } from "lucide-react";
 import Reveal from "../components/common/Reveal";
 import SectionHeader from "../components/common/SectionHeader";
@@ -9,7 +8,13 @@ import CinematicBanner from "../components/common/CinematicBanner";
 import GlobalReach from "../components/common/GlobalReach";
 import ContactCTA from "../sections/ContactCTA";
 import Hero from "../components/common/Hero";
-import { exportCategories, importCategories, internationalServices, internationalStats, tradeProcess } from "../data/internationalData";
+import {
+  exportCategories,
+  importCategories,
+  internationalServices,
+  internationalStats,
+  tradeProcess,
+} from "../data/internationalData";
 import { internationalImages, productImageSlot } from "../data/internationalImages";
 
 const serviceDescriptions = [
@@ -41,14 +46,12 @@ export default function OracInternational() {
         <div className="container split-layout">
           <SectionHeader eyebrow="Founder" title="Ohm Pranav Percholli Ramaraja" />
           <Reveal className="rich-copy">
+            <p>Founder & Chairman. Rajapalayam, Tamil Nadu. Chennai-based and Singapore-connected.</p>
             <p>
-              Founder & Chairman. Rajapalayam, Tamil Nadu. Chennai-based and Singapore-connected.
-            </p>
-            <p>
-              Rajapalayam is a town with trade in its bones: cotton, textiles, commerce. Ohm Pranav grew up watching
-              the rhythms of business long before he entered them. ORAC International is the result of six years of
-              doing the work, earning the knowledge, and refusing to stop. What started as an idea is now a trading
-              house with reach into Africa, Southeast Asia, and beyond.
+              Rajapalayam is a town with trade in its bones: cotton, textiles, commerce. Ohm Pranav grew up
+              watching the rhythms of business long before he entered them. ORAC International is the result
+              of six years of doing the work, earning the knowledge, and refusing to stop. What started as an
+              idea is now a trading house with reach into Africa, Southeast Asia, and beyond.
             </p>
           </Reveal>
         </div>
@@ -60,9 +63,10 @@ export default function OracInternational() {
             <Reveal>
               <span className="eyebrow">About ORAC International</span>
               <p>
-                ORAC International is an export and import trading business focused on agricultural commodities,
-                natural fibres, industrial minerals, and automotive accessories. Products are sourced responsibly,
-                verified for quality, and moved with attention that keeps buyers coming back.
+                ORAC International is an export and import trading business focused on agricultural
+                commodities, natural fibres, industrial minerals, and automotive accessories. Products are
+                sourced responsibly, verified for quality, and moved with attention that keeps buyers coming
+                back.
               </p>
             </Reveal>
             <div className="stat-grid">
@@ -87,8 +91,8 @@ export default function OracInternational() {
               <Reveal className="trade-capability-statement">
                 <span>From source to shipment</span>
                 <p>
-                  ORAC International keeps the essential work close: finding the right supply,
-                  coordinating the right people, and keeping every trade conversation clear.
+                  ORAC International keeps the essential work close: finding the right supply, coordinating
+                  the right people, and keeping every trade conversation clear.
                 </p>
               </Reveal>
             </div>

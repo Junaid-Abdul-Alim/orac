@@ -151,8 +151,7 @@ export const azrinFounder = {
   location: "Tiruchirappalli, Tamil Nadu",
   quote:
     "We did not set out to build a brand. We set out to make things that last - in the hands of the people who wear them, and in the way they are made.",
-  body:
-    "Azrin is named to carry softness and strength in equal measure. That duality is present in everything we make.",
+  body: "Azrin is named to carry softness and strength in equal measure. That duality is present in everything we make.",
   continuation:
     "The House of Azrin sits within ORAC Luxe - a business house that builds ventures with care. Our place within ORAC means we have the foundation to grow without losing what makes us particular.",
 };

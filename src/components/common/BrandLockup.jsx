@@ -1,4 +1,4 @@
-import React from "react";
+import { Fragment } from "react";
 
 export default function BrandLockup({ items = ["ORAC"], className = "" }) {
   const parts = Array.isArray(items) ? items : String(items).split("/");
@@ -6,10 +6,10 @@ export default function BrandLockup({ items = ["ORAC"], className = "" }) {
   return (
     <p className={`brand-lockup ${className}`.trim()} aria-label={parts.join(" / ")}>
       {parts.map((part, index) => (
-        <React.Fragment key={`${part}-${index}`}>
+        <Fragment key={`${part}-${index}`}>
           {index > 0 ? <span className="brand-lockup-mark">/</span> : null}
           <span>{part.trim()}</span>
-        </React.Fragment>
+        </Fragment>
       ))}
     </p>
   );

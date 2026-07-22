@@ -1,4 +1,3 @@
-import React from "react";
 import BusinessCard from "../components/common/BusinessCard";
 import SectionHeader from "../components/common/SectionHeader";
 import { companies } from "../data/companyData";

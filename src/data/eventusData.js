@@ -37,15 +37,27 @@ export const eventusServices = [
   },
   {
     title: "Memory Design",
-    points: ["Wedding album design", "Framed photography and wall art", "Aerial drone coverage of venue and events"],
+    points: [
+      "Wedding album design",
+      "Framed photography and wall art",
+      "Aerial drone coverage of venue and events",
+    ],
   },
   {
     title: "Guest Experience",
-    points: ["Wedding chaat and food stalls", "Live snack and beverage counters", "Themed guest engagement corners"],
+    points: [
+      "Wedding chaat and food stalls",
+      "Live snack and beverage counters",
+      "Themed guest engagement corners",
+    ],
   },
   {
     title: "Planning & Coordination",
-    points: ["Single point of contact event manager", "Day-of execution team on ground", "Vendor quality checks throughout"],
+    points: [
+      "Single point of contact event manager",
+      "Day-of execution team on ground",
+      "Vendor quality checks throughout",
+    ],
   },
 ];
 
@@ -94,8 +106,7 @@ export const clientReasons = [
   },
   {
     title: "Rooted in Local Expertise",
-    body:
-      "Based in Chennai, with deep familiarity in traditional South Indian wedding customs, vendors, and venues, plus the network to execute destination weddings beyond the city.",
+    body: "Based in Chennai, with deep familiarity in traditional South Indian wedding customs, vendors, and venues, plus the network to execute destination weddings beyond the city.",
   },
   {
     title: "Flexible, Not Fixed",

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { ArrowDownToLine, ArrowLeft, ArrowRight, ArrowUpFromLine } from "lucide-react";
 import Reveal from "./Reveal";
 import ProductPanel from "./ProductPanel";
@@ -110,7 +110,11 @@ export default function ProductCategoryShowcase({
 }) {
   const productTotal = collections.reduce(
     (total, collection) =>
-      total + collection.categories.reduce((collectionTotal, category) => collectionTotal + category.products.length, 0),
+      total +
+      collection.categories.reduce(
+        (collectionTotal, category) => collectionTotal + category.products.length,
+        0
+      ),
     0
   );
 
@@ -124,7 +128,8 @@ export default function ProductCategoryShowcase({
         <div className="product-showcase-context">
           {text ? <p>{text}</p> : null}
           <small>
-            {String(collections.length).padStart(2, "0")} collections / {String(productTotal).padStart(2, "0")} products
+            {String(collections.length).padStart(2, "0")} collections /{" "}
+            {String(productTotal).padStart(2, "0")} products
           </small>
         </div>
       </Reveal>

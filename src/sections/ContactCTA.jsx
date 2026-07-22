@@ -1,4 +1,3 @@
-import React from "react";
 import Button from "../components/common/Button";
 import Reveal from "../components/common/Reveal";
 

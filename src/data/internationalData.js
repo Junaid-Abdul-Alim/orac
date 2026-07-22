@@ -23,28 +23,32 @@ export const exportCategories = [
       {
         name: "Urad Dal",
         tag: "Agri / Pulse",
-        story: "The pulse that built South India's breakfast table, indispensable in idli, dosa, and dal makhani kitchens worldwide.",
+        story:
+          "The pulse that built South India's breakfast table, indispensable in idli, dosa, and dal makhani kitchens worldwide.",
         spec: "Moisture <=14% / Admixture <=2% / Purity 98%+",
         origin: "Madhya Pradesh, Uttar Pradesh",
       },
       {
         name: "Toor Dal",
         tag: "Agri / Pulse",
-        story: "India's most exported lentil, earthy, wholesome, and at home in sambar pots from Chennai to Nairobi.",
+        story:
+          "India's most exported lentil, earthy, wholesome, and at home in sambar pots from Chennai to Nairobi.",
         spec: "Moisture <=12% / Admixture <=1.5% / Purity 98%+",
         origin: "Maharashtra, Karnataka, Gujarat",
       },
       {
         name: "Masoor Dal",
         tag: "Agri / Pulse",
-        story: "Quick to cook, rich in flavour, and able to cross cultural kitchens with ease from the Middle East to South Asia.",
+        story:
+          "Quick to cook, rich in flavour, and able to cross cultural kitchens with ease from the Middle East to South Asia.",
         spec: "Moisture <=13% / Admixture <=2% / Purity 98%+",
         origin: "Madhya Pradesh, Uttar Pradesh, Bihar",
       },
       {
         name: "Cashew Nuts",
         tag: "Agri / Nut",
-        story: "Creamy, naturally sweet, and prized globally, Indian cashew is processed with care before export.",
+        story:
+          "Creamy, naturally sweet, and prized globally, Indian cashew is processed with care before export.",
         spec: "Grade W180, W210, W240, W320 / Moisture <=5%",
         origin: "Kerala, Goa, Maharashtra",
       },
@@ -64,21 +68,24 @@ export const exportCategories = [
       {
         name: "Red Chilli & Powder",
         tag: "Agri / Spice",
-        story: "India's signature heat in whole and ground form, available in multiple varieties to suit buyer SHU preference.",
+        story:
+          "India's signature heat in whole and ground form, available in multiple varieties to suit buyer SHU preference.",
         spec: "Moisture <=12% / ASTA colour on request / Whole and powder",
         origin: "Andhra Pradesh, Telangana, Rajasthan",
       },
       {
         name: "Cumin Seeds & Powder",
         tag: "Agri / Spice",
-        story: "Warm, earthy, and essential, cumin from India's northwest belt is benchmarked by spice buyers.",
+        story:
+          "Warm, earthy, and essential, cumin from India's northwest belt is benchmarked by spice buyers.",
         spec: "Moisture <=9% / Purity 99%+ / Whole and ground",
         origin: "Gujarat, Rajasthan",
       },
       {
         name: "Turmeric & Powder",
         tag: "Agri / Spice",
-        story: "Golden, anti-inflammatory, and global, Indian turmeric sets the standard in colour intensity and curcumin content.",
+        story:
+          "Golden, anti-inflammatory, and global, Indian turmeric sets the standard in colour intensity and curcumin content.",
         spec: "Curcumin 2-5% / Moisture <=10% / Finger and bulb",
         origin: "Erode, Tamil Nadu; Andhra Pradesh",
       },
@@ -92,7 +99,8 @@ export const exportCategories = [
       {
         name: "Saffron",
         tag: "Agri / Spice",
-        story: "The world's most precious spice, measured thread by thread and sourced from the valleys of Kashmir.",
+        story:
+          "The world's most precious spice, measured thread by thread and sourced from the valleys of Kashmir.",
         spec: "Crocin >=200 / ISO 3632 Grade I available",
         origin: "Pampore, Jammu & Kashmir",
       },
@@ -112,7 +120,8 @@ export const exportCategories = [
       {
         name: "Mango & Mango Concentrate",
         tag: "Agri / Fruit",
-        story: "India's king of fruits, available fresh in season and as aseptic concentrate for beverages and food processing.",
+        story:
+          "India's king of fruits, available fresh in season and as aseptic concentrate for beverages and food processing.",
         spec: "Alphonso, Kesar, Totapuri / Brix on request",
         origin: "Maharashtra, Gujarat, Andhra Pradesh",
       },
@@ -126,7 +135,8 @@ export const exportCategories = [
       {
         name: "Moringa Powder",
         tag: "Agri / Superfood",
-        story: "Dried leaves of the drumstick tree, ground fine and gaining attention in global wellness markets.",
+        story:
+          "Dried leaves of the drumstick tree, ground fine and gaining attention in global wellness markets.",
         spec: "Moisture <=8% / Protein >=25% / Organic options available",
         origin: "Tamil Nadu, Andhra Pradesh",
       },
@@ -161,7 +171,8 @@ export const exportCategories = [
       {
         name: "Neem Oil",
         tag: "Agri / Oil",
-        story: "Cold-pressed from Indian neem seeds and valued for biopesticides, cosmetics, and pharmaceutical applications.",
+        story:
+          "Cold-pressed from Indian neem seeds and valued for biopesticides, cosmetics, and pharmaceutical applications.",
         spec: "Azadirachtin 300-1500ppm / Cold pressed and refined grades",
         origin: "Rajasthan, Madhya Pradesh, Uttar Pradesh",
       },
@@ -202,14 +213,16 @@ export const exportCategories = [
       {
         name: "Coco Peat",
         tag: "Industrial / Coir",
-        story: "A sustainable, moisture-retentive growing medium trusted by horticulturists and farm operations worldwide.",
+        story:
+          "A sustainable, moisture-retentive growing medium trusted by horticulturists and farm operations worldwide.",
         spec: "EC <=0.5 mS/cm / pH 5.5-6.5 / Blocks and briquettes",
         origin: "Tamil Nadu, Kerala",
       },
       {
         name: "Jute Bags - Customised",
         tag: "Industrial / Packaging",
-        story: "Eco-friendly, durable, and fully customisable Indian jute bags for retail, commodity packaging, and branded export use.",
+        story:
+          "Eco-friendly, durable, and fully customisable Indian jute bags for retail, commodity packaging, and branded export use.",
         spec: "Custom sizes / Natural and laminated / Printed available",
         origin: "West Bengal, Assam",
       },
@@ -233,7 +246,8 @@ export const importCategories = [
       {
         name: "Grill Lights",
         tag: "Auto / Lighting",
-        story: "High-output auxiliary lighting mounted on vehicle grilles, built for off-road visibility and a commanding road presence.",
+        story:
+          "High-output auxiliary lighting mounted on vehicle grilles, built for off-road visibility and a commanding road presence.",
         spec: "LED / Spot, flood, and combo beam",
         origin: "Sourced: China, Taiwan",
       },
@@ -268,7 +282,8 @@ export const importCategories = [
       {
         name: "PPF - Paint Protection Film",
         tag: "Auto / Protection",
-        story: "Self-healing, optically invisible film that guards paint from chips, scratches, and UV degradation.",
+        story:
+          "Self-healing, optically invisible film that guards paint from chips, scratches, and UV degradation.",
         spec: "Thickness 6-10 mil / Self-healing / Gloss and matte",
         origin: "Sourced: USA, South Korea",
       },
@@ -289,7 +304,8 @@ export const importCategories = [
       {
         name: "Camping & Off-Road Kits",
         tag: "Auto / Lifestyle",
-        story: "Rooftop tents, recovery boards, and expedition equipment for India's growing overlanding community.",
+        story:
+          "Rooftop tents, recovery boards, and expedition equipment for India's growing overlanding community.",
         spec: "RTT / Hi-Lift Jack / Recovery Kit",
         origin: "Sourced: Australia, China, USA",
       },
@@ -310,7 +326,8 @@ export const importCategories = [
       {
         name: "Raw Cotton",
         tag: "Agri Import / Fibre",
-        story: "Long-staple African cotton suited for Indian spinning mills seeking reliable fibre outside domestic supply.",
+        story:
+          "Long-staple African cotton suited for Indian spinning mills seeking reliable fibre outside domestic supply.",
         spec: "Grade A / B / Staple length on request",
         origin: "Tanzania, Benin, Sudan, Nigeria",
       },
@@ -331,14 +348,16 @@ export const importCategories = [
       {
         name: "Stone Flower",
         tag: "Agri Import / Spice",
-        story: "A rare dried lichen prized in Indian masala blends, Chettinad cooking, and Ayurvedic preparations.",
+        story:
+          "A rare dried lichen prized in Indian masala blends, Chettinad cooking, and Ayurvedic preparations.",
         spec: "Moisture <=12% / Clean and sorted",
         origin: "Nigeria",
       },
       {
         name: "Pigeon Peas",
         tag: "Agri Import / Pulse",
-        story: "Africa and Myanmar pigeon peas supplement domestic Indian supply for toor dal milling and re-export.",
+        story:
+          "Africa and Myanmar pigeon peas supplement domestic Indian supply for toor dal milling and re-export.",
         spec: "Moisture <=12% / Purity 98%+",
         origin: "Tanzania, Nigeria, Myanmar, Mozambique",
       },

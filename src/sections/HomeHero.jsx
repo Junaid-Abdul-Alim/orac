@@ -1,4 +1,3 @@
-import React from "react";
 import BusinessDock from "../components/common/BusinessDock";
 import Button from "../components/common/Button";
 import Reveal from "../components/common/Reveal";
@@ -12,7 +11,7 @@ export default function HomeHero() {
           <span className="eyebrow">ORAC Holding</span>
           <h1 className="home-hero-logo-heading">
             <span className="sr-only">ORAC Holding</span>
-            <img src={oracLogo} alt="ORAC" decoding="async" fetchPriority="high" />
+            <img src={oracLogo} alt="ORAC" decoding="async" fetchpriority="high" />
           </h1>
           <p className="hero-line">ORAC - TRADE | EVENTS | COUTURE</p>
           <p className="hero-subtext">

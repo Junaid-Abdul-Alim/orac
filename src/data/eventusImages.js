@@ -8,12 +8,7 @@ import weddingFilmCamera from "../assets/images/velorawed/wedding-film-camera.we
 import weddingVideographer from "../assets/images/velorawed/wedding-videographer.webp";
 import weddingPhotographer from "../assets/images/velorawed/wedding-photographer.webp";
 import cameraTripod from "../assets/images/velorawed/camera-tripod.webp";
-
-const imageSlot = (label = "Image", alt = "Image", src) => ({
-  src,
-  alt,
-  label,
-});
+import { imageSlot } from "./imageSlot";
 
 export const eventusImages = {
   hero: {
@@ -24,14 +19,38 @@ export const eventusImages = {
     description: "Wedding celebration imagery for ORAC Eventus.",
   },
   services: {
-    "Decor & Styling": imageSlot("Eventus image", "Mandap decor and wedding styling by ORAC Eventus", eventusHero),
-    "Venues & Logistics": imageSlot("Eventus image", "Elegant wedding venue setup and logistics", floralTable),
+    "Decor & Styling": imageSlot(
+      "Eventus image",
+      "Mandap decor and wedding styling by ORAC Eventus",
+      eventusHero
+    ),
+    "Venues & Logistics": imageSlot(
+      "Eventus image",
+      "Elegant wedding venue setup and logistics",
+      floralTable
+    ),
     "Catering Services": imageSlot("Eventus image", "Wedding catering and live counters", cateringTable),
     Entertainment: imageSlot("Eventus image", "Wedding entertainment and live sound", eventTable),
-    "Gifting & Keepsakes": imageSlot("Eventus image", "Wedding keepsakes and celebration details", bridalEntry),
-    "Memory Design": imageSlot("Eventus image", "Wedding albums, films, and memory design by VELORAWED", weddingFilmCamera),
-    "Guest Experience": imageSlot("Eventus image", "Guest experience and hospitality at a wedding", weddingCouple),
-    "Planning & Coordination": imageSlot("Eventus image", "Wedding planning coordination and event team details", floralTable),
+    "Gifting & Keepsakes": imageSlot(
+      "Eventus image",
+      "Wedding keepsakes and celebration details",
+      bridalEntry
+    ),
+    "Memory Design": imageSlot(
+      "Eventus image",
+      "Wedding albums, films, and memory design by VELORAWED",
+      weddingFilmCamera
+    ),
+    "Guest Experience": imageSlot(
+      "Eventus image",
+      "Guest experience and hospitality at a wedding",
+      weddingCouple
+    ),
+    "Planning & Coordination": imageSlot(
+      "Eventus image",
+      "Wedding planning coordination and event team details",
+      floralTable
+    ),
   },
   gallery: [
     imageSlot("Eventus image", "Mandap decor for a wedding", eventusHero),

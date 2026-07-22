@@ -1,4 +1,3 @@
-import React from "react";
 import BrandLockup from "./BrandLockup";
 import Button from "./Button";
 import ImagePanel from "./ImagePanel";
@@ -38,7 +37,7 @@ export default function Hero({
           {kicker ? <p className="hero-kicker">{kicker}</p> : null}
           {text ? <p className="hero-body">{text}</p> : null}
           {meta ? <p className="hero-meta">{meta}</p> : null}
-          {(cta || secondaryCta) ? (
+          {cta || secondaryCta ? (
             <div className="hero-actions">
               {cta ? <Button to={cta.to}>{cta.label}</Button> : null}
               {secondaryCta ? (

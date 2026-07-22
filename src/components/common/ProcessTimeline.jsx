@@ -1,5 +1,14 @@
-import React from "react";
-import { ClipboardCheck, FileCheck2, Handshake, Headphones, MapPinned, Search, Send, ShieldCheck, Truck } from "lucide-react";
+import {
+  ClipboardCheck,
+  FileCheck2,
+  Handshake,
+  Headphones,
+  MapPinned,
+  Search,
+  Send,
+  ShieldCheck,
+  Truck,
+} from "lucide-react";
 import Reveal from "./Reveal";
 import IconBadge from "./IconBadge";
 

@@ -1,4 +1,3 @@
-import React from "react";
 import { BadgeCheck, Globe2, Ship, Truck, Warehouse } from "lucide-react";
 import Reveal from "./Reveal";
 import SafeImage from "./SafeImage";
@@ -44,14 +43,12 @@ export default function ProductPanel({ product, image, index = 0, className = ""
   const hasSecondaryImage = Boolean(image?.secondarySrc);
 
   return (
-    <Reveal
-      as="article"
-      className={`product-panel ${className}`.trim()}
-      delay={index * 45}
-    >
+    <Reveal as="article" className={`product-panel ${className}`.trim()} delay={index * 45}>
       {image ? (
         <div className="product-panel-image">
-          <div className={`product-panel-image-surface ${hasSecondaryImage ? "has-secondary-image" : ""}`.trim()}>
+          <div
+            className={`product-panel-image-surface ${hasSecondaryImage ? "has-secondary-image" : ""}`.trim()}
+          >
             <SafeImage
               src={image.src}
               alt={image.alt || product.name}

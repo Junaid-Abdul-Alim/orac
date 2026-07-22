@@ -1,4 +1,3 @@
-import React from "react";
 import { NavLink } from "react-router-dom";
 import { CalendarDays, Gem, Globe2 } from "lucide-react";
 import { companies } from "../../data/companyData";
@@ -17,7 +16,13 @@ export default function BusinessSwitcher({ id, open = false, onNavigate }) {
         <NavLink key={company.id} to={company.route} onClick={onNavigate} role="menuitem">
           <div className="business-switcher-top">
             {company.logo ? (
-              <img className="business-switcher-logo" src={company.logo} alt="" loading="lazy" decoding="async" />
+              <img
+                className="business-switcher-logo"
+                src={company.logo}
+                alt=""
+                loading="lazy"
+                decoding="async"
+              />
             ) : null}
             <IconBadge icon={companyIcons[company.id]} className="icon-badge-soft" size={16} />
           </div>

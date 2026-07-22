@@ -1,4 +1,3 @@
-import React from "react";
 import SectionHeader from "../components/common/SectionHeader";
 import Reveal from "../components/common/Reveal";
 import { leadership } from "../data/companyData";
@@ -10,18 +9,19 @@ export default function HoldingIntro() {
         <SectionHeader eyebrow="About ORAC Holding" title="We build institutions designed to endure." />
         <Reveal className="rich-copy">
           <p>
-            ORAC Holding is the parent house for a focused group of ventures across trade, events, and fashion.
+            ORAC Holding is the parent house for a focused group of ventures across trade, events, and
+            fashion.
           </p>
           <p>
-            Every ORAC company was born from hands-on expertise, not corporate theory. We are entrepreneurs, operators,
-            and specialists who turned years of practical work into operating businesses. From connecting global
-            markets through international trade to shaping celebrations and modern fashion, each venture has a clear
-            role inside the group.
+            Every ORAC company was born from hands-on expertise, not corporate theory. We are entrepreneurs,
+            operators, and specialists who turned years of practical work into operating businesses. From
+            connecting global markets through international trade to shaping celebrations and modern fashion,
+            each venture has a clear role inside the group.
           </p>
           <p>
-            At ORAC, growth is never measured by size alone. It is measured by trust earned, relationships built, and
-            standards upheld. We believe reputations are built over decades, not quarters, and that discipline outlasts
-            short-term attention.
+            At ORAC, growth is never measured by size alone. It is measured by trust earned, relationships
+            built, and standards upheld. We believe reputations are built over decades, not quarters, and that
+            discipline outlasts short-term attention.
           </p>
           <strong className="holding-statement">We build institutions designed to endure.</strong>
         </Reveal>

@@ -6,7 +6,6 @@ import oracLuxeLogo from "../assets/logos/orac-luxe.svg";
 import luxeAtelier from "../assets/images/luxe/fashion-atelier.webp";
 
 export const assetPaths = {
-  holding: internationalImages.hero.src,
   international: internationalImages.hero.src,
   eventus: eventusImages.hero.src,
   luxuryExport: luxeAtelier,
@@ -18,7 +17,8 @@ export const companies = [
     name: "ORAC INTERNATIONAL",
     shortName: "International",
     label: "Global Trade",
-    purpose: "Export and import trading across agri-commodities, industrial fibres, minerals, and automotive accessories.",
+    purpose:
+      "Export and import trading across agri-commodities, industrial fibres, minerals, and automotive accessories.",
     route: "/international",
     image: assetPaths.international,
     logo: oracInternationalLogo,
@@ -31,7 +31,8 @@ export const companies = [
     name: "ORAC EVENTUS",
     shortName: "Eventus",
     label: "Event Planning",
-    purpose: "Chennai-based full-service event management for weddings, celebrations, and visual storytelling through VELORAWED.",
+    purpose:
+      "Chennai-based full-service event management for weddings, celebrations, and visual storytelling through VELORAWED.",
     route: "/eventus",
     image: assetPaths.eventus,
     logo: oracEventusLogo,
@@ -44,7 +45,8 @@ export const companies = [
     name: "ORAC LUXE",
     shortName: "Luxe",
     label: "Fashion & Textiles",
-    purpose: "A fabric-forward fashion house for ready-to-wear, white-label textiles, in-house atelier work, and handmade craft.",
+    purpose:
+      "A fabric-forward fashion house for ready-to-wear, white-label textiles, in-house atelier work, and handmade craft.",
     route: "/luxury-export",
     image: assetPaths.luxuryExport,
     logo: oracLuxeLogo,

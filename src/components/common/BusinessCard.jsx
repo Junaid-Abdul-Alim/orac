@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import { CalendarDays, Gem, Globe2 } from "lucide-react";
 import SafeImage from "./SafeImage";

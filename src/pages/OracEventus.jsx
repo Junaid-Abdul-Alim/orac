@@ -1,4 +1,3 @@
-import React from "react";
 import Reveal from "../components/common/Reveal";
 import SectionHeader from "../components/common/SectionHeader";
 import ServiceBlock from "../components/common/ServiceBlock";
@@ -31,23 +30,23 @@ export default function OracEventus() {
           <SectionHeader eyebrow="Who We Are" title="Building celebrations that are felt, not just seen." />
           <Reveal className="rich-copy">
             <p>
-              ORAC Eventus is a Chennai-based full-service event management company built around one belief: a wedding
-              or celebration should feel carefully handled for the family hosting it, from the first call to the final
-              frame.
+              ORAC Eventus is a Chennai-based full-service event management company built around one belief: a
+              wedding or celebration should feel carefully handled for the family hosting it, from the first
+              call to the final frame.
             </p>
             <p>
-              ORAC Eventus takes complete ownership from the first planning conversation to the final frame delivered:
-              decor, catering coordination, venues, entertainment, gifting, and the entire photography and
-              cinematography experience, handled under one roof by one accountable team.
+              ORAC Eventus takes complete ownership from the first planning conversation to the final frame
+              delivered: decor, catering coordination, venues, entertainment, gifting, and the entire
+              photography and cinematography experience, handled under one roof by one accountable team.
             </p>
             <p>
-              Our photography and films are delivered through VELORAWED, our dedicated visual storytelling studio.
-              Where ORAC Eventus designs and executes the celebration, VELORAWED ensures every part of it is captured
-              with warmth, detail, and cinematic restraint.
+              Our photography and films are delivered through VELORAWED, our dedicated visual storytelling
+              studio. Where ORAC Eventus designs and executes the celebration, VELORAWED ensures every part of
+              it is captured with warmth, detail, and cinematic restraint.
             </p>
             <p>
-              Whether it is an intimate engagement or a destination wedding for three hundred guests, ORAC Eventus and
-              VELORAWED bring the same standard of care to every celebration they take on.
+              Whether it is an intimate engagement or a destination wedding for three hundred guests, ORAC
+              Eventus and VELORAWED bring the same standard of care to every celebration they take on.
             </p>
           </Reveal>
         </div>

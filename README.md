@@ -29,7 +29,24 @@ npm run build
 npm run preview
 ```
 
+## Lint & format
+
+```bash
+npm run lint          # ESLint (flat config, React + hooks)
+npm run format        # Prettier, write
+npm run format:check  # Prettier, verify only
+```
+
 ## Notes
+
+Styles live in `src/styles/`. `global.css` is a barrel that `@import`s the
+ordered partials in `src/styles/partials/` (base, navbar, hero, sections,
+product-showcase, contact, media-panels, global-reach, luxe, footer,
+responsive). Vite inlines the imports at build time, so the compiled CSS is
+identical to a single sheet — edit the relevant partial.
+
+The social share image is `public/og-image.png` (1200x630), referenced from the
+Open Graph / Twitter tags in `index.html`.
 
 Image locations are centralized in:
 

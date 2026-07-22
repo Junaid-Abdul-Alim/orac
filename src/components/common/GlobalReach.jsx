@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { ComposableMap, Geographies, Geography } from "react-simple-maps";
 import Reveal from "./Reveal";
 
@@ -42,7 +42,7 @@ const displayNames = {
 };
 
 const defaultHighlights = [
-  { value: "29", label: "Focused countries" },
+  { value: String(highlightedCountries.size), label: "Focused countries" },
   { value: "5", label: "Regional corridors" },
   { value: "India", label: "Based operation" },
 ];
@@ -81,10 +81,7 @@ export default function GlobalReach({
   };
 
   return (
-    <section
-      className={`global-reach-section global-reach-${variant}`.trim()}
-      aria-labelledby={sectionId}
-    >
+    <section className={`global-reach-section global-reach-${variant}`.trim()} aria-labelledby={sectionId}>
       <div className="global-reach-container">
         <Reveal className="global-reach-heading">
           <span className="eyebrow">{eyebrow}</span>
@@ -158,7 +155,8 @@ export default function GlobalReach({
                       onMouseLeave={isHighlighted ? () => setTooltip(null) : undefined}
                       onFocus={
                         isHighlighted
-                          ? () => setTooltip({ name: displayNames[countryName] || countryName, x: 490, y: 232 })
+                          ? () =>
+                              setTooltip({ name: displayNames[countryName] || countryName, x: 490, y: 232 })
                           : undefined
                       }
                       onBlur={isHighlighted ? () => setTooltip(null) : undefined}

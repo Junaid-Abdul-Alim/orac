@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import ImageReveal from "./ImageReveal";
 import SafeImage from "./SafeImage";

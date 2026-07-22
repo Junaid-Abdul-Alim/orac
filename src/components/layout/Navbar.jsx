@@ -1,4 +1,3 @@
-import React from "react";
 import { useEffect, useId, useRef, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { ChevronDown, Mail, MessageCircle } from "lucide-react";
@@ -73,7 +72,7 @@ export default function Navbar() {
   return (
     <header className={`navbar ${scrolled || open ? "is-solid" : ""}`}>
       <Link className="brand" to="/" aria-label="ORAC Holding home">
-        <img className="brand-logo" src={oracLogo} alt="ORAC" decoding="async" fetchPriority="high" />
+        <img className="brand-logo" src={oracLogo} alt="ORAC" decoding="async" fetchpriority="high" />
       </Link>
 
       <nav className="desktop-nav" aria-label="Primary navigation">
@@ -95,7 +94,11 @@ export default function Navbar() {
             <span>Companies</span>
             <ChevronDown className="nav-chevron" size={14} strokeWidth={1.8} aria-hidden="true" />
           </button>
-          <BusinessSwitcher id={businessMenuId} open={businessOpen} onNavigate={() => setBusinessOpen(false)} />
+          <BusinessSwitcher
+            id={businessMenuId}
+            open={businessOpen}
+            onNavigate={() => setBusinessOpen(false)}
+          />
         </div>
         <NavLink to="/contact">Contact</NavLink>
         <div className="nav-contact-actions" aria-label="Quick contact links">

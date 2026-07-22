@@ -4,7 +4,6 @@ export const contactDetails = {
     email: "ohm@oracholdings.com",
     secondaryEmail: "info@oracholdings.com",
     phone: "+91 88706 15820",
-    location: "Chennai, India",
   },
   international: {
     name: "Rajkumar",

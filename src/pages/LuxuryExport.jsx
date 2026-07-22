@@ -1,4 +1,3 @@
-import React from "react";
 import { Gem, Layers3, PenTool, Scissors } from "lucide-react";
 import BrandLockup from "../components/common/BrandLockup";
 import Button from "../components/common/Button";
@@ -168,8 +167,8 @@ export default function LuxuryExport() {
             <span className="eyebrow">The House of Azrin</span>
             <h2>We would love to hear from you.</h2>
             <p>
-              Whether you are interested in shopping, wholesale, a custom piece, or simply want to know more, write to
-              us and we will respond personally.
+              Whether you are interested in shopping, wholesale, a custom piece, or simply want to know more,
+              write to us and we will respond personally.
             </p>
             <Button to="/contact" variant="secondary">
               Contact The House of Azrin
