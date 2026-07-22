@@ -3,6 +3,7 @@ import { ArrowDownToLine, ArrowLeft, ArrowRight, ArrowUpFromLine } from "lucide-
 import Reveal from "./Reveal";
 import ProductPanel from "./ProductPanel";
 import IconBadge from "./IconBadge";
+import { pad2 } from "../../utils/pad2";
 
 function ProductCollectionCarousel({ collection, getImage, index }) {
   const scrollerRef = useRef(null);
@@ -128,8 +129,7 @@ export default function ProductCategoryShowcase({
         <div className="product-showcase-context">
           {text ? <p>{text}</p> : null}
           <small>
-            {String(collections.length).padStart(2, "0")} collections /{" "}
-            {String(productTotal).padStart(2, "0")} products
+            {pad2(collections.length)} collections / {pad2(productTotal)} products
           </small>
         </div>
       </Reveal>

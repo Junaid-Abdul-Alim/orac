@@ -7,6 +7,7 @@ import InternationalPreview from "../sections/InternationalPreview";
 import GlobalReach from "../components/common/GlobalReach";
 import LuxePreview from "../sections/LuxePreview";
 import WhyOrac from "../sections/WhyOrac";
+import { focusedCountryCount } from "../data/reachData";
 
 export default function Home() {
   return (
@@ -19,7 +20,7 @@ export default function Home() {
         variant="home"
         eyebrow="International Outlook"
         title="OUR GLOBAL REACH"
-        text="ORAC operates from India with 30 focused countries and five regional corridors across Asia, Africa, the Middle East, Europe, North America, South America, and Australia."
+        text={`ORAC operates from India with ${focusedCountryCount} focused countries and five regional corridors across Asia, Africa, the Middle East, Europe, North America, South America, and Australia.`}
       />
       <EventusPreview />
       <LuxePreview />

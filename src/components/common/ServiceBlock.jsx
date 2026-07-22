@@ -2,6 +2,7 @@ import { Camera, Gift, MapPinned, Music, Palette, Route, Sparkles, Utensils } fr
 import Reveal from "./Reveal";
 import ImagePanel from "./ImagePanel";
 import IconBadge from "./IconBadge";
+import { pad2 } from "../../utils/pad2";
 
 const serviceIcon = (title = "") => {
   const key = title.toLowerCase();
@@ -24,7 +25,7 @@ export default function ServiceBlock({ title, points, image, index = 0 }) {
       {image ? <ImagePanel image={image} label={title} className="service-block-image" delay={0} /> : null}
       <div className="service-block-top">
         <IconBadge icon={serviceIcon(title)} className="icon-badge-soft" size={17} />
-        <span>{String(index + 1).padStart(2, "0")}</span>
+        <span>{pad2(index + 1)}</span>
       </div>
       <h3>{title}</h3>
       <ul>

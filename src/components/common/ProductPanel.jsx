@@ -3,44 +3,41 @@ import Reveal from "./Reveal";
 import SafeImage from "./SafeImage";
 import IconBadge from "./IconBadge";
 
-const productBadge = (tag = "") => {
-  if (tag.includes("Auto")) return "Import Ready";
-  if (tag.includes("Industrial")) return "Bulk Supply";
-  if (tag.includes("Import")) return "Origin Verified";
-  if (tag.includes("Spice") || tag.includes("Nut") || tag.includes("Pulse")) return "Export Quality";
-  return "Global Trade";
-};
+// Ordered top-to-bottom: the first matching rule wins, mirroring the original
+// if-ladders. `badge` carries both the label and its icon so the tag is only
+// tested once per product.
+const badgeRules = [
+  { test: (tag) => tag.includes("Auto"), label: "Import Ready", icon: Truck },
+  { test: (tag) => tag.includes("Industrial"), label: "Bulk Supply", icon: Warehouse },
+  { test: (tag) => tag.includes("Import"), label: "Origin Verified", icon: Ship },
+  { test: (tag) => /Spice|Nut|Pulse/.test(tag), label: "Export Quality", icon: BadgeCheck },
+];
+const defaultBadge = { label: "Global Trade", icon: Globe2 };
+const productBadge = (tag = "") => badgeRules.find((rule) => rule.test(tag)) ?? defaultBadge;
 
-const productBadgeIcon = (tag = "") => {
-  if (tag.includes("Auto")) return Truck;
-  if (tag.includes("Industrial")) return Warehouse;
-  if (tag.includes("Import")) return Ship;
-  if (tag.includes("Spice") || tag.includes("Nut") || tag.includes("Pulse")) return BadgeCheck;
-  return Globe2;
-};
-
-const productSummary = (product) => {
-  const tag = product.tag || "";
-
-  if (tag.includes("Pulse")) return "Export-grade Indian pulse for global trade.";
-  if (tag.includes("Spice")) return "Selected Indian spice for trade enquiries.";
-  if (tag.includes("Nut")) return "Trade-ready nut category for global buyers.";
-  if (tag.includes("Vegetable")) return "Fresh agri category for bulk supply.";
-  if (tag.includes("Fruit")) return "Indian fruit category for export channels.";
-  if (tag.includes("Superfood")) return "Wellness-led agri product for global markets.";
-  if (tag.includes("Seed")) return "Seed category prepared for trade movement.";
-  if (tag.includes("Fibre")) return "Natural fibre material for bulk trade.";
-  if (tag.includes("Coir")) return "Coir-based material for industrial buyers.";
-  if (tag.includes("Mineral")) return "Mineral category for verified supply.";
-  if (tag.includes("Auto")) return "Selected automotive product for import channels.";
-  if (tag.includes("Industrial Import")) return "Industrial import material for Indian markets.";
-  if (tag.includes("Agri Import")) return "Origin-sourced agri product for Indian buyers.";
-
-  return "Trade-ready product for business enquiries.";
-};
+// Order is load-bearing (e.g. "Spice" must win over a later "Agri Import").
+const summaryRules = [
+  ["Pulse", "Export-grade Indian pulse for global trade."],
+  ["Spice", "Selected Indian spice for trade enquiries."],
+  ["Nut", "Trade-ready nut category for global buyers."],
+  ["Vegetable", "Fresh agri category for bulk supply."],
+  ["Fruit", "Indian fruit category for export channels."],
+  ["Superfood", "Wellness-led agri product for global markets."],
+  ["Seed", "Seed category prepared for trade movement."],
+  ["Fibre", "Natural fibre material for bulk trade."],
+  ["Coir", "Coir-based material for industrial buyers."],
+  ["Mineral", "Mineral category for verified supply."],
+  ["Auto", "Selected automotive product for import channels."],
+  ["Industrial Import", "Industrial import material for Indian markets."],
+  ["Agri Import", "Origin-sourced agri product for Indian buyers."],
+];
+const defaultSummary = "Trade-ready product for business enquiries.";
+const productSummary = (tag = "") =>
+  summaryRules.find(([keyword]) => tag.includes(keyword))?.[1] ?? defaultSummary;
 
 export default function ProductPanel({ product, image, index = 0, className = "" }) {
   const hasSecondaryImage = Boolean(image?.secondarySrc);
+  const badge = productBadge(product.tag);
 
   return (
     <Reveal as="article" className={`product-panel ${className}`.trim()} delay={index * 45}>
@@ -69,12 +66,12 @@ export default function ProductPanel({ product, image, index = 0, className = ""
       <div className="product-panel-meta">
         <span>{product.tag}</span>
         <small>
-          <IconBadge icon={productBadgeIcon(product.tag)} className="icon-badge-inline" size={13} />
-          {productBadge(product.tag)}
+          <IconBadge icon={badge.icon} className="icon-badge-inline" size={13} />
+          {badge.label}
         </small>
       </div>
       <h3>{product.name}</h3>
-      <p>{productSummary(product)}</p>
+      <p>{productSummary(product.tag)}</p>
     </Reveal>
   );
 }

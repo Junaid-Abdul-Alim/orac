@@ -16,6 +16,7 @@ import {
   tradeProcess,
 } from "../data/internationalData";
 import { internationalImages, productImageSlot } from "../data/internationalImages";
+import { pad2 } from "../utils/pad2";
 
 const serviceDescriptions = [
   "Outbound trade movement for selected Indian categories.",
@@ -101,7 +102,7 @@ export default function OracInternational() {
                 <Reveal as="article" className="trade-capability-card" key={service} delay={index * 65}>
                   <div className="trade-capability-top">
                     <IconBadge icon={serviceIcons[index]} className="icon-badge-soft" size={17} />
-                    <span className="trade-capability-number">{String(index + 1).padStart(2, "0")}</span>
+                    <span className="trade-capability-number">{pad2(index + 1)}</span>
                   </div>
                   <div>
                     <h3>{service}</h3>

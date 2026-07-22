@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import Reveal from "./Reveal";
 import IconBadge from "./IconBadge";
+import { pad2 } from "../../utils/pad2";
 
 const stepIcon = (title = "") => {
   const key = title.toLowerCase();
@@ -35,7 +36,7 @@ export default function ProcessTimeline({ steps, className = "" }) {
         <Reveal as="article" className="timeline-step" key={step.title} delay={index * 90}>
           <div className="timeline-step-top">
             <IconBadge icon={stepIcon(step.title)} className="icon-badge-soft" size={17} />
-            <span>{String(index + 1).padStart(2, "0")}</span>
+            <span>{pad2(index + 1)}</span>
           </div>
           <h3>{step.title}</h3>
           {step.body ? <p>{step.body}</p> : null}

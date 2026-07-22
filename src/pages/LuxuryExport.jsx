@@ -15,6 +15,7 @@ import {
   luxeOfferings,
   luxeStory,
 } from "../data/luxeData";
+import { pad2 } from "../utils/pad2";
 
 const offeringIcons = [Gem, Layers3, Scissors, PenTool];
 
@@ -67,7 +68,7 @@ export default function LuxuryExport() {
         <div className="container luxe-studio-strip" aria-label="The House of Azrin studio structure">
           {azrinPillars.map((pillar, index) => (
             <Reveal as="article" className="luxe-studio-note" key={pillar.title} delay={index * 70}>
-              <span>{String(index + 1).padStart(2, "0")}</span>
+              <span>{pad2(index + 1)}</span>
               <h3>{pillar.title}</h3>
               <p>{pillar.text}</p>
             </Reveal>
@@ -121,7 +122,7 @@ export default function LuxuryExport() {
           {azrinCollections.map((collection, collectionIndex) => (
             <Reveal className="azrin-collection-phase" key={collection.phase} delay={collectionIndex * 80}>
               <div className="azrin-phase-header">
-                <span>{String(collectionIndex + 1).padStart(2, "0")}</span>
+                <span>{pad2(collectionIndex + 1)}</span>
                 <div>
                   <small>{collection.phase}</small>
                   <h3>{collection.title}</h3>

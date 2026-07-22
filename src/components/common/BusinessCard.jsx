@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { CalendarDays, Gem, Globe2 } from "lucide-react";
 import SafeImage from "./SafeImage";
 import IconBadge from "./IconBadge";
+import { pad2 } from "../../utils/pad2";
 
 const businessIcons = {
   international: Globe2,
@@ -25,7 +26,7 @@ export default function BusinessCard({ business, index = 0 }) {
             />
           ) : null}
           <span className="business-card-scrim" />
-          <span className="business-card-number">{String(index + 1).padStart(2, "0")}</span>
+          <span className="business-card-number">{pad2(index + 1)}</span>
           {business.logo ? (
             <img className="business-card-logo" src={business.logo} alt="" loading="lazy" decoding="async" />
           ) : (

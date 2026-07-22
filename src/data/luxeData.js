@@ -1,11 +1,12 @@
 import luxeAtelier from "../assets/images/luxe/fashion-atelier.webp";
+import { imageSlot } from "./imageSlot";
 
 export const luxeImages = {
-  hero: {
-    src: luxeAtelier,
-    alt: "Fashion atelier workspace for ORAC Luxe and The House of Azrin",
-    label: "The House of Azrin",
-  },
+  hero: imageSlot(
+    "The House of Azrin",
+    "Fashion atelier workspace for ORAC Luxe and The House of Azrin",
+    luxeAtelier
+  ),
 };
 
 export const luxeStory = [

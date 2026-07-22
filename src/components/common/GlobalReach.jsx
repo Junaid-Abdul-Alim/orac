@@ -1,49 +1,16 @@
 import { useMemo, useState } from "react";
 import { ComposableMap, Geographies, Geography } from "react-simple-maps";
 import Reveal from "./Reveal";
-
-const highlightedCountries = new Set([
-  "India",
-  "China",
-  "Vietnam",
-  "Thailand",
-  "Indonesia",
-  "Israel",
-  "United Arab Emirates",
-  "Tanzania",
-  "Ethiopia",
-  "Madagascar",
-  "Sudan",
-  "Mozambique",
-  "Malawi",
-  "Cameroon",
-  "Nigeria",
-  "Niger",
-  "Chad",
-  "Senegal",
-  "C\u00f4te d'Ivoire",
-  "Benin",
-  "Ghana",
-  "Brazil",
-  "United States of America",
-  "Canada",
-  "Australia",
-  "South Korea",
-  "Saudi Arabia",
-  "Germany",
-  "France",
-  "Spain",
-]);
-
-const displayNames = {
-  "United Arab Emirates": "UAE",
-  "United States of America": "USA",
-  "C\u00f4te d'Ivoire": "Cote d'Ivoire",
-};
+import {
+  displayNames,
+  focusedCountryCount,
+  highlightedCountries,
+  regionalCorridors,
+} from "../../data/reachData";
 
 const defaultHighlights = [
-  { value: String(highlightedCountries.size), label: "Focused countries" },
-  { value: "5", label: "Regional corridors" },
+  { value: String(focusedCountryCount), label: "Focused countries" },
+  { value: String(regionalCorridors), label: "Regional corridors" },
   { value: "India", label: "Based operation" },
 ];
 
