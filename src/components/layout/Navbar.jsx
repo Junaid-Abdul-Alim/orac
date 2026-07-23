@@ -6,6 +6,19 @@ import { contactDetails } from "../../data/contactData";
 import BusinessSwitcher from "../common/BusinessSwitcher";
 import oracLogo from "../../assets/logos/orac-orange.svg";
 
+// Maps a route prefix to the venture id whose accent token (see
+// variables.css) the nav should pick up - the "which world am I in" cue
+// called for in the redesign spec. Home and Contact carry no accent.
+const ventureRoutes = [
+  { prefix: "/international", venture: "international" },
+  { prefix: "/eventus", venture: "eventus" },
+  { prefix: "/luxury-export", venture: "luxe" },
+];
+
+function ventureForPath(pathname) {
+  return ventureRoutes.find(({ prefix }) => pathname.startsWith(prefix))?.venture ?? null;
+}
+
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [businessOpen, setBusinessOpen] = useState(false);
@@ -16,6 +29,7 @@ export default function Navbar() {
   const primaryPhone = contactDetails.holding.phone.replace(/\D/g, "");
   const whatsappUrl = `https://wa.me/${primaryPhone}`;
   const emailUrl = `mailto:${contactDetails.holding.email}`;
+  const activeVenture = ventureForPath(location.pathname);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -70,7 +84,10 @@ export default function Navbar() {
   };
 
   return (
-    <header className={`navbar ${scrolled || open ? "is-solid" : ""}`}>
+    <header
+      className={`navbar ${scrolled || open ? "is-solid" : ""}`}
+      data-venture={activeVenture || undefined}
+    >
       <Link className="brand" to="/" aria-label="ORAC Holding home">
         <img className="brand-logo" src={oracLogo} alt="ORAC" decoding="async" fetchpriority="high" />
       </Link>

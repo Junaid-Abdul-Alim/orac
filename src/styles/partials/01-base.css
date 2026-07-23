@@ -17,6 +17,22 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Route cross-fade (App.jsx RouteFade). transform/opacity only, so it stays
+   compositor-friendly; prefers-reduced-motion (11-responsive.css) forces
+   the transition-duration to ~0, collapsing this to an instant swap. */
+.route-fade {
+  opacity: 0;
+  transform: translateY(6px);
+  transition:
+    opacity var(--dur-base) var(--ease-smooth),
+    transform var(--dur-base) var(--ease-smooth);
+}
+
+.route-fade.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 body {
   margin: 0;
   min-width: 320px;
