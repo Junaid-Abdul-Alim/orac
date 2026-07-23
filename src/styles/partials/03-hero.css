@@ -63,8 +63,14 @@
   text-align: center;
 }
 
+/* The "identity" variant (stage 1) commands the full width of its section
+   rather than reading as a narrow floating card - the container itself
+   already spans the full viewport (.home-hero's own background), so the
+   frame filling that container edge-to-edge is what "full-bleed" means
+   here without fighting the container/grid system elsewhere on the page. */
 .orac-frame-identity {
-  padding: clamp(48px, 7vw, 96px) clamp(24px, 6vw, 64px);
+  width: 100%;
+  padding: clamp(72px, 14vw, 200px) clamp(24px, 6vw, 64px);
   border: 1px solid var(--rule);
   border-radius: var(--radius-xl);
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.18) 100%);
