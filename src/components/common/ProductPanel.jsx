@@ -35,12 +35,30 @@ const defaultSummary = "Trade-ready product for business enquiries.";
 const productSummary = (tag = "") =>
   summaryRules.find(([keyword]) => tag.includes(keyword))?.[1] ?? defaultSummary;
 
-export default function ProductPanel({ product, image, index = 0, className = "" }) {
+const onEnterOrSpace = (handler) => (event) => {
+  if (event.key === "Enter" || event.key === " ") {
+    event.preventDefault();
+    handler();
+  }
+};
+
+export default function ProductPanel({ product, image, index = 0, className = "", onSelect }) {
   const hasSecondaryImage = Boolean(image?.secondarySrc);
   const badge = productBadge(product.tag);
+  const select = onSelect ? () => onSelect(product, image) : undefined;
 
   return (
-    <Reveal as="article" className={`product-panel ${className}`.trim()} delay={index * 45}>
+    <Reveal
+      as="article"
+      className={`product-panel ${onSelect ? "product-panel-interactive" : ""} ${className}`.trim()}
+      delay={index * 45}
+      role={onSelect ? "button" : undefined}
+      tabIndex={onSelect ? 0 : undefined}
+      onClick={select}
+      onKeyDown={onSelect ? onEnterOrSpace(select) : undefined}
+      aria-haspopup={onSelect ? "dialog" : undefined}
+      aria-label={onSelect ? `View specification sheet for ${product.name}` : undefined}
+    >
       {image ? (
         <div className="product-panel-image">
           <div
