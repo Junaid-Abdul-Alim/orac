@@ -15,6 +15,30 @@
   --glass: rgba(255, 255, 255, 0.72);
   --dark-glass: rgba(12, 11, 9, 0.72);
 
+  /* Per-venture accents. Gold stays the shared ORAC signal (rules, eyebrows,
+     focus states); these signal "which world" — used sparingly (a rule, a
+     hover state, a nav indicator), never as a full section recolour. The
+     "-light" pair is for use on dark/ink surfaces; the base pair is for use
+     on cream/light surfaces. Both pairs verified >= 4.5:1 (WCAG AA) against
+     their intended background. */
+  --accent-international: #2c4a63;
+  --accent-international-light: #7ea3c2;
+  --accent-eventus: #8a3b34;
+  --accent-eventus-light: #c98177;
+  --accent-luxe: #2f5240;
+  --accent-luxe-light: #7fac93;
+
+  /* Shadow scale. Restrained by design (see CLAUDE.md) - used for lift on
+     interactive surfaces (cards, modals, the frame device), not decoration. */
+  --shadow-sm: 0 2px 8px rgba(26, 24, 20, 0.06);
+  --shadow-md: 0 8px 24px rgba(26, 24, 20, 0.1);
+  --shadow-lg: 0 20px 48px rgba(26, 24, 20, 0.14);
+
+  /* Transition durations, paired with the existing --ease-smooth curve. */
+  --dur-fast: 160ms;
+  --dur-base: 260ms;
+  --dur-slow: 420ms;
+
   --font-display: "Cormorant Garamond", Georgia, serif;
   --font-body: "Jost", "DM Sans", Arial, sans-serif;
 
