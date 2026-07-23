@@ -48,12 +48,34 @@
   gap: clamp(28px, 4vw, 52px);
 }
 
+/* The ORAC Frame - see Frame.jsx. The "identity" variant (stage 1 of the
+   homepage journey) is a bordered aperture holding only the wordmark and
+   one line of copy: the very first thing a visitor learns is "there is a
+   frame, and things will appear inside it" (see
+   docs/ORAC-REDESIGN-SPEC.md §1). Built from existing tokens only. */
+.orac-frame {
+  position: relative;
+  width: min(980px, 100%);
+  display: grid;
+  justify-items: center;
+  gap: var(--space-sm);
+  margin-inline: auto;
+  text-align: center;
+}
+
+.orac-frame-identity {
+  padding: clamp(48px, 7vw, 96px) clamp(24px, 6vw, 64px);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-xl);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.18) 100%);
+  box-shadow: var(--shadow-lg);
+}
+
 .product-hero-inner {
   min-height: auto;
   gap: clamp(28px, 3.4vw, 44px);
 }
 
-.home-hero-copy,
 .product-hero-copy,
 .contact-heading {
   width: min(920px, 100%);
@@ -136,6 +158,7 @@
 .home-hero-logo-heading img {
   display: block;
   width: min(560px, 88vw);
+  max-width: 100%;
   max-height: 168px;
   object-fit: contain;
   filter: drop-shadow(0 22px 42px rgba(184, 87, 40, 0.12));
