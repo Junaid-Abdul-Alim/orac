@@ -3,6 +3,7 @@ import ContactCTA from "../sections/ContactCTA";
 import HoldingIntro from "../sections/HoldingIntro";
 import HomeHero from "../sections/HomeHero";
 import GlobalReach from "../components/common/GlobalReach";
+import Leadership from "../sections/Leadership";
 import VentureChapter from "../sections/VentureChapter";
 import WhyOrac from "../sections/WhyOrac";
 import { internationalImages } from "../data/internationalImages";
@@ -66,6 +67,7 @@ export default function Home() {
         imageLabel="ORAC Luxe"
       />
       <WhyOrac />
+      <Leadership />
       <ContactCTA
         title="Explore the right ORAC venture or start a conversation."
         text="Choose a business, send an enquiry, or work with ORAC on the next serious opportunity."

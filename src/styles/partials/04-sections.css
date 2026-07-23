@@ -97,7 +97,7 @@
 }
 
 .leadership-panel {
-  margin-top: var(--space-xl);
+  margin-top: 0;
 }
 
 .leadership-intro {
@@ -481,4 +481,14 @@
 
 .venture-chapter-luxe .editorial-list span::before {
   background: var(--accent-luxe);
+}
+
+/* WhyOrac reads as support material after the venture chapters, not
+   another chapter in its own right - a flatter, quieter card treatment
+   than the shadowed cards used elsewhere (leader tiles, service cards),
+   scoped to this section only. */
+.why-section .reason-panel-list article {
+  border-color: rgba(184, 151, 90, 0.1);
+  background: transparent;
+  box-shadow: none;
 }

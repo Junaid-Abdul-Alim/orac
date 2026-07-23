@@ -246,7 +246,8 @@ p {
 .process-section,
 .eventus-gallery-section,
 .editorial-section,
-.about-trade-section {
+.about-trade-section,
+.leadership-section {
   background: var(--white);
 }
 
