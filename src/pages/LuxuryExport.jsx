@@ -46,7 +46,7 @@ export default function LuxuryExport() {
         <div className="container">
           <Reveal className="vault-layout">
             <div className="vault-copy">
-              <span className="eyebrow">{vaultXiii.eyebrow}</span>
+              <span className="eyebrow">I · {vaultXiii.eyebrow}</span>
               <h2 className="vault-name">{vaultXiii.name}</h2>
               <p>{vaultXiii.tagline}</p>
               <div className="vault-swatches" aria-label={`${vaultXiii.name} colour palette`}>
@@ -79,7 +79,7 @@ export default function LuxuryExport() {
       <section className="section muted-section editions-section">
         <div className="container">
           <SectionHeader
-            eyebrow="The House Editions"
+            eyebrow="II · The House Editions"
             title="Three ways into the House."
             text="Every Azrin piece belongs to one of three editions - a way of choosing how considered you want the making to be."
           />
@@ -104,7 +104,7 @@ export default function LuxuryExport() {
       {/* iv) What is Azrin */}
       <section className="section luxe-founder-section">
         <div className="container split-layout">
-          <SectionHeader eyebrow={whatIsAzrin.eyebrow} title={whatIsAzrin.title} />
+          <SectionHeader eyebrow={`III · ${whatIsAzrin.eyebrow}`} title={whatIsAzrin.title} />
           <Reveal className="rich-copy luxe-founder-copy">
             {whatIsAzrin.paragraphs.map((paragraph) => (
               <p key={paragraph}>{paragraph}</p>
@@ -123,7 +123,7 @@ export default function LuxuryExport() {
       <section className="section maison-section">
         <div className="container">
           <SectionHeader
-            eyebrow="Maison Series"
+            eyebrow="IV · The Maison Series"
             title="The Maison Series."
             text="Four families of garment, each with its own story. Explore a category to meet the looks."
           />
@@ -179,7 +179,7 @@ export default function LuxuryExport() {
       <section className="section why-section">
         <div className="container">
           <SectionHeader
-            eyebrow="Values"
+            eyebrow="V · Values"
             title="Built with purpose."
             text="The House of Azrin is a venture under ORAC Luxe - a business house that builds ventures with intention."
           />
