@@ -99,14 +99,6 @@ Relevant confirmed information:
 
 Avoid: generic fashion e-commerce styling, invented collections, invented capabilities, fake business history.
 
-### ORAC Evolution
-
-Its visual world should communicate: emergence, possibility, incompleteness, controlled mystery, a future taking shape.
-
-It is still under development. Do not invent its services. Avoid generic futuristic claims and excessive science-fiction visuals.
-
-**Status note:** ORAC Evolution does not currently exist in the codebase — no route, no data entry, no navigation item, no content. See [ORAC-CURRENT-AUDIT.md](ORAC-CURRENT-AUDIT.md) and [ORAC-DECISIONS.md](ORAC-DECISIONS.md).
-
 ## Homepage progression
 
 The homepage should broadly progress through:
@@ -123,11 +115,11 @@ The page must not feel like independent sections stacked vertically.
 
 ## Opening direction
 
-Do not retain a generic heading, paragraph, and button hero as the entire opening. The opening should establish: ORAC as the parent identity, four connected ventures, a feeling of entering a larger ecosystem, scale, anticipation, a memorable visual signature.
+Do not retain a generic heading, paragraph, and button hero as the entire opening. The opening should establish: ORAC as the parent identity, three connected ventures, a feeling of entering a larger ecosystem, scale, anticipation, a memorable visual signature.
 
 Possible mechanisms:
 
-- One form separating into four paths
+- One form separating into three paths
 - A shared frame transforming between ventures
 - Venture worlds emerging from one visual system
 - A pathway or visual object evolving across the page
@@ -136,7 +128,7 @@ Choose **one** coherent mechanism. Do not combine unrelated concepts.
 
 ## Ventures as chapters
 
-The ventures should not primarily appear as a standard four-card grid. Each should feel like a chapter with its own composition, image treatment, atmosphere, motion behaviour, typography relationship, and transition into the next chapter.
+The ventures should not primarily appear as a standard three-card grid. Each should feel like a chapter with its own composition, image treatment, atmosphere, motion behaviour, typography relationship, and transition into the next chapter.
 
 They must remain connected through: shared navigation, shared spacing, shared interaction principles, ORAC typography, one transition language, the parent visual system.
 
