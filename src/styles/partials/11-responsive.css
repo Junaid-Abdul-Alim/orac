@@ -49,7 +49,6 @@
     font-size: 3.4rem;
   }
 
-  .business-showcase-grid,
   .luxe-partner-layout,
   .split-layout,
   .editorial-layout,
@@ -59,6 +58,10 @@
   .velorawed-visuals,
   .footer-inner {
     grid-template-columns: 1fr;
+  }
+
+  .venture-frame-grid {
+    gap: 12px;
   }
 
   .footer-inner {
@@ -227,8 +230,13 @@
   .process-timeline,
   .process-four,
   .editorial-gallery,
-  .velorawed-section .editorial-gallery {
+  .velorawed-section .editorial-gallery,
+  .venture-frame-grid {
     grid-template-columns: 1fr;
+  }
+
+  .orac-frame-venture .venture-frame-link {
+    grid-template-rows: 220px auto;
   }
 
   .luxe-partner-layout {
@@ -551,6 +559,15 @@
 
   .business-card-visual {
     min-height: 210px;
+  }
+
+  .orac-frame-venture .venture-frame-link {
+    grid-template-rows: 210px auto;
+  }
+
+  .orac-frame-identity {
+    border-radius: var(--radius-lg);
+    padding: clamp(36px, 9vw, 56px) 20px;
   }
 
   .business-card-orbit {
