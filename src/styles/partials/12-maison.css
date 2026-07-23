@@ -1,0 +1,483 @@
+/* =============================================================
+   ORAC Luxe — Vault XIII, House Editions, Maison Series,
+   catalogue, and the per-category showcase pages.
+   Self-contained feature styles (unique class names), imported
+   last in the barrel so its own media queries stay co-located.
+   ============================================================= */
+
+/* --- ii) Vault XIII palette --- */
+.vault-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  gap: var(--space-lg);
+  align-items: center;
+}
+
+.vault-name {
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 1.6rem + 3vw, 4rem);
+  letter-spacing: 0.02em;
+  margin: 0.35rem 0 0.75rem;
+}
+
+.vault-copy > p {
+  max-width: 40ch;
+  color: var(--ink-soft);
+}
+
+.vault-swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  margin-top: var(--space-md);
+}
+
+.vault-swatch {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.vault-swatch-chip {
+  width: 3.25rem;
+  height: 3.25rem;
+  border-radius: 999px;
+  border: 1px solid var(--rule);
+  box-shadow: inset 0 0 0 3px rgba(255, 255, 255, 0.35);
+}
+
+.vault-swatch small {
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+.vault-figure {
+  position: relative;
+  margin: 0;
+}
+
+.vault-image,
+.vault-figure .safe-image-fallback {
+  aspect-ratio: 4 / 3;
+  width: 100%;
+  border-radius: var(--radius-lg);
+  object-fit: cover;
+  overflow: hidden;
+}
+
+.vault-figure figcaption {
+  position: absolute;
+  left: var(--space-sm);
+  bottom: var(--space-sm);
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  background: var(--dark-glass);
+  color: var(--cream);
+  font-family: var(--font-display);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  backdrop-filter: blur(6px);
+}
+
+/* --- iii) The House Editions --- */
+.editions-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-md);
+  margin-top: var(--space-lg);
+}
+
+.edition-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: var(--space-md);
+  background: var(--white);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-md);
+  transition:
+    transform 0.5s var(--ease-smooth),
+    box-shadow 0.5s var(--ease-smooth);
+}
+
+.edition-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 24px 48px -32px rgba(26, 24, 20, 0.5);
+}
+
+.edition-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.edition-number {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  color: var(--gold);
+}
+
+.edition-card h3 {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+}
+
+.edition-card p {
+  color: var(--ink-soft);
+}
+
+/* --- v) Maison Series explore grid --- */
+.maison-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-md);
+  margin-top: var(--space-lg);
+}
+
+.maison-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background: var(--white);
+  border: 1px solid var(--rule);
+  color: inherit;
+  text-decoration: none;
+  transition:
+    transform 0.5s var(--ease-smooth),
+    box-shadow 0.5s var(--ease-smooth);
+}
+
+.maison-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 30px 60px -34px rgba(26, 24, 20, 0.55);
+}
+
+.maison-card-media {
+  position: relative;
+  overflow: hidden;
+}
+
+.maison-card-photo,
+.maison-card-media .safe-image-fallback {
+  aspect-ratio: 16 / 10;
+  width: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.7s var(--ease-smooth);
+}
+
+.maison-card:hover .maison-card-photo {
+  transform: scale(1.04);
+}
+
+.maison-card-explore {
+  position: absolute;
+  top: var(--space-sm);
+  left: var(--space-sm);
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+  background: var(--dark-glass);
+  color: var(--cream);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  backdrop-filter: blur(6px);
+}
+
+.maison-card-body {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+}
+
+.maison-card-body h3 {
+  font-family: var(--font-display);
+  font-size: 1.7rem;
+}
+
+.maison-card-body small {
+  color: var(--ink-muted);
+  letter-spacing: 0.04em;
+}
+
+.maison-card-body svg {
+  color: var(--gold);
+  flex-shrink: 0;
+  transition: transform 0.4s var(--ease-smooth);
+}
+
+.maison-card:hover .maison-card-body svg {
+  transform: translateX(4px);
+}
+
+/* --- Downloadable catalogue --- */
+.catalogue-panel {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  padding: var(--space-lg);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  border: 1px solid var(--rule);
+}
+
+.catalogue-copy {
+  max-width: 46ch;
+}
+
+.catalogue-copy h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 1.3rem + 2vw, 2.6rem);
+  margin: 0.35rem 0 0.5rem;
+}
+
+.catalogue-copy p {
+  color: var(--ink-soft);
+}
+
+.catalogue-button {
+  white-space: nowrap;
+}
+
+/* --- Per-category page --- */
+.maison-category-hero {
+  padding-bottom: var(--space-md);
+}
+
+.maison-category-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.maison-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  width: fit-content;
+  margin: 0.4rem 0 0.6rem;
+  color: var(--ink-muted);
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  transition: color 0.3s var(--ease-smooth);
+}
+
+.maison-back:hover {
+  color: var(--gold);
+}
+
+.maison-category-heading h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2.6rem, 1.7rem + 4vw, 5rem);
+  line-height: 1.02;
+}
+
+.maison-category-subtitle {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.3rem;
+  color: var(--gold);
+}
+
+.maison-category-intro {
+  max-width: 52ch;
+  color: var(--ink-soft);
+}
+
+/* White stage so the models read clearly */
+.maison-showcase-section {
+  background: var(--white);
+}
+
+.maison-showcase {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-lg) var(--space-xl);
+}
+
+.maison-column {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+}
+
+/* Offset the right column so left/right looks run in a parallel rhythm */
+.maison-column-right {
+  margin-top: var(--space-2xl);
+}
+
+.maison-model {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
+  gap: var(--space-md);
+  align-items: center;
+}
+
+/* Mirror the right column so each story sits toward the page centre */
+.maison-model-right {
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1fr);
+}
+
+.maison-model-right .maison-model-media {
+  order: 2;
+}
+
+.maison-model-story span.maison-model-index {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  color: var(--gold);
+  margin-bottom: 0.4rem;
+}
+
+.maison-model-story p {
+  color: var(--ink-soft);
+}
+
+.maison-category-next .eyebrow {
+  display: block;
+  margin-bottom: var(--space-sm);
+}
+
+.maison-next-links {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-sm);
+}
+
+.maison-next-link {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: var(--space-sm) var(--space-md);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  color: inherit;
+  transition:
+    border-color 0.3s var(--ease-smooth),
+    transform 0.3s var(--ease-smooth);
+}
+
+.maison-next-link:hover {
+  border-color: var(--gold);
+  transform: translateY(-2px);
+}
+
+.maison-next-link span {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+}
+
+.maison-next-link small {
+  color: var(--ink-muted);
+}
+
+/* --- Interactive image (3D stand-in) --- */
+.interactive-image {
+  --tilt-x: 0deg;
+  --tilt-y: 0deg;
+  position: relative;
+  perspective: 900px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.interactive-image-plane {
+  transform: rotateX(var(--tilt-x)) rotateY(var(--tilt-y));
+  transform-style: preserve-3d;
+  transition: transform 0.25s var(--ease-smooth);
+  will-change: transform;
+}
+
+.interactive-image-photo,
+.interactive-image .safe-image-fallback {
+  aspect-ratio: 3 / 4;
+  width: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: var(--radius-md);
+}
+
+.interactive-image-hint {
+  position: absolute;
+  bottom: 0.75rem;
+  right: 0.75rem;
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  background: var(--dark-glass);
+  color: var(--cream);
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0;
+  transition: opacity 0.4s var(--ease-smooth);
+  backdrop-filter: blur(6px);
+}
+
+.interactive-image:hover .interactive-image-hint {
+  opacity: 1;
+}
+
+/* --- Responsive --- */
+@media (max-width: 900px) {
+  .vault-layout {
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+  }
+
+  .editions-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .maison-showcase {
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+  }
+
+  .maison-column-right {
+    margin-top: 0;
+  }
+
+  .maison-next-links {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 620px) {
+  .maison-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .maison-model,
+  .maison-model-right {
+    grid-template-columns: 1fr;
+    gap: var(--space-sm);
+  }
+
+  .maison-model-right .maison-model-media {
+    order: 0;
+  }
+
+  .catalogue-panel {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .interactive-image-plane {
+    transform: none !important;
+    transition: none;
+  }
+}

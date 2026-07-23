@@ -7,6 +7,7 @@ import Home from "./pages/Home";
 import OracInternational from "./pages/OracInternational";
 import OracEventus from "./pages/OracEventus";
 import LuxuryExport from "./pages/LuxuryExport";
+import MaisonCategory from "./pages/MaisonCategory";
 import Contact from "./pages/Contact";
 
 const pageTitles = {
@@ -58,6 +59,7 @@ export default function App() {
           <Route path="/international" element={<OracInternational />} />
           <Route path="/eventus" element={<OracEventus />} />
           <Route path="/luxury-export" element={<LuxuryExport />} />
+          <Route path="/luxury-export/:categorySlug" element={<MaisonCategory />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
