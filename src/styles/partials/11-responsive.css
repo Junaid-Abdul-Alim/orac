@@ -183,32 +183,6 @@
     font-size: 1.35rem;
   }
 
-  .business-dock {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .business-dock a {
-    min-height: 72px;
-    padding: 12px;
-  }
-
-  .business-dock span {
-    font-size: 0.92rem;
-  }
-
-  .business-dock small {
-    font-size: 0.72rem;
-  }
-
-  .business-card {
-    min-height: 460px;
-  }
-
-  .business-card > a {
-    grid-template-rows: 220px auto;
-  }
-
-  .business-card-body,
   .leader-tile,
   .service-card,
   .service-block,
@@ -549,18 +523,6 @@
     width: 100%;
   }
 
-  .business-dock {
-    gap: 8px;
-  }
-
-  .business-dock a {
-    border-radius: 18px;
-  }
-
-  .business-card-visual {
-    min-height: 210px;
-  }
-
   .orac-frame-venture .venture-frame-link {
     grid-template-rows: 210px auto;
   }
@@ -568,10 +530,6 @@
   .orac-frame-identity {
     border-radius: var(--radius-lg);
     padding: clamp(36px, 9vw, 56px) 20px;
-  }
-
-  .business-card-orbit {
-    width: 120px;
   }
 
   .luxe-actions {
@@ -821,5 +779,9 @@
   .safe-image {
     opacity: 1;
     transform: none;
+  }
+
+  .safe-image-frame::before {
+    opacity: 0;
   }
 }

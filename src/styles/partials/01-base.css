@@ -56,10 +56,7 @@ select,
 .button,
 .eyebrow,
 .brand small,
-.business-dock,
 .business-switcher-panel,
-.business-card-status,
-.business-card-action,
 .editorial-list,
 .partner-services,
 .footer-column,
@@ -153,6 +150,34 @@ img {
   opacity: 1;
 }
 
+.safe-image-frame {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background: linear-gradient(180deg, var(--surface-soft), var(--surface));
+}
+
+.safe-image-frame::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(184, 151, 90, 0.06), rgba(184, 151, 90, 0.02));
+  opacity: 1;
+  transition: opacity 420ms var(--ease-smooth);
+}
+
+.safe-image-frame.is-loaded::before {
+  opacity: 0;
+}
+
+.safe-image-fill {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -203,7 +228,6 @@ h4 {
 .hero-kicker,
 .hero-brand-word,
 .section-header h2,
-.business-card h3,
 .leadership-intro h3,
 .leader-tile h4,
 .service-card h3,
