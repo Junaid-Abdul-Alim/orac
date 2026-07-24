@@ -213,6 +213,61 @@
     grid-template-rows: 220px auto;
   }
 
+  /* The homepage opening's mobile recomposition (Blueprint §2, First
+     Viewport Specification - mobile). Not a shrunk desktop layout: the fork
+     becomes a single vertical tick instead of a wide horizontal fork, and
+     the three apertures become full-width stacked bands with the label
+     overlaying the image/scrim rather than sitting in a separate row below
+     it - the specific mechanism the arithmetic in the blueprint relies on
+     to fit all three inside 360x640 with zero scroll. */
+  .home-hero {
+    min-height: calc(100svh - var(--nav-height));
+    padding: clamp(12px, 3vw, 20px) 0 clamp(14px, 3vw, 22px);
+  }
+
+  .home-hero-inner {
+    min-height: calc(100svh - var(--nav-height) - clamp(26px, 6vw, 42px));
+  }
+
+  .origin-identity {
+    gap: 4px;
+    padding-bottom: 4px;
+  }
+
+  .origin-logo-heading img {
+    width: min(240px, 58vw);
+    max-height: min(56px, 9svh);
+  }
+
+  .origin-tagline {
+    max-width: 92vw;
+    font-size: 0.82rem;
+    line-height: 1.32;
+  }
+
+  .origin-fork {
+    width: 3px;
+    height: clamp(18px, 3.6vh, 26px);
+  }
+
+  .origin-ventures {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .venture-compact-label {
+    padding: 10px 16px 12px;
+  }
+
+  .venture-compact-label .eyebrow {
+    font-size: 0.66rem;
+  }
+
+  .venture-compact-label h2 {
+    font-size: 1.35rem;
+  }
+
   .luxe-partner-layout {
     grid-template-columns: 1fr;
   }
@@ -527,11 +582,6 @@
     grid-template-rows: 210px auto;
   }
 
-  .orac-frame-identity {
-    border-radius: var(--radius-lg);
-    padding: clamp(36px, 9vw, 56px) 20px;
-  }
-
   .luxe-actions {
     display: grid;
   }
@@ -757,6 +807,18 @@
 
   .global-reach-stats article:last-child {
     border-bottom: 0;
+  }
+}
+
+/* The 360x640 case is the binding tightest constraint in the First Viewport
+   Specification (Blueprint §2) - verified arithmetically there, not
+   asserted. The one explicit content reduction it requires at this exact
+   width: drop the tagline line entirely (kept at 390px+), since the
+   wordmark + fork + three full-width bands already consume the full
+   available height without it. */
+@media (max-width: 375px) {
+  .origin-tagline {
+    display: none;
   }
 }
 

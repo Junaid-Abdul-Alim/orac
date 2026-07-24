@@ -114,6 +114,11 @@ export const internationalImages = {
     title: "Source. Verify. Move with care.",
     description: "A catalogue-led view of sourcing, verification, and movement.",
   },
+  opening: {
+    src: catalogImage("coir-fiber.webp"),
+    alt: "Coir fibre bales and rolled matting, an ORAC International export product",
+    label: "Trade image",
+  },
   exports: {
     "Pulses & Lentils": imageSlot(
       "Product image",

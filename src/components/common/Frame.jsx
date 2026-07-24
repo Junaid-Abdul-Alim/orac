@@ -2,13 +2,19 @@ import Reveal from "./Reveal";
 
 /**
  * The ORAC Frame - the single recurring aperture that signals "you are
- * entering a world" (see docs/ORAC-REDESIGN-SPEC.md §1). It recurs as a
- * position and proportion, not a literal animated character:
+ * entering a world" (see docs/ORAC-EXPERIENCE-BLUEPRINT.md §6). It recurs as
+ * a position and proportion, not a literal animated character:
  *
- * - `variant="identity"` - the homepage opening (stage 1): holds the ORAC
- *   wordmark and one line of copy, no imagery yet.
- * - `variant="venture"` - a venture's still image + name (stage 2/3, added
- *   in a later phase). Accepts a `tone` matching a venture id
+ * - `variant="identity"` - the homepage opening: holds the ORAC wordmark and
+ *   one line of copy, no imagery.
+ * - `variant="venture"` - the larger venture-preview card (image + name,
+ *   text row beneath), used further down the page.
+ * - `variant="venture-compact"` - the homepage opening's three equal-weight
+ *   business apertures (Blueprint §2/§4). Same aperture idea as "venture",
+ *   but sized and labelled for the first viewport: the eyebrow/name overlay
+ *   the image and its scrim instead of sitting in a separate text row below,
+ *   which is what lets three of them plus the wordmark and fork fit inside
+ *   360x640 with zero scroll. Accepts a `tone` matching a venture id
  *   ("international" | "eventus" | "luxe") to pick up that venture's accent
  *   token via CSS (see variables.css --accent-*).
  *

@@ -18,6 +18,11 @@ export const eventusImages = {
     title: "Weddings, Celebrations & Moments, Mastered",
     description: "Wedding celebration imagery for ORAC Eventus.",
   },
+  opening: {
+    src: weddingCouple,
+    alt: "A wedding couple celebrating at an ORAC Eventus wedding",
+    label: "Eventus image",
+  },
   services: {
     "Decor & Styling": imageSlot(
       "Eventus image",

@@ -38,6 +38,11 @@ export const luxeImages = {
     "Fashion atelier workspace for ORAC Luxe and The House of Azrin",
     luxeAtelier
   ),
+  opening: imageSlot(
+    "ORAC Luxe image",
+    "Fashion atelier workspace for ORAC Luxe and The House of Azrin",
+    luxeAtelier
+  ),
 };
 
 // Full-bleed collage introducing the Maison Series categories together.

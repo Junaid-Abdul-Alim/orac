@@ -1,4 +1,3 @@
-import CompanyPortfolio from "../sections/CompanyPortfolio";
 import ContactCTA from "../sections/ContactCTA";
 import HoldingIntro from "../sections/HoldingIntro";
 import HomeHero from "../sections/HomeHero";
@@ -16,7 +15,6 @@ export default function Home() {
     <>
       <HomeHero />
       <HoldingIntro />
-      <CompanyPortfolio />
       <VentureChapter
         tone="international"
         eyebrow="ORAC International"
