@@ -29,3 +29,17 @@ Thumbs.db
 .chrome-hero-check/
 
 .chrome-hero-color-check/
+
+# Playwright CLI browser automation artifacts (session-specific: screenshots,
+# videos, traces, request logs, page snapshots, console logs). Safe to keep
+# locally for review; never committed. .playwright/cli.config.json is stable
+# tooling config and is tracked separately, not covered by this rule.
+.playwright-cli/
+playwright-report/
+test-results/
+*.webm
+
+# Claude Code local/personal settings - machine-specific permissions and
+# absolute paths. The reusable playwright-cli skill under .claude/skills/ is
+# tracked separately, not covered by this rule.
+.claude/settings.local.json
