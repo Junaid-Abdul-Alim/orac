@@ -857,4 +857,29 @@
   .safe-image-frame::before {
     opacity: 0;
   }
+
+  /* Phase 6 homepage opening (Blueprint §3 reduced-motion / M10). The JS
+     matchMedia check in useOpeningSequence already skips the animation logic
+     and never renders the ring/forces under reduced motion; these rules are
+     the CSS safeguard the blueprint requires, forcing the resolved end-state
+     even if `.is-opening` were somehow applied - no convergence, no glow, no
+     fork draw, no aperture travel, no flash. */
+  .origin-forces,
+  .origin-ring {
+    display: none !important;
+  }
+
+  .origin-sequence.is-opening .origin-logo-heading img,
+  .origin-sequence.is-opening .origin-identity > .eyebrow,
+  .origin-sequence.is-opening .origin-tagline,
+  .origin-sequence.is-opening .origin-venture {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .origin-sequence.is-opening .origin-fork path {
+    animation: none !important;
+    stroke-dashoffset: 0 !important;
+  }
 }

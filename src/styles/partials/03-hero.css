@@ -79,6 +79,7 @@
    actually reclaim vertical space for the three apertures, rather than
    leaving a fixed-ratio gap behind. */
 .origin-sequence {
+  position: relative;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -87,6 +88,8 @@
 }
 
 .origin-identity {
+  position: relative;
+  z-index: 1;
   display: grid;
   justify-items: center;
   align-content: center;
@@ -122,6 +125,8 @@
    with three branches - rather than three separate DOM elements, so it
    reads as one fork, not three unrelated lines. */
 .origin-fork {
+  position: relative;
+  z-index: 1;
   display: block;
   width: min(320px, 70%);
   height: clamp(28px, 4vw, 44px);
@@ -131,6 +136,8 @@
 }
 
 .origin-ventures {
+  position: relative;
+  z-index: 1;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: clamp(10px, 1.4vw, 18px);
@@ -240,6 +247,528 @@
 
 .venture-compact-link:focus-visible {
   outline: none;
+}
+
+/* ============================================================
+   Phase 6 - Homepage opening motion (Blueprint §3, Motion System
+   M1/M2/M6/M9/M10). Everything above is the resolved end-state; nothing
+   here runs unless `.is-opening` is present, and that class is added only
+   by useOpeningSequence for a first-in-session, motion-tolerant visit
+   (M1/M9). Reduced-motion and returning-this-session visitors never get
+   the class, so the resolved composition paints on the first frame with
+   no convergence, no flash, and no layout shift - only opacity/transform/
+   stroke-dashoffset animate, never anything that reflows.
+
+   The narrative (content-derived): three fragments - each a real crop of
+   the SAME photograph its final aperture uses - approach the shared gold
+   ring from their own sides, converge and briefly linger behind the
+   forming ORAC wordmark (the ring takes a colour handoff and resolves to
+   gold, a soft bloom illuminates the mark), then each departs toward its
+   own aperture column and dissolves exactly as that aperture (same image)
+   reveals - so the three businesses visibly become ORAC and open again
+   into their destinations, with no cut from an abstract force to an
+   unrelated photo. Desktop ~1.8s; mobile drops the travelling fragments
+   (JS `compact` gate) and instead wipes each real band image into view.
+   ============================================================ */
+.origin-sequence.is-opening {
+  --op-ease-overshoot: cubic-bezier(0.34, 1.28, 0.64, 1);
+
+  --op-d-word: 500ms;
+  --op-d-eyebrow: 620ms;
+  --op-d-tagline: 700ms;
+  --op-d-fork: 810ms;
+  --op-d-ap1: 1040ms;
+  --op-d-ap2: 1140ms;
+  --op-d-ap3: 1240ms;
+
+  --op-ap-ty: 18px;
+  --op-ap-scale: 0.98;
+}
+
+/* Content-derived convergence layer - sits behind the identity/fork/ventures
+   (which are z-index:1). pointer-events:none so it never intercepts an
+   aperture click; aria-hidden in the markup. Rendered only while playing,
+   and on desktop only (the JS `compact` gate skips it on mobile). */
+.origin-forces {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: visible;
+  pointer-events: none;
+}
+
+/* A fragment: a real photo crop that starts small at its incoming side,
+   converges to the ORAC origin (centred via the `translate` property so the
+   travel keyframe is free to use `transform`), lingers behind the forming
+   wordmark, then departs toward its own aperture column and dissolves. */
+.origin-frag {
+  position: absolute;
+  left: 50%;
+  top: 20%;
+  translate: -50% -50%;
+  width: clamp(118px, 13vw, 172px);
+  height: clamp(150px, 17vw, 222px);
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.origin-frag-media {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: 14px;
+  box-shadow: 0 20px 44px rgba(26, 24, 20, 0.22);
+}
+
+.origin-frag-media img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* --- International: real coir-fibre trade product + a drawn trade-route line
+   over it as one designed element, entering from the left. --- */
+.origin-frag-international {
+  animation: frag-intl 1480ms var(--ease-smooth) 0ms both;
+}
+
+.origin-frag-international .origin-frag-media {
+  box-shadow:
+    0 20px 44px rgba(26, 24, 20, 0.22),
+    inset 0 0 0 1.5px rgba(126, 163, 194, 0.6);
+}
+
+.origin-frag-international .origin-frag-media img {
+  /* Match the aperture's own crop: scale past coir-fiber.webp's printed
+     top/bottom text bands so only the clean product texture shows. */
+  transform: scale(1.5);
+}
+
+.origin-frag-route {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.origin-frag-route path {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  filter: drop-shadow(0 1px 2px rgba(15, 14, 12, 0.55));
+  animation: frag-route 720ms var(--ease-smooth) 40ms both;
+}
+
+.origin-frag-route .origin-frag-node {
+  fill: var(--accent-international-light);
+  opacity: 0;
+  filter: drop-shadow(0 1px 2px rgba(15, 14, 12, 0.55));
+  animation: frag-node 720ms var(--ease-smooth) 300ms both;
+}
+
+@keyframes frag-route {
+  from {
+    stroke-dashoffset: 100;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes frag-node {
+  0%,
+  34% {
+    opacity: 0;
+  }
+  50%,
+  100% {
+    opacity: 0.95;
+  }
+}
+
+@keyframes frag-intl {
+  0% {
+    opacity: 0;
+    transform: translate(-40vw, -3vh) scale(0.42) rotate(-3deg);
+    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  20% {
+    opacity: 1;
+  }
+  44% {
+    opacity: 1;
+    transform: translate(0, 0) scale(0.6) rotate(0deg);
+    animation-timing-function: linear;
+  }
+  60% {
+    transform: translate(0, 2vh) scale(0.64);
+    animation-timing-function: cubic-bezier(0.5, 0, 0.75, 1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-27vw, 40vh) scale(1.18);
+  }
+}
+
+/* --- Eventus x VELORAWED: real wedding photograph resolving into focus inside
+   a cinematic frame (letterbox bars retract + blur clears), from above. --- */
+.origin-frag-eventus {
+  animation: frag-eventus 1480ms var(--ease-smooth) 60ms both;
+}
+
+.origin-frag-eventus .origin-frag-media {
+  box-shadow:
+    0 20px 44px rgba(26, 24, 20, 0.22),
+    inset 0 0 0 1.5px rgba(201, 129, 119, 0.55);
+}
+
+.origin-frag-eventus .origin-frag-media img {
+  animation: frag-focus 760ms var(--ease-smooth) 120ms both;
+}
+
+.origin-frag-eventus .origin-frag-media::before,
+.origin-frag-eventus .origin-frag-media::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 28%;
+  z-index: 2;
+  background: rgba(15, 14, 12, 0.9);
+}
+
+.origin-frag-eventus .origin-frag-media::before {
+  top: 0;
+  transform-origin: top;
+  animation: frag-bar 760ms var(--ease-smooth) 120ms both;
+}
+
+.origin-frag-eventus .origin-frag-media::after {
+  bottom: 0;
+  transform-origin: bottom;
+  animation: frag-bar 760ms var(--ease-smooth) 120ms both;
+}
+
+@keyframes frag-focus {
+  0% {
+    filter: blur(9px);
+    transform: scale(1.2);
+  }
+  55%,
+  100% {
+    filter: blur(0);
+    transform: scale(1.05);
+  }
+}
+
+@keyframes frag-bar {
+  0% {
+    transform: scaleY(1);
+  }
+  55%,
+  100% {
+    transform: scaleY(0);
+  }
+}
+
+@keyframes frag-eventus {
+  0% {
+    opacity: 0;
+    transform: translate(0, -20vh) scale(0.42);
+    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  22% {
+    opacity: 1;
+  }
+  44% {
+    opacity: 1;
+    transform: translate(0, 0) scale(0.6);
+    animation-timing-function: linear;
+  }
+  60% {
+    transform: translate(0, 2vh) scale(0.64);
+    animation-timing-function: cubic-bezier(0.5, 0, 0.75, 1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(0, 42vh) scale(1.18);
+  }
+}
+
+/* --- Luxe x The House of Azrin: real atelier textile unfolding into place
+   with a fold-like clip mask + a slight material settle, from the right. --- */
+.origin-frag-luxe {
+  animation: frag-luxe 1480ms var(--ease-smooth) 120ms both;
+}
+
+.origin-frag-luxe .origin-frag-media {
+  box-shadow:
+    0 20px 44px rgba(26, 24, 20, 0.22),
+    inset 0 0 0 1.5px rgba(127, 172, 147, 0.55);
+  animation: frag-fold 800ms var(--ease-smooth) 120ms both;
+}
+
+.origin-frag-luxe .origin-frag-media img {
+  animation: frag-cloth 800ms var(--ease-smooth) 120ms both;
+}
+
+@keyframes frag-fold {
+  0% {
+    clip-path: polygon(0 46%, 100% 32%, 100% 60%, 0 74%);
+  }
+  52%,
+  100% {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+}
+
+@keyframes frag-cloth {
+  0% {
+    transform: translateY(-9%) scale(1.14);
+  }
+  52%,
+  100% {
+    transform: translateY(0) scale(1.05);
+  }
+}
+
+@keyframes frag-luxe {
+  0% {
+    opacity: 0;
+    transform: translate(40vw, -3vh) scale(0.42) rotate(3deg);
+    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  24% {
+    opacity: 1;
+  }
+  44% {
+    opacity: 1;
+    transform: translate(0, 0) scale(0.6) rotate(0deg);
+    animation-timing-function: linear;
+  }
+  60% {
+    transform: translate(0, 2vh) scale(0.64);
+    animation-timing-function: cubic-bezier(0.5, 0, 0.75, 1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(27vw, 40vh) scale(1.18);
+  }
+}
+
+/* A soft gold bloom that illuminates the wordmark as the three fragments
+   converge and ORAC forms - the "becoming one" beat. Single pulse, gone by
+   the end; sits behind the wordmark (identity is a z-index:1 context). */
+.origin-sequence.is-opening .origin-identity::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  z-index: -1;
+  translate: -50% -50%;
+  width: clamp(220px, 30vw, 420px);
+  height: clamp(150px, 22vw, 280px);
+  background: radial-gradient(ellipse at center, rgba(184, 151, 90, 0.5), transparent 68%);
+  opacity: 0;
+  pointer-events: none;
+  animation: origin-bloom 900ms var(--ease-smooth) 460ms both;
+}
+
+@keyframes origin-bloom {
+  0%,
+  20% {
+    opacity: 0;
+  }
+  55% {
+    opacity: 0.55;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* The shared gold ring - the convergence destination and the "O" the
+   wordmark resolves around (Blueprint §3). Present from the first frame,
+   it takes a brief colour handoff from each force (border cycles through
+   the three accents) before settling to gold, then fades as the wordmark
+   fades in on top. Centred on the identity zone; sits behind the wordmark
+   (z-index:-1 within the identity stacking context). */
+.origin-ring {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: -1;
+  translate: -50% -50%;
+  width: clamp(38px, 5.4vw, 52px);
+  height: clamp(38px, 5.4vw, 52px);
+  border: 2px solid var(--gold);
+  border-radius: 50%;
+  opacity: 0;
+  animation: origin-ring 780ms var(--ease-smooth) 0ms both;
+}
+
+@keyframes origin-ring {
+  0% {
+    opacity: 0;
+    transform: scale(0.6);
+    border-color: rgba(184, 151, 90, 0.55);
+    box-shadow: 0 0 0 0 rgba(184, 151, 90, 0);
+  }
+  22% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  55% {
+    border-color: var(--accent-international);
+    box-shadow: 0 0 16px 1px rgba(44, 74, 99, 0.6);
+  }
+  66% {
+    border-color: var(--accent-eventus);
+    box-shadow: 0 0 16px 1px rgba(138, 59, 52, 0.6);
+  }
+  77% {
+    border-color: var(--accent-luxe);
+    box-shadow: 0 0 16px 1px rgba(47, 82, 64, 0.6);
+  }
+  88% {
+    opacity: 1;
+    border-color: var(--gold);
+    box-shadow: 0 0 14px 1px rgba(184, 151, 90, 0.7);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.04);
+    border-color: var(--gold);
+    box-shadow: 0 0 0 0 rgba(184, 151, 90, 0);
+  }
+}
+
+/* Wordmark forms around the resolved ring (opacity + slight scale). */
+.origin-sequence.is-opening .origin-logo-heading img {
+  opacity: 0;
+  will-change: transform, opacity;
+  animation: origin-word 300ms var(--ease-smooth) var(--op-d-word) both;
+}
+
+@keyframes origin-word {
+  0% {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Eyebrow + tagline reveal beneath the wordmark, after it resolves. Scoped
+   to the identity's own eyebrow so the aperture eyebrows are never caught. */
+.origin-sequence.is-opening .origin-identity > .eyebrow {
+  opacity: 0;
+  animation: origin-rise 460ms var(--ease-smooth) var(--op-d-eyebrow) both;
+}
+
+.origin-sequence.is-opening .origin-tagline {
+  opacity: 0;
+  animation: origin-rise 460ms var(--ease-smooth) var(--op-d-tagline) both;
+}
+
+@keyframes origin-rise {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* The fork draws from the wordmark down and splits into three (M2). One
+   continuous stroke line-draw over the existing single path, so the stem
+   draws first and the branches follow. */
+.origin-sequence.is-opening .origin-fork path {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: origin-fork-draw 280ms var(--ease-smooth) var(--op-d-fork) both;
+}
+
+@keyframes origin-fork-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* The three apertures settle in, staggered ~100ms each in array order
+   (International, Eventus, Luxe) - a slight stagger, none more important
+   than another (M2). This animation overrides the Reveal opacity/transform
+   only while playing; when `.is-opening` drops at sequence end the plain
+   Reveal (already .is-visible) governs, at the same opacity, so no jump. */
+.origin-sequence.is-opening .origin-venture {
+  will-change: transform, opacity;
+  animation: origin-aperture 540ms var(--ease-smooth) var(--op-d-ap1) both;
+}
+
+.origin-sequence.is-opening .origin-venture:nth-child(2) {
+  animation-delay: var(--op-d-ap2);
+}
+
+.origin-sequence.is-opening .origin-venture:nth-child(3) {
+  animation-delay: var(--op-d-ap3);
+}
+
+@keyframes origin-aperture {
+  0% {
+    opacity: 0;
+    transform: translateY(var(--op-ap-ty)) scale(var(--op-ap-scale));
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Mobile alternative (Blueprint §3 mobile / M1-M2 mobile; revised for
+   content-connection). The JS `compact` gate skips the travelling fragments
+   entirely - no large objects crossing the small screen. Instead the ring
+   still does its quick accent-pulse handoff, and each band (its own real
+   photograph) reveals with a short masked wipe from the top, staggered - a
+   content-led reveal, no blur/filter, no scale, layout untouched. Finishes
+   ~1.14s, comfortably < 1.5s. */
+@media (max-width: 820px) {
+  .origin-sequence.is-opening {
+    --op-d-word: 220ms;
+    --op-d-eyebrow: 320ms;
+    --op-d-tagline: 360ms;
+    --op-d-fork: 380ms;
+    --op-d-ap1: 520ms;
+    --op-d-ap2: 620ms;
+    --op-d-ap3: 720ms;
+  }
+
+  .origin-sequence.is-opening .origin-ring {
+    animation-duration: 520ms;
+  }
+
+  .origin-sequence.is-opening .origin-venture {
+    animation-name: origin-band-wipe;
+    animation-duration: 440ms;
+  }
+}
+
+@keyframes origin-band-wipe {
+  0% {
+    opacity: 0.25;
+    clip-path: inset(0 0 82% 0);
+  }
+  100% {
+    opacity: 1;
+    clip-path: inset(0 0 0% 0);
+  }
 }
 
 .product-hero-copy,
