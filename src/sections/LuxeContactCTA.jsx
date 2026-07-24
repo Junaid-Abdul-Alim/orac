@@ -6,7 +6,7 @@ import { contactDetails } from "../data/contactData";
 import oracLogo from "../assets/logos/orac-orange.svg";
 
 // Same two-column contact pattern as InternationalContactCTA.jsx: a
-// "held by ORAC Holding" brand card on the left, the venture's own contact
+// "held by ORAC Holdings" brand card on the left, the venture's own contact
 // person on the right. See ORAC LUXE Website Corrections, item 8.
 function ContactRow({ icon, kind, text, href }) {
   return (

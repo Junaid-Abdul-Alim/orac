@@ -13,9 +13,9 @@ export default function HomeHero() {
     <section className="home-hero">
       <div className="container home-hero-inner">
         <Frame variant="identity" className="home-hero-frame">
-          <span className="eyebrow">ORAC Holding</span>
+          <span className="eyebrow">ORAC Holdings</span>
           <h1 className="home-hero-logo-heading">
-            <span className="sr-only">ORAC Holding</span>
+            <span className="sr-only">ORAC Holdings</span>
             <img src={oracLogo} alt="ORAC" decoding="async" fetchpriority="high" />
           </h1>
           <p className="hero-line">ORAC - TRADE | EVENTS | COUTURE</p>

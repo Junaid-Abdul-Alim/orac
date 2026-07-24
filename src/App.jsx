@@ -11,18 +11,18 @@ import MaisonCategory from "./pages/MaisonCategory";
 import Contact from "./pages/Contact";
 
 const pageTitles = {
-  "/": "ORAC Holding | Trade, Events, Couture",
+  "/": "ORAC Holdings | Trade, Events, Couture",
   "/international": "ORAC International | Global Import & Export",
   "/eventus": "ORAC Eventus | Weddings & Celebrations",
   "/luxury-export": "The House of Azrin | ORAC Luxe",
-  "/contact": "Contact ORAC Holding",
+  "/contact": "Contact ORAC Holdings",
 };
 
 function ScrollManager() {
   const { pathname, hash } = useLocation();
 
   useEffect(() => {
-    document.title = pageTitles[pathname] || "ORAC Holding";
+    document.title = pageTitles[pathname] || "ORAC Holdings";
 
     if (hash) {
       window.setTimeout(() => {

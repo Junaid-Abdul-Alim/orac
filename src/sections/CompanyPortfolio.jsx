@@ -22,7 +22,7 @@ export default function CompanyPortfolio() {
     <section className="section portfolio-section" id="companies">
       <div className="container">
         <SectionHeader
-          eyebrow="Our Companies"
+          eyebrow="Our Businesses"
           title="One origin. Three worlds."
           text="ORAC International, ORAC Eventus, and ORAC Luxe - three active ventures shaped around trade, celebrations, and fashion."
         />

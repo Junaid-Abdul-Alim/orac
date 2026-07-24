@@ -11,7 +11,7 @@ const companyIcons = {
 
 export default function BusinessSwitcher({ id, open = false, onNavigate }) {
   return (
-    <div className="business-switcher-panel" id={id} role="menu" aria-label="ORAC companies" hidden={!open}>
+    <div className="business-switcher-panel" id={id} role="menu" aria-label="ORAC businesses" hidden={!open}>
       {companies.map((company) => (
         <NavLink key={company.id} to={company.route} onClick={onNavigate} role="menuitem">
           <div className="business-switcher-top">

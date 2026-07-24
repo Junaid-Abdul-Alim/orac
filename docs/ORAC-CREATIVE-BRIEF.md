@@ -1,10 +1,10 @@
 # ORAC Creative Brief
 
-This is the full creative context for the ORAC Holding website redesign. It is a reference document, not a task list — read the relevant sections before substantial design or homepage work. Confirmed facts derived from this brief live in [ORAC-DECISIONS.md](ORAC-DECISIONS.md); the staged plan for acting on it lives in [ORAC-REDESIGN-SPEC.md](ORAC-REDESIGN-SPEC.md).
+This is the full creative context for the ORAC Holdings website redesign. It is a reference document, not a task list — read the relevant sections before substantial design or homepage work. Confirmed facts derived from this brief live in [ORAC-DECISIONS.md](ORAC-DECISIONS.md); the staged plan for acting on it lives in [ORAC-REDESIGN-SPEC.md](ORAC-REDESIGN-SPEC.md).
 
 ## Brand objective
 
-ORAC Holding must feel like a sophisticated parent business ecosystem containing ventures across:
+ORAC Holdings must feel like a sophisticated parent business ecosystem containing ventures across:
 
 - International trade
 - Events
@@ -73,7 +73,7 @@ The result must feel specifically created for ORAC.
 
 Working direction: **One origin. Multiple worlds.**
 
-ORAC Holding is the origin. Each venture becomes its own world:
+ORAC Holdings is the origin. Each venture becomes its own world:
 
 ### ORAC International
 

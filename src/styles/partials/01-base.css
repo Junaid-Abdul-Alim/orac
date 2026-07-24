@@ -114,12 +114,21 @@ main:focus {
   outline: none;
 }
 
+/* Two-layer focus ring (dark inner line + gold outer line) so the ring
+   stays clearly visible regardless of what surface - light or dark - the
+   focused element happens to sit on, rather than one flat gold tone tuned
+   for only one of the two. Used as the shared default for links, nav
+   controls, and any interactive element without a more specific rule
+   below. */
 :focus-visible {
-  outline: 2px solid rgba(184, 151, 90, 0.72);
+  outline: none;
+  box-shadow:
+    0 0 0 2px var(--white),
+    0 0 0 4px var(--ink),
+    0 0 0 7px var(--gold);
   outline-offset: 4px;
 }
 
-.button:focus-visible,
 .desktop-nav > a:focus-visible,
 .company-menu > button:focus-visible,
 .nav-contact-actions a:focus-visible,
@@ -132,8 +141,30 @@ main:focus {
 .product-showcase-tabs button:focus-visible {
   outline: none;
   box-shadow:
-    0 0 0 4px rgba(184, 151, 90, 0.14),
-    0 0 0 1px rgba(184, 151, 90, 0.5);
+    0 0 0 2px var(--white),
+    0 0 0 4px var(--ink),
+    0 0 0 7px var(--gold);
+}
+
+/* Primary button: always on the dark --ink background, so a bright ring
+   reads clearly without needing the two-layer treatment. */
+.button:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px var(--ink),
+    0 0 0 5px var(--white);
+}
+
+/* Secondary/ghost buttons render on both light and dark sections
+   (ContactCTA's dark panel, HomeHero/Hero's light panels), so they need
+   the same surface-agnostic two-layer ring as the shared default. */
+.button-secondary:focus-visible,
+.button-ghost:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px var(--white),
+    0 0 0 4px var(--ink),
+    0 0 0 7px var(--gold);
 }
 
 img {
@@ -279,7 +310,7 @@ p {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  color: var(--gold);
+  color: var(--gold-text);
   font-size: 0.72rem;
   font-weight: 600;
   letter-spacing: 0;

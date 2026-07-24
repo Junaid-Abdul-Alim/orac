@@ -56,7 +56,7 @@ export default function InternationalContactCTA() {
               decoding="async"
             />
             <p className="international-contact-held">
-              Held by <strong>ORAC Holding</strong>
+              Held by <strong>ORAC Holdings</strong>
             </p>
             <p className="international-contact-tagline">Trade, events, and fashion under one house.</p>
             <p className="international-contact-collective">
@@ -72,6 +72,13 @@ export default function InternationalContactCTA() {
               phone={contactDetails.holding.phone}
               email={contactDetails.holding.secondaryEmail}
               website={contactDetails.holding.website}
+            />
+            <ContactPerson
+              name={contactDetails.international.name}
+              role={contactDetails.international.role}
+              location={contactDetails.international.location}
+              phone={contactDetails.international.phone}
+              email={contactDetails.international.email}
             />
             <ContactPerson
               name={contactDetails.africa.name}

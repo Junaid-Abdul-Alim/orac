@@ -133,7 +133,7 @@
 .home-hero .eyebrow,
 .product-hero-dark .eyebrow,
 .contact-heading .eyebrow {
-  color: var(--gold);
+  color: var(--gold-text);
 }
 
 .contact-cta .eyebrow,

@@ -359,10 +359,25 @@
   box-shadow: var(--shadow-lg);
 }
 
+/* :focus-within on the frame itself, not an outline on the link - the
+   frame's own overflow: hidden would clip an outline/ring drawn on its
+   clipped child, but a box-shadow on the frame's own box paints outside
+   its border and is unaffected by its own overflow. */
+.orac-frame-venture:has(.venture-frame-link:focus-visible) {
+  box-shadow:
+    0 0 0 2px var(--white),
+    0 0 0 4px var(--ink),
+    0 0 0 7px var(--gold);
+}
+
 .venture-frame-link {
   display: grid;
   grid-template-rows: minmax(260px, 1fr) auto;
   color: var(--ink);
+}
+
+.venture-frame-link:focus-visible {
+  outline: none;
 }
 
 .venture-frame-media {

@@ -4,7 +4,11 @@ Only confirmed decisions belong here. If something is unresolved, it goes in **P
 
 ## Confirmed
 
-- Parent brand: **ORAC Holding** (spelling as used in live site content — see Pending decisions for a naming conflict found during audit)
+- Parent brand: **ORAC Holdings** (confirmed by the user; the site previously used "ORAC Holding" inconsistently — corrected sitewide)
+- Ohm Pranav's public title is **Managing Director** (the site previously showed "Founder & Chairman" in one leadership tile, inconsistent with "Managing Director" used elsewhere for him — corrected to Managing Director everywhere)
+- Sitewide term for the three business entities is **Businesses** (not "Companies" or "Ventures" as UI/structural labels — nav, aria-labels, and section eyebrows corrected; the word "venture(s)" remains where it occurs as ordinary prose in approved copy, not as a structural label)
+- ORAC International's wording is **"natural fibres and industrial minerals"** (not "industrial fibres, minerals" — corrected in `companyData.js` to match the wording already used in `Home.jsx` and `internationalData.js`)
+- ORAC International's establishment date is **not to be publicly stated** — no confirmed date exists; any "Est." / "Established" claim must not appear
 - Primary ventures: **ORAC International**, **ORAC Eventus**, **ORAC Luxe** — exactly three, all active
 - Relationship: **ORAC Eventus × VELORAWED** (VELORAWED is Eventus's photography/cinematography partner, not a separate 4th business)
 - Relationship: **ORAC Luxe × The House of Azrin** (The House of Azrin is Luxe's flagship fashion brand, not a separate 5th business)
@@ -23,14 +27,10 @@ Only confirmed decisions belong here. If something is unresolved, it goes in **P
 
 These are open questions found during setup. Do not guess at them — confirm before they affect implementation.
 
-1. **"ORAC Holding" vs "ORAC Holdings."** A prior `CLAUDE.md` found in this repository (untracked, superseded by this documentation set) mandated "ORAC Holdings" (with an S) as the only correct spelling. The live, currently-deployed site content — `package.json` name, page titles, footer copyright line, `companyData.js`, navbar aria-labels — consistently uses **"ORAC Holding"** (no S), with zero instances of "ORAC Holdings" found anywhere in `src/`. Which spelling is correct has not been confirmed by the user in this session. **Do not change existing copy in either direction until this is confirmed.**
+1. **Reference set scope.** A prior `CLAUDE.md` (superseded by this documentation set) named Apple (for refinement/restraint/interaction quality) and "Bakinatajna" (for layered product presentation and spatial motion) as references alongside Izanami. The current confirmed brief names only Izanami as "the approved creative benchmark." Whether Apple/Bakinatajna remain active supplementary references is unconfirmed.
 
-2. **Reference set scope.** A prior `CLAUDE.md` (see above) also named Apple (for refinement/restraint/interaction quality) and "Bakinatajna" (for layered product presentation and spatial motion) as references alongside Izanami. The current confirmed brief names only Izanami as "the approved creative benchmark." Whether Apple/Bakinatajna remain active supplementary references is unconfirmed.
+2. **Model-usage / working-mode protocol.** The prior `CLAUDE.md` specified which Claude model/effort level to use for which kind of task (planning vs. implementation vs. small fixes). This is not part of the current confirmed instructions and is not restated here. Whether that protocol should still apply is unconfirmed.
 
-3. **Exact wording of "Companies" vs "Businesses" vs "Ventures."** The live navbar and footer use "Businesses"/"Companies" interchangeably (`BusinessCard`, `BusinessDock`, `BusinessSwitcher` components; "Companies" nav label; footer "Businesses" column heading). The creative brief and this documentation set use "ventures." No decision has been made on a single consistent term for the redesign.
+3. **The exact recurring visual device for "One origin. Multiple worlds."** The creative brief lists several possible mechanisms (transforming frame, pathway, portal, line, spatial system, material transition) but does not select one. [ORAC-REDESIGN-SPEC.md](ORAC-REDESIGN-SPEC.md) proposes a specific direction based on the current codebase and assets, but it requires explicit approval before implementation.
 
-4. **Model-usage / working-mode protocol.** The prior `CLAUDE.md` specified which Claude model/effort level to use for which kind of task (planning vs. implementation vs. small fixes). This is not part of the current confirmed instructions and is not restated here. Whether that protocol should still apply is unconfirmed.
-
-5. **The exact recurring visual device for "One origin. Multiple worlds."** The creative brief lists several possible mechanisms (transforming frame, pathway, portal, line, spatial system, material transition) but does not select one. [ORAC-REDESIGN-SPEC.md](ORAC-REDESIGN-SPEC.md) proposes a specific direction based on the current codebase and assets, but it requires explicit approval before implementation.
-
-6. **Asset availability for the redesign.** High-resolution/transparent product cut-outs, additional event photography, founder photography, and final long-form copy for several sections have not been confirmed as available. See the "Asset and content requirements" section of the redesign spec.
+4. **Asset availability for the redesign.** High-resolution/transparent product cut-outs, additional event photography, founder photography, and final long-form copy for several sections have not been confirmed as available. See the "Asset and content requirements" section of the redesign spec.

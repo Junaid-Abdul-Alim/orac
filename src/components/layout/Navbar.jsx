@@ -88,7 +88,7 @@ export default function Navbar() {
       className={`navbar ${scrolled || open ? "is-solid" : ""}`}
       data-venture={activeVenture || undefined}
     >
-      <Link className="brand" to="/" aria-label="ORAC Holding home">
+      <Link className="brand" to="/" aria-label="ORAC Holdings home">
         <img className="brand-logo" src={oracLogo} alt="ORAC" decoding="async" fetchpriority="high" />
       </Link>
 
@@ -108,7 +108,7 @@ export default function Navbar() {
             onClick={() => setBusinessOpen((value) => !value)}
             onKeyDown={onBusinessKeyDown}
           >
-            <span>Companies</span>
+            <span>Businesses</span>
             <ChevronDown className="nav-chevron" size={14} strokeWidth={1.8} aria-hidden="true" />
           </button>
           <BusinessSwitcher
@@ -144,7 +144,7 @@ export default function Navbar() {
           Home
         </NavLink>
         <div className="mobile-menu-group">
-          <span>Companies</span>
+          <span>Businesses</span>
           {companies.map((company) => (
             <NavLink key={company.id} to={company.route}>
               <span>{company.name}</span>

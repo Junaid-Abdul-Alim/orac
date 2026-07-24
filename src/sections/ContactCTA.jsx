@@ -1,7 +1,7 @@
 import Button from "../components/common/Button";
 import Reveal from "../components/common/Reveal";
 
-export default function ContactCTA({ title = "Start a conversation with ORAC Holding.", text }) {
+export default function ContactCTA({ title = "Start a conversation with ORAC Holdings.", text }) {
   return (
     <section className="section contact-cta">
       <div className="container contact-cta-inner">

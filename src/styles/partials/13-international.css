@@ -133,8 +133,11 @@
 }
 
 .product-panel-interactive:focus-visible {
-  outline: 2px solid var(--gold);
-  outline-offset: 3px;
+  outline: none;
+  box-shadow:
+    0 0 0 2px var(--white),
+    0 0 0 4px var(--ink),
+    0 0 0 7px var(--gold);
 }
 
 .product-spec-backdrop {

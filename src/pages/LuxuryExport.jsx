@@ -177,7 +177,7 @@ export default function LuxuryExport() {
         </div>
       </section>
 
-      {/* Values — ORAC Holding style */}
+      {/* Values — ORAC Holdings style */}
       <section className="section why-section">
         <div className="container">
           <SectionHeader
