@@ -11,7 +11,7 @@ import { eventusImages } from "../data/eventusImages";
 
 export default function OracEventus() {
   return (
-    <>
+    <div className="venture-page venture-page-eventus">
       <Hero
         lockup={["ORAC", "Eventus"]}
         eyebrow="Event Management"
@@ -115,6 +115,6 @@ export default function OracEventus() {
         title="Let's plan your celebration."
         text="Reach out for a consultation, a venue visit, or a detailed quotation tailored to your event."
       />
-    </>
+    </div>
   );
 }

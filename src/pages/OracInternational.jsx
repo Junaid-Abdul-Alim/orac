@@ -29,7 +29,7 @@ const serviceIcons = [Ship, Truck, SearchCheck, Handshake, ClipboardCheck, FileC
 
 export default function OracInternational() {
   return (
-    <>
+    <div className="venture-page venture-page-international">
       <Hero
         lockup={["ORAC", "International"]}
         eyebrow="GLOBAL IMPORT AND EXPORT NETWORK"
@@ -176,6 +176,6 @@ export default function OracInternational() {
       </section>
 
       <InternationalContactCTA />
-    </>
+    </div>
   );
 }

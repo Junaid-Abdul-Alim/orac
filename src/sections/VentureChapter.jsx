@@ -11,9 +11,13 @@ import SectionHeader from "../components/common/SectionHeader";
  * in copy, image, and button target - a confirmed literal duplication.
  *
  * Each venture stays visually distinct through its `tone` (picks up that
- * venture's accent token, see variables.css) and `reverse` (image side),
- * while sharing one structure, one type system, and one motion language -
- * "distinct worlds, one house" rather than three unrelated layouts.
+ * venture's accent token, see variables.css) and restrained per-tone CSS
+ * (image ratio, metadata placement, background) driven entirely by the
+ * `venture-chapter-${tone}` class - see Blueprint Phase 5. `reverse` (image
+ * side) remains a separate, explicit prop rather than being inferred from
+ * tone, since it is a layout decision Home.jsx already makes deliberately.
+ * One shared structure, one type system, one motion language - "distinct
+ * worlds, one house" rather than three unrelated layouts.
  */
 export default function VentureChapter({
   tone,
@@ -22,6 +26,7 @@ export default function VentureChapter({
   title,
   text,
   points = [],
+  meta,
   cta,
   image,
   imageLabel,
@@ -43,8 +48,9 @@ export default function VentureChapter({
               ))}
             </Reveal>
           ) : null}
-          <Reveal>
+          <Reveal className="venture-chapter-actions">
             <Button to={cta.to}>{cta.label}</Button>
+            {meta ? <small className="venture-chapter-meta">{meta}</small> : null}
           </Reveal>
         </div>
         {reverse ? null : (

@@ -25,7 +25,7 @@ const editionIcons = [Sparkles, Gem, PenTool];
 
 export default function LuxuryExport() {
   return (
-    <div className="luxe-page">
+    <div className="luxe-page venture-page venture-page-luxe">
       <Hero
         lockup={["ORAC Luxe", "The House of Azrin"]}
         eyebrow="A Part of ORAC Luxe"

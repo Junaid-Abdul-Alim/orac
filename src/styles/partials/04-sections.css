@@ -331,6 +331,24 @@
   color: var(--ink-muted);
 }
 
+/* International page opening (Phase 5) - a tighter, ledger-like structural
+   frame around the founder/about-trade stat row: a thin accent-toned
+   top rule and tracked, functional stat labels, echoing the trade-ledger
+   register without any new imagery or a route-line motif that would
+   compete with GlobalReach directly below it. */
+.venture-page-international .about-trade-panel {
+  position: relative;
+  padding-top: calc(var(--space-lg) + 4px);
+  border-top: 1px solid rgba(44, 74, 99, 0.18);
+}
+
+.venture-page-international .stat-tile span {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
 /* Stage 2 - the identity frame separating into three (see Frame.jsx,
    CompanyPortfolio.jsx, docs/ORAC-REDESIGN-SPEC.md §2 stage 2). Each
    venture frame holds a still image and a name only. */
@@ -464,6 +482,106 @@
 
 .venture-chapter-luxe .editorial-list span::before {
   background: var(--accent-luxe);
+}
+
+/* Phase 5 - restrained per-venture differentiation (Blueprint §4/§5). Same
+   editorial-layout skeleton throughout; each world is felt through image
+   proportion, corner treatment, background, and metadata placement, not a
+   different component. */
+
+.venture-chapter-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px 20px;
+}
+
+.venture-chapter-meta {
+  color: var(--ink-muted);
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* International - precise, structured, ledger-like: a tighter, wide
+   trade-image ratio (closer to a document/catalogue frame than a portrait),
+   sharper corners than the other two worlds, and a thin top hairline in the
+   venture's own accent - a quiet echo of the route-line motif used
+   elsewhere (GlobalReach) without adding a literal map. */
+.venture-chapter-international {
+  position: relative;
+}
+
+.venture-chapter-international::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: min(320px, 60%);
+  height: 1px;
+  transform: translateX(-50%);
+  background: linear-gradient(90deg, transparent, var(--accent-international-light), transparent);
+  opacity: 0.6;
+}
+
+.venture-chapter-international .preview-image-panel {
+  border-radius: var(--radius-md);
+}
+
+.venture-chapter-international .preview-image-panel .image-panel-media,
+.venture-chapter-international .preview-image-panel .safe-image-fallback {
+  aspect-ratio: 4 / 3;
+}
+
+.venture-chapter-international .venture-chapter-meta {
+  color: var(--accent-international);
+  font-weight: 600;
+}
+
+/* Eventus - warm, human, felt rather than seen: a taller, softer portrait
+   crop that gives the moment room to breathe, a generous radius, and a
+   warm-tinted shadow instead of the shared neutral one. */
+.venture-chapter-eventus .preview-image-panel {
+  border-radius: 44px;
+  box-shadow: 0 30px 90px rgba(138, 59, 52, 0.14);
+}
+
+.venture-chapter-eventus .preview-image-panel .image-panel-media,
+.venture-chapter-eventus .preview-image-panel .safe-image-fallback {
+  aspect-ratio: 3 / 4;
+}
+
+.venture-chapter-eventus .venture-chapter-meta {
+  color: var(--accent-eventus);
+  font-style: italic;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+/* Luxe - quiet, tactile, material-led: the most generous whitespace rhythm
+   of the three, a soft tinted backdrop standing in for controlled negative
+   space, and a tracked small-caps metadata line naming the House
+   relationship rather than a date/place fact. */
+.venture-chapter-luxe {
+  background: linear-gradient(180deg, rgba(47, 82, 64, 0.035), transparent 60%);
+}
+
+.venture-chapter-luxe .container.editorial-layout {
+  gap: var(--space-2xl);
+}
+
+.venture-chapter-luxe .preview-image-panel {
+  border-radius: var(--radius-lg);
+}
+
+.venture-chapter-luxe .preview-image-panel .image-panel-media,
+.venture-chapter-luxe .preview-image-panel .safe-image-fallback {
+  aspect-ratio: 4 / 5;
+}
+
+.venture-chapter-luxe .venture-chapter-meta {
+  color: var(--accent-luxe);
+  letter-spacing: 0.1em;
 }
 
 /* WhyOrac reads as support material after the venture chapters, not

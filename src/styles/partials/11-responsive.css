@@ -596,6 +596,17 @@
     max-height: 104px;
   }
 
+  /* "ORAC INTERNATIONAL" is the longest hero heading on the site (19
+     characters) - the shared .product-hero h1 flat 2.9rem below this
+     breakpoint overflows its own viewport at 360-393px widths (confirmed:
+     right edge past the viewport at both sizes) even though every other
+     hero heading fits. Scoped to International only, same fluid-clamp
+     approach already used for the Luxe hero above, so Eventus/Contact/Home
+     keep their existing 2.9rem exactly as before. */
+  .venture-page-international .product-hero h1 {
+    font-size: clamp(2.15rem, 10vw, 2.9rem);
+  }
+
   .azrin-logo-card {
     width: 100%;
     min-height: 112px;

@@ -269,17 +269,28 @@
   gap: 18px;
 }
 
+/* Phase 5 correction: VELORAWED is ORAC Eventus's photography/cinematography
+   partner, not a fourth ORAC business - so its own wordmark should read as
+   a named credit within the Eventus story, not a headline-scale identity
+   competing with "ORAC Eventus" itself. Reduced from 5.2rem and paired with
+   a clarifying kicker line rather than standing alone as a giant word. */
 .velorawed-logo {
   display: block;
-  width: clamp(62px, 8vw, 108px);
+  width: clamp(52px, 6.4vw, 84px);
   height: auto;
   filter: drop-shadow(0 26px 50px rgba(212, 175, 120, 0.16));
 }
 
 .partner-title h2 {
   color: var(--white);
-  font-size: 5.2rem;
-  line-height: 0.95;
+  font-size: 3.1rem;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.partner-title-kicker {
+  color: rgba(255, 255, 255, 0.56);
+  font-size: 0.86rem;
 }
 
 .partner-copy p {

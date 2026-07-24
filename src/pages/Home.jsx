@@ -25,6 +25,7 @@ export default function Home() {
           "Natural fibres and industrial minerals",
           "Automotive accessories and import commodities",
         ]}
+        meta="Chennai — Singapore aligned"
         cta={{ to: "/international", label: "Visit International" }}
         image={internationalImages.hero}
         imageLabel="Global Trade"
@@ -46,6 +47,7 @@ export default function Home() {
           "Photography and cinematography through VELORAWED",
           "Clear timelines, clear pricing and one accountable team",
         ]}
+        meta="Est. Chennai"
         cta={{ to: "/eventus", label: "Visit Eventus" }}
         image={eventusImages.hero}
         imageLabel="Wedding Experience"
@@ -60,6 +62,7 @@ export default function Home() {
           "White-label and B2B foundations",
           "In-house atelier and handmade crochet",
         ]}
+        meta="The House of Azrin"
         cta={{ to: "/luxury-export", label: "Visit ORAC Luxe" }}
         image={luxeImages.hero}
         imageLabel="ORAC Luxe"
