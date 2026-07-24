@@ -1,10 +1,8 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, Gem, PenTool, Sparkles } from "lucide-react";
-import BrandLockup from "../components/common/BrandLockup";
-import Button from "../components/common/Button";
-import CinematicBanner from "../components/common/CinematicBanner";
 import Hero from "../components/common/Hero";
 import IconBadge from "../components/common/IconBadge";
+import LuxeContactCTA from "../sections/LuxeContactCTA";
 import Reveal from "../components/common/Reveal";
 import SafeImage from "../components/common/SafeImage";
 import SectionHeader from "../components/common/SectionHeader";
@@ -43,37 +41,45 @@ export default function LuxuryExport() {
 
       {/* ii) Colour palette — Vault XIII */}
       <section className="section vault-section">
+        <Reveal className="vault-banner">
+          <SafeImage
+            src={vaultXiii.image.src}
+            alt={vaultXiii.image.alt}
+            fallbackLabel={vaultXiii.image.label}
+            className="vault-image"
+          />
+        </Reveal>
         <div className="container">
-          <Reveal className="vault-layout">
-            <div className="vault-copy">
-              <span className="eyebrow">I · {vaultXiii.eyebrow}</span>
-              <h2 className="vault-name">{vaultXiii.name}</h2>
-              <p>{vaultXiii.tagline}</p>
-              <div className="vault-swatches" aria-label={`${vaultXiii.name} colour palette`}>
-                {vaultXiii.swatches.map((swatch) => (
-                  <span key={swatch.name} className="vault-swatch">
-                    <span
-                      className="vault-swatch-chip"
-                      style={{ background: swatch.value }}
-                      aria-hidden="true"
-                    />
-                    <small>{swatch.name}</small>
-                  </span>
-                ))}
-              </div>
+          <Reveal className="vault-copy" delay={80}>
+            <span className="eyebrow">I · {vaultXiii.eyebrow}</span>
+            <h2 className="vault-name">{vaultXiii.name}</h2>
+            <p>{vaultXiii.tagline}</p>
+            <div className="vault-swatches" aria-label={`${vaultXiii.name} colour palette`}>
+              {vaultXiii.swatches.map((swatch) => (
+                <span key={swatch.name} className="vault-swatch">
+                  <span
+                    className="vault-swatch-chip"
+                    style={{ background: swatch.value }}
+                    aria-hidden="true"
+                  />
+                  <small>{swatch.name}</small>
+                </span>
+              ))}
             </div>
-            <figure className="vault-figure">
-              <SafeImage
-                src={vaultXiii.image.src}
-                alt={vaultXiii.image.alt}
-                fallbackLabel={vaultXiii.image.label}
-                className="vault-image"
-              />
-              <figcaption>{vaultXiii.name}</figcaption>
-            </figure>
           </Reveal>
         </div>
       </section>
+
+      {/* Category Collage — clean full-width landscape image, no text overlay,
+          sharp corners. Placed directly after Vault XIII. */}
+      <div className="luxe-collage-banner">
+        <SafeImage
+          src={maisonBanner.src}
+          alt={maisonBanner.alt}
+          fallbackLabel={maisonBanner.label}
+          className="luxe-collage-image"
+        />
+      </div>
 
       {/* iii) Brand categories — The House Editions */}
       <section className="section muted-section editions-section">
@@ -89,7 +95,7 @@ export default function LuxuryExport() {
               return (
                 <Reveal as="article" className="edition-card" key={edition.id} delay={index * 80}>
                   <div className="edition-card-top">
-                    <IconBadge icon={EditionIcon} className="icon-badge-soft" size={18} />
+                    <IconBadge icon={EditionIcon} className="icon-badge-soft" size={24} />
                     <span className="edition-number">{pad2(index + 1)}</span>
                   </div>
                   <h3>{edition.title}</h3>
@@ -114,12 +120,8 @@ export default function LuxuryExport() {
         </div>
       </section>
 
-      {/* v) Maison Series — collage banner, then explore grid (each links to its own page) */}
-      <CinematicBanner
-        image={maisonBanner}
-        title="The Maison Series"
-        description="Dresses, Co-ords, Tunics, and Signature Bottoms — one considered palette, four families of garment."
-      />
+      {/* v) Maison Series — explore grid (each links to its own page). The
+          collage banner now sits earlier, right after Vault XIII. */}
       <section className="section maison-section">
         <div className="container">
           <SectionHeader
@@ -194,22 +196,7 @@ export default function LuxuryExport() {
         </div>
       </section>
 
-      <section className="section contact-cta luxe-cta">
-        <div className="container contact-cta-inner">
-          <Reveal>
-            <BrandLockup items={["ORAC Luxe", "The House of Azrin"]} />
-            <span className="eyebrow">The House of Azrin</span>
-            <h2>We would love to hear from you.</h2>
-            <p>
-              Whether you are interested in shopping, wholesale, a custom piece, or simply want to know more,
-              write to us and we will respond personally.
-            </p>
-            <Button to="/contact" variant="secondary">
-              Contact The House of Azrin
-            </Button>
-          </Reveal>
-        </div>
-      </section>
+      <LuxeContactCTA />
     </div>
   );
 }

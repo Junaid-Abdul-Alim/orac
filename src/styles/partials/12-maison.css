@@ -12,18 +12,44 @@
     linear-gradient(180deg, var(--white), var(--cream));
 }
 
-.vault-layout {
-  display: grid;
-  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
-  gap: clamp(28px, 4.5vw, 72px);
-  align-items: end;
+/* Full-width landscape banner, uncropped (aspect-ratio matches the source
+   image almost exactly, so object-fit: cover never trims meaningful
+   content) - no text/label overlay, ahead of the copy and swatches. */
+.vault-banner {
+  width: 100%;
+  margin-bottom: clamp(28px, 4vw, 48px);
+}
+
+.vault-image,
+.vault-banner .safe-image-fallback {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+/* Category Collage — clean full-width landscape banner, sharp corners
+   (no radius), no text/label overlay of our own. Placed right after
+   Vault XIII (see LuxuryExport.jsx). object-fit: cover on a wide
+   aspect-ratio reads the collage as landscape without distorting it. */
+.luxe-collage-banner {
+  width: 100%;
+}
+
+.luxe-collage-image,
+.luxe-collage-banner .safe-image-fallback {
+  display: block;
+  width: 100%;
+  aspect-ratio: 21 / 9;
+  object-fit: cover;
+  border-radius: 0;
 }
 
 .vault-copy {
   display: grid;
-  align-content: end;
+  align-content: start;
   gap: 0;
-  padding-bottom: 6px;
+  max-width: 720px;
 }
 
 .vault-name {
@@ -74,51 +100,29 @@
   color: var(--ink-muted);
 }
 
-.vault-figure {
-  position: relative;
-  margin: 0;
-}
-
-.vault-image,
-.vault-figure .safe-image-fallback {
-  aspect-ratio: 5 / 4;
-  width: 100%;
-  border-radius: var(--radius-lg);
-  object-fit: cover;
-  overflow: hidden;
-  box-shadow: 0 40px 90px -48px rgba(26, 24, 20, 0.5);
-}
-
-.vault-figure figcaption {
-  position: absolute;
-  left: var(--space-sm);
-  bottom: var(--space-sm);
-  padding: 0.4rem 0.9rem;
-  border-radius: 999px;
-  background: var(--dark-glass);
-  color: var(--cream);
-  font-family: var(--font-display);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  font-size: 0.8rem;
-  backdrop-filter: blur(6px);
-}
-
 /* --- iii) The House Editions --- */
+/* Increased scale and prominence: taller cards, larger type, more air
+   between them, so this section reads as a considered statement rather
+   than a compact utility grid. */
+.editions-section {
+  padding-top: clamp(56px, 7vw, 96px);
+  padding-bottom: clamp(56px, 7vw, 96px);
+}
+
 .editions-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(14px, 1.6vw, 20px);
-  margin-top: var(--space-lg);
+  gap: clamp(20px, 2.4vw, 32px);
+  margin-top: var(--space-xl);
 }
 
 .edition-card {
   position: relative;
   display: grid;
   align-content: start;
-  gap: clamp(16px, 1.6vw, 22px);
-  min-height: 300px;
-  padding: clamp(26px, 2.6vw, 38px) clamp(24px, 2.4vw, 34px);
+  gap: clamp(20px, 2.2vw, 28px);
+  min-height: 420px;
+  padding: clamp(36px, 3.6vw, 52px) clamp(30px, 3vw, 42px);
   background: linear-gradient(180deg, var(--white), rgba(250, 248, 243, 0.7));
   border: 1px solid var(--rule);
   border-radius: var(--radius-lg);
@@ -157,13 +161,18 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-bottom: clamp(14px, 1.6vw, 20px);
+  padding-bottom: clamp(18px, 2vw, 24px);
   border-bottom: 1px solid var(--rule);
+}
+
+.edition-card-top .icon-badge-soft {
+  width: 50px;
+  height: 50px;
 }
 
 .edition-number {
   font-family: var(--font-display);
-  font-size: clamp(2.4rem, 3vw, 3.4rem);
+  font-size: clamp(3rem, 3.8vw, 4.2rem);
   font-weight: 600;
   line-height: 0.8;
   color: rgba(184, 151, 90, 0.5);
@@ -171,7 +180,7 @@
 
 .edition-card h3 {
   font-family: var(--font-display);
-  font-size: clamp(1.7rem, 2vw, 2.3rem);
+  font-size: clamp(2.1rem, 2.6vw, 2.9rem);
   font-weight: 600;
   line-height: 1.02;
   color: var(--ink);
@@ -179,14 +188,17 @@
 
 .edition-card p {
   color: var(--ink-soft);
+  font-size: clamp(1rem, 1.05vw, 1.12rem);
   line-height: 1.62;
 }
 
-/* --- v) Maison Series explore grid --- */
+/* --- v) Maison Series explore list ---
+   One collection below another, full width, generous spacing between
+   each - an editorial stacked presentation rather than a card grid. */
 .maison-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(16px, 2vw, 28px);
+  grid-template-columns: 1fr;
+  gap: clamp(28px, 4vw, 52px);
   margin-top: var(--space-lg);
   counter-reset: maison;
 }
@@ -209,7 +221,7 @@
 }
 
 .maison-card:hover {
-  transform: translateY(-6px);
+  transform: translateY(-4px);
   border-color: rgba(184, 151, 90, 0.3);
   box-shadow: 0 40px 80px -40px rgba(26, 24, 20, 0.6);
 }
@@ -221,7 +233,7 @@
 
 .maison-card-photo,
 .maison-card-media .safe-image-fallback {
-  aspect-ratio: 4 / 5;
+  aspect-ratio: 16 / 9;
   width: 100%;
   object-fit: cover;
   display: block;
@@ -229,17 +241,17 @@
 }
 
 .maison-card:hover .maison-card-photo {
-  transform: scale(1.05);
+  transform: scale(1.03);
 }
 
 /* Editorial index numeral, auto-counted */
 .maison-card-media::after {
   content: counter(maison, decimal-leading-zero);
   position: absolute;
-  top: 14px;
-  right: 18px;
+  top: 20px;
+  right: 26px;
   font-family: var(--font-display);
-  font-size: 1.35rem;
+  font-size: 1.9rem;
   font-weight: 600;
   color: rgba(255, 255, 255, 0.82);
   text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
@@ -264,12 +276,12 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--space-sm);
-  padding: clamp(20px, 2vw, 28px);
+  padding: clamp(24px, 2.6vw, 34px) clamp(24px, 3vw, 40px);
 }
 
 .maison-card-body h3 {
   font-family: var(--font-display);
-  font-size: clamp(1.6rem, 2vw, 2.15rem);
+  font-size: clamp(1.9rem, 2.6vw, 2.6rem);
   font-weight: 600;
   line-height: 1;
   margin-bottom: 4px;
@@ -277,7 +289,7 @@
 
 .maison-card-body small {
   color: var(--ink-muted);
-  font-size: 0.82rem;
+  font-size: 0.86rem;
   letter-spacing: 0.06em;
 }
 
@@ -538,9 +550,12 @@
   will-change: transform;
 }
 
+/* Matches the real look-photo source ratio (1100x1653, ~2/3) so
+   object-fit: cover has no meaningful crop to make - see Explore Section
+   correction. */
 .interactive-image-photo,
 .interactive-image .safe-image-fallback {
-  aspect-ratio: 3 / 4;
+  aspect-ratio: 2 / 3;
   width: 100%;
   object-fit: cover;
   display: block;
@@ -569,11 +584,6 @@
 
 /* --- Responsive --- */
 @media (max-width: 900px) {
-  .vault-layout {
-    grid-template-columns: 1fr;
-    gap: var(--space-md);
-  }
-
   .editions-grid {
     grid-template-columns: 1fr;
   }
@@ -593,10 +603,6 @@
 }
 
 @media (max-width: 620px) {
-  .maison-grid {
-    grid-template-columns: 1fr;
-  }
-
   .maison-model,
   .maison-model-right {
     grid-template-columns: 1fr;
