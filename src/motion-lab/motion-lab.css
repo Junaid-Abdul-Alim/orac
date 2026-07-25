@@ -1,0 +1,1195 @@
+/* ============================================================================
+   /motion-lab — development-only cinematic prototype styles.
+   Every selector is scoped under `.motion-lab` so nothing here can affect the
+   production homepage or any other route. Reuses the existing design tokens
+   (variables.css): --gold, --cream, --ink, --accent-*, --ease-smooth, spacing.
+
+   THREAD PRINCIPLE (storyboard §4): the base state of every gold-thread SVG
+   and every scroll-revealed image below is its RESOLVED end-state (thread
+   drawn, image un-clipped, no blur). GSAP/CSS only opts a motion-tolerant
+   visit INTO the pre-motion state and animates back to this resolved state, so
+   reduced motion, a returning visitor, or a JS failure always leaves a
+   complete, legible frame. The one shared colour is --gold.
+   ========================================================================== */
+
+.motion-lab {
+  background: var(--white);
+}
+
+/* Clear dev-only marker so this can never be mistaken for the real homepage. */
+.motion-lab-badge {
+  position: sticky;
+  top: var(--nav-height);
+  z-index: 40;
+  margin: 0;
+  padding: 6px 16px;
+  background: repeating-linear-gradient(-45deg, #1a1814, #1a1814 12px, #211d16 12px, #211d16 24px);
+  color: var(--gold-light);
+  font-family: var(--font-body);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.motion-lab-badge span {
+  color: #e0574d;
+}
+
+.motion-lab .lab-thread line,
+.motion-lab .lab-thread path,
+.motion-lab .lab-thread rect {
+  stroke: var(--gold);
+  fill: none;
+  stroke-width: 1;
+}
+
+/* ==========================================================================
+   SCENE 1 + 2 — Opening (converge → ORAC → three worlds resolved)
+   ========================================================================== */
+.lab-opening {
+  position: relative;
+  overflow: clip;
+  min-height: calc(100svh - var(--nav-height));
+  padding: clamp(20px, 3vw, 40px) 0 clamp(24px, 3.5vw, 48px);
+  background:
+    radial-gradient(circle at 50% 0%, rgba(245, 237, 216, 0.78), transparent 42%),
+    linear-gradient(180deg, var(--cream) 0%, var(--white) 82%);
+  color: var(--ink);
+}
+
+.lab-opening-stage {
+  position: relative;
+  width: min(100% - 40px, var(--max));
+  margin-inline: auto;
+  min-height: calc(100svh - var(--nav-height) - clamp(60px, 8vw, 96px));
+  display: flex;
+  flex-direction: column;
+}
+
+.lab-opening-identity {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: clamp(6px, 1vw, 12px);
+  flex: 0 0 auto;
+  padding-bottom: clamp(4px, 1vw, 10px);
+}
+
+.lab-opening-word {
+  display: flex;
+  justify-content: center;
+  margin: 0;
+}
+
+.lab-opening-word img {
+  display: block;
+  width: min(420px, 60vw);
+  max-width: 100%;
+  max-height: min(112px, 11svh);
+  object-fit: contain;
+  filter: drop-shadow(0 22px 42px rgba(184, 87, 40, 0.12));
+}
+
+.lab-opening-tagline {
+  max-width: 640px;
+  padding: 0 var(--space-sm);
+  color: var(--ink-muted);
+  font-size: clamp(0.86rem, 1vw, 1rem);
+  line-height: 1.4;
+  text-align: center;
+}
+
+/* The gold ring — convergence seed. Only rendered/animated during play. */
+.lab-opening-ring {
+  position: absolute;
+  left: 50%;
+  bottom: -6px;
+  z-index: -1;
+  translate: -50% 0;
+  width: clamp(40px, 5.4vw, 54px);
+  height: clamp(40px, 5.4vw, 54px);
+  border: 2px solid var(--gold);
+  border-radius: 50%;
+  opacity: 0;
+  box-shadow: 0 0 18px 1px rgba(184, 151, 90, 0.55);
+  pointer-events: none;
+}
+
+/* Fork — thread state 1. Base = drawn. */
+.lab-opening-fork {
+  position: relative;
+  z-index: 2;
+  display: block;
+  width: min(320px, 70%);
+  height: clamp(28px, 4vw, 44px);
+  flex: 0 0 auto;
+  margin-inline: auto;
+  overflow: visible;
+}
+
+.lab-opening-fork path {
+  stroke: var(--gold);
+  stroke-width: 1;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 0;
+}
+
+.lab-opening-ventures {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(10px, 1.4vw, 18px);
+  width: 100%;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+/* --- Apertures (resting Scene 2 / handoff targets) --- */
+.lab-aperture {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  color: var(--white);
+}
+
+.lab-aperture-media {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.lab-aperture-media img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transform: scale(1.02);
+  transition: transform 900ms var(--ease-smooth);
+}
+
+/* coir-fiber.webp prints its logo/caption bands top and bottom — scale past
+   them so only the clean fibre texture shows behind the label. */
+.lab-aperture-international img {
+  transform: scale(1.5);
+  object-position: center 42%;
+}
+
+.lab-aperture:hover .lab-aperture-media img {
+  transform: scale(1.07);
+}
+
+.lab-aperture-international:hover .lab-aperture-media img {
+  transform: scale(1.56);
+}
+
+.lab-aperture::after {
+  /* keeps the media height even though the img is absolutely positioned */
+  content: "";
+  display: block;
+  padding-top: 128%;
+}
+
+.lab-aperture-scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(15, 14, 12, 0.08) 45%, rgba(15, 14, 12, 0.68) 100%);
+}
+
+.lab-aperture-label {
+  position: absolute;
+  inset: auto 0 0 0;
+  z-index: 1;
+  display: grid;
+  gap: 4px;
+  padding: clamp(14px, 2vw, 22px) clamp(16px, 2vw, 24px);
+}
+
+.lab-aperture-label h2 {
+  color: var(--white);
+  font-size: clamp(1.3rem, 1.8vw, 1.7rem);
+  line-height: 1.05;
+}
+
+.lab-aperture-international .lab-aperture-label .eyebrow {
+  color: var(--accent-international-light);
+}
+.lab-aperture-eventus .lab-aperture-label .eyebrow {
+  color: var(--accent-eventus-light);
+}
+.lab-aperture-luxe .lab-aperture-label .eyebrow {
+  color: var(--accent-luxe-light);
+}
+
+.lab-aperture:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px var(--white),
+    0 0 0 4px var(--ink),
+    0 0 0 7px var(--gold);
+}
+
+/* --- Fragment layer (desktop only, play only) --- */
+.lab-frag-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.lab-frag {
+  position: absolute;
+  left: 50%;
+  top: 49%;
+  translate: -50% -50%;
+  width: clamp(230px, 24vw, 300px);
+  aspect-ratio: 5 / 6;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.lab-frag-media {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: 16px;
+  box-shadow: 0 26px 54px rgba(26, 24, 20, 0.26);
+}
+
+.lab-frag-media img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.lab-frag-international .lab-frag-media {
+  box-shadow:
+    0 26px 54px rgba(26, 24, 20, 0.26),
+    inset 0 0 0 1.5px rgba(126, 163, 194, 0.6);
+}
+.lab-frag-international .lab-frag-media img {
+  transform: scale(1.5);
+  object-position: center 42%;
+}
+.lab-frag-eventus .lab-frag-media {
+  box-shadow:
+    0 26px 54px rgba(26, 24, 20, 0.26),
+    inset 0 0 0 1.5px rgba(201, 129, 119, 0.55);
+}
+.lab-frag-luxe .lab-frag-media {
+  box-shadow:
+    0 26px 54px rgba(26, 24, 20, 0.26),
+    inset 0 0 0 1.5px rgba(127, 172, 147, 0.55);
+}
+
+.lab-frag-route {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.lab-frag-route path {
+  stroke: var(--accent-international-light);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  filter: drop-shadow(0 1px 2px rgba(15, 14, 12, 0.55));
+}
+
+.lab-frag-route circle {
+  fill: var(--accent-international-light);
+  filter: drop-shadow(0 1px 2px rgba(15, 14, 12, 0.55));
+}
+
+/* ==========================================================================
+   SCENE 3 — HoldingIntro (Spine, thread state 2)
+   ========================================================================== */
+.lab-scene {
+  position: relative;
+  overflow: clip;
+}
+
+.lab-holding {
+  padding: var(--section) 0;
+  background: var(--cream);
+}
+
+/* Two-column editorial split with the Spine as its structural axis: statement
+   left, body right, the gold spine in the left gutter. Statement and copy are
+   DIRECT grid children (alongside the spine), so the three map cleanly onto the
+   three named columns. */
+.lab-holding-inner {
+  width: min(100% - 40px, var(--max));
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: 2px minmax(0, 0.82fr) minmax(0, 1.18fr);
+  grid-template-areas: "spine statement body";
+  gap: clamp(24px, 4vw, 56px);
+  align-items: start;
+}
+
+.lab-spine-col {
+  grid-area: spine;
+  position: relative;
+  align-self: stretch;
+  justify-self: center;
+  width: 2px;
+  min-height: 100%;
+}
+
+.lab-spine {
+  position: absolute;
+  inset: 0;
+  width: 2px;
+  height: 100%;
+  overflow: visible;
+}
+
+.lab-spine line {
+  stroke: var(--gold);
+  stroke-width: 1.4;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  transition: stroke-dashoffset 620ms var(--ease-smooth) 120ms;
+}
+
+.lab-spine-col.is-visible .lab-spine line {
+  stroke-dashoffset: 0;
+}
+
+.lab-holding-statement-wrap {
+  grid-area: statement;
+  align-self: center;
+  display: grid;
+  gap: 14px;
+}
+
+.lab-holding-copy {
+  grid-area: body;
+}
+
+.lab-holding-statement {
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: clamp(2.1rem, 3.6vw, 3.4rem);
+  font-weight: 600;
+  line-height: 1.04;
+}
+
+/* ==========================================================================
+   Shared venture chapter shell (Scenes 4 / 6 / 7)
+   ========================================================================== */
+.lab-chapter {
+  padding: var(--section) 0;
+}
+
+.lab-chapter-inner {
+  width: min(100% - 40px, var(--max));
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1.02fr) minmax(0, 0.98fr);
+  gap: clamp(32px, 5vw, 72px);
+  align-items: center;
+}
+
+.lab-chapter-copy {
+  display: grid;
+  gap: var(--space-md);
+}
+
+.lab-chapter-head {
+  display: grid;
+  gap: 16px;
+}
+
+.lab-chapter-head h2 {
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: clamp(2.1rem, 3.4vw, 3.2rem);
+  font-weight: 600;
+  line-height: 1.05;
+}
+
+.lab-chapter-head p {
+  max-width: 46ch;
+  color: var(--ink-muted);
+  font-size: 1.02rem;
+}
+
+.lab-chapter-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px 20px;
+}
+
+.lab-chapter-meta {
+  color: var(--ink-muted);
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.lab-chapter-frame {
+  position: relative;
+}
+
+.lab-frame-media {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: linear-gradient(180deg, var(--surface-soft), var(--surface));
+}
+
+.lab-frame-media img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Edge / corner instrument labels (real text, not baked pixels). */
+.lab-frame-edge {
+  position: absolute;
+  left: 14px;
+  bottom: 14px;
+  z-index: 2;
+  padding: 5px 10px;
+  background: rgba(15, 14, 12, 0.62);
+  color: rgba(255, 255, 255, 0.92);
+  font-family: var(--font-body);
+  font-size: 0.64rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+
+.lab-frame-corner {
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  background: rgba(15, 14, 12, 0.6);
+  color: rgba(255, 255, 255, 0.92);
+  font-family: var(--font-body);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+
+.lab-frame-corner img {
+  width: 16px;
+  height: auto;
+}
+
+/* ==========================================================================
+   SCENE 4 — International (Route, thread state 3)
+   ========================================================================== */
+.lab-intl {
+  position: relative;
+  background: var(--cream);
+}
+
+.lab-intl::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: min(320px, 60%);
+  height: 1px;
+  transform: translateX(-50%);
+  background: linear-gradient(90deg, transparent, var(--accent-international-light), transparent);
+  opacity: 0.6;
+}
+
+.lab-intl .lab-chapter-head .eyebrow {
+  color: var(--accent-international);
+}
+
+.lab-intl .editorial-list span::before {
+  background: var(--accent-international);
+}
+
+.lab-intl-frame .lab-frame-media {
+  border-radius: var(--radius-md);
+}
+
+/* red-chilli-powder.webp (1254²): show ONLY the left chilli/powder/burlap —
+   crop out the baked "ORAC INTERNATIONAL / RED CHILLI" label panel on the
+   right ~40%. object-position left + a left-origin zoom pushes the label out. */
+.lab-intl-photo {
+  object-position: left center;
+  transform: scale(1.36);
+  transform-origin: left center;
+}
+
+.lab-route {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.lab-route path {
+  stroke: var(--gold-light);
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 0;
+  filter: drop-shadow(0 1px 4px rgba(15, 14, 12, 0.55));
+  vector-effect: non-scaling-stroke;
+}
+
+.lab-route circle {
+  fill: var(--accent-international-light);
+  stroke: var(--white);
+  stroke-width: 0.6;
+}
+
+.lab-intl .lab-chapter-meta {
+  color: var(--accent-international);
+  font-weight: 600;
+}
+
+/* Manifest / ledger strip */
+.lab-manifest {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  padding-top: 4px;
+}
+
+.lab-manifest-tile {
+  margin: 0;
+  border: 1px solid rgba(44, 74, 99, 0.16);
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--surface);
+}
+
+/* Each source (1122×1402) prints a logo band top (~15%) and a caption band
+   bottom (~18%); a tight zoom into the upper-middle product texture keeps both
+   bands out of the tiny ledger tile. */
+.lab-manifest-tile img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  object-position: center 40%;
+  transform: scale(2.1);
+}
+
+.lab-manifest-tile figcaption {
+  padding: 6px 8px;
+  color: var(--accent-international);
+  font-family: var(--font-body);
+  font-size: 0.58rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* ==========================================================================
+   SCENE 5 — Global Reach (Corridor arcs, thread state 4)
+   ========================================================================== */
+.lab-global {
+  padding: clamp(84px, 10vw, 132px) 0;
+  background: linear-gradient(180deg, #ffffff 0%, #faf8f3 100%);
+  color: #000;
+}
+
+.lab-global-inner {
+  width: min(100% - 40px, 1240px);
+  margin: 0 auto;
+}
+
+.lab-global-heading {
+  max-width: 760px;
+  margin: 0 auto 44px;
+  text-align: center;
+}
+
+.lab-global-heading h2 {
+  margin: 10px 0 0;
+  color: #000;
+  font-family: var(--font-display);
+  font-size: clamp(2.8rem, 6vw, 5.6rem);
+  font-weight: 500;
+  line-height: 0.92;
+}
+
+.lab-global-heading p {
+  max-width: 680px;
+  margin: 22px auto 0;
+  color: rgba(22, 20, 15, 0.66);
+  font-size: 1.04rem;
+  line-height: 1.75;
+}
+
+.lab-global-map-wrap {
+  position: relative;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: clamp(24px, 4vw, 50px);
+  border: 1px solid rgba(21, 19, 71, 0.1);
+  border-radius: 36px;
+  background:
+    radial-gradient(circle at 50% 42%, rgba(184, 151, 90, 0.1), transparent 35%),
+    linear-gradient(180deg, #ffffff 0%, #fbfaf7 100%);
+  box-shadow: 0 28px 90px rgba(21, 19, 71, 0.08);
+}
+
+.lab-global-stats {
+  position: absolute;
+  left: clamp(20px, 4vw, 48px);
+  top: clamp(20px, 4vw, 48px);
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  width: min(520px, calc(100% - 40px));
+  border: 1px solid rgba(21, 19, 71, 0.1);
+  background: rgba(255, 255, 255, 0.86);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  backdrop-filter: blur(18px) saturate(160%);
+}
+
+.lab-global-stats article {
+  display: grid;
+  gap: 4px;
+  min-height: 92px;
+  align-content: center;
+  padding: 18px;
+  border-right: 1px solid rgba(21, 19, 71, 0.08);
+}
+
+.lab-global-stats article:last-child {
+  border-right: 0;
+}
+
+.lab-global-stats strong {
+  color: #151347;
+  font-family: var(--font-display);
+  font-size: 2.35rem;
+  font-weight: 500;
+  line-height: 0.9;
+}
+
+.lab-global-stats span {
+  color: rgba(22, 20, 15, 0.62);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  line-height: 1.35;
+  text-transform: uppercase;
+}
+
+.lab-global-map {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.lab-global .global-country {
+  stroke: var(--map-stroke);
+  stroke-width: 0.55;
+  outline: none;
+}
+
+/* Corridor arcs — base = drawn (dash filled). GSAP primes the dash from the
+   real path length; reduced motion keeps them drawn. */
+.lab-corridor {
+  fill: none;
+  stroke: var(--gold);
+  stroke-linecap: round;
+  filter: drop-shadow(0 1px 2px rgba(184, 151, 90, 0.4));
+}
+
+.lab-corridor-node {
+  fill: var(--gold);
+  stroke: #fff;
+  stroke-width: 0.8;
+}
+
+.lab-corridor-origin {
+  fill: var(--map-india);
+  stroke: var(--gold);
+  stroke-width: 1.4;
+}
+
+.lab-global-disclosure {
+  margin-top: clamp(16px, 2vw, 24px);
+  text-align: center;
+}
+
+/* ==========================================================================
+   SCENE 6 — Eventus (Frame edge + focus-pull, thread state 5)
+   ========================================================================== */
+.lab-eventus {
+  background: linear-gradient(180deg, rgba(138, 59, 52, 0.03), transparent 60%), var(--cream);
+}
+
+.lab-eventus .lab-chapter-head .eyebrow {
+  color: var(--accent-eventus);
+}
+.lab-eventus .editorial-list span::before {
+  background: var(--accent-eventus);
+}
+.lab-eventus .lab-chapter-meta {
+  color: var(--accent-eventus);
+  font-style: italic;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+/* text left / frame right */
+.lab-eventus .lab-chapter-inner {
+  grid-template-columns: minmax(0, 0.98fr) minmax(0, 1.02fr);
+}
+
+.lab-eventus-frame .lab-frame-media {
+  border-radius: 40px;
+  box-shadow: 0 30px 90px rgba(138, 59, 52, 0.16);
+}
+
+.lab-eventus-media img {
+  object-position: center;
+}
+
+/* human moment sits on top; base = resolved (visible), GSAP fades it in last */
+.lab-eventus-human {
+  z-index: 1;
+}
+
+.lab-eventus-bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  height: 12%;
+  background: rgba(15, 14, 12, 0.92);
+  transform: scaleY(0);
+}
+.lab-eventus-bar-top {
+  top: 0;
+  transform-origin: top;
+}
+.lab-eventus-bar-bottom {
+  bottom: 0;
+  transform-origin: bottom;
+}
+
+.lab-eventus-edge {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.lab-eventus-edge rect {
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 2;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 0;
+  vector-effect: non-scaling-stroke;
+}
+
+/* ==========================================================================
+   SCENE 7 — Luxe (Seam / stitch, thread state 6)
+   ========================================================================== */
+.lab-luxe {
+  background: linear-gradient(180deg, rgba(47, 82, 64, 0.04), transparent 60%);
+}
+
+.lab-luxe .lab-chapter-head .eyebrow {
+  color: var(--accent-luxe);
+}
+.lab-luxe .editorial-list span::before {
+  background: var(--accent-luxe);
+}
+.lab-luxe .lab-chapter-meta {
+  color: var(--accent-luxe);
+  letter-spacing: 0.1em;
+}
+
+.lab-luxe .lab-chapter-inner {
+  grid-template-columns: minmax(0, 0.98fr) minmax(0, 1.02fr);
+}
+
+.lab-luxe-frame .lab-frame-media {
+  border-radius: var(--radius-lg);
+  aspect-ratio: 4 / 5;
+}
+
+.lab-luxe-atelier {
+  z-index: 0;
+}
+
+/* clean garment revealed by the seam-wipe; base = fully revealed (resolved) */
+.lab-luxe-gown {
+  z-index: 1;
+  clip-path: inset(0% 0 0 0);
+}
+
+.lab-luxe-seam {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.lab-luxe-seam-line {
+  stroke: var(--gold);
+  stroke-width: 1.6;
+  fill: none;
+  stroke-dasharray: 2.4 2.2;
+  stroke-linecap: round;
+  filter: drop-shadow(0 1px 2px rgba(47, 82, 64, 0.4));
+  vector-effect: non-scaling-stroke;
+}
+
+.lab-swatch-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px 18px;
+  padding-top: 4px;
+}
+
+.lab-swatch {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--ink-soft);
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.lab-swatch-chip {
+  width: 22px;
+  height: 22px;
+  border-radius: 5px;
+  border: 1px solid rgba(26, 24, 20, 0.16);
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.5);
+}
+
+.lab-luxe-corner {
+  gap: 0;
+}
+
+/* ==========================================================================
+   SCENE 8 — Why ORAC (Divider, thread state 7) — calm
+   ========================================================================== */
+.lab-why {
+  padding: var(--section) 0;
+  background: var(--cream);
+}
+
+.lab-why-head h2 {
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 4vw, 3.6rem);
+  font-weight: 600;
+  line-height: 1.02;
+}
+
+.lab-divider-wrap {
+  width: min(100%, 760px);
+  margin: 0 auto var(--space-lg);
+}
+
+.lab-divider {
+  display: block;
+  width: 100%;
+  height: 2px;
+  overflow: visible;
+}
+
+.lab-divider line {
+  stroke: var(--gold);
+  stroke-width: 1.2;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  transition: stroke-dashoffset 620ms var(--ease-smooth) 120ms;
+}
+
+.lab-divider-wrap.is-visible .lab-divider line,
+.lab-leadership-intro.is-visible .lab-divider line {
+  stroke-dashoffset: 0;
+}
+
+.lab-why .reason-panel-list article {
+  border-color: rgba(184, 151, 90, 0.1);
+  background: transparent;
+  box-shadow: none;
+}
+
+/* ==========================================================================
+   SCENE 9 — Leadership (held rule)
+   ========================================================================== */
+.lab-leadership {
+  padding: var(--section) 0;
+  background: var(--white);
+}
+
+.lab-leadership-panel {
+  width: min(100% - 40px, var(--max));
+  margin-inline: auto;
+}
+
+.lab-leadership-intro {
+  display: grid;
+  gap: 14px;
+  margin-bottom: var(--space-md);
+}
+
+.lab-leadership-intro h3 {
+  font-size: 2.2rem;
+}
+
+.lab-divider-held {
+  width: min(420px, 100%);
+  margin: 4px 0;
+}
+
+.lab-leadership-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+/* ==========================================================================
+   SCENE 10 — Contact (Guide, thread state 8) — the close
+   ========================================================================== */
+.lab-contact {
+  padding: var(--space-2xl) 0;
+  background:
+    radial-gradient(circle at 50% 10%, rgba(212, 175, 120, 0.16), transparent 36%),
+    linear-gradient(180deg, var(--ink) 0%, #0f0e0c 100%);
+  color: var(--white);
+}
+
+.lab-contact-inner {
+  width: min(100% - 40px, var(--max));
+  margin-inline: auto;
+}
+
+.lab-contact-copy {
+  width: min(760px, 100%);
+  margin-inline: auto;
+  display: grid;
+  justify-items: center;
+  gap: var(--space-sm);
+  text-align: center;
+}
+
+.lab-contact-copy .eyebrow {
+  color: var(--gold-light);
+}
+
+.lab-contact-copy h2 {
+  color: var(--white);
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 4vw, 3.6rem);
+  font-weight: 600;
+  line-height: 1.04;
+}
+
+.lab-contact-copy p {
+  max-width: 560px;
+  color: rgba(255, 255, 255, 0.62);
+}
+
+.lab-guide {
+  display: block;
+  width: 2px;
+  height: clamp(40px, 6vw, 64px);
+  margin: 8px auto 4px;
+  overflow: visible;
+}
+
+.lab-guide line {
+  stroke: var(--gold);
+  stroke-width: 1.4;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  transition: stroke-dashoffset 560ms var(--ease-smooth) 120ms;
+}
+
+.lab-contact-copy.is-visible .lab-guide line {
+  stroke-dashoffset: 0;
+}
+
+/* ==========================================================================
+   Mobile recomposition (≤820px) — shorter distances, single column, no
+   travelling fragments, no expensive blur.
+   ========================================================================== */
+@media (max-width: 820px) {
+  .lab-frag-layer {
+    display: none;
+  }
+
+  .lab-opening-ventures {
+    grid-template-columns: 1fr;
+    grid-auto-rows: minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  .lab-aperture::after {
+    padding-top: 56%;
+  }
+
+  .lab-opening-fork {
+    width: 3px;
+    height: clamp(18px, 3.6vh, 26px);
+  }
+
+  .lab-holding-inner {
+    grid-template-areas:
+      "spine statement"
+      "spine body";
+    grid-template-columns: 2px minmax(0, 1fr);
+    row-gap: var(--space-md);
+  }
+
+  .lab-chapter-inner {
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+  }
+
+  .lab-eventus .lab-chapter-inner,
+  .lab-luxe .lab-chapter-inner {
+    grid-template-columns: 1fr;
+  }
+
+  .lab-manifest {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .lab-global-stats {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: 100%;
+    margin-bottom: 18px;
+  }
+
+  .lab-global-map-wrap {
+    display: grid;
+  }
+
+  .lab-leadership-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .lab-why .reason-panel-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  .lab-manifest {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .lab-leadership-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .lab-swatch-row {
+    display: none; /* drop chips on the smallest screens (storyboard §7 mobile) */
+  }
+
+  .lab-global-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .lab-global-stats article {
+    border-right: 0;
+    border-bottom: 1px solid rgba(21, 19, 71, 0.08);
+  }
+  .lab-global-stats article:last-child {
+    border-bottom: 0;
+  }
+}
+
+@media (max-width: 375px) {
+  .lab-opening-tagline {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   Reduced motion — belt-and-suspenders on top of the JS matchMedia gates.
+   Every thread and revealed image is forced to its resolved end-state; the
+   opening's motion-only layers (fragments, ring) are removed. No transition is
+   required to access any information.
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .motion-lab .lab-frag-layer,
+  .motion-lab .lab-opening-ring {
+    display: none !important;
+  }
+
+  .motion-lab .lab-thread line,
+  .motion-lab .lab-thread path,
+  .motion-lab .lab-thread rect {
+    stroke-dashoffset: 0 !important;
+    transition: none !important;
+  }
+
+  .motion-lab .lab-luxe-gown {
+    clip-path: inset(0% 0 0 0) !important;
+  }
+
+  .motion-lab .lab-eventus-monitor {
+    filter: none !important;
+  }
+
+  .motion-lab .lab-eventus-bar {
+    transform: scaleY(0) !important;
+  }
+
+  .motion-lab .lab-luxe-seam-clip {
+    transform: scaleY(1) !important;
+  }
+}

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
@@ -9,6 +9,20 @@ import OracEventus from "./pages/OracEventus";
 import LuxuryExport from "./pages/LuxuryExport";
 import MaisonCategory from "./pages/MaisonCategory";
 import Contact from "./pages/Contact";
+
+// Development-only cinematic prototype (docs/ORAC-CINEMATIC-STORYBOARD.md).
+// Gated on import.meta.env.DEV and lazily code-split so that neither the
+// MotionLab page, its GSAP usage, nor its CSS are included in a production
+// build — in production the ternary is dead-code-eliminated, MotionLabRoute is
+// null, and /motion-lab falls through to the "*" redirect. The production
+// homepage (/) and all other routes are unaffected.
+const MotionLab = import.meta.env.DEV ? lazy(() => import("./pages/MotionLab")) : null;
+
+// A second, deliberately SEPARATE dev-only prototype: an isolated ORAC
+// adaptation of 21st.dev component #11494 ("Cinematic landing Hero"). Shares
+// only the same DEV + lazy gating strategy as MotionLab above — no code,
+// component tree, or CSS is shared with it (see src/motion-lab-21st/).
+const MotionLab21st = import.meta.env.DEV ? lazy(() => import("./pages/MotionLab21st")) : null;
 
 const pageTitles = {
   "/": "ORAC Holdings | Trade, Events, Couture",
@@ -84,6 +98,26 @@ export default function App() {
             <Route path="/luxury-export" element={<LuxuryExport />} />
             <Route path="/luxury-export/:categorySlug" element={<MaisonCategory />} />
             <Route path="/contact" element={<Contact />} />
+            {MotionLab ? (
+              <Route
+                path="/motion-lab"
+                element={
+                  <Suspense fallback={null}>
+                    <MotionLab />
+                  </Suspense>
+                }
+              />
+            ) : null}
+            {MotionLab21st ? (
+              <Route
+                path="/motion-lab-21st"
+                element={
+                  <Suspense fallback={null}>
+                    <MotionLab21st />
+                  </Suspense>
+                }
+              />
+            ) : null}
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </RouteFade>
