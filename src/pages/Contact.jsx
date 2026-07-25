@@ -1,4 +1,4 @@
-import { CalendarDays, Gem, Globe2, Landmark, MapPinned } from "lucide-react";
+import { CalendarDays, Gem, Globe2, Landmark } from "lucide-react";
 import BrandLockup from "../components/common/BrandLockup";
 import IconBadge from "../components/common/IconBadge";
 import Reveal from "../components/common/Reveal";
@@ -16,7 +16,7 @@ function ContactCard({ icon, label, title, description, links = [], note, delay 
       {links.length ? (
         <div className="contact-link-list">
           {links.map((link) => (
-            <a key={`${link.href}-${link.text}`} href={link.href} aria-label={link.label}>
+            <a key={`${link.kind}-${link.href}-${link.text}`} href={link.href} aria-label={link.label}>
               <span>{link.kind || "Contact"}</span>
               <strong>{link.text}</strong>
             </a>
@@ -33,13 +33,13 @@ export default function Contact() {
     {
       icon: Landmark,
       label: "General enquiry",
-      title: "ORAC Holding",
-      description: "Ohm Pranav / Founder & Chairman / India",
+      title: "ORAC Holdings",
+      description: "Ohm Pranav / Managing Director / India",
       links: [
         {
           href: `mailto:${contactDetails.holding.email}`,
           text: contactDetails.holding.email,
-          label: "Email ORAC Holding",
+          label: "Email ORAC Holdings",
           kind: "Email",
         },
         {
@@ -51,13 +51,13 @@ export default function Contact() {
         {
           href: `tel:${contactDetails.holding.phone.replaceAll(" ", "")}`,
           text: contactDetails.holding.phone,
-          label: "Call ORAC Holding",
+          label: "Call ORAC Holdings",
           kind: "Phone",
         },
         {
           href: `https://${contactDetails.holding.website}`,
           text: contactDetails.holding.website,
-          label: "Visit ORAC Holding website",
+          label: "Visit ORAC Holdings website",
           kind: "Web",
         },
       ],
@@ -65,20 +65,45 @@ export default function Contact() {
     {
       icon: Globe2,
       label: "Trade enquiry",
-      title: "ORAC International - Singapore",
-      description: `${contactDetails.international.name} / ${contactDetails.international.role} / ${contactDetails.international.location}`,
+      title: "ORAC International",
+      description: "Three regional desks for export, import, and sourcing conversations.",
+      wide: true,
       links: [
         {
           href: `tel:${contactDetails.international.phone.replaceAll(" ", "")}`,
           text: contactDetails.international.phone,
-          label: "Call ORAC International",
-          kind: "Phone",
+          label: `Call the Singapore desk - ${contactDetails.international.name}, ${contactDetails.international.role}`,
+          kind: "Singapore",
         },
         {
           href: `mailto:${contactDetails.international.email}`,
           text: contactDetails.international.email,
-          label: "Email ORAC International",
-          kind: "Email",
+          label: "Email the Singapore desk",
+          kind: "Singapore",
+        },
+        {
+          href: `tel:${contactDetails.holding.phone.replaceAll(" ", "")}`,
+          text: contactDetails.holding.phone,
+          label: "Call the India desk - Ohm Pranav, Managing Director",
+          kind: "India",
+        },
+        {
+          href: `mailto:${contactDetails.holding.secondaryEmail}`,
+          text: contactDetails.holding.secondaryEmail,
+          label: "Email the India desk",
+          kind: "India",
+        },
+        {
+          href: `tel:${contactDetails.africa.phone.replaceAll(" ", "")}`,
+          text: contactDetails.africa.phone,
+          label: `Call the Africa desk - ${contactDetails.africa.role}, ${contactDetails.africa.location}`,
+          kind: "Africa",
+        },
+        {
+          href: `mailto:${contactDetails.africa.email}`,
+          text: contactDetails.africa.email,
+          label: "Email the Africa desk",
+          kind: "Africa",
         },
       ],
     },
@@ -124,26 +149,6 @@ export default function Contact() {
         })),
       ],
       note: `${contactDetails.luxe.social} on Instagram`,
-    },
-    {
-      icon: MapPinned,
-      label: "Africa trade desk",
-      title: contactDetails.africa.name,
-      description: `${contactDetails.africa.role} / ${contactDetails.africa.location}`,
-      links: [
-        {
-          href: `tel:${contactDetails.africa.phone.replaceAll(" ", "")}`,
-          text: contactDetails.africa.phone,
-          label: "Call Africa trade desk",
-          kind: "Phone",
-        },
-        {
-          href: `mailto:${contactDetails.africa.email}`,
-          text: contactDetails.africa.email,
-          label: "Email Africa trade desk",
-          kind: "Email",
-        },
-      ],
     },
   ];
 

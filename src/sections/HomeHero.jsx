@@ -1,34 +1,16 @@
-import BusinessDock from "../components/common/BusinessDock";
-import Button from "../components/common/Button";
-import Reveal from "../components/common/Reveal";
-import oracLogo from "../assets/logos/orac-orange.svg";
+import OriginSequence from "./OriginSequence";
 
+// The homepage opening (see docs/ORAC-EXPERIENCE-BLUEPRINT.md §1/§2/Phase 4).
+// `.home-hero` keeps its existing section-level treatment (full-bleed
+// cream/white gradient, nav-height-aware min-height); the actual
+// composition - ORAC identity, forking rule, three business apertures - is
+// `OriginSequence`, which collapses the old sequential "wordmark alone, then
+// scroll for the ventures" stages into one static, resolved, on-load view.
 export default function HomeHero() {
   return (
     <section className="home-hero">
       <div className="container home-hero-inner">
-        <Reveal className="home-hero-copy">
-          <span className="eyebrow">ORAC Holding</span>
-          <h1 className="home-hero-logo-heading">
-            <span className="sr-only">ORAC Holding</span>
-            <img src={oracLogo} alt="ORAC" decoding="async" fetchpriority="high" />
-          </h1>
-          <p className="hero-line">ORAC - TRADE | EVENTS | COUTURE</p>
-          <p className="hero-subtext">
-            A House of Ventures. Built on Vision. Forged by Discipline. Defined by Legacy.
-          </p>
-          <BusinessDock className="hero-business-dock" />
-          <div className="hero-actions">
-            <Button to="/#companies">Explore Businesses</Button>
-            <Button to="/contact" variant="ghost">
-              Start a Conversation
-            </Button>
-          </div>
-        </Reveal>
-        <Reveal className="hero-brand-panel home-brand-panel" delay={120}>
-          <span className="hero-brand-rule" />
-          <small>INDIA - SINGAPORE - AFRICA</small>
-        </Reveal>
+        <OriginSequence />
       </div>
     </section>
   );

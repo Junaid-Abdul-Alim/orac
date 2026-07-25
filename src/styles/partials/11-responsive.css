@@ -49,7 +49,6 @@
     font-size: 3.4rem;
   }
 
-  .business-showcase-grid,
   .luxe-partner-layout,
   .split-layout,
   .editorial-layout,
@@ -59,6 +58,10 @@
   .velorawed-visuals,
   .footer-inner {
     grid-template-columns: 1fr;
+  }
+
+  .venture-frame-grid {
+    gap: 12px;
   }
 
   .footer-inner {
@@ -180,32 +183,6 @@
     font-size: 1.35rem;
   }
 
-  .business-dock {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .business-dock a {
-    min-height: 72px;
-    padding: 12px;
-  }
-
-  .business-dock span {
-    font-size: 0.92rem;
-  }
-
-  .business-dock small {
-    font-size: 0.72rem;
-  }
-
-  .business-card {
-    min-height: 460px;
-  }
-
-  .business-card > a {
-    grid-template-rows: 220px auto;
-  }
-
-  .business-card-body,
   .leader-tile,
   .service-card,
   .service-block,
@@ -227,8 +204,68 @@
   .process-timeline,
   .process-four,
   .editorial-gallery,
-  .velorawed-section .editorial-gallery {
+  .velorawed-section .editorial-gallery,
+  .venture-frame-grid {
     grid-template-columns: 1fr;
+  }
+
+  .orac-frame-venture .venture-frame-link {
+    grid-template-rows: 220px auto;
+  }
+
+  /* The homepage opening's mobile recomposition (Blueprint §2, First
+     Viewport Specification - mobile). Not a shrunk desktop layout: the fork
+     becomes a single vertical tick instead of a wide horizontal fork, and
+     the three apertures become full-width stacked bands with the label
+     overlaying the image/scrim rather than sitting in a separate row below
+     it - the specific mechanism the arithmetic in the blueprint relies on
+     to fit all three inside 360x640 with zero scroll. */
+  .home-hero {
+    min-height: calc(100svh - var(--nav-height));
+    padding: clamp(12px, 3vw, 20px) 0 clamp(14px, 3vw, 22px);
+  }
+
+  .home-hero-inner {
+    min-height: calc(100svh - var(--nav-height) - clamp(26px, 6vw, 42px));
+  }
+
+  .origin-identity {
+    gap: 4px;
+    padding-bottom: 4px;
+  }
+
+  .origin-logo-heading img {
+    width: min(240px, 58vw);
+    max-height: min(56px, 9svh);
+  }
+
+  .origin-tagline {
+    max-width: 92vw;
+    font-size: 0.82rem;
+    line-height: 1.32;
+  }
+
+  .origin-fork {
+    width: 3px;
+    height: clamp(18px, 3.6vh, 26px);
+  }
+
+  .origin-ventures {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .venture-compact-label {
+    padding: 10px 16px 12px;
+  }
+
+  .venture-compact-label .eyebrow {
+    font-size: 0.66rem;
+  }
+
+  .venture-compact-label h2 {
+    font-size: 1.35rem;
   }
 
   .luxe-partner-layout {
@@ -541,20 +578,8 @@
     width: 100%;
   }
 
-  .business-dock {
-    gap: 8px;
-  }
-
-  .business-dock a {
-    border-radius: 18px;
-  }
-
-  .business-card-visual {
-    min-height: 210px;
-  }
-
-  .business-card-orbit {
-    width: 120px;
+  .orac-frame-venture .venture-frame-link {
+    grid-template-rows: 210px auto;
   }
 
   .luxe-actions {
@@ -569,6 +594,17 @@
   .luxe-page .azrin-hero-logo {
     width: min(292px, 78vw);
     max-height: 104px;
+  }
+
+  /* "ORAC INTERNATIONAL" is the longest hero heading on the site (19
+     characters) - the shared .product-hero h1 flat 2.9rem below this
+     breakpoint overflows its own viewport at 360-393px widths (confirmed:
+     right edge past the viewport at both sizes) even though every other
+     hero heading fits. Scoped to International only, same fluid-clamp
+     approach already used for the Luxe hero above, so Eventus/Contact/Home
+     keep their existing 2.9rem exactly as before. */
+  .venture-page-international .product-hero h1 {
+    font-size: clamp(2.15rem, 10vw, 2.9rem);
   }
 
   .azrin-logo-card {
@@ -785,6 +821,18 @@
   }
 }
 
+/* The 360x640 case is the binding tightest constraint in the First Viewport
+   Specification (Blueprint §2) - verified arithmetically there, not
+   asserted. The one explicit content reduction it requires at this exact
+   width: drop the tagline line entirely (kept at 390px+), since the
+   wordmark + fork + three full-width bands already consume the full
+   available height without it. */
+@media (max-width: 375px) {
+  .origin-tagline {
+    display: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -804,5 +852,9 @@
   .safe-image {
     opacity: 1;
     transform: none;
+  }
+
+  .safe-image-frame::before {
+    opacity: 0;
   }
 }

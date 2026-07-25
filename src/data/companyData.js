@@ -18,12 +18,12 @@ export const companies = [
     shortName: "International",
     label: "Global Trade",
     purpose:
-      "Export and import trading across agri-commodities, industrial fibres, minerals, and automotive accessories.",
+      "Export and import trading across agri-commodities, natural fibres and industrial minerals, and automotive accessories.",
     route: "/international",
     image: assetPaths.international,
     logo: oracInternationalLogo,
     summary:
-      "Export and import trading across agri-commodities, industrial fibres, minerals, and automotive accessories. Est. 22 April 2026.",
+      "Export and import trading across agri-commodities, natural fibres and industrial minerals, and automotive accessories.",
     cta: "Visit International",
   },
   {
@@ -59,13 +59,13 @@ export const companies = [
 export const leadership = [
   {
     name: "Ohm Pranav",
-    role: "Founder & Chairman",
-    focus: "ORAC Holding, ORAC International",
+    role: "Managing Director",
+    focus: "ORAC Holdings, ORAC International",
   },
   {
     name: "Rajkumar Janjinam",
     role: "Director",
-    focus: "ORAC Holding, ORAC International",
+    focus: "ORAC Holdings, ORAC International",
   },
   {
     name: "Arjun Prabhakaran",

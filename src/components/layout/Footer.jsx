@@ -12,7 +12,7 @@ export default function Footer() {
       <div className="container footer-inner">
         <div className="footer-brand">
           <img className="footer-logo" src={oracLogo} alt="ORAC" loading="lazy" decoding="async" />
-          <span className="footer-kicker">ORAC Holding</span>
+          <span className="footer-kicker">ORAC Holdings</span>
           <h2>Trade, events, and fashion under one house.</h2>
           <p>
             A focused business house building ventures with clear roles, careful execution, and long-term
@@ -64,7 +64,7 @@ export default function Footer() {
       </div>
 
       <div className="container footer-bottom">
-        <p>Copyright 2026 ORAC Holding. All rights reserved.</p>
+        <p>Copyright 2026 ORAC Holdings. All rights reserved.</p>
         <p>Chennai | India | Global corridors</p>
       </div>
     </footer>

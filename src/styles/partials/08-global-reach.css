@@ -117,8 +117,8 @@
 }
 
 .global-country {
-  fill: #e5e5e5;
-  stroke: #ffffff;
+  fill: var(--map-country);
+  stroke: var(--map-stroke);
   stroke-width: 0.55;
   outline: none;
   transition:
@@ -127,24 +127,30 @@
 }
 
 .global-country.is-highlighted {
-  fill: #151347;
+  fill: var(--map-highlight);
   cursor: pointer;
 }
 
 .global-country.is-india {
-  fill: #b42318;
+  fill: var(--map-india);
 }
 
 .global-country.is-highlighted:hover,
-.global-country.is-highlighted:focus {
-  fill: #25217a;
+.global-country.is-highlighted:focus-visible {
+  fill: var(--map-highlight-hover);
   filter: drop-shadow(0 6px 10px rgba(21, 19, 71, 0.18));
 }
 
 .global-country.is-india:hover,
-.global-country.is-india:focus {
-  fill: #d14336;
+.global-country.is-india:focus-visible {
+  fill: var(--map-india-hover);
   filter: drop-shadow(0 6px 10px rgba(180, 35, 24, 0.2));
+}
+
+.global-country.is-highlighted:focus-visible,
+.global-country.is-india:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 1px;
 }
 
 .global-reach-tooltip {
@@ -165,6 +171,57 @@
   box-shadow: 0 16px 42px rgba(21, 19, 71, 0.12);
   pointer-events: none;
   white-space: nowrap;
+}
+
+/* The single keyboard-reachable entry point to the highlighted-country
+   list, replacing 30 sequential tab stops on the map itself (the map's
+   individual countries are tabIndex={-1} and aria-hidden). */
+.global-reach-country-disclosure {
+  margin-top: clamp(16px, 2vw, 24px);
+  text-align: center;
+}
+
+.global-reach-country-toggle {
+  border: 1px solid rgba(21, 19, 71, 0.16);
+  border-radius: 999px;
+  padding: 10px 20px;
+  background: transparent;
+  color: #151347;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background 220ms var(--ease-smooth),
+    border-color 220ms var(--ease-smooth);
+}
+
+.global-reach-country-toggle:hover {
+  background: rgba(21, 19, 71, 0.04);
+  border-color: rgba(21, 19, 71, 0.28);
+}
+
+.global-reach-country-toggle:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px var(--white),
+    0 0 0 4px var(--ink),
+    0 0 0 7px var(--gold);
+}
+
+.global-reach-country-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 6px 16px;
+  max-width: 720px;
+  margin: clamp(16px, 2vw, 22px) auto 0;
+  padding: 0;
+  list-style: none;
+  text-align: left;
+}
+
+.global-reach-country-list li {
+  color: rgba(22, 20, 15, 0.72);
+  font-size: 0.88rem;
 }
 
 .quote-block {
@@ -198,6 +255,10 @@
   color: var(--white);
 }
 
+.velorawed-section .eyebrow {
+  color: var(--gold-light);
+}
+
 .velorawed-layout {
   align-items: end;
 }
@@ -208,17 +269,28 @@
   gap: 18px;
 }
 
+/* Phase 5 correction: VELORAWED is ORAC Eventus's photography/cinematography
+   partner, not a fourth ORAC business - so its own wordmark should read as
+   a named credit within the Eventus story, not a headline-scale identity
+   competing with "ORAC Eventus" itself. Reduced from 5.2rem and paired with
+   a clarifying kicker line rather than standing alone as a giant word. */
 .velorawed-logo {
   display: block;
-  width: clamp(62px, 8vw, 108px);
+  width: clamp(52px, 6.4vw, 84px);
   height: auto;
   filter: drop-shadow(0 26px 50px rgba(212, 175, 120, 0.16));
 }
 
 .partner-title h2 {
   color: var(--white);
-  font-size: 5.2rem;
-  line-height: 0.95;
+  font-size: 3.1rem;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.partner-title-kicker {
+  color: rgba(255, 255, 255, 0.56);
+  font-size: 0.86rem;
 }
 
 .partner-copy p {

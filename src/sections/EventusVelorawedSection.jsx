@@ -21,6 +21,7 @@ export default function EventusVelorawedSection() {
             decoding="async"
           />
           <h2>VELORAWED</h2>
+          <small className="partner-title-kicker">Photography &amp; cinematography, by ORAC Eventus</small>
         </Reveal>
         <Reveal className="partner-copy">
           <p>

@@ -6,53 +6,59 @@ import ProductCategoryShowcase from "../components/common/ProductCategoryShowcas
 import ProcessTimeline from "../components/common/ProcessTimeline";
 import CinematicBanner from "../components/common/CinematicBanner";
 import GlobalReach from "../components/common/GlobalReach";
-import ContactCTA from "../sections/ContactCTA";
 import Hero from "../components/common/Hero";
+import NeumatrixSection from "../sections/NeumatrixSection";
+import InternationalContactCTA from "../sections/InternationalContactCTA";
 import {
   exportCategories,
+  exportPortfolioTagline,
   importCategories,
+  importPortfolioTagline,
   internationalServices,
   internationalStats,
+  portfolioIntro,
+  processHeading,
+  processNarrative,
   tradeProcess,
+  whatWeDoClosing,
 } from "../data/internationalData";
 import { internationalImages, productImageSlot } from "../data/internationalImages";
 import { pad2 } from "../utils/pad2";
-
-const serviceDescriptions = [
-  "Outbound trade movement for selected Indian categories.",
-  "Inbound channels for selected industrial and market needs.",
-  "Supplier discovery, category fit, and origin conversations.",
-  "Commercial coordination from enquiry to movement.",
-  "Producer, vendor, and supplier follow-through.",
-  "Quality checks, document readiness, and shipment support.",
-];
 
 const serviceIcons = [Ship, Truck, SearchCheck, Handshake, ClipboardCheck, FileCheck2];
 
 export default function OracInternational() {
   return (
-    <>
+    <div className="venture-page venture-page-international">
       <Hero
         lockup={["ORAC", "International"]}
-        eyebrow="Global Import & Export"
+        eyebrow="GLOBAL IMPORT AND EXPORT NETWORK"
         title="ORAC INTERNATIONAL"
         kicker="Global Import & Export"
-        text="Export and import trading across agri-commodities, industrial fibres, minerals, and automotive accessories."
-        meta="Export & Import / Est. 22 April 2026 / Chennai, India / Singapore-Aligned"
-        heroNote="Export & Import / Est. 22 April 2026 / Chennai, India / Singapore-Aligned"
-        image={internationalImages.hero}
+        text="Global Trade Excellence in Agriculture, Industrial Materials, Minerals & Automotive Accessories."
+        meta="EST 2026 / CHENNAI - SINGAPORE ALIGNED"
+        heroNote="EST 2026 / CHENNAI - SINGAPORE ALIGNED"
+        image={{
+          ...internationalImages.hero,
+          title: "Delivering Value Across Every Border",
+          description: "Built for international import and export",
+        }}
       />
 
       <section className="section founder-section">
         <div className="container split-layout">
-          <SectionHeader eyebrow="Founder" title="Ohm Pranav Percholli Ramaraja" />
+          <SectionHeader eyebrow="I · Managing Director" title="Ohm Pranav Percholli Ramaraja" />
           <Reveal className="rich-copy">
-            <p>Founder & Chairman. Rajapalayam, Tamil Nadu. Chennai-based and Singapore-connected.</p>
             <p>
-              Rajapalayam is a town with trade in its bones: cotton, textiles, commerce. Ohm Pranav grew up
-              watching the rhythms of business long before he entered them. ORAC International is the result
-              of six years of doing the work, earning the knowledge, and refusing to stop. What started as an
-              idea is now a trading house with reach into Africa, Southeast Asia, and beyond.
+              Rajapalayam has long been recognized as a thriving centre of trade, built on a legacy of cotton,
+              textiles, and entrepreneurship. Growing up in this business-driven environment, Ohm Pranav
+              developed an early understanding of commerce and global markets.
+            </p>
+            <p>
+              Founded on over six years of industry experience, ORAC International was established with a
+              vision to connect trusted products with global opportunities. Today, the company serves clients
+              across Africa, Southeast Asia, the Middle East, and other international markets, delivering
+              excellence through quality sourcing, reliable partnerships, and seamless global trade.
             </p>
           </Reveal>
         </div>
@@ -64,10 +70,11 @@ export default function OracInternational() {
             <Reveal>
               <span className="eyebrow">About ORAC International</span>
               <p>
-                ORAC International is an export and import trading business focused on agricultural
-                commodities, natural fibres, industrial minerals, and automotive accessories. Products are
-                sourced responsibly, verified for quality, and moved with attention that keeps buyers coming
-                back.
+                ORAC International is a global import and export trading company specializing in agricultural
+                commodities, natural fibres, industrial minerals, and automotive accessories. With a
+                commitment to quality, integrity, and reliability, we source from trusted partners, ensure
+                rigorous quality standards, and deliver seamless trade solutions that create lasting value and
+                long-term relationships across international markets.
               </p>
             </Reveal>
             <div className="stat-grid">
@@ -88,25 +95,26 @@ export default function OracInternational() {
         <div className="container">
           <div className="trade-capability-showcase">
             <div className="trade-capability-copy">
-              <SectionHeader eyebrow="What We Do" title="Trade work with the details kept visible." />
-              <Reveal className="trade-capability-statement">
-                <span>From source to shipment</span>
-                <p>
-                  ORAC International keeps the essential work close: finding the right supply, coordinating
-                  the right people, and keeping every trade conversation clear.
-                </p>
+              <SectionHeader
+                eyebrow="II · What We Do"
+                title="Beyond Transactions. Building Global Connections."
+              />
+              <Reveal className="trade-capability-statement" delay={internationalServices.length * 65}>
+                <span>{whatWeDoClosing.title}</span>
+                <p>{whatWeDoClosing.text}</p>
               </Reveal>
             </div>
             <div className="trade-capability-grid" aria-label="ORAC International capabilities">
               {internationalServices.map((service, index) => (
-                <Reveal as="article" className="trade-capability-card" key={service} delay={index * 65}>
+                <Reveal as="article" className="trade-capability-card" key={service.title} delay={index * 65}>
                   <div className="trade-capability-top">
                     <IconBadge icon={serviceIcons[index]} className="icon-badge-soft" size={17} />
                     <span className="trade-capability-number">{pad2(index + 1)}</span>
                   </div>
                   <div>
-                    <h3>{service}</h3>
-                    <p>{serviceDescriptions[index]}</p>
+                    <h3>{service.title}</h3>
+                    <p className="trade-capability-tagline">{service.tagline}</p>
+                    <p>{service.description}</p>
                   </div>
                 </Reveal>
               ))}
@@ -118,25 +126,27 @@ export default function OracInternational() {
       <section className="section">
         <div className="container">
           <ProductCategoryShowcase
-            eyebrow="Trade Catalogue"
-            title="Export & Import Catalogue"
-            text="A focused view of ORAC International's export products and selected import channels for agricultural, automotive, and industrial trade."
+            eyebrow="III · Trade Catalogue"
+            title="Export & Import Portfolio"
+            text={portfolioIntro}
             collections={[
               {
                 id: "exports",
-                label: "Export Collection",
+                label: "Export Portfolio",
                 short: "Export",
-                description:
-                  "Products sourced from India's growing and manufacturing regions, prepared for international trade enquiries.",
+                description: exportPortfolioTagline,
                 categories: exportCategories,
+                catalogueHref: "/downloads/orac-international-export-portfolio-catalogue.pdf",
+                catalogueLabel: "Click below to download the ORAC INTERNATIONAL Export Portfolio Catalogue",
               },
               {
                 id: "imports",
-                label: "Import Collection",
+                label: "Import Portfolio",
                 short: "Import",
-                description:
-                  "Selected products sourced through international channels for India's aftermarket, processing, and industrial sectors.",
+                description: importPortfolioTagline,
                 categories: importCategories,
+                catalogueHref: "/downloads/orac-international-import-portfolio-catalogue.pdf",
+                catalogueLabel: "Click below to download the ORAC INTERNATIONAL Import Portfolio Catalogue",
               },
             ]}
             getImage={productImageSlot}
@@ -145,16 +155,27 @@ export default function OracInternational() {
         </div>
       </section>
 
-      <CinematicBanner image={internationalImages.banner} />
+      <NeumatrixSection getImage={productImageSlot} />
+
+      <CinematicBanner
+        image={internationalImages.banner}
+        title="Your Vision. Our Commitment."
+        description="From sourcing to delivery, we go the extra mile to find the right products, overcome challenges, and create trade solutions tailored to your business."
+      />
 
       <section className="section process-section">
         <div className="container">
-          <SectionHeader eyebrow="Process" title="A clear route from source to support." />
+          <SectionHeader eyebrow="IV · Process" title={processHeading} />
+          <Reveal className="rich-copy process-narrative">
+            {processNarrative.map((paragraph) => (
+              <p key={paragraph}>{paragraph}</p>
+            ))}
+          </Reveal>
           <ProcessTimeline steps={tradeProcess} />
         </div>
       </section>
 
-      <ContactCTA title="Trade enquiries and partner conversations begin here." />
-    </>
+      <InternationalContactCTA />
+    </div>
   );
 }

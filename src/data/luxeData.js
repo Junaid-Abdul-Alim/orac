@@ -1,6 +1,6 @@
 import luxeAtelier from "../assets/images/luxe/fashion-atelier.webp";
 import vaultXiiiPalette from "../assets/images/luxe/vault-xiii-palette.jpg";
-import maisonCollage from "../assets/images/luxe/maison-collage.jpg";
+import maisonCollage from "../assets/images/luxe/maison-collage.webp";
 import frontDresses from "../assets/images/maison/fronts/dresses.jpg";
 import frontCoOrds from "../assets/images/maison/fronts/co-ords.jpg";
 import frontTunics from "../assets/images/maison/fronts/tunics.jpg";
@@ -35,6 +35,11 @@ import { pad2 } from "../utils/pad2";
 export const luxeImages = {
   hero: imageSlot(
     "The House of Azrin",
+    "Fashion atelier workspace for ORAC Luxe and The House of Azrin",
+    luxeAtelier
+  ),
+  opening: imageSlot(
+    "ORAC Luxe image",
     "Fashion atelier workspace for ORAC Luxe and The House of Azrin",
     luxeAtelier
   ),

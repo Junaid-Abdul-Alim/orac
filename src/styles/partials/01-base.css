@@ -17,6 +17,22 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Route cross-fade (App.jsx RouteFade). transform/opacity only, so it stays
+   compositor-friendly; prefers-reduced-motion (11-responsive.css) forces
+   the transition-duration to ~0, collapsing this to an instant swap. */
+.route-fade {
+  opacity: 0;
+  transform: translateY(6px);
+  transition:
+    opacity var(--dur-base) var(--ease-smooth),
+    transform var(--dur-base) var(--ease-smooth);
+}
+
+.route-fade.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 body {
   margin: 0;
   min-width: 320px;
@@ -40,10 +56,7 @@ select,
 .button,
 .eyebrow,
 .brand small,
-.business-dock,
 .business-switcher-panel,
-.business-card-status,
-.business-card-action,
 .editorial-list,
 .partner-services,
 .footer-column,
@@ -101,12 +114,21 @@ main:focus {
   outline: none;
 }
 
+/* Two-layer focus ring (dark inner line + gold outer line) so the ring
+   stays clearly visible regardless of what surface - light or dark - the
+   focused element happens to sit on, rather than one flat gold tone tuned
+   for only one of the two. Used as the shared default for links, nav
+   controls, and any interactive element without a more specific rule
+   below. */
 :focus-visible {
-  outline: 2px solid rgba(184, 151, 90, 0.72);
+  outline: none;
+  box-shadow:
+    0 0 0 2px var(--white),
+    0 0 0 4px var(--ink),
+    0 0 0 7px var(--gold);
   outline-offset: 4px;
 }
 
-.button:focus-visible,
 .desktop-nav > a:focus-visible,
 .company-menu > button:focus-visible,
 .nav-contact-actions a:focus-visible,
@@ -119,8 +141,30 @@ main:focus {
 .product-showcase-tabs button:focus-visible {
   outline: none;
   box-shadow:
-    0 0 0 4px rgba(184, 151, 90, 0.14),
-    0 0 0 1px rgba(184, 151, 90, 0.5);
+    0 0 0 2px var(--white),
+    0 0 0 4px var(--ink),
+    0 0 0 7px var(--gold);
+}
+
+/* Primary button: always on the dark --ink background, so a bright ring
+   reads clearly without needing the two-layer treatment. */
+.button:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px var(--ink),
+    0 0 0 5px var(--white);
+}
+
+/* Secondary/ghost buttons render on both light and dark sections
+   (ContactCTA's dark panel, HomeHero/Hero's light panels), so they need
+   the same surface-agnostic two-layer ring as the shared default. */
+.button-secondary:focus-visible,
+.button-ghost:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px var(--white),
+    0 0 0 4px var(--ink),
+    0 0 0 7px var(--gold);
 }
 
 img {
@@ -135,6 +179,34 @@ img {
 
 .safe-image.is-loaded {
   opacity: 1;
+}
+
+.safe-image-frame {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background: linear-gradient(180deg, var(--surface-soft), var(--surface));
+}
+
+.safe-image-frame::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(184, 151, 90, 0.06), rgba(184, 151, 90, 0.02));
+  opacity: 1;
+  transition: opacity 420ms var(--ease-smooth);
+}
+
+.safe-image-frame.is-loaded::before {
+  opacity: 0;
+}
+
+.safe-image-fill {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .sr-only {
@@ -187,7 +259,6 @@ h4 {
 .hero-kicker,
 .hero-brand-word,
 .section-header h2,
-.business-card h3,
 .leadership-intro h3,
 .leader-tile h4,
 .service-card h3,
@@ -230,7 +301,8 @@ p {
 .process-section,
 .eventus-gallery-section,
 .editorial-section,
-.about-trade-section {
+.about-trade-section,
+.leadership-section {
   background: var(--white);
 }
 
@@ -238,7 +310,7 @@ p {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  color: var(--gold);
+  color: var(--gold-text);
   font-size: 0.72rem;
   font-weight: 600;
   letter-spacing: 0;

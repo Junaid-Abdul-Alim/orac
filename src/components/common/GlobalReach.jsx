@@ -22,9 +22,15 @@ export default function GlobalReach({
   highlights = [],
 }) {
   const [tooltip, setTooltip] = useState(null);
+  const [countryListOpen, setCountryListOpen] = useState(false);
   const geographyUrl = useMemo(() => `${import.meta.env.BASE_URL}geographies/countries-110m.json`, []);
   const sectionId = variant === "home" ? "home-global-reach-title" : "global-reach-title";
+  const countryListId = `${sectionId}-countries`;
   const highlightItems = highlights.length ? highlights : defaultHighlights;
+  const sortedCountryNames = useMemo(
+    () => Array.from(highlightedCountries).sort((a, b) => a.localeCompare(b)),
+    []
+  );
 
   const showTooltip = (event, countryName) => {
     const bounds = event.currentTarget.ownerSVGElement?.getBoundingClientRect();
@@ -75,7 +81,7 @@ export default function GlobalReach({
             height={480}
             className="global-reach-map"
             role="img"
-            aria-label="World map highlighting ORAC International trade reach"
+            aria-label="World map highlighting ORAC International trade reach - see the full country list below"
           >
             <Geographies geography={geographyUrl}>
               {({ geographies }) =>
@@ -88,8 +94,8 @@ export default function GlobalReach({
                     <Geography
                       key={geo.rsmKey}
                       geography={geo}
-                      tabIndex={isHighlighted ? 0 : -1}
-                      aria-label={countryName}
+                      tabIndex={-1}
+                      aria-hidden="true"
                       className={[
                         "global-country",
                         isHighlighted ? "is-highlighted" : "",
@@ -99,20 +105,32 @@ export default function GlobalReach({
                         .join(" ")}
                       style={{
                         default: {
-                          fill: isIndia ? "#B42318" : isHighlighted ? "#151347" : "#E5E5E5",
-                          stroke: "#FFFFFF",
+                          fill: isIndia
+                            ? "var(--map-india)"
+                            : isHighlighted
+                              ? "var(--map-highlight)"
+                              : "var(--map-country)",
+                          stroke: "var(--map-stroke)",
                           strokeWidth: 0.55,
                           outline: "none",
                         },
                         hover: {
-                          fill: isIndia ? "#D14336" : isHighlighted ? "#25217A" : "#E5E5E5",
-                          stroke: "#FFFFFF",
+                          fill: isIndia
+                            ? "var(--map-india-hover)"
+                            : isHighlighted
+                              ? "var(--map-highlight-hover)"
+                              : "var(--map-country)",
+                          stroke: "var(--map-stroke)",
                           strokeWidth: 0.55,
                           outline: "none",
                         },
                         pressed: {
-                          fill: isIndia ? "#8F1D14" : isHighlighted ? "#1D1966" : "#E5E5E5",
-                          stroke: "#FFFFFF",
+                          fill: isIndia
+                            ? "var(--map-india-pressed)"
+                            : isHighlighted
+                              ? "var(--map-highlight-pressed)"
+                              : "var(--map-country)",
+                          stroke: "var(--map-stroke)",
                           strokeWidth: 0.55,
                           outline: "none",
                         },
@@ -120,13 +138,6 @@ export default function GlobalReach({
                       onMouseEnter={isHighlighted ? (event) => showTooltip(event, countryName) : undefined}
                       onMouseMove={isHighlighted ? moveTooltip : undefined}
                       onMouseLeave={isHighlighted ? () => setTooltip(null) : undefined}
-                      onFocus={
-                        isHighlighted
-                          ? () =>
-                              setTooltip({ name: displayNames[countryName] || countryName, x: 490, y: 232 })
-                          : undefined
-                      }
-                      onBlur={isHighlighted ? () => setTooltip(null) : undefined}
                     />
                   );
                 })
@@ -143,6 +154,25 @@ export default function GlobalReach({
               {tooltip.name}
             </div>
           ) : null}
+
+          <div className="global-reach-country-disclosure">
+            <button
+              type="button"
+              className="global-reach-country-toggle"
+              aria-expanded={countryListOpen}
+              aria-controls={countryListId}
+              onClick={() => setCountryListOpen((value) => !value)}
+            >
+              {countryListOpen ? "Hide" : "Show"} the {focusedCountryCount} focused countries
+            </button>
+            {countryListOpen ? (
+              <ul id={countryListId} className="global-reach-country-list">
+                {sortedCountryNames.map((name) => (
+                  <li key={name}>{displayNames[name] || name}</li>
+                ))}
+              </ul>
+            ) : null}
+          </div>
         </Reveal>
       </div>
     </section>

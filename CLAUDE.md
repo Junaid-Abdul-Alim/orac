@@ -19,8 +19,7 @@ Build a distinctive, premium, cinematic, editorial website for ORAC Holding. Com
 ## Brand structure
 
 - Parent: **ORAC Holding** (verify exact spelling against live site content before changing — see Decisions doc for a known naming conflict)
-- Active ventures: **ORAC International**, **ORAC Eventus** (× **VELORAWED**), **ORAC Luxe** (× **The House of Azrin**)
-- **ORAC Evolution**: referenced in prior planning docs as a 4th venture but does not exist anywhere in the current codebase (no route, no data entry, no nav item). Treat as not-yet-decided, not as existing — see Decisions doc.
+- Active ventures: **ORAC International**, **ORAC Eventus** (× **VELORAWED**), **ORAC Luxe** (× **The House of Azrin**) — exactly three. A 4th venture ("ORAC Evolution") appeared in earlier planning notes; confirmed a mistake and dropped — do not reintroduce it.
 - Never invent services, achievements, clients, numbers, partnerships, awards, or testimonials.
 
 ## Central creative principle

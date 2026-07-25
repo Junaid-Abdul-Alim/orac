@@ -335,9 +335,6 @@
   line-height: 1.58;
 }
 
-.luxe-cta {
-  background: radial-gradient(circle at 50% 0%, rgba(212, 175, 120, 0.18), transparent 36%), var(--ink);
-}
 
 .luxe-page .reason-panel-list {
   grid-template-columns: repeat(4, minmax(0, 1fr));

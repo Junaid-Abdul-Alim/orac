@@ -2,6 +2,12 @@
   --gold: #b8975a;
   --gold-light: #d4af78;
   --gold-pale: #f5edd8;
+  /* Text-safe gold for normal-size text on --cream/--white surfaces only.
+     --gold itself measures ~2.6:1 there, well under WCAG AA's 4.5:1 - this
+     darker value measures ~5.84:1 against --cream and ~6.2:1 against
+     --white. --gold stays unchanged for rules, borders, hover fills, focus
+     rings, and text on dark surfaces (ink), where its own contrast is fine. */
+  --gold-text: #7a5c28;
   --ink: #1a1814;
   --ink-soft: #3a3630;
   --ink-muted: #6e6860;
@@ -14,6 +20,44 @@
   --graphite: #080807;
   --glass: rgba(255, 255, 255, 0.72);
   --dark-glass: rgba(12, 11, 9, 0.72);
+
+  /* Per-venture accents. Gold stays the shared ORAC signal (rules, eyebrows,
+     focus states); these signal "which world" — used sparingly (a rule, a
+     hover state, a nav indicator), never as a full section recolour. The
+     "-light" pair is for use on dark/ink surfaces; the base pair is for use
+     on cream/light surfaces. Both pairs verified >= 4.5:1 (WCAG AA) against
+     their intended background. */
+  --accent-international: #2c4a63;
+  --accent-international-light: #7ea3c2;
+  --accent-eventus: #8a3b34;
+  --accent-eventus-light: #c98177;
+  --accent-luxe: #2f5240;
+  --accent-luxe-light: #7fac93;
+
+  /* GlobalReach world-map palette. Previously hardcoded twice - once inline
+     in GlobalReach.jsx's react-simple-maps style props, once again in
+     08-global-reach.css - now a single source both read from. Values are
+     unchanged from what was already live; this only removes the
+     duplication. */
+  --map-country: #e5e5e5;
+  --map-highlight: #151347;
+  --map-highlight-hover: #25217a;
+  --map-highlight-pressed: #1d1966;
+  --map-india: #b42318;
+  --map-india-hover: #d14336;
+  --map-india-pressed: #8f1d14;
+  --map-stroke: #ffffff;
+
+  /* Shadow scale. Restrained by design (see CLAUDE.md) - used for lift on
+     interactive surfaces (cards, modals, the frame device), not decoration. */
+  --shadow-sm: 0 2px 8px rgba(26, 24, 20, 0.06);
+  --shadow-md: 0 8px 24px rgba(26, 24, 20, 0.1);
+  --shadow-lg: 0 20px 48px rgba(26, 24, 20, 0.14);
+
+  /* Transition durations, paired with the existing --ease-smooth curve. */
+  --dur-fast: 160ms;
+  --dur-base: 260ms;
+  --dur-slow: 420ms;
 
   --font-display: "Cormorant Garamond", Georgia, serif;
   --font-body: "Jost", "DM Sans", Arial, sans-serif;

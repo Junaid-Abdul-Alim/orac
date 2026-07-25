@@ -1,15 +1,20 @@
 import SectionHeader from "../components/common/SectionHeader";
 import Reveal from "../components/common/Reveal";
-import { leadership } from "../data/companyData";
 
+// The institutional "About ORAC Holdings" framing only - leadership was
+// split out into Leadership.jsx and moved later in the homepage journey
+// (see docs/ORAC-REDESIGN-SPEC.md §2 stage 6 / §12): leadership content
+// belongs after value has been established, not immediately after the
+// hero. This section keeps the #about anchor since it's the section that
+// answers "what is ORAC Holdings," which is reasonable early framing.
 export default function HoldingIntro() {
   return (
     <section className="section holding-intro" id="about">
       <div className="container split-layout">
-        <SectionHeader eyebrow="About ORAC Holding" title="We build institutions designed to endure." />
+        <SectionHeader eyebrow="About ORAC Holdings" title="We build institutions designed to endure." />
         <Reveal className="rich-copy">
           <p>
-            ORAC Holding is the parent house for a focused group of ventures across trade, events, and
+            ORAC Holdings is the parent house for a focused group of ventures across trade, events, and
             fashion.
           </p>
           <p>
@@ -25,23 +30,6 @@ export default function HoldingIntro() {
           </p>
           <strong className="holding-statement">We build institutions designed to endure.</strong>
         </Reveal>
-      </div>
-
-      <div className="container leadership-panel">
-        <Reveal className="leadership-intro">
-          <span className="eyebrow">The People Behind ORAC</span>
-          <h3>Leadership across the ORAC group.</h3>
-        </Reveal>
-        <div className="leadership-grid">
-          {leadership.map((leader, index) => (
-            <Reveal as="article" className="leader-tile" key={leader.name} delay={index * 90}>
-              <span>{leader.role}</span>
-              <h4>{leader.name}</h4>
-              <p className="leader-focus">{leader.focus}</p>
-              {leader.body ? <p>{leader.body}</p> : null}
-            </Reveal>
-          ))}
-        </div>
       </div>
     </section>
   );

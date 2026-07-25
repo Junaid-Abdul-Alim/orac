@@ -1,11 +1,12 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { ArrowDownToLine, ArrowLeft, ArrowRight, ArrowUpFromLine } from "lucide-react";
+import { ArrowDownToLine, ArrowLeft, ArrowRight, ArrowUpFromLine, Download } from "lucide-react";
 import Reveal from "./Reveal";
 import ProductPanel from "./ProductPanel";
+import ProductSpecModal from "./ProductSpecModal";
 import IconBadge from "./IconBadge";
 import { pad2 } from "../../utils/pad2";
 
-function ProductCollectionCarousel({ collection, getImage, index }) {
+function ProductCollectionCarousel({ collection, getImage, index, onSelectProduct }) {
   const scrollerRef = useRef(null);
   const [canScrollPrev, setCanScrollPrev] = useState(false);
   const [canScrollNext, setCanScrollNext] = useState(false);
@@ -58,6 +59,12 @@ function ProductCollectionCarousel({ collection, getImage, index }) {
             <small>{collection.short}</small>
             <h3>{collection.label}</h3>
             <p>{collection.description}</p>
+            {collection.catalogueHref ? (
+              <a className="product-collection-download" href={collection.catalogueHref} download>
+                <Download size={14} strokeWidth={1.8} aria-hidden="true" />
+                {collection.catalogueLabel || `Download the ${collection.label} Catalogue`}
+              </a>
+            ) : null}
           </div>
         </div>
         <div className="product-carousel-controls" aria-label={`${collection.label} carousel controls`}>
@@ -94,6 +101,7 @@ function ProductCollectionCarousel({ collection, getImage, index }) {
             image={getImage(product.name)}
             index={Math.min(productIndex, 8)}
             className="product-showcase-card"
+            onSelect={onSelectProduct}
           />
         ))}
       </div>
@@ -109,6 +117,7 @@ export default function ProductCategoryShowcase({
   text,
   label = "Product catalogue",
 }) {
+  const [activeProduct, setActiveProduct] = useState(null);
   const productTotal = collections.reduce(
     (total, collection) =>
       total +
@@ -141,9 +150,16 @@ export default function ProductCategoryShowcase({
             collection={collection}
             getImage={getImage}
             index={index}
+            onSelectProduct={(product, image) => setActiveProduct({ product, image })}
           />
         ))}
       </div>
+
+      <ProductSpecModal
+        product={activeProduct?.product}
+        image={activeProduct?.image}
+        onClose={() => setActiveProduct(null)}
+      />
     </section>
   );
 }

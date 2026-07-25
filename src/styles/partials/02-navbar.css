@@ -23,6 +23,47 @@
   border-color: rgba(184, 151, 90, 0.22);
 }
 
+/* Per-venture accent: a quiet "which world am I in" cue in the shared
+   header. Gold remains the constant ORAC signal (brand, focus states);
+   this is a second, quieter signal layered under it as a 2px rule, and
+   used to recolour the current route's active nav link. See variables.css
+   for the --accent-* tokens and their AA verification. */
+.navbar[data-venture]::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  background: var(--venture-accent, transparent);
+}
+
+.navbar[data-venture="international"] {
+  --venture-accent: var(--accent-international);
+}
+
+.navbar[data-venture="eventus"] {
+  --venture-accent: var(--accent-eventus);
+}
+
+.navbar[data-venture="luxe"] {
+  --venture-accent: var(--accent-luxe);
+}
+
+.navbar[data-venture] .desktop-nav > a.active {
+  background: color-mix(in srgb, var(--venture-accent) 12%, transparent);
+  color: var(--venture-accent);
+}
+
+.navbar[data-venture] .mobile-menu > a.active,
+.navbar[data-venture] .mobile-menu-group > a.active {
+  border-color: color-mix(in srgb, var(--venture-accent) 45%, transparent);
+}
+
+.navbar[data-venture] .business-switcher-panel a.active {
+  border-color: color-mix(in srgb, var(--venture-accent) 45%, transparent);
+}
+
 .brand,
 .desktop-nav,
 .mobile-toggle {
