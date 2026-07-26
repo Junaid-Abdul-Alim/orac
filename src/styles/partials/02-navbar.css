@@ -7,7 +7,11 @@
   align-items: center;
   justify-content: space-between;
   gap: 18px;
-  padding: 0 clamp(18px, 4vw, 44px);
+  /* Resolves to exactly the page margin `.container` produces at any width
+     - the gutter while the viewport is narrower than --max, the centring
+     margin once it is wider - so the wordmark sits on the same left edge
+     as every section heading instead of floating ~80px outside it. */
+  padding-inline: max(var(--gutter), (100% - var(--max)) / 2);
   color: var(--ink);
   border-bottom: 1px solid rgba(184, 151, 90, 0.14);
   background: rgba(250, 248, 244, 0.76);
@@ -184,13 +188,13 @@
   position: absolute;
   top: calc(100% + 12px);
   right: 0;
-  width: min(620px, calc(100vw - 40px));
+  width: min(620px, calc(100vw - (2 * var(--gutter))));
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
   padding: 12px;
   border: 1px solid rgba(184, 151, 90, 0.18);
-  border-radius: 28px;
+  border-radius: var(--radius-lg);
   background: rgba(255, 255, 255, 0.84);
   -webkit-backdrop-filter: blur(28px) saturate(180%);
   backdrop-filter: blur(28px) saturate(180%);
@@ -303,7 +307,7 @@
   align-content: start;
   gap: 10px;
   min-height: 100svh;
-  padding: calc(var(--nav-height) + 28px) 20px 32px;
+  padding: calc(var(--nav-height) + 28px) var(--gutter) 32px;
   background: rgba(250, 248, 244, 0.98);
   opacity: 0;
   pointer-events: none;

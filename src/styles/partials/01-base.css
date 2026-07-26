@@ -279,13 +279,35 @@ p {
   color: var(--ink-muted);
 }
 
+/* The three content widths. Every one subtracts the same --gutter, so a
+   heading in a standard section, an image in a wide section, and the
+   navbar all resolve to the same left and right edges at every width. */
 .container {
-  width: min(100% - 40px, var(--max));
+  width: min(100% - (2 * var(--gutter)), var(--max));
   margin-inline: auto;
 }
 
+.container-wide {
+  width: min(100% - (2 * var(--gutter)), var(--max-wide));
+}
+
+.container-narrow {
+  width: min(100% - (2 * var(--gutter)), var(--max-narrow));
+}
+
 .section {
-  padding: var(--section) 0;
+  padding: var(--section-y) 0;
+}
+
+/* Chapter boundary - used where a section opens a new movement in the
+   page rather than continuing the previous one. */
+.section-loose {
+  padding: var(--section-y-loose) 0;
+}
+
+/* Related content continuing inside a chapter. */
+.section-tight {
+  padding: var(--section-y-tight) 0;
 }
 
 .muted-section,
@@ -306,14 +328,17 @@ p {
   background: var(--white);
 }
 
+/* One eyebrow treatment everywhere: rule, tracked uppercase label, and a
+   fixed gap to whatever heading follows it (set on .section-header and the
+   hero stacks) so the eyebrow-to-title distance never varies by section. */
 .eyebrow {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   color: var(--gold-text);
   font-size: 0.72rem;
   font-weight: 600;
-  letter-spacing: 0;
+  letter-spacing: 0.14em;
   line-height: 1.2;
   text-transform: uppercase;
 }
@@ -342,14 +367,16 @@ p {
   line-height: 1.2;
   text-align: center;
   transition:
-    transform 450ms var(--ease-smooth),
-    background 450ms var(--ease-smooth),
-    color 450ms var(--ease-smooth),
-    border-color 450ms var(--ease-smooth);
+    transform var(--dur-hover) var(--ease-smooth),
+    background var(--dur-hover) var(--ease-smooth),
+    color var(--dur-hover) var(--ease-smooth),
+    border-color var(--dur-hover) var(--ease-smooth);
 }
 
+/* Hover motion vocabulary: one small translate, no scale. A scaling pill
+   next to a static rule reads as a wobble at this size. */
 .button:hover {
-  transform: translateY(-1px) scale(1.025);
+  transform: translateY(-2px);
   background: var(--gold);
   color: var(--ink);
 }
@@ -368,20 +395,52 @@ p {
   border-color: rgba(212, 175, 120, 0.68);
 }
 
-.reveal,
-.image-reveal {
+/* Motion vocabulary 1 - standard content reveal. Eyebrows, headings,
+   paragraph groups, small information blocks: opacity plus a short rise,
+   one-shot, no scale. Stagger comes from the `delay` prop, never from a
+   per-child nth-child rule. */
+.reveal {
   opacity: 0;
-  transform: translate3d(0, 14px, 0) scale(0.996);
+  transform: translate3d(0, 20px, 0);
   will-change: opacity, transform;
   transition:
-    opacity 560ms var(--ease-smooth) var(--delay),
-    transform 560ms var(--ease-smooth) var(--delay);
+    opacity var(--dur-reveal) var(--ease-reveal) var(--delay),
+    transform var(--dur-reveal) var(--ease-reveal) var(--delay);
 }
 
-.reveal.is-visible,
-.image-reveal.is-visible {
+/* Motion vocabulary 2 - editorial image reveal. Reserved for major media
+   (hero, chapter, gallery entry images): the frame wipes open from the
+   bottom while the photograph settles back from a 1.04 scale, so the
+   image is recognisable for the whole reveal and appears to arrive into
+   its frame rather than zoom. Slower than a content reveal by design. */
+.image-reveal {
+  --media-scale: 1.04;
+  --panel-radius: var(--radius-lg);
+  opacity: 0;
+  clip-path: inset(0 0 14% 0 round var(--panel-radius));
+  will-change: opacity, clip-path;
+  transition:
+    opacity var(--dur-image-reveal) var(--ease-reveal) var(--delay),
+    clip-path var(--dur-image-reveal) var(--ease-reveal) var(--delay);
+}
+
+/* Driven by a custom property rather than a transform rule so hover states
+   (which set --media-scale on the same element) compose with the reveal
+   instead of fighting it for specificity. */
+.image-reveal :is(img, .safe-image-fallback) {
+  transform: scale(var(--media-scale));
+}
+
+.reveal.is-visible {
   opacity: 1;
-  transform: translate3d(0, 0, 0) scale(1);
+  transform: translate3d(0, 0, 0);
+  will-change: auto;
+}
+
+.image-reveal.is-visible {
+  --media-scale: 1;
+  opacity: 1;
+  clip-path: inset(0 0 0 0 round var(--panel-radius));
   will-change: auto;
 }
 

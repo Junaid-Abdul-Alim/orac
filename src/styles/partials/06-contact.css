@@ -2,8 +2,12 @@
   background: var(--white);
 }
 
+/* Sized by its own content and the shared hero padding rather than held at
+   a 760px block; the fixed minimum left ~250px of empty page above the
+   heading and ~200px below it, on the one route where the next section is
+   the reason the visitor came. */
 .contact-hero {
-  min-height: min(760px, calc(100svh - var(--nav-height)));
+  min-height: auto;
   display: grid;
   align-items: center;
 }
@@ -275,8 +279,19 @@
   place-items: stretch;
 }
 
+/* Every catalogue source is a branded card: the same template prints an
+   "ORAC INTERNATIONAL" lockup across its top ~24% and a product caption
+   ("COTTON YARN / PURE. STRONG. SUSTAINABLE.") across its bottom ~22%. The
+   card already states the product name in its own typography underneath,
+   so both printed bands are duplicates - and at this frame ratio cover
+   alone cannot remove them (the sources are taller than the frame, so it
+   crops height, and the remaining window is wider than the clean middle
+   band). Scaling past both leaves only the product itself in frame.
+   --product-photo-zoom is the single place that value lives; the crop is
+   re-checked per breakpoint below, since the frame ratio changes. */
 .product-panel-image .product-panel-photo,
 .product-panel-image img {
+  --product-photo-zoom: 1.75;
   display: block;
   width: 100%;
   height: 100%;
@@ -286,7 +301,7 @@
   object-fit: cover;
   object-position: center;
   transform-origin: center center;
-  transform: translate3d(0, 0, 0) scale(1);
+  transform: translate3d(0, 0, 0) scale(var(--product-photo-zoom));
   transition:
     filter 760ms var(--ease-smooth),
     transform 820ms var(--ease-smooth);
@@ -303,7 +318,7 @@
 .product-panel:hover .product-panel-image .product-panel-photo,
 .product-panel:hover .product-panel-image img {
   filter: saturate(1.02) contrast(1.015);
-  transform: translate3d(0, -4px, 0) scale(1.028);
+  transform: translate3d(0, -4px, 0) scale(calc(var(--product-photo-zoom) * 1.028));
 }
 
 @keyframes productStageIn {

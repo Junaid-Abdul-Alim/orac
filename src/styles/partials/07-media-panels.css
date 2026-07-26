@@ -1,9 +1,14 @@
+/* One image container. Every variant differs only in --panel-radius and
+   the height/ratio of its media box; the frame, crop behaviour, reveal
+   and hover response are shared. --panel-radius also drives the editorial
+   reveal's clip-path (01-base.css), so a panel's mask always matches its
+   own corners. */
 .image-panel {
   position: relative;
   width: 100%;
   min-width: 0;
   overflow: hidden;
-  border-radius: 32px;
+  border-radius: var(--panel-radius);
   background: var(--cream);
   box-shadow: 0 28px 80px rgba(26, 24, 20, 0.08);
 }
@@ -32,12 +37,16 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 800ms var(--ease-smooth);
+  /* Default focal point; individual panels override with object-position
+     where the source's subject is not centred. */
+  object-position: center;
+  transition: transform var(--dur-image-reveal) var(--ease-reveal);
 }
 
-.image-panel:hover img,
-.image-panel:hover .safe-image-fallback {
-  transform: scale(1.025);
+/* Hover composes with the reveal by setting the same custom property the
+   reveal animates, rather than competing with it for specificity. */
+.image-panel:hover {
+  --media-scale: 1.03;
 }
 
 .safe-image-fallback {
@@ -68,20 +77,26 @@
   color: rgba(255, 255, 255, 0.56);
 }
 
+/* The caption sits on whatever the photograph happens to put under it -
+   a white toile in the Luxe chapter, bright powder in International. A
+   deeper, earlier scrim keeps the label legible on every asset without
+   darkening the image itself. */
 .image-panel-overlay {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: linear-gradient(180deg, transparent 52%, rgba(0, 0, 0, 0.34));
+  background: linear-gradient(180deg, transparent 46%, rgba(0, 0, 0, 0.14) 68%, rgba(0, 0, 0, 0.55));
 }
 
 .image-panel-copy {
   position: absolute;
   inset: auto 0 0;
   display: grid;
+  justify-items: start;
   gap: 8px;
-  padding: 28px;
+  padding: clamp(20px, 2vw, 28px);
   color: var(--white);
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.35);
 }
 
 .image-panel-copy span {
@@ -101,8 +116,8 @@
 }
 
 .service-block-image {
-  margin: -30px -30px 12px;
-  border-radius: 28px 28px 18px 18px;
+  --panel-radius: var(--radius-lg) var(--radius-lg) 18px 18px;
+  margin: clamp(-30px, -2vw, -22px) clamp(-30px, -2vw, -22px) 12px;
   box-shadow: none;
 }
 
@@ -121,7 +136,6 @@
 .eventus-services-section .service-block {
   height: 100%;
   align-content: start;
-  border-radius: 30px;
 }
 
 .eventus-services-section .service-block-image .image-panel-media,
@@ -130,40 +144,47 @@
   aspect-ratio: 16 / 9.5;
 }
 
+/* Large editorial media share one height band, matching the venture
+   chapters' band so a banner on a business page and a chapter image on the
+   homepage read at the same scale. */
 .preview-image-panel .image-panel-media,
 .preview-image-panel .safe-image-fallback,
 .cinematic-banner .image-panel-media,
 .cinematic-banner .safe-image-fallback,
 .velorawed-film-frame .image-panel-media,
 .velorawed-film-frame .safe-image-fallback {
-  min-height: 560px;
+  min-height: 0;
+  height: clamp(380px, 40vw, 560px);
+  aspect-ratio: auto;
 }
 
 .cinematic-banner-section {
-  padding: var(--space-xl) 0;
+  padding: var(--section-y-tight) 0;
   background: var(--white);
 }
 
 .cinematic-banner {
-  border-radius: 40px;
+  --panel-radius: var(--radius-xl);
 }
 
 .editorial-gallery {
   display: grid;
   grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap: 14px;
+  gap: var(--gap-md);
 }
 
 .gallery-item {
+  --panel-radius: var(--radius-lg);
   width: 100%;
   min-width: 0;
-  min-height: 340px;
+  min-height: 0;
 }
 
 .gallery-item .image-panel-media,
 .gallery-item .safe-image-fallback {
-  min-height: 320px;
-  aspect-ratio: 1 / 1;
+  min-height: 0;
+  height: clamp(300px, 26vw, 380px);
+  aspect-ratio: auto;
 }
 
 .gallery-item-1,
@@ -180,11 +201,11 @@
 
 .eventus-gallery-section .editorial-gallery {
   grid-template-columns: repeat(12, minmax(0, 1fr));
-  gap: 16px;
+  gap: var(--gap-md);
 }
 
 .eventus-gallery-section .gallery-item {
-  min-height: clamp(300px, 30vw, 430px);
+  min-height: 0;
 }
 
 .eventus-gallery-section .gallery-item-1,
@@ -202,10 +223,13 @@
   grid-column: span 6;
 }
 
+/* The Eventus gallery runs 7/5, 6/6, 7/5 spans; a single row height keeps
+   every pair's top and bottom edges on the same two lines. */
 .eventus-gallery-section .gallery-item .image-panel-media,
 .eventus-gallery-section .gallery-item .safe-image-fallback {
-  min-height: clamp(300px, 30vw, 430px);
-  aspect-ratio: 16 / 10;
+  min-height: 0;
+  height: clamp(300px, 28vw, 400px);
+  aspect-ratio: auto;
 }
 
 .eventus-why-section .split-layout {
@@ -226,7 +250,7 @@
   grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 1px;
   border: 1px solid rgba(184, 151, 90, 0.14);
-  border-radius: 32px;
+  border-radius: var(--radius-lg);
   overflow: hidden;
   background: rgba(184, 151, 90, 0.14);
 }

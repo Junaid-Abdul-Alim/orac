@@ -1,34 +1,40 @@
 .global-reach-section {
-  padding: clamp(84px, 10vw, 132px) 0;
+  padding: var(--section-y) 0;
   background: #ffffff;
   color: #000000;
   overflow: hidden;
 }
 
+/* Was the one section on the page with its own width and its own
+   horizontal padding; now it shares the standard content column, so the
+   map frame's edges line up with the chapter images above and below it. */
 .global-reach-container {
-  width: min(100% - 40px, 1180px);
+  width: min(100% - (2 * var(--gutter)), var(--max));
   margin: 0 auto;
 }
 
 .global-reach-heading {
   max-width: 760px;
-  margin: 0 auto 44px;
+  margin: 0 auto var(--space-lg);
   text-align: center;
 }
 
+/* Matched to the shared .section-header h2 ramp so this heading no longer
+   outsizes every other section title on the homepage. */
 .global-reach-heading h2 {
-  margin: 10px 0 0;
+  margin: clamp(14px, 1.2vw, 20px) 0 0;
   color: #000000;
   font-family: var(--font-display);
-  font-size: clamp(2.8rem, 6vw, 5.8rem);
+  font-size: clamp(2.15rem, 1.1rem + 3.35vw, 4.25rem);
   font-weight: 500;
   letter-spacing: 0;
-  line-height: 0.92;
+  line-height: 1.04;
+  text-wrap: balance;
 }
 
 .global-reach-heading p {
-  max-width: 680px;
-  margin: 22px auto 0;
+  max-width: min(var(--measure), 100%);
+  margin: clamp(16px, 1.4vw, 22px) auto 0;
   color: rgba(22, 20, 15, 0.66);
   font-size: 1.04rem;
   line-height: 1.75;
@@ -36,7 +42,7 @@
 
 .global-reach-map-wrap {
   position: relative;
-  max-width: 1120px;
+  max-width: none;
   margin: 0 auto;
   padding: clamp(18px, 3vw, 34px);
   border: 1px solid rgba(21, 19, 71, 0.08);
@@ -47,15 +53,11 @@
   background: linear-gradient(180deg, #ffffff 0%, #faf8f3 100%);
 }
 
-.global-reach-home .global-reach-container {
-  width: min(100% - 40px, 1240px);
-}
-
 .global-reach-home .global-reach-map-wrap {
-  max-width: 1180px;
-  padding: clamp(24px, 4vw, 50px);
+  max-width: none;
+  padding: clamp(24px, 3vw, 44px);
   border-color: rgba(21, 19, 71, 0.1);
-  border-radius: 36px;
+  border-radius: var(--radius-lg);
   background:
     radial-gradient(circle at 50% 42%, rgba(184, 151, 90, 0.1), transparent 35%),
     linear-gradient(180deg, #ffffff 0%, #fbfaf7 100%);
@@ -66,15 +68,20 @@
   opacity: 0.98;
 }
 
+/* Pinned to the map frame's own inner padding, so the stat block's left
+   and top edges sit exactly on the frame's content edge rather than at an
+   unrelated offset. */
 .global-reach-stats {
   position: absolute;
-  left: clamp(20px, 4vw, 48px);
-  top: clamp(20px, 4vw, 48px);
+  left: clamp(24px, 3vw, 44px);
+  top: clamp(24px, 3vw, 44px);
   z-index: 2;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   width: min(520px, calc(100% - 40px));
+  overflow: hidden;
   border: 1px solid rgba(21, 19, 71, 0.1);
+  border-radius: var(--radius-sm);
   background: rgba(255, 255, 255, 0.86);
   -webkit-backdrop-filter: blur(18px) saturate(160%);
   backdrop-filter: blur(18px) saturate(160%);
@@ -240,7 +247,7 @@
 .quote-block blockquote {
   margin: 0;
   color: var(--white);
-  font-size: 3.2rem;
+  font-size: clamp(1.85rem, 1rem + 2.6vw, 3.2rem);
   font-weight: 700;
   line-height: 1.08;
 }
@@ -259,14 +266,26 @@
   color: var(--gold-light);
 }
 
+/* Bottom-aligning the two columns left the taller column's height as a
+   void above the shorter one - roughly 260px of empty dark panel above the
+   VELORAWED lockup at desktop. Both columns now start at the section's top
+   rule like every other two-column block on the site. */
 .velorawed-layout {
-  align-items: end;
+  align-items: start;
 }
 
 .partner-title,
 .partner-copy {
   display: grid;
+  align-content: start;
   gap: 18px;
+}
+
+/* The lockup is a small credit line above the eyebrow; at the shared
+   rgba(26,24,20,.56) it is nearly invisible on this dark panel. */
+.velorawed-section .brand-lockup {
+  justify-content: flex-start;
+  color: rgba(255, 255, 255, 0.5);
 }
 
 /* Phase 5 correction: VELORAWED is ORAC Eventus's photography/cinematography
@@ -283,7 +302,7 @@
 
 .partner-title h2 {
   color: var(--white);
-  font-size: 3.1rem;
+  font-size: clamp(1.9rem, 1.1rem + 2.4vw, 3.1rem);
   line-height: 1;
   white-space: nowrap;
 }

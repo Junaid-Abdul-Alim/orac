@@ -105,8 +105,9 @@
    between them, so this section reads as a considered statement rather
    than a compact utility grid. */
 .editions-section {
-  padding-top: clamp(56px, 7vw, 96px);
-  padding-bottom: clamp(56px, 7vw, 96px);
+  /* On the shared section rhythm; it used to run its own 56-96px scale. */
+  padding-top: var(--section-y);
+  padding-bottom: var(--section-y);
 }
 
 .editions-grid {
@@ -116,13 +117,16 @@
   margin-top: var(--space-xl);
 }
 
+/* A 420px floor is a three-column proportion. Once these stack it leaves
+   roughly 230px of empty card under two lines of copy on a phone, so the
+   floor scales with the layout instead of being fixed. */
 .edition-card {
   position: relative;
   display: grid;
   align-content: start;
   gap: clamp(20px, 2.2vw, 28px);
-  min-height: 420px;
-  padding: clamp(36px, 3.6vw, 52px) clamp(30px, 3vw, 42px);
+  min-height: clamp(220px, 30vw, 420px);
+  padding: clamp(28px, 3.6vw, 52px) clamp(26px, 3vw, 42px);
   background: linear-gradient(180deg, var(--white), rgba(250, 248, 243, 0.7));
   border: 1px solid var(--rule);
   border-radius: var(--radius-lg);

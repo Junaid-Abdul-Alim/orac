@@ -7,31 +7,67 @@
   gap: 10px;
 }
 
+/* One two-column skeleton, one column gap, one alignment rule. Sections
+   differ in what they put in the columns, never in how wide the columns
+   are or how far apart they sit. */
 .split-layout,
 .editorial-layout,
 .velorawed-layout,
 .footer-inner {
   display: grid;
-  grid-template-columns: minmax(0, 0.88fr) minmax(0, 1.12fr);
-  gap: var(--space-xl);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--gap-column);
   align-items: start;
 }
 
+/* Editorial chapters: copy column slightly narrower than the media column
+   so the paragraph measure stays readable and the photograph carries the
+   weight. Top-aligned, not centred - centring made each chapter image sit
+   at a different offset from its own heading (-64px, -14px and -31px
+   across the three homepage chapters), which is what made the three read
+   as three unrelated layouts. Now every chapter's eyebrow and image share
+   one top rule. */
 .editorial-layout {
-  align-items: center;
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+  align-items: start;
 }
 
-.editorial-layout.reverse > :first-child {
-  order: 2;
+.editorial-copy {
+  display: grid;
+  align-content: center;
+  gap: 0;
 }
 
-.rich-copy,
-.editorial-list {
+/* Alternating chapter sides. Applied only while the layout is genuinely
+   two-column (the single-column query below never sees it), so the mobile
+   stack stays copy-then-image for every chapter. The column ratio flips
+   with the order, so the media column stays the wider of the two on
+   whichever side it lands. */
+.editorial-layout.reverse {
+  grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+}
+
+.editorial-layout.reverse > .editorial-media {
+  order: -1;
+}
+
+.rich-copy {
   display: grid;
   gap: 18px;
 }
 
+/* A continuous ledger: rows carry their own symmetric padding and are
+   separated by the rules themselves. The previous 18px grid gap sat only
+   above each rule, so every row was 12px from the rule below it and 18px
+   from the rule above it. */
+.editorial-list {
+  display: grid;
+  gap: 0;
+  border-top: 1px solid rgba(184, 151, 90, 0.18);
+}
+
 .rich-copy p {
+  max-width: var(--measure);
   font-size: 1.02rem;
 }
 
@@ -45,15 +81,21 @@
   line-height: 1.12;
 }
 
+/* Rules sit *between* rows, not under the last one - a trailing rule read
+   as an underline beneath the CTA that follows it. */
 .editorial-list span {
   display: flex;
   align-items: center;
   gap: 12px;
-  min-height: 48px;
-  padding: 14px 0;
+  min-height: 44px;
+  padding: 12px 0;
   border-bottom: 1px solid rgba(184, 151, 90, 0.18);
   color: var(--ink-soft);
   font-weight: 500;
+}
+
+.editorial-list span:last-child {
+  border-bottom: 0;
 }
 
 .editorial-list span::before {
@@ -75,7 +117,8 @@
 }
 
 .leadership-intro h3 {
-  font-size: 2.2rem;
+  font-size: clamp(1.6rem, 1.1rem + 1.5vw, 2.4rem);
+  line-height: 1.1;
 }
 
 .stat-grid,
@@ -84,13 +127,34 @@
 .reason-panel-list {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
+  gap: var(--gap-md);
 }
 
 .leadership-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 16px;
+  gap: var(--gap-md);
+}
+
+/* Why ORAC carries five points. On a three-column grid that leaves a
+   card-sized hole in the bottom-right corner; a six-column grid lets the
+   last two run 3+3 so the block closes as a rectangle. Scoped to the
+   widths that actually have three columns - unscoped it outranked the
+   narrower breakpoints' single-column rules and squeezed five columns
+   onto a phone. */
+@media (min-width: 901px) {
+  .why-section .reason-panel-list {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  .why-section .reason-panel-list > * {
+    grid-column: span 2;
+  }
+
+  .why-section .reason-panel-list > *:nth-child(4),
+  .why-section .reason-panel-list > *:nth-child(5) {
+    grid-column: span 3;
+  }
 }
 
 .service-grid-compact {
@@ -106,7 +170,7 @@
   overflow: hidden;
   padding: clamp(24px, 3.8vw, 56px);
   border: 1px solid rgba(184, 151, 90, 0.16);
-  border-radius: 42px;
+  border-radius: var(--radius-xl);
   background:
     radial-gradient(circle at 18% 18%, rgba(212, 175, 120, 0.18), transparent 31%),
     radial-gradient(circle at 88% 18%, rgba(27, 34, 64, 0.08), transparent 29%),
@@ -120,7 +184,7 @@
   inset: 18px;
   pointer-events: none;
   border: 1px solid rgba(184, 151, 90, 0.1);
-  border-radius: 32px;
+  border-radius: var(--radius-lg);
 }
 
 .trade-capability-copy {
@@ -162,7 +226,7 @@
   z-index: 1;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
+  gap: var(--gap-sm);
 }
 
 .trade-capability-card {
@@ -173,7 +237,7 @@
   gap: 22px;
   padding: clamp(20px, 2.2vw, 28px);
   border: 1px solid rgba(184, 151, 90, 0.16);
-  border-radius: 30px;
+  border-radius: var(--radius-lg);
   overflow: hidden;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.62)), rgba(255, 255, 255, 0.72);
@@ -241,6 +305,7 @@
   line-height: 1.55;
 }
 
+/* One card language: same border, same radius token, same shadow. */
 .leader-tile,
 .stat-tile,
 .service-card,
@@ -251,7 +316,7 @@
 .editorial-panel,
 .feature-panel {
   border: 1px solid rgba(184, 151, 90, 0.14);
-  border-radius: 28px;
+  border-radius: var(--radius-lg);
   background: rgba(255, 255, 255, 0.82);
   box-shadow: 0 24px 80px rgba(26, 24, 20, 0.05);
 }
@@ -263,8 +328,24 @@
 .contact-card,
 .reason-panel-list article {
   display: grid;
-  gap: 14px;
-  padding: 30px;
+  gap: 12px;
+  padding: clamp(22px, 2vw, 30px);
+}
+
+/* Leader tiles carry a role label, a name that may run to two lines, and a
+   focus line. Fixed rows keep the four names on one baseline and the four
+   focus lines on another, instead of each tile setting its own. */
+.leader-tile {
+  grid-template-rows: auto auto 1fr;
+  align-content: start;
+  gap: 10px;
+}
+
+/* Reserve two lines for the name so a tile whose name wraps does not push
+   its focus line below the other three. */
+.leader-tile h4 {
+  align-self: start;
+  min-height: calc(2 * 1.14em);
 }
 
 .leader-tile span,
@@ -489,11 +570,28 @@
    proportion, corner treatment, background, and metadata placement, not a
    different component. */
 
+/* Shared chapter rhythm: eyebrow -> title -> copy -> list -> CTA is the
+   same ladder of distances in all three chapters, so the three businesses
+   read as equal members of one system. */
+.venture-chapter .section-header {
+  margin-bottom: var(--space-md);
+}
+
+/* A chapter title sits in a half-width column, not across the page, so it
+   runs a step below the full-width section headings. At the shared 4.25rem
+   ramp these three ~50-character titles broke to four lines in one chapter
+   and three in the others, which is what pushed the chapters to different
+   heights in the first place. */
+.venture-chapter .section-header h2 {
+  font-size: clamp(1.85rem, 1rem + 2.5vw, 3.2rem);
+}
+
 .venture-chapter-actions {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 14px 20px;
+  margin-top: var(--space-md);
 }
 
 .venture-chapter-meta {
@@ -501,6 +599,22 @@
   font-size: 0.78rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
+}
+
+/* One frame height for all three chapter photographs, set explicitly
+   rather than inherited from each source image's own proportions - that is
+   what produced a 753px frame, a 676px frame and a 608px frame from three
+   assets that were meant to read as a set. Each world stays distinct
+   through its corner radius, accent, backdrop and focal point. */
+.venture-chapter {
+  --chapter-media-h: clamp(400px, 39vw, 560px);
+}
+
+.venture-chapter .preview-image-panel .image-panel-media,
+.venture-chapter .preview-image-panel .safe-image-fallback {
+  height: var(--chapter-media-h);
+  min-height: 0;
+  aspect-ratio: auto;
 }
 
 /* International - precise, structured, ledger-like: a tighter, wide
@@ -525,12 +639,16 @@
 }
 
 .venture-chapter-international .preview-image-panel {
-  border-radius: var(--radius-md);
+  --panel-radius: var(--radius-md);
 }
 
-.venture-chapter-international .preview-image-panel .image-panel-media,
-.venture-chapter-international .preview-image-panel .safe-image-fallback {
-  aspect-ratio: 4 / 3;
+/* raw-cotton.jpg prints its own ORAC INTERNATIONAL lockup across the top
+   ~24% of the source, and the frame is wider than the source, so cover
+   crops vertically. Holding the crop low keeps the printed lockup out of
+   the frame entirely and puts the baled cotton - the trade material, which
+   is the point - on the frame's centre line. */
+.venture-chapter-international .preview-image-panel img {
+  object-position: 50% 96%;
 }
 
 .venture-chapter-international .venture-chapter-meta {
@@ -538,17 +656,18 @@
   font-weight: 600;
 }
 
-/* Eventus - warm, human, felt rather than seen: a taller, softer portrait
-   crop that gives the moment room to breathe, a generous radius, and a
-   warm-tinted shadow instead of the shared neutral one. */
+/* Eventus - warm, human, felt rather than seen: the most generous corner
+   radius of the three and a warm-tinted shadow instead of the shared
+   neutral one. */
 .venture-chapter-eventus .preview-image-panel {
-  border-radius: 44px;
+  --panel-radius: var(--radius-xl);
   box-shadow: 0 30px 90px rgba(138, 59, 52, 0.14);
 }
 
-.venture-chapter-eventus .preview-image-panel .image-panel-media,
-.venture-chapter-eventus .preview-image-panel .safe-image-fallback {
-  aspect-ratio: 3 / 4;
+/* Keeps the couple - the photographic subject - inside the frame instead
+   of cropping through the mandap above them. */
+.venture-chapter-eventus .preview-image-panel img {
+  object-position: 50% 42%;
 }
 
 .venture-chapter-eventus .venture-chapter-meta {
@@ -558,25 +677,27 @@
   letter-spacing: 0;
 }
 
-/* Luxe - quiet, tactile, material-led: the most generous whitespace rhythm
-   of the three, a soft tinted backdrop standing in for controlled negative
-   space, and a tracked small-caps metadata line naming the House
-   relationship rather than a date/place fact. */
+/* Luxe - quiet, tactile, material-led: a soft tinted backdrop standing in
+   for controlled negative space, and a tracked small-caps metadata line
+   naming the House relationship rather than a date/place fact. The extra
+   breathing room Luxe used to take from a wider column gap - which put its
+   text measure out of step with the other two chapters - is carried by the
+   backdrop instead. */
 .venture-chapter-luxe {
   background: linear-gradient(180deg, rgba(47, 82, 64, 0.035), transparent 60%);
 }
 
-.venture-chapter-luxe .container.editorial-layout {
-  gap: var(--space-2xl);
-}
-
 .venture-chapter-luxe .preview-image-panel {
-  border-radius: var(--radius-lg);
+  --panel-radius: var(--radius-lg);
 }
 
-.venture-chapter-luxe .preview-image-panel .image-panel-media,
-.venture-chapter-luxe .preview-image-panel .safe-image-fallback {
-  aspect-ratio: 4 / 5;
+/* fashion-atelier.webp is a 16:9 source cropped to a taller frame, so
+   cover crops horizontally: the subject (toile on the stand, then the
+   fitter) sits between roughly 38% and 90% of the source width, while a
+   centred crop windows 20-80% and cuts the fitter's face. Biasing right
+   keeps both the garment and the fitter whole. */
+.venture-chapter-luxe .preview-image-panel img {
+  object-position: 72% 50%;
 }
 
 .venture-chapter-luxe .venture-chapter-meta {
