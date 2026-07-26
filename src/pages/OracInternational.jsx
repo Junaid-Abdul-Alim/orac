@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { ClipboardCheck, FileCheck2, Handshake, SearchCheck, Ship, Truck } from "lucide-react";
 import Reveal from "../components/common/Reveal";
 import SectionHeader from "../components/common/SectionHeader";
@@ -24,12 +25,16 @@ import {
 } from "../data/internationalData";
 import { internationalImages, productImageSlot } from "../data/internationalImages";
 import { pad2 } from "../utils/pad2";
+import usePageMotion from "../motion/usePageMotion";
 
 const serviceIcons = [Ship, Truck, SearchCheck, Handshake, ClipboardCheck, FileCheck2];
 
 export default function OracInternational() {
+  const scope = useRef(null);
+  usePageMotion(scope, "international");
+
   return (
-    <div className="venture-page venture-page-international">
+    <div className="venture-page venture-page-international" ref={scope} data-motion-identity="international">
       <Hero
         lockup={["ORAC", "International"]}
         eyebrow="GLOBAL IMPORT AND EXPORT NETWORK"

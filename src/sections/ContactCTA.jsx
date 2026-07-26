@@ -1,10 +1,14 @@
 import Button from "../components/common/Button";
 import Reveal from "../components/common/Reveal";
+import ContinuumMark from "../components/motion/ContinuumMark";
 
 export default function ContactCTA({ title = "Start a conversation with ORAC Holdings.", text }) {
   return (
-    <section className="section contact-cta">
+    <section className="section contact-cta" data-continuum-phase="contact">
       <div className="container contact-cta-inner">
+        {/* The thread's last job: a short guide leading down into the contact
+            action. Motion all but stops here. */}
+        <ContinuumMark kind="guide" className="contact-guide" />
         <Reveal>
           <span className="eyebrow">Contact</span>
           <h2>{title}</h2>

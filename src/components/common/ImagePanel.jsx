@@ -12,6 +12,8 @@ export default function ImagePanel({
   priority = false,
   className = "",
   delay = 0,
+  variant = "panel",
+  motionId,
 }) {
   const content = (
     <>
@@ -36,6 +38,8 @@ export default function ImagePanel({
     <ImageReveal
       className={`image-panel ${dark ? "image-panel-dark" : ""} ${className}`.trim()}
       delay={delay}
+      variant={variant}
+      motionId={motionId}
     >
       {to ? (
         <Link to={to} aria-label={title || label}>

@@ -66,18 +66,18 @@ export default function OriginSequence() {
       </svg>
 
       <div className="origin-ventures">
-        {companies.map((company) => (
+        {companies.map((company, index) => (
           <Frame
             key={company.id}
             variant="venture-compact"
             tone={ventureTones[company.id]}
             className="origin-venture"
+            /* The three worlds arrive one after another rather than as a
+               block, which is what makes the opening read as a fork from one
+               origin instead of a row of three cards. */
+            delay={160 + index * 130}
           >
-            <Link
-              to={company.route}
-              className="venture-compact-link"
-              aria-label={`Explore ${company.name}`}
-            >
+            <Link to={company.route} className="venture-compact-link" aria-label={`Explore ${company.name}`}>
               <div className="venture-compact-media">
                 <SafeImage
                   src={openingImages[company.id]?.src}

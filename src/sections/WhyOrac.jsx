@@ -1,5 +1,6 @@
 import Reveal from "../components/common/Reveal";
 import SectionHeader from "../components/common/SectionHeader";
+import ContinuumMark from "../components/motion/ContinuumMark";
 
 const trustPoints = [
   {
@@ -26,8 +27,11 @@ const trustPoints = [
 
 export default function WhyOrac() {
   return (
-    <section className="section why-section">
+    <section className="section why-section" data-continuum-phase="why">
       <div className="container">
+        {/* The Luxe seam straightens here into a single architectural rule.
+            Intensity drops for the rest of the page. */}
+        <ContinuumMark kind="divider" className="why-divider" />
         <SectionHeader
           eyebrow="Why ORAC"
           title="A business house built with clarity and discipline."
@@ -35,7 +39,7 @@ export default function WhyOrac() {
         />
         <div className="reason-panel-list">
           {trustPoints.map((point, index) => (
-            <Reveal as="article" key={point.title} delay={index * 80}>
+            <Reveal as="article" key={point.title} kind="card" delay={index * 105}>
               <h3>{point.title}</h3>
               <p>{point.text}</p>
             </Reveal>

@@ -1,0 +1,93 @@
+/* Imported by MotionDebug.jsx only, which App.jsx loads behind
+   `import.meta.env.DEV` + React.lazy. That makes this file part of a chunk a
+   production build never emits, so none of it reaches the shipped bundle. */
+
+.motion-debug {
+  position: fixed;
+  right: 12px;
+  bottom: 12px;
+  z-index: 9999;
+  width: 246px;
+  max-height: 72vh;
+  overflow: auto;
+  padding: 12px 14px;
+  border: 1px solid rgba(184, 151, 90, 0.4);
+  border-radius: 10px;
+  background: rgba(14, 13, 11, 0.94);
+  color: #f5edd8;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.motion-debug header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(184, 151, 90, 0.28);
+}
+
+.motion-debug button {
+  border: 1px solid rgba(184, 151, 90, 0.5);
+  border-radius: 5px;
+  padding: 3px 7px;
+  background: transparent;
+  color: #d4af78;
+  font: inherit;
+  cursor: pointer;
+}
+
+.motion-debug dl {
+  display: grid;
+  gap: 2px;
+  margin: 0 0 8px;
+}
+
+.motion-debug dl > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.motion-debug dt,
+.motion-debug dd {
+  margin: 0;
+}
+
+.motion-debug dt {
+  color: rgba(245, 237, 216, 0.6);
+}
+
+.motion-debug .is-bad {
+  color: #ff8a7a;
+  font-weight: 700;
+}
+
+.motion-debug ul {
+  display: grid;
+  gap: 1px;
+  margin: 0;
+  padding: 8px 0 0;
+  border-top: 1px solid rgba(184, 151, 90, 0.28);
+  list-style: none;
+}
+
+.motion-debug li {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  color: rgba(245, 237, 216, 0.65);
+}
+
+.motion-debug li.is-active {
+  color: #d4af78;
+  font-weight: 700;
+}
+
+.motion-debug em {
+  font-style: normal;
+  font-variant-numeric: tabular-nums;
+}

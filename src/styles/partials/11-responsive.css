@@ -863,25 +863,23 @@
     animation-iteration-count: 1 !important;
   }
 
-  /* !important because the motion-distribution rules (01-base.css) scope the
-     reveal offset per section - `.why-section .reveal` and friends outrank a
-     plain `.reveal` reset, which left those blocks sitting 6-12px off their
-     resting position for reduced-motion visitors. An accessibility guarantee
-     is exactly the case this override is for, and the block already uses it
-     for transition-duration. */
+  /* A reduced-motion visitor never receives a hidden initial state in the
+     first place - src/motion/runtime.js withholds `html.orac-motion-ready`,
+     which every hidden state in 14-motion.css is nested under, and the motion
+     hooks return before creating a single ScrollTrigger. These rules are the
+     guarantee rather than the mechanism: whatever else happens, nothing stays
+     transparent, offset or masked. */
   .reveal,
   .image-reveal,
-  .safe-image {
-    opacity: 1;
+  .safe-image,
+  [data-motion] {
+    opacity: 1 !important;
     transform: none !important;
+    clip-path: none !important;
   }
 
-  /* Nothing may stay masked or offset once motion is off: the editorial
-     image reveal's clip and its 1.04 settle both resolve to their end
-     state immediately. */
   .image-reveal {
     --media-scale: 1;
-    clip-path: none !important;
   }
 
   .image-reveal :is(img, .safe-image-fallback) {

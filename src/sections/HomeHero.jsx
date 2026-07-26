@@ -8,7 +8,7 @@ import OriginSequence from "./OriginSequence";
 // scroll for the ventures" stages into one static, resolved, on-load view.
 export default function HomeHero() {
   return (
-    <section className="home-hero">
+    <section className="home-hero" data-continuum-phase="opening">
       <div className="container home-hero-inner">
         <OriginSequence />
       </div>

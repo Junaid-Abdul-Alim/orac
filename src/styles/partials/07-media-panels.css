@@ -40,7 +40,10 @@
   /* Default focal point; individual panels override with object-position
      where the source's subject is not centred. */
   object-position: center;
-  transition: transform var(--dur-image-reveal) var(--ease-reveal);
+  /* Hover only. The reveal's settle is applied by GSAP to .image-panel-media,
+     a different element, so the two never share a property - and this stays at
+     hover tempo instead of the 1.1s the reveal used to need. */
+  transition: transform var(--dur-hover) var(--ease-smooth);
 }
 
 /* Hover composes with the reveal by setting the same custom property the

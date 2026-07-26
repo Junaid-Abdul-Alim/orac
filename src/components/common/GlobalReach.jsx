@@ -1,12 +1,52 @@
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { ComposableMap, Geographies, Geography } from "react-simple-maps";
 import Reveal from "./Reveal";
+import useCorridorMotion from "../../motion/useCorridorMotion";
 import {
   displayNames,
   focusedCountryCount,
   highlightedCountries,
   regionalCorridors,
 } from "../../data/reachData";
+
+/**
+ * Corridor geometry: one arc from India to each focused country.
+ *
+ * The endpoints are not chosen or invented - they are exactly the countries
+ * already listed in `highlightedCountries`, and the coordinates come from the
+ * same topojson the map itself draws, via the geoPath generator react-simple-maps
+ * hands to its children. Nothing here asserts a route that the page does not
+ * already state elsewhere.
+ */
+function buildCorridors(geographies, path) {
+  const india = geographies.find((geo) => geo.properties.name === "India");
+  if (!india || !path?.centroid) return { origin: null, corridors: [] };
+
+  const [ox, oy] = path.centroid(india);
+  if (!Number.isFinite(ox) || !Number.isFinite(oy)) return { origin: null, corridors: [] };
+
+  const corridors = geographies
+    .filter((geo) => highlightedCountries.has(geo.properties.name) && geo.properties.name !== "India")
+    .map((geo) => {
+      const [x, y] = path.centroid(geo);
+      if (!Number.isFinite(x) || !Number.isFinite(y)) return null;
+
+      const dx = x - ox;
+      const dy = y - oy;
+      const length = Math.hypot(dx, dy) || 1;
+      // Bow each arc away from the straight chord, always toward the top of the
+      // map, so the set reads as flight/shipping corridors rather than a
+      // starburst of straight lines.
+      const bend = Math.min(length * 0.22, 54);
+      const cx = (ox + x) / 2 + (dy / length) * bend * Math.sign(dx || 1);
+      const cy = (oy + y) / 2 - Math.abs((dx / length) * bend) - 6;
+
+      return { name: geo.properties.name, d: `M${ox},${oy} Q${cx},${cy} ${x},${y}` };
+    })
+    .filter(Boolean);
+
+  return { origin: [ox, oy], corridors };
+}
 
 const defaultHighlights = [
   { value: String(focusedCountryCount), label: "Focused countries" },
@@ -26,6 +66,10 @@ export default function GlobalReach({
   // Shared between the map and the country list, so pointing at either one
   // highlights the same country in the other.
   const [activeCountry, setActiveCountry] = useState(null);
+  // The corridors are drawn from here rather than from the page-level scene
+  // director, because they only exist once the topojson resolves.
+  const mapWrapRef = useRef(null);
+  useCorridorMotion(mapWrapRef);
   const geographyUrl = useMemo(() => `${import.meta.env.BASE_URL}geographies/countries-110m.json`, []);
   const sectionId = variant === "home" ? "home-global-reach-title" : "global-reach-title";
   const countryListId = `${sectionId}-countries`;
@@ -57,8 +101,12 @@ export default function GlobalReach({
   };
 
   return (
-    <section className={`global-reach-section global-reach-${variant}`.trim()} aria-labelledby={sectionId}>
-      <div className="global-reach-container">
+    <section
+      className={`global-reach-section global-reach-${variant}`.trim()}
+      aria-labelledby={sectionId}
+      data-continuum-phase={variant === "home" ? "global" : undefined}
+    >
+      <div className="global-reach-container" ref={mapWrapRef}>
         <Reveal className="global-reach-heading">
           <span className="eyebrow">{eyebrow}</span>
           <h2 id={sectionId}>{title}</h2>
@@ -71,7 +119,7 @@ export default function GlobalReach({
             enters it. As a ruled strip beneath the map they stay legible, keep
             one baseline, and stack cleanly on a phone without shrinking the
             map to make room. */}
-        <Reveal className="global-reach-map-wrap" delay={120}>
+        <Reveal className="global-reach-map-wrap" delay={120} motionId="global-map">
           {/* geoEqualEarth at scale 155 in a 980x480 frame leaves a wide empty
               band above and below the landmass, which is what made the map
               look tiny once the frame narrowed on a phone. Cropping the frame
@@ -88,90 +136,124 @@ export default function GlobalReach({
             aria-label="World map highlighting ORAC International trade reach - see the full country list below"
           >
             <Geographies geography={geographyUrl}>
-              {({ geographies }) =>
-                geographies.map((geo) => {
-                  const countryName = geo.properties.name;
-                  const isHighlighted = highlightedCountries.has(countryName);
-                  const isIndia = countryName === "India";
+              {({ geographies, path }) => {
+                const { origin, corridors } = buildCorridors(geographies, path);
 
-                  return (
-                    <Geography
-                      key={geo.rsmKey}
-                      geography={geo}
-                      tabIndex={-1}
-                      aria-hidden="true"
-                      className={[
-                        "global-country",
-                        isHighlighted ? "is-highlighted" : "",
-                        isIndia ? "is-india" : "",
-                        activeCountry === countryName ? "is-active" : "",
-                        activeCountry && activeCountry !== countryName ? "is-dimmed" : "",
-                      ]
-                        .filter(Boolean)
-                        .join(" ")}
-                      style={{
-                        default: {
-                          // react-simple-maps writes fill inline, so the
-                          // active/dimmed state has to be resolved here rather
-                          // than in CSS, where a class could never win.
-                          fill:
-                            activeCountry === countryName
-                              ? isIndia
+                return (
+                  <>
+                    {geographies.map((geo) => {
+                      const countryName = geo.properties.name;
+                      const isHighlighted = highlightedCountries.has(countryName);
+                      const isIndia = countryName === "India";
+
+                      return (
+                        <Geography
+                          key={geo.rsmKey}
+                          geography={geo}
+                          tabIndex={-1}
+                          aria-hidden="true"
+                          className={[
+                            "global-country",
+                            isHighlighted ? "is-highlighted" : "",
+                            isIndia ? "is-india" : "",
+                            activeCountry === countryName ? "is-active" : "",
+                            activeCountry && activeCountry !== countryName ? "is-dimmed" : "",
+                          ]
+                            .filter(Boolean)
+                            .join(" ")}
+                          style={{
+                            default: {
+                              // react-simple-maps writes fill inline, so the
+                              // active/dimmed state has to be resolved here rather
+                              // than in CSS, where a class could never win.
+                              fill:
+                                activeCountry === countryName
+                                  ? isIndia
+                                    ? "var(--map-india-hover)"
+                                    : "var(--map-highlight-hover)"
+                                  : isIndia
+                                    ? "var(--map-india)"
+                                    : isHighlighted
+                                      ? "var(--map-highlight)"
+                                      : "var(--map-country)",
+                              opacity:
+                                activeCountry && activeCountry !== countryName && isHighlighted ? 0.32 : 1,
+                              stroke: "var(--map-stroke)",
+                              strokeWidth: 0.55,
+                              outline: "none",
+                              transition: "fill 220ms var(--ease-smooth), opacity 220ms var(--ease-smooth)",
+                            },
+                            hover: {
+                              fill: isIndia
                                 ? "var(--map-india-hover)"
-                                : "var(--map-highlight-hover)"
-                              : isIndia
-                                ? "var(--map-india)"
                                 : isHighlighted
-                                  ? "var(--map-highlight)"
+                                  ? "var(--map-highlight-hover)"
                                   : "var(--map-country)",
-                          opacity: activeCountry && activeCountry !== countryName && isHighlighted ? 0.32 : 1,
-                          stroke: "var(--map-stroke)",
-                          strokeWidth: 0.55,
-                          outline: "none",
-                          transition: "fill 220ms var(--ease-smooth), opacity 220ms var(--ease-smooth)",
-                        },
-                        hover: {
-                          fill: isIndia
-                            ? "var(--map-india-hover)"
-                            : isHighlighted
-                              ? "var(--map-highlight-hover)"
-                              : "var(--map-country)",
-                          stroke: "var(--map-stroke)",
-                          strokeWidth: 0.55,
-                          outline: "none",
-                        },
-                        pressed: {
-                          fill: isIndia
-                            ? "var(--map-india-pressed)"
-                            : isHighlighted
-                              ? "var(--map-highlight-pressed)"
-                              : "var(--map-country)",
-                          stroke: "var(--map-stroke)",
-                          strokeWidth: 0.55,
-                          outline: "none",
-                        },
-                      }}
-                      onMouseEnter={
-                        isHighlighted
-                          ? (event) => {
-                              showTooltip(event, countryName);
-                              setActiveCountry(countryName);
-                            }
-                          : undefined
-                      }
-                      onMouseMove={isHighlighted ? moveTooltip : undefined}
-                      onMouseLeave={
-                        isHighlighted
-                          ? () => {
-                              setTooltip(null);
-                              setActiveCountry(null);
-                            }
-                          : undefined
-                      }
-                    />
-                  );
-                })
-              }
+                              stroke: "var(--map-stroke)",
+                              strokeWidth: 0.55,
+                              outline: "none",
+                            },
+                            pressed: {
+                              fill: isIndia
+                                ? "var(--map-india-pressed)"
+                                : isHighlighted
+                                  ? "var(--map-highlight-pressed)"
+                                  : "var(--map-country)",
+                              stroke: "var(--map-stroke)",
+                              strokeWidth: 0.55,
+                              outline: "none",
+                            },
+                          }}
+                          onMouseEnter={
+                            isHighlighted
+                              ? (event) => {
+                                  showTooltip(event, countryName);
+                                  setActiveCountry(countryName);
+                                }
+                              : undefined
+                          }
+                          onMouseMove={isHighlighted ? moveTooltip : undefined}
+                          onMouseLeave={
+                            isHighlighted
+                              ? () => {
+                                  setTooltip(null);
+                                  setActiveCountry(null);
+                                }
+                              : undefined
+                          }
+                        />
+                      );
+                    })}
+
+                    {/* Layer 2 - the corridors. Drawn after the geographies so
+                        they sit over the landmasses, and marked aria-hidden
+                        because the country list below is the accessible route
+                        into the same information. */}
+                    {corridors.length ? (
+                      <g className="global-corridors" aria-hidden="true">
+                        {corridors.map((corridor) => (
+                          <path
+                            key={corridor.name}
+                            className="global-corridor"
+                            data-corridor
+                            d={corridor.d}
+                            fill="none"
+                          />
+                        ))}
+                        {origin ? (
+                          <circle
+                            className="global-corridor-origin"
+                            data-corridor-origin
+                            cx={origin[0]}
+                            cy={origin[1]}
+                            r="4.5"
+                          />
+                        ) : null}
+                      </g>
+                    ) : null}
+                  </>
+                );
+              }}
             </Geographies>
           </ComposableMap>
 
@@ -184,7 +266,6 @@ export default function GlobalReach({
               {tooltip.name}
             </div>
           ) : null}
-
         </Reveal>
 
         <Reveal className="global-reach-stats" delay={220} aria-label="Global reach highlights">

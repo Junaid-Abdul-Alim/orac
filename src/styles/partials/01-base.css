@@ -395,71 +395,28 @@ p {
   border-color: rgba(212, 175, 120, 0.68);
 }
 
-/* Motion vocabulary 1 - standard content reveal. Eyebrows, headings,
-   paragraph groups, small information blocks: opacity plus a short rise,
-   one-shot, no scale. Stagger comes from the `delay` prop, never from a
-   per-child nth-child rule. */
-.reveal {
-  opacity: 0;
-  transform: translate3d(0, 20px, 0);
-  will-change: opacity, transform;
-  transition:
-    opacity var(--dur-reveal) var(--ease-reveal) var(--delay),
-    transform var(--dur-reveal) var(--ease-reveal) var(--delay);
-}
+/* Motion vocabulary.
+   `.reveal` and `.image-reveal` are now layout hooks only - the entry
+   animation itself moved to GSAP + ScrollTrigger (src/motion/). The CSS
+   transition engine that used to live here was measured and found to be
+   running but not visible: an expo-out curve spent ~82% of its travel in
+   the first quarter of an 820ms timeline, over distances of 20px, 12px and
+   6px, with 0px on the three major images. See motionTokens.js.
 
-/* Motion vocabulary 2 - editorial image reveal. Reserved for major media
-   (hero, chapter, gallery entry images): the frame wipes open from the
-   bottom while the photograph settles back from a 1.04 scale, so the
-   image is recognisable for the whole reveal and appears to arrive into
-   its frame rather than zoom. Slower than a content reveal by design. */
+   The initial hidden states live in 14-motion.css, guarded by
+   `html.orac-motion-ready`, so nothing here hides content unconditionally.
+
+   --panel-radius stays: several panels still key their own corner radius
+   off it. --media-scale is now the hover scale only; the reveal's settle is
+   applied to `.image-panel-media` by GSAP, which keeps the two off the same
+   property. */
 .image-reveal {
-  --media-scale: 1.04;
+  --media-scale: 1;
   --panel-radius: var(--radius-lg);
-  opacity: 0;
-  clip-path: inset(0 0 14% 0 round var(--panel-radius));
-  will-change: opacity, clip-path;
-  transition:
-    opacity var(--dur-image-reveal) var(--ease-reveal) var(--delay),
-    clip-path var(--dur-image-reveal) var(--ease-reveal) var(--delay);
 }
 
-/* Driven by a custom property rather than a transform rule so hover states
-   (which set --media-scale on the same element) compose with the reveal
-   instead of fighting it for specificity. */
 .image-reveal :is(img, .safe-image-fallback) {
   transform: scale(var(--media-scale));
-}
-
-.reveal.is-visible {
-  opacity: 1;
-  transform: translate3d(0, 0, 0);
-  will-change: auto;
-}
-
-/* Motion distribution. Intensity falls as the page approaches its
-   credibility and contact sections: the venture chapters and their media
-   carry the strongest movement, supporting material moves less, and the
-   closing sections barely move at all - they should feel arrived at, not
-   animated into place. */
-.why-section .reveal,
-.leadership-section .reveal {
-  transform: translate3d(0, 12px, 0);
-  transition-duration: 640ms;
-}
-
-.contact-cta .reveal,
-.international-contact-cta .reveal,
-.footer .reveal {
-  transform: translate3d(0, 6px, 0);
-  transition-duration: 480ms;
-}
-
-.image-reveal.is-visible {
-  --media-scale: 1;
-  opacity: 1;
-  clip-path: inset(0 0 0 0 round var(--panel-radius));
-  will-change: auto;
 }
 
 .icon-badge {

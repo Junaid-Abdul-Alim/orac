@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import ContactCTA from "../sections/ContactCTA";
 import HoldingIntro from "../sections/HoldingIntro";
 import HomeHero from "../sections/HomeHero";
@@ -5,14 +6,20 @@ import GlobalReach from "../components/common/GlobalReach";
 import Leadership from "../sections/Leadership";
 import VentureChapter from "../sections/VentureChapter";
 import WhyOrac from "../sections/WhyOrac";
+import useHomeMotion from "../motion/useHomeMotion";
 import { internationalImages } from "../data/internationalImages";
 import { eventusImages } from "../data/eventusImages";
 import { luxeImages } from "../data/luxeData";
 import { focusedCountryCount } from "../data/reachData";
 
 export default function Home() {
+  // `display: contents` (see 14-motion.css), so this adds a query scope for the
+  // continuum's timelines without adding a box to the layout.
+  const scope = useRef(null);
+  useHomeMotion(scope);
+
   return (
-    <>
+    <div className="home-motion-scope" ref={scope}>
       <HomeHero />
       <HoldingIntro />
       <VentureChapter
@@ -73,6 +80,6 @@ export default function Home() {
         title="Explore the right ORAC venture or start a conversation."
         text="Choose a business, send an enquiry, or work with ORAC on the next serious opportunity."
       />
-    </>
+    </div>
   );
 }

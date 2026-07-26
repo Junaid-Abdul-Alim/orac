@@ -1,14 +1,21 @@
-import { useEffect, useRef, useState } from "react";
+import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
 import PageShell from "./components/layout/PageShell";
+import Continuum from "./components/motion/Continuum";
+import { ScrollTrigger } from "./motion/gsap";
 import Home from "./pages/Home";
 import OracInternational from "./pages/OracInternational";
 import OracEventus from "./pages/OracEventus";
 import LuxuryExport from "./pages/LuxuryExport";
 import MaisonCategory from "./pages/MaisonCategory";
 import Contact from "./pages/Contact";
+
+// Development-only motion instrumentation (?motionDebug=1). The ternary is
+// statically false in a production build, so Rollup drops both the lazy import
+// and the component from the bundle entirely.
+const MotionDebug = import.meta.env.DEV ? lazy(() => import("./motion/MotionDebug")) : null;
 
 const pageTitles = {
   "/": "ORAC Holdings | Trade, Events, Couture",
@@ -42,6 +49,15 @@ function ScrollManager() {
     document.getElementById("main-content")?.focus({ preventScroll: true });
   }, [pathname, hash]);
 
+  // Every trigger on the outgoing route was measured against that route's
+  // document height. The incoming route's hooks build their own, but the shared
+  // ones (navbar, footer) need re-measuring or they keep firing at the old
+  // page's scroll positions.
+  useEffect(() => {
+    const id = window.setTimeout(() => ScrollTrigger.refresh(), 260);
+    return () => window.clearTimeout(id);
+  }, [pathname]);
+
   return null;
 }
 
@@ -68,6 +84,8 @@ function RouteFade({ children }) {
 }
 
 export default function App() {
+  const { pathname } = useLocation();
+
   return (
     <>
       <ScrollManager />
@@ -75,6 +93,12 @@ export default function App() {
         Skip to main content
       </a>
       <Navbar />
+      {/* Outside RouteFade on purpose: that wrapper carries a transform, and a
+          transformed ancestor becomes the containing block for fixed-position
+          descendants - which would resolve the rail against the whole document
+          instead of the viewport. The homepage is the only route that stages
+          the full continuum. */}
+      {pathname === "/" ? <Continuum /> : null}
       <PageShell>
         <RouteFade>
           <Routes>
@@ -89,6 +113,11 @@ export default function App() {
         </RouteFade>
       </PageShell>
       <Footer />
+      {MotionDebug ? (
+        <Suspense fallback={null}>
+          <MotionDebug />
+        </Suspense>
+      ) : null}
     </>
   );
 }

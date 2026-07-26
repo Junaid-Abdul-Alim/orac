@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Gem, PenTool, Sparkles } from "lucide-react";
 import Hero from "../components/common/Hero";
@@ -9,6 +10,7 @@ import SectionHeader from "../components/common/SectionHeader";
 import VaultPalette from "../sections/VaultPalette";
 import { pad2 } from "../utils/pad2";
 import houseOfAzrinLogo from "../assets/logos/house-of-azrin.png";
+import usePageMotion from "../motion/usePageMotion";
 import {
   azrinFounder,
   azrinValues,
@@ -25,8 +27,11 @@ import {
 const editionIcons = [Sparkles, Gem, PenTool];
 
 export default function LuxuryExport() {
+  const scope = useRef(null);
+  usePageMotion(scope, "luxe");
+
   return (
-    <div className="luxe-page venture-page venture-page-luxe">
+    <div className="luxe-page venture-page venture-page-luxe" ref={scope} data-motion-identity="luxe">
       <Hero
         lockup={["ORAC Luxe", "The House of Azrin"]}
         eyebrow="A Part of ORAC Luxe"
@@ -66,7 +71,13 @@ export default function LuxuryExport() {
             {houseEditions.map((edition, index) => {
               const EditionIcon = editionIcons[index] || Gem;
               return (
-                <Reveal as="article" className="edition-card" key={edition.id} delay={index * 80}>
+                <Reveal
+                  as="article"
+                  className="edition-card"
+                  key={edition.id}
+                  kind="card"
+                  delay={index * 115}
+                >
                   <div className="edition-card-top">
                     <IconBadge icon={EditionIcon} className="icon-badge-soft" size={24} />
                     <span className="edition-number">{pad2(index + 1)}</span>

@@ -2,6 +2,22 @@ import Button from "../components/common/Button";
 import ImagePanel from "../components/common/ImagePanel";
 import Reveal from "../components/common/Reveal";
 import SectionHeader from "../components/common/SectionHeader";
+import ContinuumMark from "../components/motion/ContinuumMark";
+
+/**
+ * How the continuum expresses itself inside each venture chapter. Derived from
+ * `tone` rather than passed at the call site, so a chapter cannot be given a
+ * world's colours and another world's motion.
+ *
+ *  variant  - which opening the photograph uses (see MEDIA_VARIANTS).
+ *  mark     - what the gold thread becomes inside this section.
+ *  motionId - the ScrollTrigger id, matching the ones ?motionDebug=1 lists.
+ */
+const CHAPTER_MOTION = {
+  international: { variant: "door", mark: "route", motionId: "international-image" },
+  eventus: { variant: "frame", mark: "frame", motionId: "eventus-image" },
+  luxe: { variant: "seam", mark: "seam", motionId: "luxe-image" },
+};
 
 /**
  * One venture chapter (stage 3 of the homepage journey - see
@@ -31,8 +47,10 @@ export default function VentureChapter({
   image,
   imageLabel,
 }) {
+  const motion = CHAPTER_MOTION[tone] || {};
+
   return (
-    <section className={`section venture-chapter venture-chapter-${tone}`}>
+    <section className={`section venture-chapter venture-chapter-${tone}`} data-continuum-phase={tone}>
       {/* Copy always precedes media in the DOM (reading order, and one
           predictable mobile stack for all three chapters); `reverse` only
           swaps the visual columns, and only once the layout is actually
@@ -55,12 +73,20 @@ export default function VentureChapter({
             {meta ? <small className="venture-chapter-meta">{meta}</small> : null}
           </Reveal>
         </div>
-        <ImagePanel
-          image={image}
-          label={imageLabel}
-          className="preview-image-panel editorial-media"
-          delay={120}
-        />
+        {/* The media column is now a positioned wrapper so the continuum's
+            in-section expression can sit over the photograph. The panel keeps
+            its own class and radius; only the grid child changed. */}
+        <div className="editorial-media venture-chapter-media">
+          <ImagePanel
+            image={image}
+            label={imageLabel}
+            className="preview-image-panel"
+            delay={120}
+            variant={motion.variant}
+            motionId={motion.motionId}
+          />
+          {motion.mark ? <ContinuumMark kind={motion.mark} /> : null}
+        </div>
       </div>
     </section>
   );

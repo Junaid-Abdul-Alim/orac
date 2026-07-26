@@ -1,5 +1,6 @@
 import SectionHeader from "../components/common/SectionHeader";
 import Reveal from "../components/common/Reveal";
+import ContinuumMark from "../components/motion/ContinuumMark";
 
 // The institutional "About ORAC Holdings" framing only - leadership was
 // split out into Leadership.jsx and moved later in the homepage journey
@@ -9,7 +10,11 @@ import Reveal from "../components/common/Reveal";
 // answers "what is ORAC Holdings," which is reasonable early framing.
 export default function HoldingIntro() {
   return (
-    <section className="section holding-intro" id="about">
+    <section className="section holding-intro" id="about" data-continuum-phase="holding">
+      {/* The continuum's second state: the holding company's structural spine.
+          It draws downward from the section's top edge, which is where the rail
+          hands the thread over. */}
+      <ContinuumMark kind="spine" className="holding-spine" />
       <div className="container split-layout">
         <SectionHeader eyebrow="About ORAC Holdings" title="We build institutions designed to endure." />
         <Reveal className="rich-copy">

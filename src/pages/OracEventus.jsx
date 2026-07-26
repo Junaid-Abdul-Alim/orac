@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import Reveal from "../components/common/Reveal";
 import SectionHeader from "../components/common/SectionHeader";
 import ServiceBlock from "../components/common/ServiceBlock";
@@ -8,10 +9,14 @@ import EventusVelorawedSection from "../sections/EventusVelorawedSection";
 import Hero from "../components/common/Hero";
 import { clientReasons, eventusProcess, eventusPromise, eventusServices } from "../data/eventusData";
 import { eventusImages } from "../data/eventusImages";
+import usePageMotion from "../motion/usePageMotion";
 
 export default function OracEventus() {
+  const scope = useRef(null);
+  usePageMotion(scope, "eventus");
+
   return (
-    <div className="venture-page venture-page-eventus">
+    <div className="venture-page venture-page-eventus" ref={scope} data-motion-identity="eventus">
       <Hero
         lockup={["ORAC", "Eventus"]}
         eyebrow="Event Management"
@@ -51,14 +56,14 @@ export default function OracEventus() {
           </Reveal>
         </div>
         <div className="container">
-          <Reveal className="reason-panel-list">
+          <div className="reason-panel-list" data-motion-grid>
             {eventusPromise.map((item) => (
               <article key={item.title}>
                 <h3>{item.title}</h3>
                 <p>{item.body}</p>
               </article>
             ))}
-          </Reveal>
+          </div>
         </div>
       </section>
 
@@ -100,14 +105,14 @@ export default function OracEventus() {
       <section className="section why-section eventus-why-section">
         <div className="container split-layout">
           <SectionHeader eyebrow="Why Clients Choose Us" title="A single team you can rely on." />
-          <Reveal className="reason-panel-list">
+          <div className="reason-panel-list" data-motion-grid>
             {clientReasons.map((reason) => (
               <article key={reason.title}>
                 <h3>{reason.title}</h3>
                 <p>{reason.body}</p>
               </article>
             ))}
-          </Reveal>
+          </div>
         </div>
       </section>
 
