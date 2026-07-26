@@ -23,6 +23,9 @@ export default function GlobalReach({
 }) {
   const [tooltip, setTooltip] = useState(null);
   const [countryListOpen, setCountryListOpen] = useState(false);
+  // Shared between the map and the country list, so pointing at either one
+  // highlights the same country in the other.
+  const [activeCountry, setActiveCountry] = useState(null);
   const geographyUrl = useMemo(() => `${import.meta.env.BASE_URL}geographies/countries-110m.json`, []);
   const sectionId = variant === "home" ? "home-global-reach-title" : "global-reach-title";
   const countryListId = `${sectionId}-countries`;
@@ -62,23 +65,24 @@ export default function GlobalReach({
           {text ? <p>{text}</p> : null}
         </Reveal>
 
+        {/* Layer 3 of the component - operational statistics, deliberately
+            outside the geography. They previously sat as a frosted panel over
+            the North Atlantic, covering the map at the exact point the eye
+            enters it. As a ruled strip beneath the map they stay legible, keep
+            one baseline, and stack cleanly on a phone without shrinking the
+            map to make room. */}
         <Reveal className="global-reach-map-wrap" delay={120}>
-          {variant === "home" ? (
-            <div className="global-reach-stats" aria-label="Global reach highlights">
-              {highlightItems.map((item) => (
-                <article key={item.label}>
-                  <strong>{item.value}</strong>
-                  <span>{item.label}</span>
-                </article>
-              ))}
-            </div>
-          ) : null}
-
+          {/* geoEqualEarth at scale 155 in a 980x480 frame leaves a wide empty
+              band above and below the landmass, which is what made the map
+              look tiny once the frame narrowed on a phone. Cropping the frame
+              to the inhabited latitudes and raising the scale fills it with
+              geography instead of margin - the same countries, just not
+              surrounded by 130px of nothing. */}
           <ComposableMap
             projection="geoEqualEarth"
-            projectionConfig={{ scale: 155 }}
+            projectionConfig={{ scale: 176, center: [12, 12] }}
             width={980}
-            height={480}
+            height={430}
             className="global-reach-map"
             role="img"
             aria-label="World map highlighting ORAC International trade reach - see the full country list below"
@@ -100,19 +104,31 @@ export default function GlobalReach({
                         "global-country",
                         isHighlighted ? "is-highlighted" : "",
                         isIndia ? "is-india" : "",
+                        activeCountry === countryName ? "is-active" : "",
+                        activeCountry && activeCountry !== countryName ? "is-dimmed" : "",
                       ]
                         .filter(Boolean)
                         .join(" ")}
                       style={{
                         default: {
-                          fill: isIndia
-                            ? "var(--map-india)"
-                            : isHighlighted
-                              ? "var(--map-highlight)"
-                              : "var(--map-country)",
+                          // react-simple-maps writes fill inline, so the
+                          // active/dimmed state has to be resolved here rather
+                          // than in CSS, where a class could never win.
+                          fill:
+                            activeCountry === countryName
+                              ? isIndia
+                                ? "var(--map-india-hover)"
+                                : "var(--map-highlight-hover)"
+                              : isIndia
+                                ? "var(--map-india)"
+                                : isHighlighted
+                                  ? "var(--map-highlight)"
+                                  : "var(--map-country)",
+                          opacity: activeCountry && activeCountry !== countryName && isHighlighted ? 0.32 : 1,
                           stroke: "var(--map-stroke)",
                           strokeWidth: 0.55,
                           outline: "none",
+                          transition: "fill 220ms var(--ease-smooth), opacity 220ms var(--ease-smooth)",
                         },
                         hover: {
                           fill: isIndia
@@ -135,9 +151,23 @@ export default function GlobalReach({
                           outline: "none",
                         },
                       }}
-                      onMouseEnter={isHighlighted ? (event) => showTooltip(event, countryName) : undefined}
+                      onMouseEnter={
+                        isHighlighted
+                          ? (event) => {
+                              showTooltip(event, countryName);
+                              setActiveCountry(countryName);
+                            }
+                          : undefined
+                      }
                       onMouseMove={isHighlighted ? moveTooltip : undefined}
-                      onMouseLeave={isHighlighted ? () => setTooltip(null) : undefined}
+                      onMouseLeave={
+                        isHighlighted
+                          ? () => {
+                              setTooltip(null);
+                              setActiveCountry(null);
+                            }
+                          : undefined
+                      }
                     />
                   );
                 })
@@ -155,24 +185,50 @@ export default function GlobalReach({
             </div>
           ) : null}
 
-          <div className="global-reach-country-disclosure">
-            <button
-              type="button"
-              className="global-reach-country-toggle"
-              aria-expanded={countryListOpen}
-              aria-controls={countryListId}
-              onClick={() => setCountryListOpen((value) => !value)}
-            >
-              {countryListOpen ? "Hide" : "Show"} the {focusedCountryCount} focused countries
-            </button>
-            {countryListOpen ? (
-              <ul id={countryListId} className="global-reach-country-list">
-                {sortedCountryNames.map((name) => (
-                  <li key={name}>{displayNames[name] || name}</li>
-                ))}
-              </ul>
-            ) : null}
-          </div>
+        </Reveal>
+
+        <Reveal className="global-reach-stats" delay={220} aria-label="Global reach highlights">
+          {highlightItems.map((item) => (
+            <article key={item.label}>
+              <strong>{item.value}</strong>
+              <span>{item.label}</span>
+            </article>
+          ))}
+        </Reveal>
+
+        {/* The keyboard- and touch-accessible route into the same data the map
+            shows. Focusing or pointing at a country name lights that country
+            on the map, so the list is a real control rather than a fallback. */}
+        <Reveal className="global-reach-country-disclosure" delay={260}>
+          <button
+            type="button"
+            className="global-reach-country-toggle"
+            aria-expanded={countryListOpen}
+            aria-controls={countryListId}
+            onClick={() => setCountryListOpen((value) => !value)}
+          >
+            {countryListOpen ? "Hide" : "Show"} the {focusedCountryCount} focused countries
+          </button>
+          {countryListOpen ? (
+            <ul id={countryListId} className="global-reach-country-list">
+              {sortedCountryNames.map((name) => (
+                <li key={name}>
+                  <button
+                    type="button"
+                    className={`global-reach-country-item ${activeCountry === name ? "is-active" : ""}`.trim()}
+                    aria-pressed={activeCountry === name}
+                    onMouseEnter={() => setActiveCountry(name)}
+                    onMouseLeave={() => setActiveCountry(null)}
+                    onFocus={() => setActiveCountry(name)}
+                    onBlur={() => setActiveCountry(null)}
+                    onClick={() => setActiveCountry((current) => (current === name ? null : name))}
+                  >
+                    {displayNames[name] || name}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          ) : null}
         </Reveal>
       </div>
     </section>

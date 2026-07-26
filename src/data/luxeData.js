@@ -65,13 +65,27 @@ export const vaultXiii = {
     "The House of Azrin Vault XIII colour palette — thirteen tones from ivory to burnt sienna",
     vaultXiiiPalette
   ),
+  // The thirteen tones, read directly off the House's own Vault XIII artwork
+  // (vault-xiii-palette.jpg), which prints each card's number, name and hex.
+  // The component previously showed six ORAC brand CSS values under invented
+  // labels (Ink / Graphite / Stone / Gold / Champagne / Cream) that appear
+  // nowhere in the artwork, while the copy beside them said "thirteen tones".
+  // `note` names the material the House photographed for that tone on the
+  // card, so each swatch stays tied to something real in the image.
   swatches: [
-    { name: "Ink", value: "#1A1814" },
-    { name: "Graphite", value: "#3A3630" },
-    { name: "Stone", value: "#6E6860" },
-    { name: "Gold", value: "#B8975A" },
-    { name: "Champagne", value: "#D4AF78" },
-    { name: "Cream", value: "#FAF8F4" },
+    { name: "Ivory", value: "#F7F4EE", note: "Textured cotton" },
+    { name: "Pearl", value: "#F2EFEB", note: "Silk charmeuse" },
+    { name: "Taupe", value: "#B8ADA1", note: "Dried palm" },
+    { name: "Stone", value: "#D6D2CB", note: "Knotted lace" },
+    { name: "Black", value: "#111111", note: "Glazed stoneware" },
+    { name: "Sage Green", value: "#C7D6C1", note: "Bay leaf" },
+    { name: "Sea Mist", value: "#DDEBE6", note: "Open water" },
+    { name: "Blush Nude", value: "#F2D7CC", note: "Carved vessel" },
+    { name: "Powder Blue", value: "#D6E1F2", note: "Painted arch" },
+    { name: "Emerald", value: "#1B5E4B", note: "Velvet drape" },
+    { name: "Burgundy", value: "#5A1E2B", note: "Ribbed glass" },
+    { name: "Purple Wine", value: "#5E2638", note: "Vine fruit" },
+    { name: "Burnt Sienna", value: "#914B36", note: "Fired terracotta" },
   ],
 };
 

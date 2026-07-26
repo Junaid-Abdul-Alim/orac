@@ -6,6 +6,7 @@ import LuxeContactCTA from "../sections/LuxeContactCTA";
 import Reveal from "../components/common/Reveal";
 import SafeImage from "../components/common/SafeImage";
 import SectionHeader from "../components/common/SectionHeader";
+import VaultPalette from "../sections/VaultPalette";
 import { pad2 } from "../utils/pad2";
 import houseOfAzrinLogo from "../assets/logos/house-of-azrin.png";
 import {
@@ -40,35 +41,7 @@ export default function LuxuryExport() {
       />
 
       {/* ii) Colour palette — Vault XIII */}
-      <section className="section vault-section">
-        <Reveal className="vault-banner">
-          <SafeImage
-            src={vaultXiii.image.src}
-            alt={vaultXiii.image.alt}
-            fallbackLabel={vaultXiii.image.label}
-            className="vault-image"
-          />
-        </Reveal>
-        <div className="container">
-          <Reveal className="vault-copy" delay={80}>
-            <span className="eyebrow">I · {vaultXiii.eyebrow}</span>
-            <h2 className="vault-name">{vaultXiii.name}</h2>
-            <p>{vaultXiii.tagline}</p>
-            <div className="vault-swatches" aria-label={`${vaultXiii.name} colour palette`}>
-              {vaultXiii.swatches.map((swatch) => (
-                <span key={swatch.name} className="vault-swatch">
-                  <span
-                    className="vault-swatch-chip"
-                    style={{ background: swatch.value }}
-                    aria-hidden="true"
-                  />
-                  <small>{swatch.name}</small>
-                </span>
-              ))}
-            </div>
-          </Reveal>
-        </div>
-      </section>
+      <VaultPalette vault={vaultXiii} />
 
       {/* Category Collage — clean full-width landscape image, no text overlay,
           sharp corners. Placed directly after Vault XIII. */}

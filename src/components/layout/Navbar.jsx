@@ -1,9 +1,10 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
-import { ChevronDown, Mail, MessageCircle } from "lucide-react";
+import { ChevronDown, Mail } from "lucide-react";
 import { companies } from "../../data/companyData";
 import { contactDetails } from "../../data/contactData";
 import BusinessSwitcher from "../common/BusinessSwitcher";
+import WhatsAppIcon from "../common/WhatsAppIcon";
 import oracLogo from "../../assets/logos/orac-orange.svg";
 
 // Maps a route prefix to the venture id whose accent token (see
@@ -119,8 +120,14 @@ export default function Navbar() {
         </div>
         <NavLink to="/contact">Contact</NavLink>
         <div className="nav-contact-actions" aria-label="Quick contact links">
-          <a href={whatsappUrl} target="_blank" rel="noreferrer" aria-label="Contact ORAC on WhatsApp">
-            <MessageCircle size={16} strokeWidth={1.7} aria-hidden="true" />
+          <a
+            className="nav-action-whatsapp"
+            href={whatsappUrl}
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Contact ORAC on WhatsApp"
+          >
+            <WhatsAppIcon size={16} />
           </a>
           <a href={emailUrl} aria-label="Email ORAC">
             <Mail size={16} strokeWidth={1.7} aria-hidden="true" />
@@ -154,11 +161,18 @@ export default function Navbar() {
         </div>
         <NavLink to="/contact">Contact</NavLink>
         <div className="mobile-contact-actions" aria-label="Quick contact links">
-          <a href={whatsappUrl} target="_blank" rel="noreferrer" onClick={() => setOpen(false)}>
-            <MessageCircle size={17} strokeWidth={1.7} aria-hidden="true" />
+          <a
+            className="nav-action-whatsapp"
+            href={whatsappUrl}
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Contact ORAC on WhatsApp"
+            onClick={() => setOpen(false)}
+          >
+            <WhatsAppIcon size={17} />
             <span>WhatsApp</span>
           </a>
-          <a href={emailUrl} onClick={() => setOpen(false)}>
+          <a href={emailUrl} aria-label="Email ORAC" onClick={() => setOpen(false)}>
             <Mail size={17} strokeWidth={1.7} aria-hidden="true" />
             <span>Email</span>
           </a>

@@ -1,21 +1,91 @@
 import { useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 import SafeImage from "./SafeImage";
 
+/**
+ * Page scroll lock, held at module scope so it is idempotent.
+ *
+ * StrictMode double-invokes effects in development (mount → cleanup → mount),
+ * and a naive lock captured `window.scrollY` again on the second mount - by
+ * which point the body was mid-restore, so the offset it stored was wrong and
+ * closing the sheet threw the visitor ~1,800px up the page. Refcounting the
+ * lock means the offset is captured exactly once, from the genuinely unlocked
+ * state, however many times the effect runs.
+ */
+const scrollLock = { depth: 0, offset: 0, previous: null };
+
+function lockScroll() {
+  scrollLock.depth += 1;
+  if (scrollLock.depth > 1) return;
+
+  const { body } = document;
+  scrollLock.offset = window.scrollY;
+  scrollLock.previous = {
+    overflow: body.style.overflow,
+    position: body.style.position,
+    top: body.style.top,
+    width: body.style.width,
+  };
+  body.style.overflow = "hidden";
+  body.style.position = "fixed";
+  body.style.top = `-${scrollLock.offset}px`;
+  body.style.width = "100%";
+}
+
+function unlockScroll() {
+  scrollLock.depth = Math.max(0, scrollLock.depth - 1);
+  if (scrollLock.depth > 0 || !scrollLock.previous) return;
+
+  const { body } = document;
+  body.style.overflow = scrollLock.previous.overflow;
+  body.style.position = scrollLock.previous.position;
+  body.style.top = scrollLock.previous.top;
+  body.style.width = scrollLock.previous.width;
+  scrollLock.previous = null;
+  // `html { scroll-behavior: smooth }` would otherwise animate the restore,
+  // so the page visibly slides back instead of simply being where it was.
+  window.scrollTo({ top: scrollLock.offset, left: 0, behavior: "instant" });
+}
+
+/**
+ * Product specification sheet.
+ *
+ * Rendered through a portal on document.body. It used to render inline inside
+ * the section that owns it, and `.route-fade` (App.jsx) carries a transform -
+ * which makes it the containing block for every `position: fixed` descendant.
+ * The backdrop's `inset: 0` therefore resolved to the whole *document*, not
+ * the viewport, so `place-items: center` centred the dialog in the middle of a
+ * 15,000px page and focusing it scrolled the visitor ~1,800px down. Portalling
+ * out of the routed tree restores real viewport-fixed positioning, which is
+ * what removes the scroll jump and puts the dialog inside the viewport on a
+ * phone.
+ */
 export default function ProductSpecModal({ product, image, onClose }) {
   const dialogRef = useRef(null);
   const closeButtonRef = useRef(null);
+  // Callers pass an inline arrow, so `onClose` is a new function on every
+  // render. Depending on it re-ran this whole effect mid-open, tearing down
+  // the scroll lock and re-capturing the offset as 0 - which is why closing
+  // used to dump the visitor back at the top of the page. The ref keeps the
+  // handler current while the effect depends only on whether a product is
+  // open.
+  const onCloseRef = useRef(onClose);
+  useEffect(() => {
+    onCloseRef.current = onClose;
+  });
 
   useEffect(() => {
     if (!product) return undefined;
 
     const previouslyFocused = document.activeElement;
-    closeButtonRef.current?.focus();
-    document.body.style.overflow = "hidden";
+    lockScroll();
+    // preventScroll keeps the focus call itself from moving the viewport.
+    closeButtonRef.current?.focus({ preventScroll: true });
 
     const onKeyDown = (event) => {
       if (event.key === "Escape") {
-        onClose();
+        onCloseRef.current();
         return;
       }
 
@@ -42,14 +112,14 @@ export default function ProductSpecModal({ product, image, onClose }) {
 
     return () => {
       document.removeEventListener("keydown", onKeyDown);
-      document.body.style.overflow = "";
-      previouslyFocused?.focus?.();
+      unlockScroll();
+      previouslyFocused?.focus?.({ preventScroll: true });
     };
-  }, [product, onClose]);
+  }, [product]);
 
   if (!product) return null;
 
-  return (
+  return createPortal(
     <div
       className="product-spec-backdrop"
       onMouseDown={(event) => event.target === event.currentTarget && onClose()}
@@ -102,6 +172,7 @@ export default function ProductSpecModal({ product, image, onClose }) {
           </dl>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
