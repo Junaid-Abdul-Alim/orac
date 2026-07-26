@@ -100,9 +100,17 @@ export const productImageSlot = (productName) =>
   productImages[productName] || imageSlot("Product visual", `${productName} product image`);
 
 export const internationalImages = {
+  // Large editorial slot (homepage chapter + page hero band). The catalogue
+  // photography is branded stock: every card prints an ORAC INTERNATIONAL
+  // lockup and, on most, a product caption. red-chilli-powder.webp is square
+  // and puts a full retail pack - logo, product name, "PURE | PREMIUM |
+  // WHOLESOME" - in its right third, which no landscape crop can remove, so
+  // the chapter read as a catalogue card rather than as trade. raw-cotton.jpg
+  // is 4:5 with its lockup confined to the top band and no caption, so a
+  // landscape crop biased low shows only baled cotton in a warehouse.
   hero: {
-    src: catalogImage("red-chilli-powder.webp"),
-    alt: "Red chilli and powder prepared as an ORAC International export product",
+    src: catalogImage("raw-cotton.jpg"),
+    alt: "Baled raw cotton in a trade warehouse, handled by ORAC International",
     label: "Trade image",
     title: "Source. Verify. Move with care.",
     description: "ORAC International product imagery prepared for export and import conversations.",

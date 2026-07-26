@@ -289,33 +289,44 @@
   color: rgba(255, 255, 255, 0.64);
 }
 
+/* Stacked, not side-by-side: the plate used to sit in its own column and
+   pushed the eyebrow, title and copy 136px in from the page's left edge -
+   the one section on this route whose text did not start on the container
+   guide. */
 .neumatrix-brand-head {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  align-items: center;
-  gap: clamp(20px, 3vw, 40px);
+  justify-items: start;
+  gap: clamp(20px, 2.4vw, 32px);
   margin-bottom: var(--space-lg);
 }
 
 .neumatrix-logo-mark {
   width: 96px;
   height: 96px;
-  border-radius: 24px;
+  border-radius: var(--radius-md);
   overflow: hidden;
   flex-shrink: 0;
   border: 1px solid rgba(184, 151, 90, 0.28);
 }
 
+/* No NEUMATRIX logo asset exists yet, so this is the SafeImage fallback.
+   Set as a deliberate wordmark plate rather than a broken-image notice -
+   the "ORAC visual asset" sub-line is what made it read as a defect. */
 .neumatrix-logo-fallback {
   min-height: 0;
   aspect-ratio: 1 / 1;
   width: 96px;
   height: 96px;
   padding: 8px;
-  border-radius: 24px;
-  font-size: 0.66rem;
+  border-radius: var(--radius-md);
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
   background: rgba(255, 255, 255, 0.04);
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.neumatrix-logo-fallback small {
+  display: none;
 }
 
 .neumatrix-led-panel {

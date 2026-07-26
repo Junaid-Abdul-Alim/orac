@@ -33,31 +33,34 @@ export default function VentureChapter({
 }) {
   return (
     <section className={`section venture-chapter venture-chapter-${tone}`}>
+      {/* Copy always precedes media in the DOM (reading order, and one
+          predictable mobile stack for all three chapters); `reverse` only
+          swaps the visual columns, and only once the layout is actually
+          two-column. The previous markup reordered the DOM *and* applied
+          `order: 2` to the first child, which cancelled out - all three
+          chapters rendered image-right, so the alternation the homepage
+          was composed around never appeared. */}
       <div className={`container editorial-layout ${reverse ? "reverse" : ""}`.trim()}>
-        {reverse ? (
-          <Reveal>
-            <ImagePanel image={image} label={imageLabel} className="preview-image-panel" />
-          </Reveal>
-        ) : null}
-        <div>
+        <div className="editorial-copy">
           <SectionHeader eyebrow={eyebrow} title={title} text={text} />
           {points.length ? (
-            <Reveal className="editorial-list">
+            <Reveal className="editorial-list" delay={90}>
               {points.map((point) => (
                 <span key={point}>{point}</span>
               ))}
             </Reveal>
           ) : null}
-          <Reveal className="venture-chapter-actions">
+          <Reveal className="venture-chapter-actions" delay={160}>
             <Button to={cta.to}>{cta.label}</Button>
             {meta ? <small className="venture-chapter-meta">{meta}</small> : null}
           </Reveal>
         </div>
-        {reverse ? null : (
-          <Reveal>
-            <ImagePanel image={image} label={imageLabel} className="preview-image-panel" />
-          </Reveal>
-        )}
+        <ImagePanel
+          image={image}
+          label={imageLabel}
+          className="preview-image-panel editorial-media"
+          delay={120}
+        />
       </div>
     </section>
   );

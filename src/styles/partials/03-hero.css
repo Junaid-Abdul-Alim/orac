@@ -2,17 +2,24 @@
 .product-hero,
 .contact-hero {
   min-height: calc(100svh - var(--nav-height));
-  padding: clamp(72px, 8vw, 120px) 0;
+  padding: var(--section-y) 0;
 }
 
+/* The homepage opening is a full-viewport composition, so it sets its own
+   tight padding rather than the section rhythm. */
 .home-hero {
   min-height: calc(100svh - var(--nav-height));
   padding: clamp(20px, 3vw, 40px) 0 clamp(24px, 3.5vw, 48px);
 }
 
-.product-hero {
+/* One hero frame for every venture page and for Contact: same padding
+   above the first line, same padding below the last element. The three
+   venture heroes previously ran 78/64, 78/64 and 108/92, and Contact ran
+   120/120, so no two page openings started at the same place. */
+.product-hero,
+.contact-hero {
   min-height: auto;
-  padding: clamp(52px, 5.4vw, 78px) 0 clamp(42px, 4.8vw, 64px);
+  padding: var(--section-y) 0 var(--section-y-tight);
 }
 
 .home-hero,
@@ -194,19 +201,31 @@
   transform: scale(1.07);
 }
 
+/* The Luxe aperture is much taller than fashion-atelier.webp's 16:9 frame,
+   so cover crops width hard; centred, it split the toile and clipped the
+   fitter. Biasing right holds the whole garment in the aperture. */
+.orac-frame-luxe .venture-compact-media .safe-image {
+  object-position: 66% center;
+}
+
 .venture-compact-scrim {
   position: absolute;
   inset: 0;
   background: linear-gradient(180deg, rgba(15, 14, 12, 0.08) 45%, rgba(15, 14, 12, 0.68) 100%);
 }
 
+/* The eyebrow is inline-flex (left-aligned) while the name inherited the
+   hero's centred text-align, so every aperture label read as one
+   left-aligned line above one centred line. Both now share one left edge. */
 .venture-compact-label {
   position: absolute;
   inset: auto 0 0 0;
   z-index: 1;
   display: grid;
-  gap: 4px;
+  justify-items: start;
+  gap: 6px;
   padding: clamp(14px, 2vw, 22px) clamp(16px, 2vw, 24px);
+  text-align: left;
 }
 
 .venture-compact-label .eyebrow {
@@ -242,23 +261,36 @@
   outline: none;
 }
 
+/* Shared hero-height logic across International / Eventus / Luxe: the copy
+   block reserves the same minimum vertical space on all three, so a
+   one-line title and a two-line title still open the page at the same
+   height. Content sits centred inside that reserved block. */
 .product-hero-copy,
 .contact-heading {
   width: min(920px, 100%);
+  min-height: var(--hero-copy-min, 0);
   display: grid;
+  align-content: center;
   justify-items: center;
   gap: var(--space-sm);
   margin-inline: auto;
 }
 
+.product-hero-copy {
+  --hero-copy-min: clamp(300px, 30vw, 440px);
+}
+
 .product-hero-image {
+  --panel-radius: var(--radius-xl);
   width: min(980px, 100%);
-  border-radius: 42px;
   box-shadow: 0 34px 110px rgba(26, 24, 20, 0.12);
 }
 
+/* One cinematic band ratio for all three venture hero images. */
 .product-hero-image .image-panel-media {
-  aspect-ratio: 16 / 5.35;
+  min-height: 0;
+  height: clamp(300px, 30vw, 420px);
+  aspect-ratio: auto;
 }
 
 .product-hero-image .image-panel-copy {
@@ -306,13 +338,19 @@
 .contact-heading h1 {
   max-width: 980px;
   color: var(--ink);
-  font-size: 6.5rem;
+  font-size: clamp(2.9rem, 1.2rem + 5.4vw, 6.5rem);
   font-weight: 600;
   line-height: 0.95;
+  text-wrap: balance;
 }
 
+/* Every venture hero uses one ramp. The old flat clamp(4.8rem, 7.1vw,
+   6.1rem) set "ORAC EVENTUS" on one line and "ORAC INTERNATIONAL" / "THE
+   HOUSE OF AZRIN" on two, so the three business heroes opened at three
+   different heights. This ramp still runs large, but the shared
+   --hero-copy-min floor below is what actually equalises the openings. */
 .product-hero h1 {
-  font-size: clamp(4.8rem, 7.1vw, 6.1rem);
+  font-size: clamp(2.55rem, 1rem + 5vw, 5.6rem);
 }
 
 .home-hero-logo-heading {
@@ -340,25 +378,27 @@
 
 .contact-heading h1 {
   color: var(--ink);
-  font-size: 4.5rem;
+  font-size: clamp(2.4rem, 1.2rem + 3.8vw, 4.5rem);
 }
 
 .hero-line,
 .hero-kicker {
   max-width: 820px;
   color: var(--ink);
-  font-size: 2.05rem;
+  font-size: clamp(1.32rem, 0.85rem + 1.5vw, 2.05rem);
   font-weight: 500;
   line-height: 1.22;
+  text-wrap: balance;
 }
 
 .hero-subtext,
 .hero-body,
 .hero-meta,
 .contact-heading p {
-  max-width: 660px;
+  max-width: min(62ch, 100%);
   color: var(--ink-muted);
   font-size: 1.05rem;
+  text-wrap: pretty;
 }
 
 .hero-luxe-line {
@@ -413,18 +453,18 @@
   color: var(--gold);
 }
 
+/* One rule, then the note. It previously drew three stacked horizontal
+   lines - a top border, a gradient rule, and a bottom border - around a
+   single line of text. */
 .hero-brand-panel {
   position: relative;
   width: min(760px, 100%);
   min-height: auto;
   display: grid;
   place-items: center;
-  gap: 14px;
-  padding: clamp(18px, 3vw, 28px) 0 0;
-  border-top: 1px solid rgba(184, 151, 90, 0.34);
-  border-bottom: 1px solid rgba(184, 151, 90, 0.16);
-  border-left: 0;
-  border-right: 0;
+  gap: clamp(14px, 1.6vw, 20px);
+  padding: 0;
+  border: 0;
   border-radius: 0;
   background: transparent;
   box-shadow: none;
@@ -474,11 +514,19 @@
   text-transform: uppercase;
 }
 
+/* One section header everywhere: same eyebrow-to-title distance, same
+   title-to-copy distance, one fluid type ramp. The previous fixed 4.25rem
+   needed three separate breakpoint overrides to stay usable, which is why
+   heading sizes drifted between routes. */
 .section-header {
   width: min(760px, 100%);
   display: grid;
-  gap: 18px;
+  gap: 0;
   margin-bottom: var(--space-lg);
+}
+
+.section-header > .eyebrow {
+  margin-bottom: clamp(14px, 1.2vw, 20px);
 }
 
 .section-header-center {
@@ -489,13 +537,19 @@
 
 .section-header h2 {
   color: var(--ink);
-  font-size: 4.25rem;
+  font-size: clamp(2.15rem, 1.1rem + 3.35vw, 4.25rem);
   font-weight: 600;
-  line-height: 1.02;
+  line-height: 1.04;
+  /* Keeps a display heading from ending on a single orphan word. */
+  text-wrap: balance;
+}
+
+.section-header h2 + p {
+  margin-top: clamp(16px, 1.4vw, 22px);
 }
 
 .section-header p {
-  max-width: 680px;
+  max-width: min(var(--measure), 100%);
   font-size: 1.05rem;
 }
 
