@@ -1,21 +1,28 @@
-import { Mail, MessageCircle } from "lucide-react";
+import { ArrowUpRight, Mail } from "lucide-react";
 import BrandLockup from "../components/common/BrandLockup";
-import IconBadge from "../components/common/IconBadge";
 import Reveal from "../components/common/Reveal";
+import WhatsAppIcon from "../components/common/WhatsAppIcon";
 import { contactDetails } from "../data/contactData";
 import oracLogo from "../assets/logos/orac-orange.svg";
 
 // Same two-column contact pattern as InternationalContactCTA.jsx: a
 // "held by ORAC Holdings" brand card on the left, the venture's own contact
-// person on the right. See ORAC LUXE Website Corrections, item 8.
-function ContactRow({ icon, kind, text, href }) {
+// person on the right. See ORAC LUXE Website Corrections, item 8. The action
+// rows share the .contact-action system defined in 13-international.css.
+function ContactRow({ icon: Icon, kind, text, href, channel, external }) {
   return (
-    <a className="international-contact-row" href={href} aria-label={`${kind}: ${text}`}>
-      <IconBadge icon={icon} className="icon-badge-soft" size={15} />
-      <span>
-        <small>{kind}</small>
-        <strong>{text}</strong>
+    <a
+      className={`contact-action contact-action-${channel}`}
+      href={href}
+      aria-label={`${kind}: ${text}`}
+      {...(external ? { target: "_blank", rel: "noreferrer" } : {})}
+    >
+      <span className="contact-action-icon" aria-hidden="true">
+        <Icon size={17} strokeWidth={1.7} />
       </span>
+      <span className="contact-action-kind">{kind}</span>
+      <span className="contact-action-value">{text}</span>
+      <ArrowUpRight className="contact-action-arrow" size={15} strokeWidth={1.7} aria-hidden="true" />
     </a>
   );
 }
@@ -60,8 +67,21 @@ export default function LuxeContactCTA() {
                 <p>India</p>
               </div>
               <div className="international-contact-links">
-                <ContactRow icon={MessageCircle} kind="WhatsApp" text={luxe.phone} href={whatsappUrl} />
-                <ContactRow icon={Mail} kind="Email" text={primaryEmail} href={`mailto:${primaryEmail}`} />
+                <ContactRow
+                  icon={WhatsAppIcon}
+                  kind="WhatsApp"
+                  text={luxe.phone}
+                  href={whatsappUrl}
+                  channel="whatsapp"
+                  external
+                />
+                <ContactRow
+                  icon={Mail}
+                  kind="Email"
+                  text={primaryEmail}
+                  href={`mailto:${primaryEmail}`}
+                  channel="email"
+                />
               </div>
             </Reveal>
           </div>

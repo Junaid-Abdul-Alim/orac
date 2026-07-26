@@ -40,70 +40,57 @@
   line-height: 1.75;
 }
 
+/* The map is the subject: it gets the width and no chrome competing with
+   it. The soft-shadowed rounded panel that used to frame it read as a
+   floating widget rather than a piece of the page. */
 .global-reach-map-wrap {
   position: relative;
   max-width: none;
   margin: 0 auto;
-  padding: clamp(18px, 3vw, 34px);
-  border: 1px solid rgba(21, 19, 71, 0.08);
-  background: #ffffff;
+  padding: 0;
+  border: 0;
+  background: transparent;
 }
 
 .global-reach-home {
   background: linear-gradient(180deg, #ffffff 0%, #faf8f3 100%);
 }
 
-.global-reach-home .global-reach-map-wrap {
-  max-width: none;
-  padding: clamp(24px, 3vw, 44px);
-  border-color: rgba(21, 19, 71, 0.1);
-  border-radius: var(--radius-lg);
-  background:
-    radial-gradient(circle at 50% 42%, rgba(184, 151, 90, 0.1), transparent 35%),
-    linear-gradient(180deg, #ffffff 0%, #fbfaf7 100%);
-  box-shadow: 0 28px 90px rgba(21, 19, 71, 0.08);
-}
-
-.global-reach-home .global-reach-map {
-  opacity: 0.98;
-}
-
-/* Pinned to the map frame's own inner padding, so the stat block's left
-   and top edges sit exactly on the frame's content edge rather than at an
-   unrelated offset. */
+/* Operational statistics, outside the geography. Previously a frosted
+   panel floating over the North Atlantic - it covered the map exactly
+   where the eye enters it, and on a phone it grew taller than the map
+   itself. Now a ruled strip directly beneath the map: three equal columns
+   divided by hairlines, numbers on one baseline and labels on another.
+   Vertical rules only between columns, so the strip reads as one
+   instrument rather than three cards. */
 .global-reach-stats {
-  position: absolute;
-  left: clamp(24px, 3vw, 44px);
-  top: clamp(24px, 3vw, 44px);
-  z-index: 2;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  width: min(520px, calc(100% - 40px));
-  overflow: hidden;
-  border: 1px solid rgba(21, 19, 71, 0.1);
-  border-radius: var(--radius-sm);
-  background: rgba(255, 255, 255, 0.86);
-  -webkit-backdrop-filter: blur(18px) saturate(160%);
-  backdrop-filter: blur(18px) saturate(160%);
+  margin-top: clamp(22px, 2.6vw, 34px);
+  border-top: 1px solid rgba(21, 19, 71, 0.14);
+  border-bottom: 1px solid rgba(21, 19, 71, 0.14);
 }
 
 .global-reach-stats article {
   display: grid;
-  gap: 4px;
-  min-height: 92px;
   align-content: center;
-  padding: 18px;
-  border-right: 1px solid rgba(21, 19, 71, 0.08);
+  gap: 8px;
+  min-height: 104px;
+  padding: clamp(18px, 2vw, 26px) clamp(16px, 2vw, 28px);
+  border-right: 1px solid rgba(21, 19, 71, 0.1);
 }
 
 .global-reach-stats article:last-child {
   border-right: 0;
 }
 
+/* Numerals and the word "India" are set at the same optical size and share
+   one baseline; tabular figures stop 30 and 5 sitting at different widths. */
 .global-reach-stats strong {
   color: #151347;
   font-family: var(--font-display);
-  font-size: 2.35rem;
+  font-size: clamp(2rem, 1.3rem + 2.2vw, 3.2rem);
+  font-variant-numeric: tabular-nums lining-nums;
   font-weight: 500;
   line-height: 0.9;
 }
@@ -112,7 +99,7 @@
   color: rgba(22, 20, 15, 0.62);
   font-size: 0.72rem;
   font-weight: 600;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   line-height: 1.35;
   text-transform: uppercase;
 }
@@ -121,6 +108,17 @@
   display: block;
   width: 100%;
   height: auto;
+}
+
+/* On a phone the map is the one element worth more than the text column:
+   letting it bleed into the page gutter buys back roughly 13% of width, and
+   with it the same proportion of every country's tap target. The country
+   list below remains the reliable touch and keyboard route into the data. */
+@media (max-width: 620px) {
+  .global-reach-map-wrap {
+    width: calc(100% + (2 * var(--gutter)));
+    margin-inline: calc(-1 * var(--gutter));
+  }
 }
 
 .global-country {
@@ -217,18 +215,45 @@
 
 .global-reach-country-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: 6px 16px;
-  max-width: 720px;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 2px 12px;
+  max-width: 860px;
   margin: clamp(16px, 2vw, 22px) auto 0;
   padding: 0;
   list-style: none;
   text-align: left;
 }
 
-.global-reach-country-list li {
+/* Each name is a control: pointing at or focusing one lights that country
+   on the map and dims the rest, so the list is the keyboard and touch
+   equivalent of hovering the geography. */
+.global-reach-country-item {
+  display: block;
+  width: 100%;
+  padding: 7px 10px;
+  background: transparent;
+  border-radius: 6px;
   color: rgba(22, 20, 15, 0.72);
+  cursor: pointer;
   font-size: 0.88rem;
+  text-align: left;
+  transition:
+    background var(--dur-hover) var(--ease-smooth),
+    color var(--dur-hover) var(--ease-smooth);
+}
+
+.global-reach-country-item:hover,
+.global-reach-country-item.is-active {
+  background: rgba(21, 19, 71, 0.06);
+  color: #151347;
+}
+
+.global-reach-country-item:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px var(--white),
+    0 0 0 4px var(--ink),
+    0 0 0 7px var(--gold);
 }
 
 .quote-block {

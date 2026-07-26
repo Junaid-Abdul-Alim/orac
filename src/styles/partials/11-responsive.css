@@ -494,22 +494,12 @@
     font-size: 0.98rem;
   }
 
+  /* The map keeps the full content width on tablet and phone - it used to
+     be squeezed to roughly 250px by the panel padding plus the stat block
+     sharing the same box, which made the countries untappable. */
   .global-reach-map-wrap {
-    padding: 12px;
-  }
-
-  .global-reach-home .global-reach-map-wrap {
-    display: grid;
-    gap: 18px;
-    padding: 18px;
-    border-radius: 28px;
-  }
-
-  .global-reach-stats {
-    position: relative;
-    left: auto;
-    top: auto;
-    width: 100%;
+    padding: 0;
+    margin-inline: 0;
   }
 
   .global-reach-tooltip {
@@ -825,23 +815,21 @@
     max-height: 84px;
   }
 
-  .global-reach-map-wrap {
-    margin-inline: -8px;
-    padding: 8px;
-  }
-
-  .global-reach-home .global-reach-map-wrap {
-    margin-inline: 0;
-  }
-
+  /* Statistics stack as three ruled rows under the map. Each keeps its
+     number and label side by side so the strip stays short and the map
+     above it keeps the height it needs to stay usable. */
   .global-reach-stats {
     grid-template-columns: 1fr;
   }
 
   .global-reach-stats article {
-    min-height: 78px;
+    grid-template-columns: minmax(64px, auto) minmax(0, 1fr);
+    align-items: baseline;
+    gap: 14px;
+    min-height: 0;
+    padding: 14px 0;
     border-right: 0;
-    border-bottom: 1px solid rgba(21, 19, 71, 0.08);
+    border-bottom: 1px solid rgba(21, 19, 71, 0.1);
   }
 
   .global-reach-stats article:last-child {
@@ -875,11 +863,17 @@
     animation-iteration-count: 1 !important;
   }
 
+  /* !important because the motion-distribution rules (01-base.css) scope the
+     reveal offset per section - `.why-section .reveal` and friends outrank a
+     plain `.reveal` reset, which left those blocks sitting 6-12px off their
+     resting position for reduced-motion visitors. An accessibility guarantee
+     is exactly the case this override is for, and the block already uses it
+     for transition-duration. */
   .reveal,
   .image-reveal,
   .safe-image {
     opacity: 1;
-    transform: none;
+    transform: none !important;
   }
 
   /* Nothing may stay masked or offset once motion is off: the editorial

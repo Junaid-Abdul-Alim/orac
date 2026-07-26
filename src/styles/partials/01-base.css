@@ -437,6 +437,24 @@ p {
   will-change: auto;
 }
 
+/* Motion distribution. Intensity falls as the page approaches its
+   credibility and contact sections: the venture chapters and their media
+   carry the strongest movement, supporting material moves less, and the
+   closing sections barely move at all - they should feel arrived at, not
+   animated into place. */
+.why-section .reveal,
+.leadership-section .reveal {
+  transform: translate3d(0, 12px, 0);
+  transition-duration: 640ms;
+}
+
+.contact-cta .reveal,
+.international-contact-cta .reveal,
+.footer .reveal {
+  transform: translate3d(0, 6px, 0);
+  transition-duration: 480ms;
+}
+
 .image-reveal.is-visible {
   --media-scale: 1;
   opacity: 1;
