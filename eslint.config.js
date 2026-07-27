@@ -48,5 +48,20 @@ export default [
     files: ["*.config.js", "vite.config.js", "eslint.config.js"],
     languageOptions: { globals: { ...globals.node } },
   },
+  {
+    // react-three-fiber's intrinsic elements (`<pointLight>`,
+    // `<meshStandardMaterial>`, ...) map straight to three.js object
+    // properties, not DOM attributes - eslint-plugin-react's
+    // no-unknown-property rule doesn't know about r3f and flags every one as
+    // a typo. Scoped to the one file that actually renders a <Canvas>,
+    // rather than loosening the rule for every component in the app.
+    files: ["src/components/motion/OriginThread3D.jsx"],
+    rules: {
+      "react/no-unknown-property": [
+        "error",
+        { ignore: ["position", "intensity", "emissive", "emissiveIntensity", "roughness"] },
+      ],
+    },
+  },
   prettier,
 ];

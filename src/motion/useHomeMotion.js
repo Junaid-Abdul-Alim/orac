@@ -1,95 +1,135 @@
 import { useLayoutEffect } from "react";
 import { gsap, ScrollTrigger } from "./gsap";
-import { DESKTOP_QUERY, DUR, EASE, MOBILE_QUERY, STAGGER, START } from "./motionTokens";
-import { hasSettled, markSettled, restoreDrawn } from "./settled";
+import { DESKTOP_QUERY, MEDIA_SETTLE, MOBILE_QUERY, PARALLAX } from "./motionTokens";
 
 /**
- * Prime an SVG path for stroke drawing.
+ * Homepage scene direction - scroll-scrubbed section timelines.
  *
- * `getTotalLength()` is in user units, so every path armed this way must be
- * drawn without `vector-effect: non-scaling-stroke` - see the note in
- * ContinuumMark.jsx for what happens otherwise.
+ * The previous version built roughly 53 ScrollTriggers: one per revealed
+ * child element (via the generic Reveal/ImageReveal system) plus a further
+ * one-shot trigger per scene beat. Each fired once, at a fixed point, and
+ * then stayed at its end state - which cannot be paused, reversed, or
+ * inspected at an intermediate point by simply stopping the scroll, and a
+ * user who scrolls quickly or returns to an already-visited section finds
+ * everything pre-resolved. That was reported, correctly, as content that
+ * "still appears completely static" even once the underlying plumbing (GSAP,
+ * ScrollTrigger) was proven to be running.
  *
- * Returns null for a path that has already been drawn, so that rebuilding this
- * context cannot wind a finished line back to invisible (see settled.js).
+ * This version uses one `scrub`-tied timeline per major scene (nine total).
+ * `scrub` ties the timeline's playhead directly to scroll position: stop scrolling
+ * anywhere inside the trigger's start/end range and the scene sits at exactly
+ * that fraction of its animation; scroll back up and it runs in reverse.
+ * `ease: "none"` throughout, so the scrollbar - not a duration - controls
+ * progress.
+ *
+ * Every element this drives is now plain markup with no CSS-driven hidden
+ * state (see HoldingIntro / VentureChapter / WhyOrac / Leadership /
+ * ContactCTA / GlobalReach's `bare` paths): the only thing that ever hides
+ * them is the `gsap.set()` call directly below, executed synchronously in
+ * this `useLayoutEffect` before paint. If this effect never runs at all - no
+ * JavaScript, a broken GSAP, or `prefers-reduced-motion: reduce` (both
+ * DESKTOP_QUERY and MOBILE_QUERY require `no-preference`, so a reduced-motion
+ * visitor matches neither and this function never calls gsap.set on anything)
+ * - the content is simply visible, because nothing ever hid it.
  */
-function armDraw(path) {
+
+// Arms an SVG path for stroke-draw and returns it, or null if it has no
+// measurable length. `getTotalLength()` is in user units, so every path armed
+// this way must be drawn without `vector-effect: non-scaling-stroke` (see the
+// note in ContinuumMark.jsx).
+function arm(path) {
   if (!path) return null;
-  if (hasSettled(path)) {
-    restoreDrawn(path);
-    return null;
-  }
   const length = path.getTotalLength?.() || 0;
   if (!length) return null;
   gsap.set(path, { strokeDasharray: length, strokeDashoffset: length, opacity: 1 });
   return path;
 }
 
-// Once a line is fully drawn it should stop depending on the measurement that
-// drew it, or a later resize leaves a stale dash pattern chopping the end off.
-function releaseDash(paths) {
-  const list = Array.isArray(paths) ? paths : [paths];
-  list.filter(Boolean).forEach(markSettled);
-  restoreDrawn(list.filter(Boolean));
+/**
+ * One scroll-scrubbed timeline, built from a flat list of steps. Each step
+ * supplies its own `gsap.set()` initial state (applied immediately, before
+ * paint) and the tween that resolves it; `at` positions it on the shared
+ * timeline so a scene's internal pieces can stagger without each needing a
+ * separate ScrollTrigger.
+ */
+function scene({ id, trigger, start, end, scrub, steps }) {
+  if (!trigger) return null;
+
+  const live = steps.filter((step) => step.el && (Array.isArray(step.el) ? step.el.length : true));
+  if (!live.length) return null;
+
+  live.forEach(({ el, from }) => {
+    if (from) gsap.set(el, from);
+  });
+
+  const tl = gsap.timeline({
+    scrollTrigger: { id, trigger, start, end, scrub, invalidateOnRefresh: true },
+  });
+
+  live.forEach(({ el, to, at = 0, duration = 1 }) => {
+    if (to) tl.to(el, { ...to, ease: "none", duration }, at);
+  });
+
+  return tl;
 }
 
 /**
- * Scene direction for the homepage - the ORAC Continuum's nine states and the
- * motion that belongs to each one.
- *
- * Everything here is scoped to a single `gsap.context`, so a route change tears
- * down every timeline and every ScrollTrigger it created. Nothing in here hides
- * content on its own: each timeline is a `fromTo`, so if it never runs the
- * element is simply where the stylesheet left it.
- *
- * Trigger ids are deliberate and stable - they are what `?motionDebug=1` lists,
- * and what a future reviewer greps for.
+ * A continuous drift, independent of `scene()`'s entrance timeline above and
+ * scoped to the whole time the trigger is anywhere on screen rather than just
+ * its entrance window. Targets `yPercent` only, so it composes with a scene's
+ * `scale`/`clipPath` tween on the same element instead of competing with it -
+ * GSAP tracks each transform component separately and writes the combined
+ * matrix itself.
  */
+function parallax({ target, trigger, amount }) {
+  if (!target || !trigger || !amount) return null;
+  return gsap.fromTo(
+    target,
+    { yPercent: -amount },
+    {
+      yPercent: amount,
+      ease: "none",
+      scrollTrigger: { trigger, start: "top bottom", end: "bottom top", scrub: true, invalidateOnRefresh: true },
+    }
+  );
+}
+
 export default function useHomeMotion(scopeRef) {
   useLayoutEffect(() => {
     const scope = scopeRef.current;
     if (!scope) return undefined;
-    // Reduced motion and any GSAP failure both land here, and neither creates a
-    // single trigger.
-    if (!document.documentElement.classList.contains("orac-motion-ready")) return undefined;
 
     const ctx = gsap.context((self) => {
-      const q = self.selector;
+      const one = (sel) => self.selector(sel)[0];
+      const all = (sel) => self.selector(sel);
       const mm = gsap.matchMedia();
 
-      const scenes = (isDesktop) => {
-        const t = isDesktop ? 1 : 0.8;
-        const reach = isDesktop ? 1 : 0.6;
+      const build = (isDesktop) => {
+        const START = isDesktop ? "top 92%" : "top 94%";
+        const END = isDesktop ? "top 52%" : "top 60%";
+        const SCRUB = isDesktop ? 0.7 : 0.55;
 
-        /* ---------------------------------------------------------------
-           Scene 1 - Opening. The composition is already resolved on load;
-           this only gives it a settle, then lets the three worlds separate
-           by a hair as the visitor starts to scroll, so the axis reads as
-           consolidating into the rail rather than simply scrolling away.
-           No pin, no scrub of layout - transforms only.
-           --------------------------------------------------------------- */
-        const fork = q(".origin-fork path")[0];
-        if (fork && armDraw(fork)) {
-          gsap.to(fork, {
-            strokeDashoffset: 0,
-            duration: 1.1 * t,
-            ease: EASE.draw,
-            delay: 0.25,
-          });
+        /* -----------------------------------------------------------------
+           Scene 1 - Opening. Not one of the nine scroll-scrubbed scenes: the
+           composition is already resolved on load (see the original creative
+           brief - "the opening must settle before normal scrolling begins"),
+           so the fork draws once immediately rather than waiting on scroll.
+           The three apertures separate by a hair as the visitor starts to
+           leave the hero, which is the one part of "Opening" that is
+           genuinely scroll-tied.
+           ----------------------------------------------------------------- */
+        const fork = one(".origin-fork path");
+        if (fork && arm(fork)) {
+          gsap.to(fork, { strokeDashoffset: 0, duration: 1.1, ease: "power1.inOut", delay: 0.2 });
         }
 
-        // The scrub deliberately targets the link *inside* each aperture, not
-        // the aperture itself. The aperture is a Reveal, whose entry tween ends
-        // with `clearProps: "transform"` - and clearing a transform that a live
-        // scrub is also writing left the three frames stranded 38px low once
-        // the visitor scrolled back to the top. Two animations, two elements.
-        const ventures = q(".origin-venture .venture-compact-link");
-        if (ventures.length === 3) {
+        const ventureLinks = all(".origin-venture .venture-compact-link");
+        if (ventureLinks.length === 3) {
           gsap.fromTo(
-            ventures,
-            { x: (i) => (i - 1) * -14 * reach },
+            ventureLinks,
+            { x: (i) => (i - 1) * (isDesktop ? -14 : -8) },
             {
-              x: (i) => (i - 1) * 16 * reach,
+              x: (i) => (i - 1) * (isDesktop ? 16 : 9),
               ease: "none",
               scrollTrigger: {
                 id: "opening-separate",
@@ -97,227 +137,356 @@ export default function useHomeMotion(scopeRef) {
                 start: "top top",
                 end: "bottom top",
                 scrub: 0.6,
+                invalidateOnRefresh: true,
               },
             }
           );
         }
 
-        /* ---------------------------------------------------------------
-           Scene 2 - Holding introduction. The spine draws downward first,
-           and the statement rises out from behind it. This is the section
-           that hands the thread to International.
-           --------------------------------------------------------------- */
-        const spine = q('[data-mark="spine"] [data-draw]')[0];
-        if (spine) {
-          gsap.fromTo(
-            spine,
-            { scaleY: 0, transformOrigin: "top center" },
+        /* -----------------------------------------------------------------
+           Scene 2 - Holding introduction. Spine draws, heading leads,
+           supporting copy follows - two groups, not moving simultaneously.
+           ----------------------------------------------------------------- */
+        scene({
+          id: "holding",
+          trigger: one(".holding-intro"),
+          start: START,
+          end: END,
+          scrub: SCRUB,
+          steps: [
             {
-              scaleY: 1,
-              duration: 1.25 * t,
-              ease: EASE.draw,
-              scrollTrigger: {
-                id: "holding-reveal",
-                trigger: ".holding-intro",
-                start: START.section,
-                once: true,
-              },
-            }
-          );
-        }
-
-        const statement = q(".holding-statement")[0];
-        if (statement) {
-          gsap.fromTo(
-            statement,
-            { y: 34 * reach, opacity: 0 },
-            {
-              y: 0,
-              opacity: 1,
-              duration: DUR.text * t,
-              ease: EASE.enter,
-              scrollTrigger: { id: "holding-statement", trigger: statement, start: START.text, once: true },
-            }
-          );
-        }
-
-        /* ---------------------------------------------------------------
-           Scene 3 - International. The image opens like a container door
-           (handled by the media variant), and the trade route draws across
-           it afterwards so the route lands on a photograph that is already
-           readable.
-           --------------------------------------------------------------- */
-        const routeSvg = q('[data-mark="route"]')[0];
-        if (routeSvg) {
-          const routePath = routeSvg.querySelector("[data-draw]");
-          const routeNodes = routeSvg.querySelectorAll("[data-draw-node]");
-          const tl = gsap.timeline({
-            scrollTrigger: {
-              id: "international-route",
-              trigger: ".venture-chapter-international",
-              start: START.line,
-              once: true,
+              el: one(".holding-spine [data-draw]"),
+              from: { scaleY: 0, transformOrigin: "top center" },
+              to: { scaleY: 1 },
+              at: 0,
+              duration: 0.6,
             },
-            onComplete: () => routePath && releaseDash(routePath),
-          });
-          if (routePath && armDraw(routePath)) {
-            tl.to(routePath, { strokeDashoffset: 0, duration: DUR.draw * t, ease: EASE.draw }, 0.35);
-          }
-          tl.fromTo(
-            routeNodes,
-            { scale: 0, opacity: 0, transformOrigin: "center" },
-            { scale: 1, opacity: 1, duration: 0.45 * t, ease: "back.out(2)", stagger: DUR.draw * t * 0.75 },
-            0.4
-          );
-        }
-
-        /* ---------------------------------------------------------------
-           Scene 4 - Global Reach. Deliberately NOT staged from here.
-
-           The map wrapper is already a Reveal, and giving it a second fromTo
-           from this hook put two independent gsap.contexts on one element:
-           under StrictMode's mount/cleanup/mount, one context's revert()
-           restored an "original" value the other had already overwritten, and
-           the map stuck at opacity 0 permanently. It now carries the
-           `global-map` trigger id through its own Reveal instead.
-
-           The corridors are staged by useCorridorMotion, called from
-           GlobalReach - they do not exist yet at this point in the lifecycle,
-           because Geographies fetches its topojson at runtime. See that file.
-           --------------------------------------------------------------- */
-
-        /* ---------------------------------------------------------------
-           Scene 5 - Eventus. The corridor becomes the edge of a photograph:
-           the frame brackets draw outward, then the image opens out of a
-           letterboxed band (media variant "frame").
-           --------------------------------------------------------------- */
-        const frameSvg = q('[data-mark="frame"]')[0];
-        if (frameSvg) {
-          const brackets = frameSvg.querySelectorAll("[data-draw]");
-          brackets.forEach((b) => armDraw(b));
-          gsap
-            .timeline({
-              scrollTrigger: {
-                id: "eventus-frame",
-                trigger: ".venture-chapter-eventus",
-                start: START.line,
-                once: true,
-              },
-              onComplete: () => releaseDash(Array.from(brackets)),
-            })
-            .fromTo(
-              frameSvg,
-              { scale: 1.04, opacity: 0 },
-              { scale: 1, opacity: 1, duration: 0.6 * t, ease: EASE.media }
-            )
-            .to(brackets, { strokeDashoffset: 0, duration: 1.0 * t, ease: EASE.draw, stagger: 0.08 }, 0.1);
-        }
-
-        /* ---------------------------------------------------------------
-           Scene 6 - Luxe. The frame edge becomes a tailoring seam: the
-           guide line and its running stitch are revealed downward through a
-           clip rectangle, and the image wipes open from that same edge
-           (media variant "seam"). Stiller than Eventus by design.
-           --------------------------------------------------------------- */
-        const seamSvg = q('[data-mark="seam"]')[0];
-        if (seamSvg) {
-          const clip = seamSvg.querySelector("[data-seam-clip]");
-          const stitch = seamSvg.querySelector(".continuum-seam-stitch");
-          const guide = seamSvg.querySelector(".continuum-seam-guide");
-          const tl = gsap.timeline({
-            scrollTrigger: {
-              id: "luxe-seam",
-              trigger: ".venture-chapter-luxe",
-              start: START.line,
-              once: true,
-            },
-          });
-          if (stitch) gsap.set(stitch, { strokeDasharray: "7 7" });
-          if (clip) {
-            gsap.set(clip, { attr: { height: 0 } });
-            tl.to(clip, { attr: { height: 400 }, duration: 1.4 * t, ease: EASE.draw }, 0.2);
-          }
-          if (guide)
-            tl.fromTo(guide, { opacity: 0 }, { opacity: 1, duration: 0.5 * t, ease: EASE.enter }, 0.2);
-        }
-
-        /* ---------------------------------------------------------------
-           Scene 7 - Why ORAC. Intensity drops. The seam straightens into a
-           single architectural rule and the cards arrive quietly.
-           --------------------------------------------------------------- */
-        const divider = q('[data-mark="divider"] [data-draw]')[0];
-        if (divider) {
-          gsap.fromTo(
-            divider,
-            { scaleX: 0, transformOrigin: "left center" },
             {
-              scaleX: 1,
-              duration: 1.15 * t,
-              ease: EASE.draw,
-              scrollTrigger: { id: "why-orac", trigger: ".why-section", start: START.section, once: true },
-            }
-          );
-        }
-
-        /* ---------------------------------------------------------------
-           Scene 8 - Leadership. Institutional, near-static: one line down
-           the group and a node per leader. Nothing competes with the names.
-           --------------------------------------------------------------- */
-        const timeline = q('[data-mark="timeline"]')[0];
-        if (timeline) {
-          const line = timeline.querySelector("[data-draw]");
-          const nodes = timeline.querySelectorAll("[data-draw-node]");
-          const tl = gsap.timeline({
-            scrollTrigger: {
-              id: "leadership",
-              trigger: ".leadership-section",
-              start: START.section,
-              once: true,
+              el: one(".holding-intro .section-header"),
+              from: { opacity: 0, y: isDesktop ? 80 : 44 },
+              to: { opacity: 1, y: 0 },
+              at: 0.15,
+              duration: 0.6,
             },
-          });
-          if (line)
-            tl.fromTo(
-              line,
-              { scaleY: 0, transformOrigin: "top center" },
-              { scaleY: 1, duration: 1.2 * t, ease: EASE.draw }
-            );
-          if (nodes.length) {
-            tl.fromTo(
-              nodes,
-              { scale: 0, opacity: 0 },
-              { scale: 1, opacity: 1, duration: 0.4 * t, ease: "back.out(1.7)", stagger: STAGGER.card },
-              0.35
-            );
-          }
-        }
-
-        /* ---------------------------------------------------------------
-           Scene 9 - Contact. Motion very nearly stops. The thread becomes a
-           short guide pointing at the contact action, and that is all.
-           --------------------------------------------------------------- */
-        const guideLine = q('[data-mark="guide"] [data-draw]')[0];
-        if (guideLine) {
-          gsap.fromTo(
-            guideLine,
-            { scaleY: 0, transformOrigin: "top center" },
             {
-              scaleY: 1,
-              duration: 0.95 * t,
-              ease: EASE.draw,
-              scrollTrigger: { id: "contact", trigger: ".contact-cta", start: START.section, once: true },
-            }
-          );
-        }
+              el: one(".holding-intro .rich-copy"),
+              from: { opacity: 0, y: isDesktop ? 55 : 36 },
+              to: { opacity: 1, y: 0 },
+              at: 0.4,
+              duration: 0.6,
+            },
+          ],
+        });
+
+        /* -----------------------------------------------------------------
+           Scene 3 - International. Required order: image opens, heading
+           enters, supporting information appears - all inside one timeline
+           for the section.
+           ----------------------------------------------------------------- */
+        scene({
+          id: "international",
+          trigger: one(".venture-chapter-international"),
+          start: START,
+          end: isDesktop ? "top 30%" : "top 45%",
+          scrub: SCRUB,
+          steps: [
+            {
+              el: one(".venture-chapter-international .image-panel"),
+              from: { clipPath: "inset(0% 50% 0% 50%)" },
+              to: { clipPath: "inset(0% 0% 0% 0%)" },
+              at: 0,
+              duration: 1,
+            },
+            {
+              el: one(".venture-chapter-international .image-panel-media"),
+              from: { scale: isDesktop ? 1.1 : 1.06 },
+              to: { scale: MEDIA_SETTLE },
+              at: 0,
+              duration: 1,
+            },
+            {
+              el: one(".venture-chapter-international .section-header"),
+              from: { opacity: 0, y: isDesktop ? 75 : 40 },
+              to: { opacity: 1, y: 0 },
+              at: 0.3,
+              duration: 0.6,
+            },
+            {
+              el: one(".venture-chapter-international .editorial-list"),
+              from: { opacity: 0, y: isDesktop ? 50 : 30 },
+              to: { opacity: 1, y: 0 },
+              at: 0.78,
+              duration: 0.5,
+            },
+            {
+              el: one(".venture-chapter-international .venture-chapter-actions"),
+              from: { opacity: 0, y: isDesktop ? 30 : 20 },
+              to: { opacity: 1, y: 0 },
+              at: 0.92,
+              duration: 0.5,
+            },
+          ],
+        });
+        parallax({
+          target: one(".venture-chapter-international .image-panel-media"),
+          trigger: one(".venture-chapter-international"),
+          amount: isDesktop ? PARALLAX.image : PARALLAX.imageMobile,
+        });
+
+        /* -----------------------------------------------------------------
+           Scene 4 - Global Reach. Map settles first, statistics follow. The
+           corridors are a second trigger (useCorridorMotion, called from
+           GlobalReach) because they do not exist in the DOM until the
+           topojson fetch resolves.
+           ----------------------------------------------------------------- */
+        scene({
+          id: "global-reach",
+          trigger: one(".global-reach-map-wrap"),
+          start: START,
+          end: END,
+          scrub: SCRUB,
+          steps: [
+            {
+              el: one(".global-reach-map-wrap"),
+              from: { opacity: 0.2, scale: isDesktop ? 0.94 : 0.96, y: isDesktop ? 50 : 30 },
+              to: { opacity: 1, scale: 1, y: 0 },
+              at: 0,
+              duration: 1,
+            },
+            {
+              el: one(".global-reach-stats"),
+              from: { opacity: 0, y: isDesktop ? 35 : 22 },
+              to: { opacity: 1, y: 0 },
+              at: 0.6,
+              duration: 0.5,
+            },
+          ],
+        });
+
+        /* -----------------------------------------------------------------
+           Scene 5 - Eventus. An obvious letterbox opening, not a fade: the
+           frame is visibly cropped to a central band and expands outward
+           while its corner brackets draw.
+           ----------------------------------------------------------------- */
+        const eveBrackets = all(".venture-chapter-eventus .continuum-frame-bracket");
+        eveBrackets.forEach(arm);
+        scene({
+          id: "eventus",
+          trigger: one(".venture-chapter-eventus"),
+          start: START,
+          end: isDesktop ? "top 35%" : "top 50%",
+          scrub: SCRUB,
+          steps: [
+            {
+              el: one(".venture-chapter-eventus .image-panel"),
+              from: { clipPath: "inset(38% 0% 38% 0%)", y: isDesktop ? 40 : 26 },
+              to: { clipPath: "inset(0% 0% 0% 0%)", y: 0 },
+              at: 0,
+              duration: 1,
+            },
+            {
+              el: one(".venture-chapter-eventus .image-panel-media"),
+              from: { scale: isDesktop ? 1.12 : 1.06 },
+              to: { scale: MEDIA_SETTLE },
+              at: 0,
+              duration: 1,
+            },
+            {
+              el: eveBrackets,
+              to: { strokeDashoffset: 0 },
+              at: 0.2,
+              duration: 0.8,
+            },
+            {
+              el: one(".venture-chapter-eventus .editorial-copy"),
+              from: { opacity: 0, y: isDesktop ? 65 : 40 },
+              to: { opacity: 1, y: 0 },
+              at: 0.45,
+              duration: 0.55,
+            },
+          ],
+        });
+        parallax({
+          target: one(".venture-chapter-eventus .image-panel-media"),
+          trigger: one(".venture-chapter-eventus"),
+          amount: isDesktop ? PARALLAX.image : PARALLAX.imageMobile,
+        });
+
+        /* -----------------------------------------------------------------
+           Scene 6 - Luxe. The seam and the image reveal advance together: the
+           clip rectangle's height and the image's own wipe are the same
+           motion, read as one construction line rather than two effects.
+           ----------------------------------------------------------------- */
+        const luxeClip = one(".venture-chapter-luxe [data-seam-clip]");
+        const luxeStitch = one(".venture-chapter-luxe .continuum-seam-stitch");
+        if (luxeStitch) gsap.set(luxeStitch, { strokeDasharray: "7 7" });
+        if (luxeClip) gsap.set(luxeClip, { attr: { height: 0 } });
+        scene({
+          id: "luxe",
+          trigger: one(".venture-chapter-luxe"),
+          start: START,
+          end: isDesktop ? "top 35%" : "top 50%",
+          scrub: SCRUB,
+          steps: [
+            {
+              el: one(".venture-chapter-luxe .image-panel"),
+              from: { clipPath: "inset(0% 65% 0% 0%)" },
+              to: { clipPath: "inset(0% 0% 0% 0%)" },
+              at: 0,
+              duration: 1,
+            },
+            {
+              el: one(".venture-chapter-luxe .image-panel-media"),
+              from: { scale: isDesktop ? 1.1 : 1.06 },
+              to: { scale: MEDIA_SETTLE },
+              at: 0,
+              duration: 1,
+            },
+            {
+              el: luxeClip,
+              to: { attr: { height: 400 } },
+              at: 0,
+              duration: 1,
+            },
+            {
+              el: one(".venture-chapter-luxe .section-header"),
+              from: { opacity: 0, y: isDesktop ? 70 : 40 },
+              to: { opacity: 1, y: 0 },
+              at: 0.35,
+              duration: 0.55,
+            },
+            {
+              el: all(
+                ".venture-chapter-luxe .editorial-list, .venture-chapter-luxe .venture-chapter-actions"
+              ),
+              from: { opacity: 0, y: isDesktop ? 30 : 20 },
+              to: { opacity: 1, y: 0 },
+              at: 0.65,
+              duration: 0.5,
+            },
+          ],
+        });
+        parallax({
+          target: one(".venture-chapter-luxe .image-panel-media"),
+          trigger: one(".venture-chapter-luxe"),
+          amount: isDesktop ? PARALLAX.image : PARALLAX.imageMobile,
+        });
+
+        /* -----------------------------------------------------------------
+           Scene 7 - Why ORAC. Intensity drops: the divider straightens, the
+           heading enters, and the five cards resolve as one staggered tween
+           rather than five separate triggers.
+           ----------------------------------------------------------------- */
+        scene({
+          id: "why-orac",
+          trigger: one(".why-section"),
+          start: START,
+          end: END,
+          scrub: SCRUB,
+          steps: [
+            {
+              el: one(".why-divider [data-draw]"),
+              from: { scaleX: 0, transformOrigin: "left center" },
+              to: { scaleX: 1 },
+              at: 0,
+              duration: 0.6,
+            },
+            {
+              el: one(".why-section .section-header"),
+              from: { opacity: 0, y: isDesktop ? 55 : 36 },
+              to: { opacity: 1, y: 0 },
+              at: 0.15,
+              duration: 0.5,
+            },
+            {
+              el: all(".why-section .reason-panel-list > article"),
+              from: { opacity: 0, y: isDesktop ? 35 : 22 },
+              to: { opacity: 1, y: 0, stagger: 0.08 },
+              at: 0.4,
+              duration: 0.6,
+            },
+          ],
+        });
+
+        /* -----------------------------------------------------------------
+           Scene 8 - Leadership. Calm and institutional: one line down the
+           group, the intro, and the leader tiles as a single staggered tween.
+           ----------------------------------------------------------------- */
+        scene({
+          id: "leadership",
+          trigger: one(".leadership-section"),
+          start: START,
+          end: END,
+          scrub: SCRUB,
+          steps: [
+            {
+              el: one(".leadership-timeline [data-draw]"),
+              from: { scaleY: 0, transformOrigin: "top center" },
+              to: { scaleY: 1 },
+              at: 0,
+              duration: 0.6,
+            },
+            {
+              el: one(".leadership-intro"),
+              from: { opacity: 0, y: isDesktop ? 45 : 30 },
+              to: { opacity: 1, y: 0 },
+              at: 0.1,
+              duration: 0.5,
+            },
+            {
+              el: all(".leader-tile"),
+              from: { opacity: 0, y: isDesktop ? 30 : 20 },
+              to: { opacity: 1, y: 0, stagger: 0.08 },
+              at: 0.35,
+              duration: 0.6,
+            },
+          ],
+        });
+
+        /* -----------------------------------------------------------------
+           Scene 9 - Contact. Motion nearly stops: a short guide, the heading,
+           then the action.
+           ----------------------------------------------------------------- */
+        scene({
+          id: "contact",
+          trigger: one(".contact-cta"),
+          start: isDesktop ? "top 92%" : "top 94%",
+          end: isDesktop ? "top 60%" : "top 70%",
+          scrub: SCRUB,
+          steps: [
+            {
+              el: one(".contact-guide [data-draw]"),
+              from: { scaleY: 0, transformOrigin: "top center" },
+              to: { scaleY: 1 },
+              at: 0,
+              duration: 0.5,
+            },
+            {
+              el: all(".contact-cta-copy .eyebrow, .contact-cta-copy h2, .contact-cta-copy p"),
+              from: { opacity: 0, y: isDesktop ? 40 : 26 },
+              to: { opacity: 1, y: 0 },
+              at: 0.25,
+              duration: 0.5,
+            },
+            {
+              el: one(".contact-cta-copy .button"),
+              from: { opacity: 0, y: isDesktop ? 25 : 18 },
+              to: { opacity: 1, y: 0 },
+              at: 0.55,
+              duration: 0.45,
+            },
+          ],
+        });
       };
 
-      mm.add(DESKTOP_QUERY, () => scenes(true));
-      mm.add(MOBILE_QUERY, () => scenes(false));
+      mm.add(DESKTOP_QUERY, () => build(true));
+      mm.add(MOBILE_QUERY, () => build(false));
 
       return () => mm.revert();
     }, scopeRef);
 
-    // The homepage adds a lot of height at once; make sure every trigger it
-    // just created measured against the final layout.
+    // Fonts/images can still change section heights after mount; re-measure
+    // once shortly after, without rebuilding any of the timelines above.
     const refresh = window.setTimeout(() => ScrollTrigger.refresh(), 120);
 
     return () => {

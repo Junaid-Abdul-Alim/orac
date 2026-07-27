@@ -66,10 +66,18 @@ export default function GlobalReach({
   // Shared between the map and the country list, so pointing at either one
   // highlights the same country in the other.
   const [activeCountry, setActiveCountry] = useState(null);
-  // The corridors are drawn from here rather than from the page-level scene
-  // director, because they only exist once the topojson resolves.
+
+  // `bare`: the homepage's own scroll-scrubbed timeline (useHomeMotion.js
+  // "global-reach" scene) animates `.global-reach-map-wrap` and friends
+  // directly, so on Home this renders with no Reveal of its own - two
+  // independent systems fighting over the same element's opacity/transform is
+  // exactly the bug `settled.js` (used by the older, untouched system) exists
+  // to paper over, and it's simpler not to create the conflict at all.
+  // `OracInternational`'s standalone `<GlobalReach />` (variant="standard")
+  // keeps the exact Reveal-driven behaviour it already had.
+  const bare = variant === "home";
   const mapWrapRef = useRef(null);
-  useCorridorMotion(mapWrapRef);
+  useCorridorMotion(mapWrapRef, { scrub: bare });
   const geographyUrl = useMemo(() => `${import.meta.env.BASE_URL}geographies/countries-110m.json`, []);
   const sectionId = variant === "home" ? "home-global-reach-title" : "global-reach-title";
   const countryListId = `${sectionId}-countries`;
@@ -100,6 +108,205 @@ export default function GlobalReach({
     }));
   };
 
+  const headingContent = (
+    <>
+      <span className="eyebrow">{eyebrow}</span>
+      <h2 id={sectionId}>{title}</h2>
+      {text ? <p>{text}</p> : null}
+    </>
+  );
+
+  const mapContent = (
+    <>
+      {/* geoEqualEarth at scale 155 in a 980x480 frame leaves a wide empty
+          band above and below the landmass, which is what made the map
+          look tiny once the frame narrowed on a phone. Cropping the frame
+          to the inhabited latitudes and raising the scale fills it with
+          geography instead of margin - the same countries, just not
+          surrounded by 130px of nothing. */}
+      <ComposableMap
+        projection="geoEqualEarth"
+        projectionConfig={{ scale: 176, center: [12, 12] }}
+        width={980}
+        height={430}
+        className="global-reach-map"
+        role="img"
+        aria-label="World map highlighting ORAC International trade reach - see the full country list below"
+      >
+        <Geographies geography={geographyUrl}>
+          {({ geographies, path }) => {
+            const { origin, corridors } = buildCorridors(geographies, path);
+
+            return (
+              <>
+                {geographies.map((geo) => {
+                  const countryName = geo.properties.name;
+                  const isHighlighted = highlightedCountries.has(countryName);
+                  const isIndia = countryName === "India";
+
+                  return (
+                    <Geography
+                      key={geo.rsmKey}
+                      geography={geo}
+                      tabIndex={-1}
+                      aria-hidden="true"
+                      className={[
+                        "global-country",
+                        isHighlighted ? "is-highlighted" : "",
+                        isIndia ? "is-india" : "",
+                        activeCountry === countryName ? "is-active" : "",
+                        activeCountry && activeCountry !== countryName ? "is-dimmed" : "",
+                      ]
+                        .filter(Boolean)
+                        .join(" ")}
+                      style={{
+                        default: {
+                          // react-simple-maps writes fill inline, so the
+                          // active/dimmed state has to be resolved here rather
+                          // than in CSS, where a class could never win.
+                          fill:
+                            activeCountry === countryName
+                              ? isIndia
+                                ? "var(--map-india-hover)"
+                                : "var(--map-highlight-hover)"
+                              : isIndia
+                                ? "var(--map-india)"
+                                : isHighlighted
+                                  ? "var(--map-highlight)"
+                                  : "var(--map-country)",
+                          opacity: activeCountry && activeCountry !== countryName && isHighlighted ? 0.32 : 1,
+                          stroke: "var(--map-stroke)",
+                          strokeWidth: 0.55,
+                          outline: "none",
+                          transition: "fill 220ms var(--ease-smooth), opacity 220ms var(--ease-smooth)",
+                        },
+                        hover: {
+                          fill: isIndia
+                            ? "var(--map-india-hover)"
+                            : isHighlighted
+                              ? "var(--map-highlight-hover)"
+                              : "var(--map-country)",
+                          stroke: "var(--map-stroke)",
+                          strokeWidth: 0.55,
+                          outline: "none",
+                        },
+                        pressed: {
+                          fill: isIndia
+                            ? "var(--map-india-pressed)"
+                            : isHighlighted
+                              ? "var(--map-highlight-pressed)"
+                              : "var(--map-country)",
+                          stroke: "var(--map-stroke)",
+                          strokeWidth: 0.55,
+                          outline: "none",
+                        },
+                      }}
+                      onMouseEnter={
+                        isHighlighted
+                          ? (event) => {
+                              showTooltip(event, countryName);
+                              setActiveCountry(countryName);
+                            }
+                          : undefined
+                      }
+                      onMouseMove={isHighlighted ? moveTooltip : undefined}
+                      onMouseLeave={
+                        isHighlighted
+                          ? () => {
+                              setTooltip(null);
+                              setActiveCountry(null);
+                            }
+                          : undefined
+                      }
+                    />
+                  );
+                })}
+
+                {/* Layer 2 - the corridors. Drawn after the geographies so
+                    they sit over the landmasses, and marked aria-hidden
+                    because the country list below is the accessible route
+                    into the same information. */}
+                {corridors.length ? (
+                  <g className="global-corridors" aria-hidden="true">
+                    {corridors.map((corridor) => (
+                      <path
+                        key={corridor.name}
+                        className="global-corridor"
+                        data-corridor
+                        d={corridor.d}
+                        fill="none"
+                      />
+                    ))}
+                    {origin ? (
+                      <circle
+                        className="global-corridor-origin"
+                        data-corridor-origin
+                        cx={origin[0]}
+                        cy={origin[1]}
+                        r="4.5"
+                      />
+                    ) : null}
+                  </g>
+                ) : null}
+              </>
+            );
+          }}
+        </Geographies>
+      </ComposableMap>
+
+      {tooltip ? (
+        <div
+          className="global-reach-tooltip"
+          style={{ "--tooltip-x": `${tooltip.x}px`, "--tooltip-y": `${tooltip.y}px` }}
+          role="tooltip"
+        >
+          {tooltip.name}
+        </div>
+      ) : null}
+    </>
+  );
+
+  const statsContent = highlightItems.map((item) => (
+    <article key={item.label}>
+      <strong>{item.value}</strong>
+      <span>{item.label}</span>
+    </article>
+  ));
+
+  const disclosureContent = (
+    <>
+      <button
+        type="button"
+        className="global-reach-country-toggle"
+        aria-expanded={countryListOpen}
+        aria-controls={countryListId}
+        onClick={() => setCountryListOpen((value) => !value)}
+      >
+        {countryListOpen ? "Hide" : "Show"} the {focusedCountryCount} focused countries
+      </button>
+      {countryListOpen ? (
+        <ul id={countryListId} className="global-reach-country-list">
+          {sortedCountryNames.map((name) => (
+            <li key={name}>
+              <button
+                type="button"
+                className={`global-reach-country-item ${activeCountry === name ? "is-active" : ""}`.trim()}
+                aria-pressed={activeCountry === name}
+                onMouseEnter={() => setActiveCountry(name)}
+                onMouseLeave={() => setActiveCountry(null)}
+                onFocus={() => setActiveCountry(name)}
+                onBlur={() => setActiveCountry(null)}
+                onClick={() => setActiveCountry((current) => (current === name ? null : name))}
+              >
+                {displayNames[name] || name}
+              </button>
+            </li>
+          ))}
+        </ul>
+      ) : null}
+    </>
+  );
+
   return (
     <section
       className={`global-reach-section global-reach-${variant}`.trim()}
@@ -107,11 +314,11 @@ export default function GlobalReach({
       data-continuum-phase={variant === "home" ? "global" : undefined}
     >
       <div className="global-reach-container" ref={mapWrapRef}>
-        <Reveal className="global-reach-heading">
-          <span className="eyebrow">{eyebrow}</span>
-          <h2 id={sectionId}>{title}</h2>
-          {text ? <p>{text}</p> : null}
-        </Reveal>
+        {bare ? (
+          <div className="global-reach-heading">{headingContent}</div>
+        ) : (
+          <Reveal className="global-reach-heading">{headingContent}</Reveal>
+        )}
 
         {/* Layer 3 of the component - operational statistics, deliberately
             outside the geography. They previously sat as a frosted panel over
@@ -119,198 +326,34 @@ export default function GlobalReach({
             enters it. As a ruled strip beneath the map they stay legible, keep
             one baseline, and stack cleanly on a phone without shrinking the
             map to make room. */}
-        <Reveal className="global-reach-map-wrap" delay={120} motionId="global-map">
-          {/* geoEqualEarth at scale 155 in a 980x480 frame leaves a wide empty
-              band above and below the landmass, which is what made the map
-              look tiny once the frame narrowed on a phone. Cropping the frame
-              to the inhabited latitudes and raising the scale fills it with
-              geography instead of margin - the same countries, just not
-              surrounded by 130px of nothing. */}
-          <ComposableMap
-            projection="geoEqualEarth"
-            projectionConfig={{ scale: 176, center: [12, 12] }}
-            width={980}
-            height={430}
-            className="global-reach-map"
-            role="img"
-            aria-label="World map highlighting ORAC International trade reach - see the full country list below"
-          >
-            <Geographies geography={geographyUrl}>
-              {({ geographies, path }) => {
-                const { origin, corridors } = buildCorridors(geographies, path);
+        {bare ? (
+          <div className="global-reach-map-wrap">{mapContent}</div>
+        ) : (
+          <Reveal className="global-reach-map-wrap" delay={120} motionId="global-map">
+            {mapContent}
+          </Reveal>
+        )}
 
-                return (
-                  <>
-                    {geographies.map((geo) => {
-                      const countryName = geo.properties.name;
-                      const isHighlighted = highlightedCountries.has(countryName);
-                      const isIndia = countryName === "India";
-
-                      return (
-                        <Geography
-                          key={geo.rsmKey}
-                          geography={geo}
-                          tabIndex={-1}
-                          aria-hidden="true"
-                          className={[
-                            "global-country",
-                            isHighlighted ? "is-highlighted" : "",
-                            isIndia ? "is-india" : "",
-                            activeCountry === countryName ? "is-active" : "",
-                            activeCountry && activeCountry !== countryName ? "is-dimmed" : "",
-                          ]
-                            .filter(Boolean)
-                            .join(" ")}
-                          style={{
-                            default: {
-                              // react-simple-maps writes fill inline, so the
-                              // active/dimmed state has to be resolved here rather
-                              // than in CSS, where a class could never win.
-                              fill:
-                                activeCountry === countryName
-                                  ? isIndia
-                                    ? "var(--map-india-hover)"
-                                    : "var(--map-highlight-hover)"
-                                  : isIndia
-                                    ? "var(--map-india)"
-                                    : isHighlighted
-                                      ? "var(--map-highlight)"
-                                      : "var(--map-country)",
-                              opacity:
-                                activeCountry && activeCountry !== countryName && isHighlighted ? 0.32 : 1,
-                              stroke: "var(--map-stroke)",
-                              strokeWidth: 0.55,
-                              outline: "none",
-                              transition: "fill 220ms var(--ease-smooth), opacity 220ms var(--ease-smooth)",
-                            },
-                            hover: {
-                              fill: isIndia
-                                ? "var(--map-india-hover)"
-                                : isHighlighted
-                                  ? "var(--map-highlight-hover)"
-                                  : "var(--map-country)",
-                              stroke: "var(--map-stroke)",
-                              strokeWidth: 0.55,
-                              outline: "none",
-                            },
-                            pressed: {
-                              fill: isIndia
-                                ? "var(--map-india-pressed)"
-                                : isHighlighted
-                                  ? "var(--map-highlight-pressed)"
-                                  : "var(--map-country)",
-                              stroke: "var(--map-stroke)",
-                              strokeWidth: 0.55,
-                              outline: "none",
-                            },
-                          }}
-                          onMouseEnter={
-                            isHighlighted
-                              ? (event) => {
-                                  showTooltip(event, countryName);
-                                  setActiveCountry(countryName);
-                                }
-                              : undefined
-                          }
-                          onMouseMove={isHighlighted ? moveTooltip : undefined}
-                          onMouseLeave={
-                            isHighlighted
-                              ? () => {
-                                  setTooltip(null);
-                                  setActiveCountry(null);
-                                }
-                              : undefined
-                          }
-                        />
-                      );
-                    })}
-
-                    {/* Layer 2 - the corridors. Drawn after the geographies so
-                        they sit over the landmasses, and marked aria-hidden
-                        because the country list below is the accessible route
-                        into the same information. */}
-                    {corridors.length ? (
-                      <g className="global-corridors" aria-hidden="true">
-                        {corridors.map((corridor) => (
-                          <path
-                            key={corridor.name}
-                            className="global-corridor"
-                            data-corridor
-                            d={corridor.d}
-                            fill="none"
-                          />
-                        ))}
-                        {origin ? (
-                          <circle
-                            className="global-corridor-origin"
-                            data-corridor-origin
-                            cx={origin[0]}
-                            cy={origin[1]}
-                            r="4.5"
-                          />
-                        ) : null}
-                      </g>
-                    ) : null}
-                  </>
-                );
-              }}
-            </Geographies>
-          </ComposableMap>
-
-          {tooltip ? (
-            <div
-              className="global-reach-tooltip"
-              style={{ "--tooltip-x": `${tooltip.x}px`, "--tooltip-y": `${tooltip.y}px` }}
-              role="tooltip"
-            >
-              {tooltip.name}
-            </div>
-          ) : null}
-        </Reveal>
-
-        <Reveal className="global-reach-stats" delay={220} aria-label="Global reach highlights">
-          {highlightItems.map((item) => (
-            <article key={item.label}>
-              <strong>{item.value}</strong>
-              <span>{item.label}</span>
-            </article>
-          ))}
-        </Reveal>
+        {bare ? (
+          <div className="global-reach-stats" aria-label="Global reach highlights">
+            {statsContent}
+          </div>
+        ) : (
+          <Reveal className="global-reach-stats" delay={220} aria-label="Global reach highlights">
+            {statsContent}
+          </Reveal>
+        )}
 
         {/* The keyboard- and touch-accessible route into the same data the map
             shows. Focusing or pointing at a country name lights that country
             on the map, so the list is a real control rather than a fallback. */}
-        <Reveal className="global-reach-country-disclosure" delay={260}>
-          <button
-            type="button"
-            className="global-reach-country-toggle"
-            aria-expanded={countryListOpen}
-            aria-controls={countryListId}
-            onClick={() => setCountryListOpen((value) => !value)}
-          >
-            {countryListOpen ? "Hide" : "Show"} the {focusedCountryCount} focused countries
-          </button>
-          {countryListOpen ? (
-            <ul id={countryListId} className="global-reach-country-list">
-              {sortedCountryNames.map((name) => (
-                <li key={name}>
-                  <button
-                    type="button"
-                    className={`global-reach-country-item ${activeCountry === name ? "is-active" : ""}`.trim()}
-                    aria-pressed={activeCountry === name}
-                    onMouseEnter={() => setActiveCountry(name)}
-                    onMouseLeave={() => setActiveCountry(null)}
-                    onFocus={() => setActiveCountry(name)}
-                    onBlur={() => setActiveCountry(null)}
-                    onClick={() => setActiveCountry((current) => (current === name ? null : name))}
-                  >
-                    {displayNames[name] || name}
-                  </button>
-                </li>
-              ))}
-            </ul>
-          ) : null}
-        </Reveal>
+        {bare ? (
+          <div className="global-reach-country-disclosure">{disclosureContent}</div>
+        ) : (
+          <Reveal className="global-reach-country-disclosure" delay={260}>
+            {disclosureContent}
+          </Reveal>
+        )}
       </div>
     </section>
   );

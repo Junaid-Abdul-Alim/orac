@@ -1,5 +1,4 @@
 import SectionHeader from "../components/common/SectionHeader";
-import Reveal from "../components/common/Reveal";
 import ContinuumMark from "../components/motion/ContinuumMark";
 
 // The institutional "About ORAC Holdings" framing only - leadership was
@@ -8,6 +7,12 @@ import ContinuumMark from "../components/motion/ContinuumMark";
 // belongs after value has been established, not immediately after the
 // hero. This section keeps the #about anchor since it's the section that
 // answers "what is ORAC Holdings," which is reasonable early framing.
+//
+// Plain markup, no Reveal/ImageReveal: the homepage's own scroll-scrubbed
+// timeline (useHomeMotion.js "holding" scene) animates `.section-header` and
+// `.rich-copy` directly by selector, tied to scroll position rather than
+// firing once. If that effect never runs, this content is simply visible -
+// nothing here hides it.
 export default function HoldingIntro() {
   return (
     <section className="section holding-intro" id="about" data-continuum-phase="holding">
@@ -16,8 +21,8 @@ export default function HoldingIntro() {
           hands the thread over. */}
       <ContinuumMark kind="spine" className="holding-spine" />
       <div className="container split-layout">
-        <SectionHeader eyebrow="About ORAC Holdings" title="We build institutions designed to endure." />
-        <Reveal className="rich-copy">
+        <SectionHeader bare eyebrow="About ORAC Holdings" title="We build institutions designed to endure." />
+        <div className="rich-copy">
           <p>
             ORAC Holdings is the parent house for a focused group of ventures across trade, events, and
             fashion.
@@ -34,7 +39,7 @@ export default function HoldingIntro() {
             discipline outlasts short-term attention.
           </p>
           <strong className="holding-statement">We build institutions designed to endure.</strong>
-        </Reveal>
+        </div>
       </div>
     </section>
   );

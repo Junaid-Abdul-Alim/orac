@@ -1,11 +1,25 @@
 import Reveal from "./Reveal";
 
-export default function SectionHeader({ eyebrow, title, text, align = "left" }) {
-  return (
-    <Reveal className={`section-header section-header-${align}`}>
+/**
+ * `bare` renders the same markup with no `Reveal` wrapper and no motion of its
+ * own - for the homepage only, where a single section-level scrub timeline
+ * (see useHomeMotion.js) now animates this element directly. Every other
+ * caller (business pages, and any Home usage that doesn't pass it) is
+ * unaffected: the default is the exact previous behaviour.
+ */
+export default function SectionHeader({ eyebrow, title, text, align = "left", bare = false }) {
+  const className = `section-header section-header-${align}`;
+  const content = (
+    <>
       {eyebrow ? <span className="eyebrow">{eyebrow}</span> : null}
       <h2>{title}</h2>
       {text ? <p>{text}</p> : null}
-    </Reveal>
+    </>
   );
+
+  if (bare) {
+    return <div className={className}>{content}</div>;
+  }
+
+  return <Reveal className={className}>{content}</Reveal>;
 }

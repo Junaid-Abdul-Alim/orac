@@ -30,8 +30,9 @@
 
 /* Category Collage — clean full-width landscape banner, sharp corners
    (no radius), no text/label overlay of our own. Placed right after
-   Vault XIII (see LuxuryExport.jsx). object-fit: cover on a wide
-   aspect-ratio reads the collage as landscape without distorting it. */
+   Vault XIII (see LuxuryExport.jsx). The source image is its own native
+   ratio (~4:3, not 21:9), so height is left to `auto` rather than forcing
+   a wide aspect-ratio with object-fit: cover, which was cropping it. */
 .luxe-collage-banner {
   width: 100%;
 }
@@ -40,8 +41,7 @@
 .luxe-collage-banner .safe-image-fallback {
   display: block;
   width: 100%;
-  aspect-ratio: 21 / 9;
-  object-fit: cover;
+  height: auto;
   border-radius: 0;
 }
 

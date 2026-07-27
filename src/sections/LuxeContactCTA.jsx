@@ -1,5 +1,6 @@
-import { ArrowUpRight, Mail } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import BrandLockup from "../components/common/BrandLockup";
+import GmailIcon from "../components/common/GmailIcon";
 import Reveal from "../components/common/Reveal";
 import WhatsAppIcon from "../components/common/WhatsAppIcon";
 import { contactDetails } from "../data/contactData";
@@ -76,7 +77,7 @@ export default function LuxeContactCTA() {
                   external
                 />
                 <ContactRow
-                  icon={Mail}
+                  icon={GmailIcon}
                   kind="Email"
                   text={primaryEmail}
                   href={`mailto:${primaryEmail}`}

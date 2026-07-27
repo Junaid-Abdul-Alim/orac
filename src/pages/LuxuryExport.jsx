@@ -16,7 +16,6 @@ import {
   azrinValues,
   catalogue,
   houseEditions,
-  luxeImages,
   luxeTagline,
   maisonBanner,
   maisonSeries,
@@ -40,7 +39,6 @@ export default function LuxuryExport() {
         text="A fabric-forward fashion house rooted in deliberate making - curated style, couture essentials, and bespoke artisan work, cut from a single considered palette."
         meta="Curated Style / Couture Essentials / The Bespoke Artisan"
         heroNote="An ORAC Luxe Venture"
-        image={luxeImages.hero}
         brandLogo={{ src: houseOfAzrinLogo, className: "azrin-hero-logo" }}
         showBrandPanel={false}
       />
@@ -167,7 +165,7 @@ export default function LuxuryExport() {
           <SectionHeader
             eyebrow="V · Values"
             title="Built with purpose."
-            text="The House of Azrin is a venture under ORAC Luxe - a business house that builds ventures with intention."
+            text="Four principles carry through every piece, from first cut to final stitch."
           />
           <div className="reason-panel-list">
             {azrinValues.map((value, index) => (

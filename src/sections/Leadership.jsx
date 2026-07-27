@@ -1,4 +1,3 @@
-import Reveal from "../components/common/Reveal";
 import ContinuumMark from "../components/motion/ContinuumMark";
 import { leadership } from "../data/companyData";
 
@@ -8,6 +7,11 @@ import { leadership } from "../data/companyData";
 // the confirmed decision that leadership content belongs later in the
 // journey. Same real leadership data, same leader-tile presentation -
 // only the position changed.
+//
+// Plain markup: useHomeMotion.js's "leadership" scene drives the intro
+// heading and the leader tiles (one staggered tween on `.leader-tile`) from a
+// single scroll-scrubbed timeline, per the requirement not to give each card
+// its own ScrollTrigger.
 export default function Leadership() {
   return (
     <section className="section leadership-section" data-continuum-phase="leadership">
@@ -15,18 +19,18 @@ export default function Leadership() {
         {/* Calm and institutional: the thread becomes a plain guide with one
             node per leader, and stops moving. */}
         <ContinuumMark kind="timeline" className="leadership-timeline" nodes={leadership.length} />
-        <Reveal className="leadership-intro">
+        <div className="leadership-intro">
           <span className="eyebrow">The People Behind ORAC</span>
           <h3>Leadership across the ORAC group.</h3>
-        </Reveal>
+        </div>
         <div className="leadership-grid">
-          {leadership.map((leader, index) => (
-            <Reveal as="article" className="leader-tile" key={leader.name} kind="card" delay={index * 110}>
+          {leadership.map((leader) => (
+            <article className="leader-tile" key={leader.name}>
               <span>{leader.role}</span>
               <h4>{leader.name}</h4>
               <p className="leader-focus">{leader.focus}</p>
               {leader.body ? <p>{leader.body}</p> : null}
-            </Reveal>
+            </article>
           ))}
         </div>
       </div>

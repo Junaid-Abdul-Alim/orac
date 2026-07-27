@@ -5,7 +5,8 @@ import oracInternationalLogo from "../assets/logos/orac-international.svg";
 import oracLuxeLogo from "../assets/logos/orac-luxe.svg";
 import luxeAtelier from "../assets/images/luxe/fashion-atelier.webp";
 
-export const assetPaths = {
+// Local to this file - the venture entries below are the exported surface.
+const assetPaths = {
   international: internationalImages.hero.src,
   eventus: eventusImages.hero.src,
   luxuryExport: luxeAtelier,

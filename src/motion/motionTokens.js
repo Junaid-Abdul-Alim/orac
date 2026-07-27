@@ -86,6 +86,23 @@ export const STAGGER = {
   corridor: 0.035,
 };
 
+// The three homepage venture-chapter images settle at a small permanent
+// overscan rather than flush (scale 1) so the continuous parallax below
+// always has headroom to travel without ever exposing the panel's edge -
+// `.image-panel` and `.image-panel-media` both clip with `overflow: hidden`,
+// so anything within the overscan band is masked automatically.
+export const MEDIA_SETTLE = 1.05;
+
+// Continuous drift for those same images, tied to how far the visitor has
+// scrolled through the whole chapter (not just its entrance window) - each
+// world keeps its own quiet depth once you're inside it, rather than sitting
+// dead still. Half of MEDIA_SETTLE's overscan, so the full ±range never
+// reaches the clipped edge.
+export const PARALLAX = {
+  image: 4,
+  imageMobile: 2.5,
+};
+
 // Every scroll trigger starts once the element is comfortably approaching the
 // fold rather than still below it. The old IntersectionObserver fired at a
 // -12% root margin with a 0.06 threshold, which for tall elements resolved to

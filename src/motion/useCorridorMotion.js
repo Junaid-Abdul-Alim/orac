@@ -1,75 +1,109 @@
 import { useLayoutEffect } from "react";
 import { gsap, ScrollTrigger } from "./gsap";
-import { EASE, STAGGER } from "./motionTokens";
+import { DESKTOP_QUERY, EASE, MOBILE_QUERY, STAGGER } from "./motionTokens";
 import { hasSettled, markSettled, restoreDrawn } from "./settled";
 
 /**
  * Draws the Global Reach corridors once they exist.
  *
- * This lives here, rather than in useHomeMotion with the rest of the scene
- * direction, because of when the corridors appear. `Geographies` fetches
- * countries-110m.json at runtime and only renders its children once that
- * resolves, and it keeps that state internally - so GlobalReach does not
- * re-render when the map arrives. A page-level layout effect therefore runs
- * long before a single `[data-corridor]` path is in the DOM, finds nothing,
- * and silently animates an empty set: the corridors were rendered fully drawn
- * from the first frame, with no draw at all.
+ * This lives here, rather than in the page-level scene director, because of
+ * when the corridors appear. `Geographies` fetches countries-110m.json at
+ * runtime and only renders its children once that resolves, and it keeps that
+ * state internally - so GlobalReach does not re-render when the map arrives.
+ * A layout effect built at mount time would find nothing and silently animate
+ * an empty set. A MutationObserver on the map container fires exactly when the
+ * paths land, whatever the network did.
  *
- * A MutationObserver on the map container is the honest fix - it fires exactly
- * when the paths land, whatever the network did.
+ * `scrub` selects which of two independent, unrelated behaviours to build:
+ *
+ * - `scrub: false` (default) - OracInternational's standalone page. Exactly
+ *   the original one-shot behaviour: draws once when the map is reached, then
+ *   stays drawn. Untouched by the homepage rebuild.
+ * - `scrub: true` - the homepage. The draw is tied directly to scroll
+ *   position via ScrollTrigger's `scrub`, matching the rest of the homepage's
+ *   section timelines: stop scrolling anywhere in range and the corridors sit
+ *   at exactly that fraction drawn, in both directions.
  */
-export default function useCorridorMotion(containerRef) {
+export default function useCorridorMotion(containerRef, { scrub = false } = {}) {
   useLayoutEffect(() => {
     const container = containerRef.current;
     if (!container) return undefined;
-    if (!document.documentElement.classList.contains("orac-motion-ready")) return undefined;
+    if (!scrub && !document.documentElement.classList.contains("orac-motion-ready")) return undefined;
 
     let ctx;
+    let disposed = false;
 
-    const build = () => {
-      const corridors = Array.from(container.querySelectorAll("[data-corridor]"));
-      if (!corridors.length) return false;
+    const buildScrub = (corridors) => {
+      const origin = container.querySelector("[data-corridor-origin]");
+      const trigger = container.querySelector(".global-reach-map-wrap") || container;
 
-      // Already drawn once: restore and stop, so a ScrollTrigger.refresh()
-      // that rebuilds this context cannot wind the network back to invisible.
+      ctx = gsap.context(() => {
+        const mm = gsap.matchMedia();
+
+        const setup = (isDesktop) => {
+          corridors.forEach((path) => {
+            const length = path.getTotalLength?.() || 0;
+            if (length) gsap.set(path, { strokeDasharray: length, strokeDashoffset: length });
+          });
+          if (origin) gsap.set(origin, { scale: 0, opacity: 0, transformOrigin: "center" });
+
+          const tl = gsap.timeline({
+            scrollTrigger: {
+              id: "global-corridors",
+              trigger,
+              start: isDesktop ? "top 92%" : "top 94%",
+              end: isDesktop ? "top 52%" : "top 60%",
+              scrub: isDesktop ? 0.7 : 0.55,
+              invalidateOnRefresh: true,
+            },
+          });
+          tl.to(
+            corridors,
+            { strokeDashoffset: 0, ease: "none", duration: 1, stagger: STAGGER.corridor },
+            0.3
+          );
+          if (origin) tl.to(origin, { scale: 1, opacity: 1, ease: "none", duration: 0.35 }, 0.35);
+        };
+
+        mm.add(DESKTOP_QUERY, () => setup(true));
+        mm.add(MOBILE_QUERY, () => setup(false));
+
+        return () => mm.revert();
+      }, container);
+    };
+
+    const buildOnceShot = (corridors) => {
+      // Unchanged from the original implementation - see git history for
+      // useHomeMotion.js's prior "Scene 4" comment describing the same bug
+      // this guards against: a ScrollTrigger.refresh() mid-scroll (from a
+      // lazily loading image elsewhere on the page) can rebuild this
+      // gsap.matchMedia context, which re-applies the "from" dash state to a
+      // corridor that had already finished drawing and whose one-shot
+      // trigger had already been killed - nothing left to play it again.
       if (corridors.some(hasSettled)) {
         restoreDrawn(corridors);
-        return true;
+        return;
       }
 
       ctx = gsap.context(() => {
-        corridors.forEach((path) => {
-          const length = path.getTotalLength?.() || 0;
-          if (length) gsap.set(path, { strokeDasharray: length, strokeDashoffset: length });
-        });
-
-        const origin = container.querySelector("[data-corridor-origin]");
-
         const tl = gsap.timeline({
           scrollTrigger: {
             id: "global-corridors",
-            // The map itself, not the whole section - the heading above it is
-            // tall enough that triggering on the section would start the draw
-            // while the geography was still below the fold.
             trigger: container.querySelector(".global-reach-map-wrap") || container,
-            start: "top 72%",
+            start: "top 68%",
             once: true,
           },
-          // Stop depending on the measurement once drawn, so a later resize
-          // cannot leave a stale dash pattern clipping the ends.
           onComplete: () => {
             corridors.forEach(markSettled);
             restoreDrawn(corridors);
           },
         });
-
-        tl.to(corridors, {
-          strokeDashoffset: 0,
-          duration: 1.35,
-          ease: EASE.draw,
-          stagger: STAGGER.corridor,
+        corridors.forEach((path) => {
+          const length = path.getTotalLength?.() || 0;
+          if (length) gsap.set(path, { strokeDasharray: length, strokeDashoffset: length, opacity: 1 });
         });
-
+        tl.to(corridors, { strokeDashoffset: 0, duration: 1.35, ease: EASE.draw, stagger: STAGGER.corridor });
+        const origin = container.querySelector("[data-corridor-origin]");
         if (origin) {
           tl.fromTo(
             origin,
@@ -79,8 +113,15 @@ export default function useCorridorMotion(containerRef) {
           );
         }
       }, container);
+    };
 
-      // The map only reached its final height when the geography rendered.
+    const build = () => {
+      const corridors = Array.from(container.querySelectorAll("[data-corridor]"));
+      if (!corridors.length) return false;
+
+      if (scrub) buildScrub(corridors);
+      else buildOnceShot(corridors);
+
       ScrollTrigger.refresh();
       return true;
     };
@@ -88,13 +129,14 @@ export default function useCorridorMotion(containerRef) {
     if (build()) return () => ctx?.revert();
 
     const observer = new MutationObserver(() => {
-      if (build()) observer.disconnect();
+      if (!disposed && build()) observer.disconnect();
     });
     observer.observe(container, { childList: true, subtree: true });
 
     return () => {
+      disposed = true;
       observer.disconnect();
       ctx?.revert();
     };
-  }, [containerRef]);
+  }, [containerRef, scrub]);
 }

@@ -37,41 +37,18 @@ export default function ContinuumMark({ kind, className = "", nodes = 0 }) {
     );
   }
 
-  /* A trade route across the composition: origin, arc, destination.
+  /* A cinema frame opening around the photograph: four corner brackets, drawn
+   * outward from the corners.
    *
    * Deliberately NOT `vector-effect: non-scaling-stroke`, which is the obvious
    * choice here and is wrong: it moves the dash pattern into screen space while
    * `getTotalLength()` keeps reporting user units. Inside a `preserveAspectRatio
    * ="none"` box those two disagree by exactly the stretch factor, so the draw
-   * tween reaches `strokeDashoffset: 0` with about 60% of the route on screen
+   * tween reaches `strokeDashoffset: 0` with about 60% of the bracket on screen
    * and simply stops there. Plain user-unit strokes stay in step with
    * getTotalLength(); the cost is that the stroke is stretched by the same
-   * ratio as the box, which for a 2.5px line is not visible.
+   * ratio as the box, which for a 3px line is not visible.
    */
-  if (kind === "route") {
-    return (
-      <svg
-        className={cls}
-        data-mark="route"
-        viewBox="0 0 400 300"
-        preserveAspectRatio="none"
-        aria-hidden="true"
-        focusable="false"
-      >
-        <path
-          className="continuum-route-path"
-          data-draw
-          d="M26 236 C 118 202, 176 254, 246 196 S 344 128, 374 96"
-          fill="none"
-        />
-        <circle className="continuum-route-node" data-draw-node cx="26" cy="236" r="5" />
-        <circle className="continuum-route-node" data-draw-node cx="374" cy="96" r="5" />
-      </svg>
-    );
-  }
-
-  // A cinema frame opening around the photograph: four corner brackets, drawn
-  // outward from the corners. Same user-unit stroke reasoning as the route.
   if (kind === "frame") {
     return (
       <svg

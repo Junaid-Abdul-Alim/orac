@@ -137,6 +137,20 @@
   overflow: visible;
 }
 
+/* The 3D thread (OriginThread3D, desktop/WebGL/motion-enabled visitors only
+   - see OriginSequence.jsx's useShow3D) needs real depth to read as
+   dimensional rather than a flat line rendered in a canvas, so it gets a
+   taller box than the flat SVG fork ever needed. Never rendered below
+   DESKTOP_QUERY's 861px, so it never competes with the mobile hero's
+   "zero scroll" budget. */
+.origin-fork-3d {
+  position: relative;
+  width: min(420px, 70%);
+  height: clamp(90px, 9vw, 130px);
+  flex: 0 0 auto;
+  margin-inline: auto;
+}
+
 .origin-ventures {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));

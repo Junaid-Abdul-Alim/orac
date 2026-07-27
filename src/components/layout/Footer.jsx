@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
-import { Mail, MapPin } from "lucide-react";
+import { MapPin } from "lucide-react";
 import { companies } from "../../data/companyData";
 import { contactDetails } from "../../data/contactData";
+import GmailIcon from "../common/GmailIcon";
 import oracLogo from "../../assets/logos/orac-orange.svg";
 
 export default function Footer() {
@@ -57,7 +58,7 @@ export default function Footer() {
             </Link>
           </div>
           <a className="footer-mail" href={`mailto:${contactDetails.holding.email}`}>
-            <Mail size={15} strokeWidth={1.8} aria-hidden="true" />
+            <GmailIcon size={15} strokeWidth={1.8} />
             {contactDetails.holding.email}
           </a>
         </div>

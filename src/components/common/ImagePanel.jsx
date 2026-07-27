@@ -14,6 +14,7 @@ export default function ImagePanel({
   delay = 0,
   variant = "panel",
   motionId,
+  bare = false,
 }) {
   const content = (
     <>
@@ -34,20 +35,30 @@ export default function ImagePanel({
     </>
   );
 
+  const panelClassName = `image-panel ${dark ? "image-panel-dark" : ""} ${className}`.trim();
+  const inner = to ? (
+    <Link to={to} aria-label={title || label}>
+      {content}
+    </Link>
+  ) : (
+    content
+  );
+
+  // `bare` is for the homepage only: a section-level scrub timeline animates
+  // this element's clip-path/scale directly (see useHomeMotion.js), so it must
+  // not also carry ImageReveal's own initial state or trigger. Every existing
+  // caller keeps the default and is unaffected.
+  if (bare) {
+    return (
+      <div className={panelClassName} data-media-variant={variant}>
+        {inner}
+      </div>
+    );
+  }
+
   return (
-    <ImageReveal
-      className={`image-panel ${dark ? "image-panel-dark" : ""} ${className}`.trim()}
-      delay={delay}
-      variant={variant}
-      motionId={motionId}
-    >
-      {to ? (
-        <Link to={to} aria-label={title || label}>
-          {content}
-        </Link>
-      ) : (
-        content
-      )}
+    <ImageReveal className={panelClassName} delay={delay} variant={variant} motionId={motionId}>
+      {inner}
     </ImageReveal>
   );
 }

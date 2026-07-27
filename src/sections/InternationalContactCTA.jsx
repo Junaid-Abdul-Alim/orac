@@ -1,5 +1,6 @@
-import { ArrowUpRight, Globe2, Mail } from "lucide-react";
+import { ArrowUpRight, Globe2 } from "lucide-react";
 import BrandLockup from "../components/common/BrandLockup";
+import GmailIcon from "../components/common/GmailIcon";
 import Reveal from "../components/common/Reveal";
 import WhatsAppIcon from "../components/common/WhatsAppIcon";
 import { contactDetails } from "../data/contactData";
@@ -54,7 +55,7 @@ function ContactPerson({ name, role, location, phone, email, website }) {
         />
         {email ? (
           <ContactRow
-            icon={Mail}
+            icon={GmailIcon}
             kind="Email"
             text={email}
             href={`mailto:${email}`}

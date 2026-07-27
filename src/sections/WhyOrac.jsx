@@ -1,4 +1,3 @@
-import Reveal from "../components/common/Reveal";
 import SectionHeader from "../components/common/SectionHeader";
 import ContinuumMark from "../components/motion/ContinuumMark";
 
@@ -25,6 +24,10 @@ const trustPoints = [
   },
 ];
 
+// Plain markup: useHomeMotion.js's "why-orac" scene drives the divider, the
+// heading and the five cards (as one staggered tween on `.reason-panel-list >
+// article`) from a single scroll-scrubbed timeline, rather than five separate
+// one-shot triggers.
 export default function WhyOrac() {
   return (
     <section className="section why-section" data-continuum-phase="why">
@@ -33,16 +36,17 @@ export default function WhyOrac() {
             Intensity drops for the rest of the page. */}
         <ContinuumMark kind="divider" className="why-divider" />
         <SectionHeader
+          bare
           eyebrow="Why ORAC"
           title="A business house built with clarity and discipline."
           text="ORAC brings different ventures together without blurring their purpose: trade stays focused, events stay personal, and fashion stays craft-led."
         />
         <div className="reason-panel-list">
-          {trustPoints.map((point, index) => (
-            <Reveal as="article" key={point.title} kind="card" delay={index * 105}>
+          {trustPoints.map((point) => (
+            <article key={point.title}>
               <h3>{point.title}</h3>
               <p>{point.text}</p>
-            </Reveal>
+            </article>
           ))}
         </div>
       </div>

@@ -1,5 +1,5 @@
 /* ------------------------------------------------------------------------
-   The ORAC Continuum and the motion system's initial states.
+   The ORAC Continuum marks and the motion system's initial states.
 
    Read the guard on every hidden state in this file: `html.orac-motion-ready`.
    That class is added by src/motion/runtime.js and only when GSAP has been
@@ -10,6 +10,11 @@
    GSAP writes the real initial values in a useLayoutEffect (before paint).
    These rules exist so that the frame between parse and effect can never show
    content that is about to be hidden.
+
+   There is no fixed rail anymore (the standalone Continuum.jsx thread down
+   the homepage's left edge was removed) - what remains is the continuum as a
+   shared visual vocabulary, expressed independently inside each section: a
+   spine, a route, a film frame, a running stitch, an architectural rule.
    ------------------------------------------------------------------------ */
 
 .home-motion-scope {
@@ -35,165 +40,9 @@ html.orac-motion-ready [data-motion="media"]:not([data-motion-state="done"]) :is
 }
 
 /* ------------------------------------------------------------------------
-   1. The rail - one gold thread down the homepage.
-   ------------------------------------------------------------------------ */
-
-.orac-continuum {
-  position: fixed;
-  top: calc(var(--nav-height) + 26px);
-  bottom: 26px;
-  /* Just outside the content column where there is room for it, hard against
-     the edge where there is not. */
-  left: max(14px, calc((100vw - var(--max)) / 2 - 40px));
-  z-index: 40;
-  width: 12px;
-  pointer-events: none;
-}
-
-.orac-continuum-track {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 5px;
-  width: 2px;
-  border-radius: 2px;
-  background: rgba(184, 151, 90, 0.22);
-}
-
-/* The thread itself. 3px and full-strength gold, with a dark hairline under it
-   so it holds up over cream, white, ink and photographs alike - a 1px 30%
-   line looks tasteful in a screenshot and disappears in use. */
-.orac-continuum-progress {
-  position: absolute;
-  top: 0;
-  left: 4px;
-  width: 4px;
-  height: 100%;
-  border-radius: 3px;
-  background: linear-gradient(180deg, var(--gold-light) 0%, var(--gold) 100%);
-  box-shadow: 0 0 0 1px rgba(26, 24, 20, 0.08);
-  transform: scaleY(0);
-  transform-origin: top center;
-}
-
-.orac-continuum-head {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 12px;
-  height: 12px;
-  margin-top: -6px;
-  border-radius: 50%;
-  background: var(--gold);
-  box-shadow:
-    0 0 0 3px var(--white),
-    0 2px 10px rgba(26, 24, 20, 0.28);
-}
-
-.orac-continuum-nodes {
-  position: absolute;
-  inset: 0;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.orac-continuum-node {
-  position: absolute;
-  left: 0;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-top: -4px;
-}
-
-.orac-continuum-node i {
-  width: 8px;
-  height: 8px;
-  margin-left: 2px;
-  border: 1.5px solid var(--gold);
-  border-radius: 50%;
-  background: var(--white);
-  transition:
-    background var(--dur-hover) var(--ease-smooth),
-    transform var(--dur-hover) var(--ease-smooth);
-}
-
-.orac-continuum-node.is-passed i {
-  background: var(--gold);
-}
-
-.orac-continuum-node.is-current i {
-  background: var(--gold);
-  transform: scale(1.45);
-}
-
-.orac-continuum-node span {
-  color: var(--gold-text);
-  font-size: 0.62rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  white-space: nowrap;
-  opacity: 0;
-  transform: translateX(-4px);
-  transition:
-    opacity var(--dur-hover) var(--ease-smooth),
-    transform var(--dur-hover) var(--ease-smooth);
-}
-
-.orac-continuum-node.is-current span {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-/* Labels only where the rail genuinely has room beside the content column. */
-@media (max-width: 1599px) {
-  .orac-continuum-node span {
-    display: none;
-  }
-}
-
-/* ------------------------------------------------------------------------
-   2. The rail's nine states. Same thread, different character - a spine, a
-      route, a film perforation, a running stitch, an architectural rule.
-      This is what stops it reading as one generic decorative line.
-   ------------------------------------------------------------------------ */
-
-.orac-continuum[data-phase="holding"] .orac-continuum-progress {
-  width: 5px;
-  left: 3.5px;
-}
-
-.orac-continuum[data-phase="international"] .orac-continuum-progress,
-.orac-continuum[data-phase="global"] .orac-continuum-progress {
-  background: repeating-linear-gradient(180deg, var(--gold) 0 20px, rgba(184, 151, 90, 0.32) 20px 27px);
-}
-
-.orac-continuum[data-phase="eventus"] .orac-continuum-progress {
-  background: repeating-linear-gradient(180deg, var(--gold) 0 11px, transparent 11px 17px);
-}
-
-.orac-continuum[data-phase="luxe"] .orac-continuum-progress {
-  width: 3px;
-  left: 4.5px;
-  background: repeating-linear-gradient(180deg, var(--gold) 0 7px, transparent 7px 14px);
-}
-
-.orac-continuum[data-phase="why"] .orac-continuum-progress,
-.orac-continuum[data-phase="leadership"] .orac-continuum-progress {
-  width: 5px;
-  left: 3.5px;
-  background: linear-gradient(180deg, var(--gold) 0%, var(--gold) 100%);
-}
-
-.orac-continuum[data-phase="contact"] .orac-continuum-progress {
-  background: linear-gradient(180deg, var(--gold) 0%, var(--gold-light) 100%);
-}
-
-/* ------------------------------------------------------------------------
-   3. In-section expressions. Each starts at the edge the thread arrives
-      from, so a section receives the line rather than growing its own.
+   1. In-section expressions - a spine, a route, a film frame, a running
+      stitch, an architectural rule. Same shared vocabulary (gold, drawn
+      in), each shaped to the section it appears in.
    ------------------------------------------------------------------------ */
 
 .continuum-mark {
@@ -210,11 +59,16 @@ html.orac-motion-ready [data-motion="media"]:not([data-motion-state="done"]) :is
   position: relative;
 }
 
+/* `max(var(--gutter), (100% - var(--max)) / 2)` alone lands exactly on the
+   container's own left edge - the same pixel the heading text starts at - so
+   the spine sat on top of "We build institutions designed to endure."
+   instead of beside it. Pulled further left, into the gutter, the same way
+   `.continuum-mark-timeline` already sits outside the leadership panel below. */
 .continuum-mark-spine {
   position: absolute;
   top: calc(var(--section-y) * 0.5);
   bottom: calc(var(--section-y) * 0.5);
-  left: max(var(--gutter), calc((100% - var(--max)) / 2));
+  left: calc(max(var(--gutter), calc((100% - var(--max)) / 2)) - 32px);
   width: 3px;
 }
 
@@ -289,7 +143,7 @@ html.orac-motion-ready [data-motion="media"]:not([data-motion-state="done"]) :is
 }
 
 /* ------------------------------------------------------------------------
-   4. Marks that sit over a photograph. Every stroke here carries a dark
+   2. Marks that sit over a photograph. Every stroke here carries a dark
       drop shadow: gold on a bright image is invisible without one, and the
       brief is explicit that the continuum has to stay readable over real
       pictures.
@@ -299,27 +153,12 @@ html.orac-motion-ready [data-motion="media"]:not([data-motion-state="done"]) :is
   position: relative;
 }
 
-.continuum-mark-route,
 .continuum-mark-frame {
   position: absolute;
   inset: 0;
   z-index: 2;
   width: 100%;
   height: 100%;
-}
-
-.continuum-route-path {
-  stroke: var(--gold-light);
-  stroke-width: 2.5;
-  stroke-linecap: round;
-  filter: drop-shadow(0 1px 3px rgba(12, 11, 9, 0.6));
-}
-
-.continuum-route-node {
-  fill: var(--gold-light);
-  stroke: rgba(12, 11, 9, 0.5);
-  stroke-width: 1;
-  filter: drop-shadow(0 1px 4px rgba(12, 11, 9, 0.55));
 }
 
 .continuum-frame-bracket {
@@ -355,7 +194,7 @@ html.orac-motion-ready [data-motion="media"]:not([data-motion-state="done"]) :is
 }
 
 /* ------------------------------------------------------------------------
-   5. Global Reach corridors. One arc per focused country, from India.
+   3. Global Reach corridors. One arc per focused country, from India.
    ------------------------------------------------------------------------ */
 
 .global-corridor {
@@ -372,43 +211,13 @@ html.orac-motion-ready [data-motion="media"]:not([data-motion-state="done"]) :is
 }
 
 /* ------------------------------------------------------------------------
-   6. Responsive. Mobile keeps a visible thread with its section nodes, at a
-      narrower gauge, and drops the marks that need desktop geometry.
+   4. Responsive. Narrower gauge, and drops the marks that need desktop
+      geometry.
    ------------------------------------------------------------------------ */
 
 @media (max-width: 860px) {
-  .orac-continuum {
-    top: calc(var(--nav-height) + 14px);
-    bottom: 14px;
-    left: 7px;
-    width: 10px;
-  }
-
-  .orac-continuum-track {
-    left: 4px;
-    width: 2px;
-  }
-
-  .orac-continuum-progress {
-    left: 3px;
-    width: 3px;
-  }
-
-  .orac-continuum-head {
-    width: 9px;
-    height: 9px;
-    margin-top: -4.5px;
-    left: 0;
-  }
-
-  .orac-continuum-node i {
-    width: 6px;
-    height: 6px;
-    margin-left: 1px;
-  }
-
   .continuum-mark-spine {
-    left: var(--gutter);
+    left: calc(var(--gutter) - 16px);
     width: 2px;
   }
 
@@ -426,15 +235,13 @@ html.orac-motion-ready [data-motion="media"]:not([data-motion-state="done"]) :is
     width: 28px;
   }
 
-  .continuum-route-path,
   .continuum-frame-bracket {
     stroke-width: 2.5;
   }
 }
 
 /* Under 620px the leadership panel runs edge to edge; the timeline would sit
-   off screen, so it is dropped rather than clipped. The rail still carries the
-   section. */
+   off screen, so it is dropped rather than clipped. */
 @media (max-width: 620px) {
   .continuum-mark-timeline {
     display: none;
@@ -442,20 +249,12 @@ html.orac-motion-ready [data-motion="media"]:not([data-motion-state="done"]) :is
 }
 
 /* ------------------------------------------------------------------------
-   7. Reduced motion. Nothing above applies, because the root class is never
-      added - but the continuum's own resting state still has to be its
-      finished one rather than a zero-height line.
+   5. Reduced motion. Nothing above applies, because the root class is never
+      added - but the seam's own resting state still has to be its finished
+      one rather than a zero-length dash.
    ------------------------------------------------------------------------ */
 
 @media (prefers-reduced-motion: reduce) {
-  .orac-continuum-progress {
-    transform: scaleY(1);
-  }
-
-  .orac-continuum-head {
-    display: none;
-  }
-
   .continuum-mark-seam .continuum-seam-stitch {
     stroke-dasharray: 7 7;
   }

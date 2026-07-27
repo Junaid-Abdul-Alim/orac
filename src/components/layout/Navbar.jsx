@@ -1,9 +1,10 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
-import { ChevronDown, Mail } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { companies } from "../../data/companyData";
 import { contactDetails } from "../../data/contactData";
 import BusinessSwitcher from "../common/BusinessSwitcher";
+import GmailIcon from "../common/GmailIcon";
 import WhatsAppIcon from "../common/WhatsAppIcon";
 import oracLogo from "../../assets/logos/orac-orange.svg";
 
@@ -32,17 +33,24 @@ export default function Navbar() {
   const emailUrl = `mailto:${contactDetails.holding.email}`;
   const activeVenture = ventureForPath(location.pathname);
 
+  // Navigating closes both menus. Done as a render-phase reset against the
+  // previous pathname rather than in an effect: React re-runs this component
+  // with the new state before it commits, so the menus are already closed on
+  // the first paint of the new route instead of open for one frame and then
+  // shut by a cascading second render.
+  const [lastPathname, setLastPathname] = useState(location.pathname);
+  if (lastPathname !== location.pathname) {
+    setLastPathname(location.pathname);
+    setOpen(false);
+    setBusinessOpen(false);
+  }
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-
-  useEffect(() => {
-    setOpen(false);
-    setBusinessOpen(false);
-  }, [location.pathname]);
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
@@ -130,7 +138,7 @@ export default function Navbar() {
             <WhatsAppIcon size={16} />
           </a>
           <a href={emailUrl} aria-label="Email ORAC">
-            <Mail size={16} strokeWidth={1.7} aria-hidden="true" />
+            <GmailIcon size={16} strokeWidth={1.7} />
           </a>
         </div>
       </nav>
@@ -173,7 +181,7 @@ export default function Navbar() {
             <span>WhatsApp</span>
           </a>
           <a href={emailUrl} aria-label="Email ORAC" onClick={() => setOpen(false)}>
-            <Mail size={17} strokeWidth={1.7} aria-hidden="true" />
+            <GmailIcon size={17} strokeWidth={1.7} />
             <span>Email</span>
           </a>
         </div>

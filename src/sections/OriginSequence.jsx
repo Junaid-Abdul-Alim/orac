@@ -1,3 +1,4 @@
+import { Component, lazy, Suspense, useLayoutEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Frame from "../components/common/Frame";
 import SafeImage from "../components/common/SafeImage";
@@ -5,7 +6,52 @@ import { companies } from "../data/companyData";
 import { internationalImages } from "../data/internationalImages";
 import { eventusImages } from "../data/eventusImages";
 import { luxeImages } from "../data/luxeData";
+import { DESKTOP_QUERY } from "../motion/motionTokens";
 import oracLogo from "../assets/logos/orac-orange.svg";
+
+const OriginThread3D = lazy(() => import("../components/motion/OriginThread3D"));
+
+function supportsWebGL() {
+  try {
+    const canvas = document.createElement("canvas");
+    return !!(window.WebGLRenderingContext && (canvas.getContext("webgl") || canvas.getContext("experimental-webgl")));
+  } catch {
+    return false;
+  }
+}
+
+// Desktop, motion-enabled, WebGL-capable only - reactive to DESKTOP_QUERY
+// (the same query useHomeMotion.js gates its own scenes behind) so resizing
+// across the breakpoint or toggling reduced-motion mid-session both retire
+// the 3D thread back to the flat SVG fork immediately, not just on reload.
+// WebGL support itself can't change at runtime, so that check runs once.
+function useShow3D() {
+  const [show3D, setShow3D] = useState(false);
+  useLayoutEffect(() => {
+    const webgl = supportsWebGL();
+    const query = window.matchMedia(DESKTOP_QUERY);
+    const apply = () => setShow3D(webgl && query.matches);
+    apply();
+    query.addEventListener?.("change", apply);
+    return () => query.removeEventListener?.("change", apply);
+  }, []);
+  return show3D;
+}
+
+// Last-resort safety net: three.js/WebGL failing on a specific device
+// shouldn't take the homepage hero down with it.
+class Origin3DBoundary extends Component {
+  state = { failed: false };
+  static getDerivedStateFromError() {
+    return { failed: true };
+  }
+  componentDidCatch(error) {
+    console.error("[OriginThread3D] falling back to the 2D fork:", error);
+  }
+  render() {
+    return this.state.failed ? this.props.fallback : this.props.children;
+  }
+}
 
 const ventureTones = {
   international: "international",
@@ -24,6 +70,36 @@ const openingImages = {
   "luxury-export": luxeImages.opening,
 };
 
+// The original flat connective geometry - kept exactly as it was, as the
+// fallback for mobile, reduced-motion, and any visitor without WebGL. Also
+// what useHomeMotion.js's Scene 1 draws in on load: its `one(".origin-fork
+// path")` lookup simply finds nothing while OriginThread3D is mounted
+// instead, which its existing `if (fork && ...)` guard already handles.
+function OriginForkSVG() {
+  return (
+    <svg
+      className="origin-fork"
+      viewBox="0 0 300 60"
+      preserveAspectRatio="none"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path
+        d="M150 0 L150 28 M150 28 L20 60 M150 28 L150 60 M150 28 L280 60"
+        fill="none"
+        stroke="url(#origin-fork-gradient)"
+        strokeWidth="1"
+      />
+      <defs>
+        <linearGradient id="origin-fork-gradient" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="var(--gold)" stopOpacity="0.9" />
+          <stop offset="100%" stopColor="var(--gold)" stopOpacity="0.4" />
+        </linearGradient>
+      </defs>
+    </svg>
+  );
+}
+
 // The static, resolved end-state of the homepage opening (Blueprint §1/§2).
 // Collapses the old "Origin" (wordmark alone) and "Expansion" (ventures
 // appear after a scroll) stages into one on-load composition: the ORAC
@@ -33,6 +109,8 @@ const openingImages = {
 // convergence/separation motion described in Blueprint §3 is Phase 6's job,
 // not this one.
 export default function OriginSequence() {
+  const show3D = useShow3D();
+
   return (
     <div className="origin-sequence">
       <div className="origin-identity">
@@ -44,26 +122,17 @@ export default function OriginSequence() {
         <p className="origin-tagline">A House of Businesses. Built on Vision, Discipline, and Legacy.</p>
       </div>
 
-      <svg
-        className="origin-fork"
-        viewBox="0 0 300 60"
-        preserveAspectRatio="none"
-        aria-hidden="true"
-        focusable="false"
-      >
-        <path
-          d="M150 0 L150 28 M150 28 L20 60 M150 28 L150 60 M150 28 L280 60"
-          fill="none"
-          stroke="url(#origin-fork-gradient)"
-          strokeWidth="1"
-        />
-        <defs>
-          <linearGradient id="origin-fork-gradient" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="var(--gold)" stopOpacity="0.9" />
-            <stop offset="100%" stopColor="var(--gold)" stopOpacity="0.4" />
-          </linearGradient>
-        </defs>
-      </svg>
+      {show3D ? (
+        <div className="origin-fork-3d" aria-hidden="true">
+          <Origin3DBoundary fallback={<OriginForkSVG />}>
+            <Suspense fallback={null}>
+              <OriginThread3D />
+            </Suspense>
+          </Origin3DBoundary>
+        </div>
+      ) : (
+        <OriginForkSVG />
+      )}
 
       <div className="origin-ventures">
         {companies.map((company, index) => (

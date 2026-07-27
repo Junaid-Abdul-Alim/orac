@@ -13,15 +13,11 @@ import { DESKTOP_QUERY, DIST, DUR, EASE, MOBILE, MOBILE_QUERY, STAGGER, START } 
  *  luxe          - material. Slowest of the three, most stillness after.
  */
 const IDENTITIES = {
-  international: { dur: 0.9, reach: 0.85, stagger: 0.09, variant: "door" },
-  eventus: { dur: 1.12, reach: 1, stagger: 0.12, variant: "frame" },
-  luxe: { dur: 1.25, reach: 0.95, stagger: 0.14, variant: "seam" },
-  default: { dur: 1, reach: 1, stagger: STAGGER.card, variant: "panel" },
+  international: { dur: 0.9, reach: 0.85, stagger: 0.09 },
+  eventus: { dur: 1.12, reach: 1, stagger: 0.12 },
+  luxe: { dur: 1.25, reach: 0.95, stagger: 0.14 },
+  default: { dur: 1, reach: 1, stagger: STAGGER.card },
 };
-
-export function identityMediaVariant(identity) {
-  return (IDENTITIES[identity] || IDENTITIES.default).variant;
-}
 
 /**
  * Applies a venture page's motion identity.

@@ -164,16 +164,12 @@
   transform: translateY(-1px);
 }
 
-/* WhatsApp's own green, used only as a small brand cue on the glyph. */
-.nav-action-whatsapp,
-.mobile-contact-actions .nav-action-whatsapp svg {
-  color: #1da851;
-}
-
+/* WhatsAppIcon paints itself in the brand gradient, so the row only has to
+   carry the matching green into its own hover chrome - no `color` here,
+   which the glyph no longer reads. */
 .nav-contact-actions .nav-action-whatsapp:hover {
   border-color: rgba(29, 168, 81, 0.36);
   background: rgba(29, 168, 81, 0.08);
-  color: #128c3e;
 }
 
 .nav-chevron {
@@ -366,10 +362,6 @@
   color: var(--ink);
   font-size: 0.9rem;
   font-weight: 600;
-}
-
-.mobile-contact-actions svg {
-  color: var(--gold);
 }
 
 .mobile-menu-group {

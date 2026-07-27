@@ -24,6 +24,7 @@ Thumbs.db
 
 # Codex/browser verification artifacts
 .codex-screens/
+.playwright-cli/
 .chrome-layout-check*/
 
 .chrome-hero-check/

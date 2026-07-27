@@ -620,12 +620,6 @@
   transition: color var(--dur-hover) var(--ease-smooth);
 }
 
-/* WhatsApp keeps its own green, but only on the glyph and only at the
-   same weight as every other icon here - never as a filled button. */
-.contact-action-whatsapp .contact-action-icon {
-  color: #1da851;
-}
-
 .contact-action-kind {
   color: var(--gold-text);
   font-size: 0.66rem;
@@ -665,12 +659,11 @@
   text-decoration-thickness: 1px;
 }
 
+/* Only reaches the icons that still inherit `currentColor` (the lucide Globe2
+   on the web row); WhatsApp and Gmail paint themselves in their own brand
+   gradients and stay put. */
 .contact-action:hover .contact-action-icon {
   color: var(--ink);
-}
-
-.contact-action-whatsapp:hover .contact-action-icon {
-  color: #128c3e;
 }
 
 .contact-action:focus-visible {

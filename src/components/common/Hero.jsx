@@ -31,7 +31,12 @@ export default function Hero({
               decoding="async"
             />
           ) : null}
-          {lockup ? <BrandLockup items={lockup} /> : null}
+          {/* A custom brand logo (Luxe's "House of Azrin" wordmark) already
+              names the venture, so the plain-text lockup directly beneath it
+              would just repeat the same name a second time before the H1
+              repeats it again - skip it whenever a logo image is doing that
+              job instead. */}
+          {lockup && !brandLogo?.src ? <BrandLockup items={lockup} /> : null}
           {eyebrow ? <span className="eyebrow">{eyebrow}</span> : null}
           <h1>{title}</h1>
           {kicker ? <p className="hero-kicker">{kicker}</p> : null}

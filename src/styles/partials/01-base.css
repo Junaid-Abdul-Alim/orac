@@ -409,13 +409,20 @@ p {
    --panel-radius stays: several panels still key their own corner radius
    off it. --media-scale is now the hover scale only; the reveal's settle is
    applied to `.image-panel-media` by GSAP, which keeps the two off the same
-   property. */
-.image-reveal {
+   property.
+
+   Both custom properties are declared on `.image-panel` itself rather than
+   on `.image-reveal`: every ImageReveal-wrapped panel carries both classes on
+   the same element, so this is unchanged for them, but the homepage's `bare`
+   image panels (see ImagePanel.jsx) carry only `.image-panel` - declaring
+   these here is what keeps their corner radius and hover-zoom working
+   without the ImageReveal wrapper. */
+.image-panel {
   --media-scale: 1;
   --panel-radius: var(--radius-lg);
 }
 
-.image-reveal :is(img, .safe-image-fallback) {
+.image-panel :is(img, .safe-image-fallback) {
   transform: scale(var(--media-scale));
 }
 

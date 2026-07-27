@@ -35,7 +35,6 @@ export default function Home() {
         meta="Chennai — Singapore aligned"
         cta={{ to: "/international", label: "Visit International" }}
         image={internationalImages.hero}
-        imageLabel="Global Trade"
       />
       <GlobalReach
         variant="home"
@@ -77,6 +76,7 @@ export default function Home() {
       <WhyOrac />
       <Leadership />
       <ContactCTA
+        bare
         title="Explore the right ORAC venture or start a conversation."
         text="Choose a business, send an enquiry, or work with ORAC on the next serious opportunity."
       />
