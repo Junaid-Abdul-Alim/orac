@@ -22,11 +22,12 @@ Thumbs.db
 .idea/
 .vscode/
 
+# Local agent/tool config (machine-specific, may hold credentials)
+.codex/
+
 # Codex/browser verification artifacts
 .codex-screens/
 .playwright-cli/
 .chrome-layout-check*/
-
 .chrome-hero-check/
-
 .chrome-hero-color-check/
