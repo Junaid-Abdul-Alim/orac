@@ -18,19 +18,26 @@ export default function Hero({
   brandLogo,
   showBrandPanel = true,
 }) {
+  const logoMark = brandLogo?.src ? (
+    <img
+      className={`hero-logo-mark ${brandLogo.className || ""}`.trim()}
+      src={brandLogo.src}
+      alt={brandLogo.alt || ""}
+      loading={brandLogo.loading || "eager"}
+      decoding="async"
+    />
+  ) : null;
+
+  /* With no text title supplied, the wordmark *is* the page heading, so it
+     carries the H1 (its alt text becomes the accessible heading name) rather
+     than leaving the route with no H1 at all. */
+  const logoIsHeading = Boolean(logoMark) && !title;
+
   return (
     <section className={`product-hero ${dark ? "product-hero-dark" : "product-hero-light"}`}>
       <div className="container product-hero-inner">
         <Reveal className="product-hero-copy">
-          {brandLogo?.src ? (
-            <img
-              className={`hero-logo-mark ${brandLogo.className || ""}`.trim()}
-              src={brandLogo.src}
-              alt={brandLogo.alt || ""}
-              loading={brandLogo.loading || "eager"}
-              decoding="async"
-            />
-          ) : null}
+          {logoIsHeading ? <h1 className="hero-logo-heading">{logoMark}</h1> : logoMark}
           {/* A custom brand logo (Luxe's "House of Azrin" wordmark) already
               names the venture, so the plain-text lockup directly beneath it
               would just repeat the same name a second time before the H1
@@ -38,7 +45,7 @@ export default function Hero({
               job instead. */}
           {lockup && !brandLogo?.src ? <BrandLockup items={lockup} /> : null}
           {eyebrow ? <span className="eyebrow">{eyebrow}</span> : null}
-          <h1>{title}</h1>
+          {title ? <h1>{title}</h1> : null}
           {kicker ? <p className="hero-kicker">{kicker}</p> : null}
           {text ? <p className="hero-body">{text}</p> : null}
           {meta ? <p className="hero-meta">{meta}</p> : null}

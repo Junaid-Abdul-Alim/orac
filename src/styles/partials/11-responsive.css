@@ -633,9 +633,11 @@
     display: grid;
   }
 
+  /* Held at the enlarged scale below 820px too - `22vw` would collapse the
+     wordmark on a phone, so the tablet/handset step runs its own ramp. */
   .luxe-page .azrin-hero-logo {
-    width: min(292px, 78vw);
-    max-height: 104px;
+    width: min(430px, 84vw);
+    max-height: clamp(170px, 30vw, 240px);
   }
 
   .azrin-logo-card {

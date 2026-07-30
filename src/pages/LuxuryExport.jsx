@@ -31,31 +31,42 @@ export default function LuxuryExport() {
 
   return (
     <div className="luxe-page venture-page venture-page-luxe" ref={scope} data-motion-identity="luxe">
+      {/* No eyebrow and no text title: the enlarged wordmark carries the
+          heading on its own (Hero promotes it to the H1), so the House is
+          named once instead of three times in a row. */}
       <Hero
         lockup={["ORAC Luxe", "The House of Azrin"]}
-        eyebrow="A Part of ORAC Luxe"
-        title="THE HOUSE OF AZRIN"
         kicker={luxeTagline}
         text="A fabric-forward fashion house rooted in deliberate making - curated style, couture essentials, and bespoke artisan work, cut from a single considered palette."
         meta="Curated Style / Couture Essentials / The Bespoke Artisan"
         heroNote="An ORAC Luxe Venture"
-        brandLogo={{ src: houseOfAzrinLogo, className: "azrin-hero-logo" }}
+        brandLogo={{
+          src: houseOfAzrinLogo,
+          alt: "The House of Azrin",
+          className: "azrin-hero-logo",
+        }}
         showBrandPanel={false}
       />
 
       {/* ii) Colour palette — Vault XIII */}
       <VaultPalette vault={vaultXiii} />
 
-      {/* Category Collage — clean full-width landscape image, no text overlay,
+      {/* Collections — a titled band whose heading sits on the container
+          grid while the collage below it stays full-bleed, no text overlay,
           sharp corners. Placed directly after Vault XIII. */}
-      <div className="luxe-collage-banner">
-        <SafeImage
-          src={maisonBanner.src}
-          alt={maisonBanner.alt}
-          fallbackLabel={maisonBanner.label}
-          className="luxe-collage-image"
-        />
-      </div>
+      <section className="luxe-collections-section">
+        <div className="container">
+          <SectionHeader title="Collections" />
+        </div>
+        <div className="luxe-collage-banner">
+          <SafeImage
+            src={maisonBanner.src}
+            alt={maisonBanner.alt}
+            fallbackLabel={maisonBanner.label}
+            className="luxe-collage-image"
+          />
+        </div>
+      </section>
 
       {/* iii) Brand categories — The House Editions */}
       <section className="section muted-section editions-section">

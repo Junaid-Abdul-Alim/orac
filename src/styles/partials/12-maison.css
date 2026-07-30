@@ -14,10 +14,17 @@
 
 /* Full-width landscape banner, uncropped (aspect-ratio matches the source
    image almost exactly, so object-fit: cover never trims meaningful
-   content) - no text/label overlay, ahead of the copy and swatches. */
+   content) - no text/label overlay. It now follows the copy rather than
+   leading it, so the spacing is above, not below.
+
+   `overflow: hidden` is load-bearing, not tidiness: the seam reveal settles
+   the artwork out of a 1.06 over-scale, and on a full-bleed element that
+   overscan would otherwise push ~3% of the image past each edge of the
+   viewport and open a horizontal scrollbar for the length of the reveal. */
 .vault-banner {
   width: 100%;
-  margin-bottom: clamp(28px, 4vw, 48px);
+  margin-top: clamp(32px, 4.5vw, 56px);
+  overflow: hidden;
 }
 
 .vault-image,
@@ -26,6 +33,18 @@
   width: 100%;
   aspect-ratio: 16 / 9;
   object-fit: cover;
+}
+
+/* --- Collections --- */
+/* The band keeps its heading on the container grid while the collage under
+   it runs full-bleed, so the title reads as part of the page's editorial
+   column rather than floating over the image. */
+.luxe-collections-section {
+  padding-top: var(--section-y);
+}
+
+.luxe-collections-section .section-header {
+  margin-bottom: clamp(24px, 3vw, 40px);
 }
 
 /* Category Collage — clean full-width landscape banner, sharp corners
@@ -45,13 +64,12 @@
   border-radius: 0;
 }
 
-/* Copy column and colour index sit side by side on the shared two-column
-   guide, so the palette fills the width the section previously left empty
-   to the right of the copy. */
+/* Copy sits alone under the banner now that the selectable colour index has
+   been removed, so the layout is a single editorial column rather than the
+   two-column split that reserved the right half for the swatch grid. */
 .vault-layout {
   display: grid;
-  grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
-  gap: var(--gap-column);
+  grid-template-columns: minmax(0, 1fr);
   align-items: start;
 }
 
@@ -59,7 +77,7 @@
   display: grid;
   align-content: start;
   gap: 0;
-  max-width: 46ch;
+  max-width: 52ch;
 }
 
 .vault-name {
@@ -77,144 +95,9 @@
   line-height: 1.66;
 }
 
-/* Live readout for the selected tone — one place that carries the name,
-   the value and the material, instead of a code repeated under thirteen
-   swatches. A hairline rule is the only structural device. */
-.vault-readout {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
-  align-items: center;
-  gap: clamp(14px, 1.4vw, 20px);
-  margin-top: clamp(24px, 3vw, 36px);
-  padding-top: clamp(18px, 2vw, 24px);
-  border-top: 1px solid var(--rule);
-}
-
-.vault-readout-chip {
-  width: clamp(44px, 4.4vw, 58px);
-  height: clamp(44px, 4.4vw, 58px);
-  border: 1px solid rgba(26, 24, 20, 0.1);
-  transition: background var(--dur-hover) var(--ease-smooth);
-}
-
-.vault-readout-text {
-  display: grid;
-  gap: 3px;
-  min-width: 0;
-}
-
-.vault-readout-text strong {
-  color: var(--ink);
-  font-family: var(--font-display);
-  font-size: clamp(1.25rem, 1rem + 0.7vw, 1.6rem);
-  font-weight: 600;
-  line-height: 1.1;
-}
-
-.vault-readout-text small {
-  color: var(--ink-muted);
-  font-size: 0.76rem;
-  font-variant-numeric: tabular-nums;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-.vault-readout-index {
-  color: var(--ink-muted);
-  font-size: 0.74rem;
-  font-variant-numeric: tabular-nums;
-  letter-spacing: 0.1em;
-}
-
-/* The colour index. Flat fields, no radius, no shadow, no border box - the
-   colour is the object, and the only chrome is the hairline that separates
-   one tone from the next. */
-/* Thirteen tones is a prime count, so a plain auto-fit grid always leaves a
-   hole in the last row. The column count is declared per breakpoint and the
-   thirteenth tone spans the remainder, closing the index as a rectangle. */
-.vault-swatches {
-  --vault-cols: 7;
-  display: grid;
-  grid-template-columns: repeat(var(--vault-cols), minmax(0, 1fr));
-  gap: 1px;
-  align-self: start;
-  background: rgba(26, 24, 20, 0.1);
-  border: 1px solid rgba(26, 24, 20, 0.1);
-}
-
-.vault-swatches > :last-child {
-  grid-column: span 2;
-}
-
-.vault-swatch {
-  position: relative;
-  display: grid;
-  align-content: start;
-  gap: 0;
-  padding: 0;
-  background: var(--white);
-  color: var(--ink);
-  cursor: pointer;
-  text-align: left;
-  transition: background var(--dur-hover) var(--ease-smooth);
-}
-
-.vault-swatch-chip {
-  display: block;
-  width: 100%;
-  height: clamp(74px, 8vw, 108px);
-  background: var(--swatch);
-  transition: box-shadow var(--dur-hover) var(--ease-smooth);
-}
-
-.vault-swatch-label {
-  display: grid;
-  gap: 2px;
-  padding: 10px 12px 12px;
-  font-size: 0.74rem;
-  font-weight: 600;
-  line-height: 1.2;
-}
-
-.vault-swatch-label small {
-  color: var(--ink-muted);
-  font-size: 0.64rem;
-  font-variant-numeric: tabular-nums;
-  letter-spacing: 0.12em;
-}
-
-/* Selection is shown by a rule under the tone and a darkened label - never
-   by resizing the field, which would drop that swatch's label off the row's
-   shared baseline. No glow, no lift, no scale. */
-.vault-swatch.is-active {
-  background: var(--cream);
-}
-
-.vault-swatch.is-active .vault-swatch-label {
-  color: var(--ink);
-}
-
-.vault-swatch.is-active::after {
-  content: "";
-  position: absolute;
-  inset: auto 0 0 0;
-  height: 2px;
-  background: var(--ink);
-}
-
-.vault-swatch:hover .vault-swatch-chip {
-  box-shadow: inset 0 0 0 3px rgba(255, 255, 255, 0.55);
-}
-
-/* Stacking also lives here for the same cascade reason - 11-responsive.css
-   is imported first, so a rule there could never beat this component's own
-   two-column template and the copy stayed pinned to a ~150px column on a
-   phone. */
+/* The copy column widens on narrow viewports; nothing else changes now that
+   the section is a single column at every size. */
 @media (max-width: 900px) {
-  .vault-layout {
-    grid-template-columns: 1fr;
-  }
-
   .vault-copy {
     max-width: none;
   }
@@ -222,53 +105,6 @@
   .vault-copy > p {
     max-width: 60ch;
   }
-}
-
-/* Column count lives with the component, not in the responsive partial:
-   that partial is imported before this one, so an override there could never
-   beat `--vault-cols: 7` and the tone names clipped to "Ivo" / "Pea" / "Tau"
-   on a phone. Each step keeps the thirteenth tone spanning the remainder so
-   the index always closes as a rectangle. */
-@media (max-width: 1100px) {
-  .vault-swatches {
-    --vault-cols: 5;
-  }
-
-  .vault-swatches > :last-child {
-    grid-column: span 3;
-  }
-}
-
-@media (max-width: 620px) {
-  .vault-swatches {
-    --vault-cols: 3;
-  }
-
-  .vault-swatches > :last-child {
-    grid-column: span 3;
-  }
-
-  .vault-swatch-chip {
-    height: clamp(64px, 20vw, 88px);
-  }
-
-  /* Two columns rather than three: the running index moves under the value
-     instead of competing with it for a ~120px column. */
-  .vault-readout {
-    grid-template-columns: auto minmax(0, 1fr);
-  }
-
-  .vault-readout-index {
-    grid-column: 2;
-    margin-top: 2px;
-  }
-}
-
-.vault-swatch:focus-visible {
-  outline: none;
-  box-shadow:
-    inset 0 0 0 2px var(--white),
-    inset 0 0 0 4px var(--ink);
 }
 
 /* --- iii) The House Editions --- */

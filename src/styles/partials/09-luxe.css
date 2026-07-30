@@ -17,10 +17,14 @@
   width: min(900px, 100%);
 }
 
+/* The wordmark is the hero's H1 now that "A Part of ORAC Luxe" and the
+   "THE HOUSE OF AZRIN" title line are gone, so it is scaled to carry that
+   weight. `max-height` is the binding constraint at this ~1.81:1 artwork
+   ratio - the width cap only ever bites on the widest viewports. */
 .luxe-page .azrin-hero-logo {
-  width: min(390px, 82vw);
-  max-height: 132px;
-  margin-bottom: 4px;
+  width: min(600px, 88vw);
+  max-height: clamp(190px, 22vw, 320px);
+  margin-bottom: clamp(6px, 1vw, 14px);
 }
 
 .luxe-partner-layout {

@@ -137,13 +137,21 @@ const makeModels = (label, stories, images) =>
     };
   });
 
+// Look 06 and look 02 trade places. Two reasons, one edit: the files as
+// numbered put two burgundy pieces back to back in slots 5 and 6, and the
+// stories were describing the other garment in each of those two slots -
+// story 2 is the burgundy shirt dress (collar, button placket, elasticated
+// waist) in look-06.jpg, story 6 is the full-length ivory gown (princess
+// seams, floor-length skirt) in look-02.jpg. Swapping the pair puts each
+// story back with the piece it describes and separates the two burgundy
+// looks at the same time.
 const dressesLooks = [
   dressesLook01,
-  dressesLook02,
+  dressesLook06,
   dressesLook03,
   dressesLook04,
   dressesLook05,
-  dressesLook06,
+  dressesLook02,
 ];
 
 const coOrdsLooks = [coOrdsLook01, coOrdsLook02, coOrdsLook03, coOrdsLook04, coOrdsLook05, coOrdsLook06];
