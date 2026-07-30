@@ -59,12 +59,7 @@
   color: var(--venture-accent);
 }
 
-.navbar[data-venture] .mobile-menu > a.active,
-.navbar[data-venture] .mobile-menu-group > a.active {
-  border-color: color-mix(in srgb, var(--venture-accent) 45%, transparent);
-}
-
-.navbar[data-venture] .business-switcher-panel a.active {
+.navbar[data-venture] .mobile-menu > a.active {
   border-color: color-mix(in srgb, var(--venture-accent) 45%, transparent);
 }
 
@@ -112,8 +107,7 @@
   gap: 4px;
 }
 
-.desktop-nav > a,
-.company-menu > button {
+.desktop-nav > a {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -130,6 +124,18 @@
   transition:
     color 260ms var(--ease-smooth),
     background 260ms var(--ease-smooth);
+}
+
+/* The three venture links (International / Eventus / Luxe) are the only
+   caps-set labels in the nav - Home and Contact stay sentence case - so the
+   transform is scoped to their own label span rather than the shared
+   `.desktop-nav > a` rule. Scoping to the span (not the anchor) matters on
+   the mobile card variant, where the same class wraps both the venture name
+   and its lowercase purpose line in `<small>`; transforming the anchor would
+   capitalise that sentence too. */
+.nav-venture-link span {
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 .nav-contact-actions {
@@ -172,109 +178,10 @@
   background: rgba(29, 168, 81, 0.08);
 }
 
-.nav-chevron {
-  transition: transform 260ms var(--ease-smooth);
-}
-
-.company-menu.is-open .nav-chevron {
-  transform: rotate(180deg);
-}
-
 .desktop-nav > a:hover,
-.desktop-nav > a.active,
-.company-menu.is-open > button,
-.company-menu > button:hover {
+.desktop-nav > a.active {
   background: rgba(184, 151, 90, 0.09);
   color: var(--gold);
-}
-
-.company-menu {
-  position: relative;
-}
-
-.business-switcher-panel {
-  position: absolute;
-  top: calc(100% + 12px);
-  right: 0;
-  width: min(620px, calc(100vw - (2 * var(--gutter))));
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
-  padding: 12px;
-  border: 1px solid rgba(184, 151, 90, 0.18);
-  border-radius: var(--radius-lg);
-  background: rgba(255, 255, 255, 0.84);
-  -webkit-backdrop-filter: blur(28px) saturate(180%);
-  backdrop-filter: blur(28px) saturate(180%);
-  box-shadow: 0 24px 80px rgba(26, 24, 20, 0.12);
-  opacity: 0;
-  pointer-events: none;
-  visibility: hidden;
-  transform: translateY(8px) scale(0.985);
-  transform-origin: top right;
-  transition:
-    opacity 280ms var(--ease-smooth),
-    transform 280ms var(--ease-smooth),
-    visibility 0s linear 280ms;
-}
-
-.company-menu.is-open .business-switcher-panel {
-  opacity: 1;
-  pointer-events: auto;
-  visibility: visible;
-  transform: translateY(0) scale(1);
-  transition-delay: 0s;
-}
-
-.business-switcher-panel a {
-  min-height: 118px;
-  display: grid;
-  align-content: end;
-  gap: 8px;
-  padding: 18px;
-  border: 1px solid rgba(184, 151, 90, 0.14);
-  border-radius: 22px;
-  background: rgba(250, 248, 244, 0.72);
-  color: var(--ink);
-  transition:
-    transform 300ms var(--ease-smooth),
-    background 300ms var(--ease-smooth),
-    box-shadow 300ms var(--ease-smooth),
-    border-color 300ms var(--ease-smooth);
-}
-
-.business-switcher-top {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 14px;
-  margin-bottom: auto;
-}
-
-.business-switcher-logo {
-  width: min(168px, 82%);
-  max-height: 40px;
-  object-fit: contain;
-  object-position: left center;
-}
-
-.business-switcher-panel a:hover,
-.business-switcher-panel a.active {
-  transform: scale(1.03);
-  background: var(--white);
-  border-color: rgba(184, 151, 90, 0.32);
-  box-shadow: 0 18px 52px rgba(26, 24, 20, 0.08);
-}
-
-.business-switcher-panel span {
-  font-size: 0.96rem;
-  font-weight: 700;
-}
-
-.business-switcher-panel small {
-  color: var(--ink-muted);
-  font-size: 0.78rem;
-  line-height: 1.35;
 }
 
 .mobile-toggle {
@@ -331,8 +238,7 @@
   transform: translateY(0);
 }
 
-.mobile-menu > a,
-.mobile-menu-group > a {
+.mobile-menu > a {
   display: grid;
   gap: 5px;
   padding: 17px 16px;
@@ -362,19 +268,6 @@
   color: var(--ink);
   font-size: 0.9rem;
   font-weight: 600;
-}
-
-.mobile-menu-group {
-  display: grid;
-  gap: 10px;
-}
-
-.mobile-menu-group > span {
-  padding: 10px 6px 4px;
-  color: var(--gold);
-  font-size: 0.74rem;
-  font-weight: 700;
-  text-transform: uppercase;
 }
 
 .mobile-menu small {

@@ -1,9 +1,7 @@
-import { useEffect, useId, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
-import { ChevronDown } from "lucide-react";
 import { companies } from "../../data/companyData";
 import { contactDetails } from "../../data/contactData";
-import BusinessSwitcher from "../common/BusinessSwitcher";
 import GmailIcon from "../common/GmailIcon";
 import WhatsAppIcon from "../common/WhatsAppIcon";
 import oracLogo from "../../assets/logos/orac-orange.svg";
@@ -23,26 +21,22 @@ function ventureForPath(pathname) {
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
-  const [businessOpen, setBusinessOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
-  const businessMenuRef = useRef(null);
-  const businessMenuId = useId();
   const primaryPhone = contactDetails.holding.phone.replace(/\D/g, "");
   const whatsappUrl = `https://wa.me/${primaryPhone}`;
   const emailUrl = `mailto:${contactDetails.holding.email}`;
   const activeVenture = ventureForPath(location.pathname);
 
-  // Navigating closes both menus. Done as a render-phase reset against the
-  // previous pathname rather than in an effect: React re-runs this component
-  // with the new state before it commits, so the menus are already closed on
-  // the first paint of the new route instead of open for one frame and then
-  // shut by a cascading second render.
+  // Navigating closes the mobile menu. Done as a render-phase reset against
+  // the previous pathname rather than in an effect: React re-runs this
+  // component with the new state before it commits, so the menu is already
+  // closed on the first paint of the new route instead of open for one frame
+  // and then shut by a cascading second render.
   const [lastPathname, setLastPathname] = useState(location.pathname);
   if (lastPathname !== location.pathname) {
     setLastPathname(location.pathname);
     setOpen(false);
-    setBusinessOpen(false);
   }
 
   useEffect(() => {
@@ -60,37 +54,13 @@ export default function Navbar() {
   }, [open]);
 
   useEffect(() => {
-    const onPointerDown = (event) => {
-      if (!businessMenuRef.current?.contains(event.target)) {
-        setBusinessOpen(false);
-      }
-    };
-
     const onKeyDown = (event) => {
-      if (event.key === "Escape") {
-        setOpen(false);
-        setBusinessOpen(false);
-      }
+      if (event.key === "Escape") setOpen(false);
     };
 
-    document.addEventListener("pointerdown", onPointerDown);
     document.addEventListener("keydown", onKeyDown);
-
-    return () => {
-      document.removeEventListener("pointerdown", onPointerDown);
-      document.removeEventListener("keydown", onKeyDown);
-    };
+    return () => document.removeEventListener("keydown", onKeyDown);
   }, []);
-
-  const onBusinessKeyDown = (event) => {
-    if (event.key === "ArrowDown") {
-      event.preventDefault();
-      setBusinessOpen(true);
-      window.requestAnimationFrame(() => {
-        businessMenuRef.current?.querySelector("a")?.focus();
-      });
-    }
-  };
 
   return (
     <header
@@ -105,27 +75,11 @@ export default function Navbar() {
         <NavLink to="/" end>
           Home
         </NavLink>
-        <div
-          className={`company-menu business-switcher ${businessOpen ? "is-open" : ""}`}
-          ref={businessMenuRef}
-        >
-          <button
-            type="button"
-            aria-haspopup="menu"
-            aria-controls={businessMenuId}
-            aria-expanded={businessOpen}
-            onClick={() => setBusinessOpen((value) => !value)}
-            onKeyDown={onBusinessKeyDown}
-          >
-            <span>Businesses</span>
-            <ChevronDown className="nav-chevron" size={14} strokeWidth={1.8} aria-hidden="true" />
-          </button>
-          <BusinessSwitcher
-            id={businessMenuId}
-            open={businessOpen}
-            onNavigate={() => setBusinessOpen(false)}
-          />
-        </div>
+        {companies.map((company) => (
+          <NavLink key={company.id} to={company.route} className="nav-venture-link">
+            <span>{company.shortName}</span>
+          </NavLink>
+        ))}
         <NavLink to="/contact">Contact</NavLink>
         <div className="nav-contact-actions" aria-label="Quick contact links">
           <a
@@ -158,15 +112,12 @@ export default function Navbar() {
         <NavLink to="/" end>
           Home
         </NavLink>
-        <div className="mobile-menu-group">
-          <span>Businesses</span>
-          {companies.map((company) => (
-            <NavLink key={company.id} to={company.route}>
-              <span>{company.name}</span>
-              <small>{company.purpose}</small>
-            </NavLink>
-          ))}
-        </div>
+        {companies.map((company) => (
+          <NavLink key={company.id} to={company.route} className="nav-venture-link">
+            <span>{company.shortName}</span>
+            <small>{company.purpose}</small>
+          </NavLink>
+        ))}
         <NavLink to="/contact">Contact</NavLink>
         <div className="mobile-contact-actions" aria-label="Quick contact links">
           <a
