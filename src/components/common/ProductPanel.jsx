@@ -42,7 +42,20 @@ const onEnterOrSpace = (handler) => (event) => {
   }
 };
 
-export default function ProductPanel({ product, image, index = 0, className = "", onSelect }) {
+/**
+ * `headingLevel` exists so a panel can sit at whatever depth its container
+ * implies - inside the portfolio the product name is nested under a collection
+ * (h3) and a category (h4), so it drops to h5. The visual treatment is carried
+ * by `.product-panel-name`, not by the tag, so the level is free to move.
+ */
+export default function ProductPanel({
+  product,
+  image,
+  index = 0,
+  className = "",
+  onSelect,
+  headingLevel: Heading = "h3",
+}) {
   const hasSecondaryImage = Boolean(image?.secondarySrc);
   const badge = productBadge(product.tag);
   const select = onSelect ? () => onSelect(product, image) : undefined;
@@ -88,7 +101,7 @@ export default function ProductPanel({ product, image, index = 0, className = ""
           {badge.label}
         </small>
       </div>
-      <h3>{product.name}</h3>
+      <Heading className="product-panel-name">{product.name}</Heading>
       <p>{productSummary(product.tag)}</p>
     </Reveal>
   );
