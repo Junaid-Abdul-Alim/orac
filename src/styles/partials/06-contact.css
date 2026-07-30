@@ -12,9 +12,9 @@
   align-items: center;
 }
 
-.product-collection-carousel {
+.product-collection {
   display: grid;
-  gap: clamp(22px, 3.2vw, 34px);
+  gap: clamp(26px, 3.4vw, 40px);
   padding: 0;
   border: 0;
   border-radius: 0;
@@ -24,10 +24,12 @@
 
 .product-collection-row-head {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
   gap: 24px;
   padding-inline: clamp(2px, 1vw, 12px);
+  padding-bottom: clamp(14px, 1.8vw, 20px);
+  border-bottom: 1px solid rgba(184, 151, 90, 0.2);
 }
 
 .product-collection-row-head > div:first-child {
@@ -68,6 +70,106 @@
   color: var(--ink-soft);
   font-size: 0.98rem;
   line-height: 1.72;
+}
+
+/* Sits opposite the collection title and states the shape of what follows -
+   how many categories, how many products - so the split into separate bands
+   is announced before the visitor scrolls into it. */
+.product-collection-tally {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  flex: 0 0 auto;
+  margin-top: 0;
+  white-space: nowrap;
+}
+
+.product-collection-tally strong {
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 2vw, 2.1rem);
+  font-weight: 600;
+  line-height: 1;
+}
+
+.product-collection-tally strong + span {
+  margin-right: 12px;
+}
+
+.product-collection-tally span {
+  color: var(--gold);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.product-collection-categories {
+  display: grid;
+  gap: clamp(34px, 4.4vw, 58px);
+}
+
+/* --- Portfolio: one band per catalogue category --- */
+.product-category-row {
+  display: grid;
+  gap: clamp(14px, 1.8vw, 20px);
+}
+
+.product-category-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  padding-inline: clamp(2px, 1vw, 12px);
+}
+
+.product-category-title {
+  display: flex;
+  align-items: baseline;
+  gap: clamp(12px, 1.4vw, 18px);
+  max-width: 780px;
+}
+
+.product-category-number {
+  flex: 0 0 auto;
+  color: var(--gold);
+  font-family: var(--font-display);
+  font-size: clamp(1.15rem, 1.5vw, 1.5rem);
+  font-weight: 600;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.product-category-title h4 {
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: clamp(1.42rem, 2.1vw, 2.05rem);
+  font-weight: 600;
+  line-height: 1.08;
+}
+
+.product-category-title p {
+  max-width: 660px;
+  margin-top: 7px;
+  color: var(--ink-soft);
+  font-size: 0.94rem;
+  line-height: 1.7;
+}
+
+.product-category-aside {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  flex: 0 0 auto;
+}
+
+.product-category-count {
+  color: rgba(56, 52, 44, 0.55);
+  font-size: 0.71rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .product-carousel-controls {
@@ -225,7 +327,7 @@
   color: rgba(56, 52, 44, 0.58);
 }
 
-.product-panel h3 {
+.product-panel .product-panel-name {
   color: var(--ink);
   min-height: 1.08em;
   max-width: 92%;

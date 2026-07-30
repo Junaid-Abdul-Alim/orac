@@ -115,13 +115,6 @@ export default function InternationalContactCTA() {
               website={contactDetails.holding.website}
             />
             <ContactPerson
-              name={contactDetails.international.name}
-              role={contactDetails.international.role}
-              location={contactDetails.international.location}
-              phone={contactDetails.international.phone}
-              email={contactDetails.international.email}
-            />
-            <ContactPerson
               name={contactDetails.africa.name}
               role={contactDetails.africa.role}
               location={contactDetails.africa.location}

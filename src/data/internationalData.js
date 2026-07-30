@@ -43,7 +43,7 @@ export const exportPortfolioTagline =
   "A portfolio of export-ready products representing India's strength in agriculture, manufacturing, and industry.";
 
 export const importPortfolioTagline =
-  "A portfolio of internationally sourced products serving India's industrial, manufacturing, and specialty markets.";
+  "A portfolio of internationally sourced products serving India's automotive, industrial, manufacturing, and specialty markets.";
 
 export const exportCategories = [
   {
@@ -394,11 +394,23 @@ export const internationalStats = [
 
 export const processHeading = "Every Requirement Has a Destination.";
 
-export const processNarrative = [
-  "Some clients come to us with a product. Others come with an idea. Some know exactly where to source. Others simply know where they want to go.",
-  "Wherever the journey begins, our job is the same - to understand your requirement, connect you with the right manufacturers, manage every moving part, and stay beside you until the destination is reached.",
-  "Because for us, trade isn't about moving goods. It's about moving businesses forward. The world belongs to those who dare to build. Let's begin with a sample trade.",
+// The opening is set as four separate lines rather than one paragraph: each
+// is a different kind of client arriving at the same door, and running them
+// together loses the cadence the sequence is built on.
+export const processOpeningLines = [
+  "Some clients come to us with a product.",
+  "Others come with an idea.",
+  "Some know exactly where to source.",
+  "Others simply know where they want to go.",
 ];
+
+export const processNarrative = [
+  "Wherever the journey begins, our job is the same - to understand your requirement, connect you with the right manufacturers, manage every moving part, and stay beside you until the destination is reached.",
+  "Because for us, trade isn't about moving goods.",
+];
+
+export const processClosing =
+  "It's about moving businesses forward. The world belongs to those who dare to build. Let's begin with a sample trade.";
 
 export const tradeProcess = [
   { title: "Source", body: "Source directly through producers and trusted international corridors." },

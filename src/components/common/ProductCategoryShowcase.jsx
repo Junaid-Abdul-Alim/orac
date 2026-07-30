@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { ArrowDownToLine, ArrowLeft, ArrowRight, ArrowUpFromLine, Download } from "lucide-react";
 import Reveal from "./Reveal";
 import ProductPanel from "./ProductPanel";
@@ -6,37 +6,36 @@ import ProductSpecModal from "./ProductSpecModal";
 import IconBadge from "./IconBadge";
 import { pad2 } from "../../utils/pad2";
 
-function ProductCollectionCarousel({ collection, getImage, index, onSelectProduct }) {
+const countProducts = (categories) =>
+  categories.reduce((total, category) => total + category.products.length, 0);
+
+/**
+ * One category inside a portfolio - its own numbered band, its own intro and
+ * its own track. The categories used to be flattened into a single run of
+ * products per collection, which lost the distinction the trade catalogue is
+ * organised by (Fibres/Coir, Spices, Pulses & Nuts, ... on export; Agri
+ * Commodities and Scrap on import). Each is now read as its own chapter.
+ */
+function ProductCategoryRow({ collectionId, category, index, getImage, onSelectProduct }) {
   const scrollerRef = useRef(null);
   const [canScrollPrev, setCanScrollPrev] = useState(false);
   const [canScrollNext, setCanScrollNext] = useState(false);
-  const CollectionIcon = collection.id.includes("import") ? ArrowDownToLine : ArrowUpFromLine;
+  const productCount = category.products.length;
 
-  const products = useMemo(
-    () =>
-      collection.categories.flatMap((category) =>
-        category.products.map((product) => ({
-          ...product,
-          category: category.title,
-        }))
-      ),
-    [collection.categories]
-  );
-
-  const updateScrollState = () => {
+  const updateScrollState = useCallback(() => {
     const element = scrollerRef.current;
     if (!element) return;
 
     const maxScroll = element.scrollWidth - element.clientWidth;
     setCanScrollPrev(element.scrollLeft > 8);
     setCanScrollNext(maxScroll > 8 && element.scrollLeft < maxScroll - 8);
-  };
+  }, []);
 
   useEffect(() => {
     updateScrollState();
     window.addEventListener("resize", updateScrollState);
     return () => window.removeEventListener("resize", updateScrollState);
-  }, [products.length]);
+  }, [updateScrollState, productCount]);
 
   const scrollByCard = (direction) => {
     const element = scrollerRef.current;
@@ -51,7 +50,68 @@ function ProductCollectionCarousel({ collection, getImage, index, onSelectProduc
   };
 
   return (
-    <Reveal className="product-collection-carousel" delay={index * 110}>
+    <Reveal as="article" className="product-category-row" delay={index * 70}>
+      <div className="product-category-head">
+        <div className="product-category-title">
+          <span className="product-category-number" aria-hidden="true">
+            {pad2(index + 1)}
+          </span>
+          <div>
+            <h4>{category.title}</h4>
+            {category.intro ? <p>{category.intro}</p> : null}
+          </div>
+        </div>
+        <div className="product-category-aside">
+          <small className="product-category-count">{pad2(productCount)} products</small>
+          <div className="product-carousel-controls" aria-label={`${category.title} carousel controls`}>
+            <button
+              type="button"
+              aria-label={`Previous ${category.title} products`}
+              disabled={!canScrollPrev}
+              onClick={() => scrollByCard(-1)}
+            >
+              <ArrowLeft size={16} strokeWidth={1.8} aria-hidden="true" />
+            </button>
+            <button
+              type="button"
+              aria-label={`Next ${category.title} products`}
+              disabled={!canScrollNext}
+              onClick={() => scrollByCard(1)}
+            >
+              <ArrowRight size={16} strokeWidth={1.8} aria-hidden="true" />
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div
+        ref={scrollerRef}
+        className="product-showcase-grid product-carousel-track"
+        aria-label={`${category.title} products`}
+        onScroll={updateScrollState}
+        onMouseEnter={updateScrollState}
+      >
+        {category.products.map((product, productIndex) => (
+          <ProductPanel
+            key={`${collectionId}-${category.title}-${product.name}`}
+            product={product}
+            image={getImage(product.name)}
+            index={Math.min(productIndex, 8)}
+            className="product-showcase-card"
+            headingLevel="h5"
+            onSelect={onSelectProduct}
+          />
+        ))}
+      </div>
+    </Reveal>
+  );
+}
+
+function ProductCollection({ collection, getImage, index, onSelectProduct }) {
+  const CollectionIcon = collection.id.includes("import") ? ArrowDownToLine : ArrowUpFromLine;
+
+  return (
+    <Reveal className="product-collection" delay={index * 110}>
       <div className="product-collection-row-head">
         <div>
           <IconBadge icon={CollectionIcon} className="icon-badge-soft" size={17} />
@@ -67,41 +127,23 @@ function ProductCollectionCarousel({ collection, getImage, index, onSelectProduc
             ) : null}
           </div>
         </div>
-        <div className="product-carousel-controls" aria-label={`${collection.label} carousel controls`}>
-          <button
-            type="button"
-            aria-label={`Previous ${collection.label} products`}
-            disabled={!canScrollPrev}
-            onClick={() => scrollByCard(-1)}
-          >
-            <ArrowLeft size={16} strokeWidth={1.8} aria-hidden="true" />
-          </button>
-          <button
-            type="button"
-            aria-label={`Next ${collection.label} products`}
-            disabled={!canScrollNext}
-            onClick={() => scrollByCard(1)}
-          >
-            <ArrowRight size={16} strokeWidth={1.8} aria-hidden="true" />
-          </button>
-        </div>
+        <p className="product-collection-tally">
+          <strong>{pad2(collection.categories.length)}</strong>
+          <span>categories</span>
+          <strong>{pad2(countProducts(collection.categories))}</strong>
+          <span>products</span>
+        </p>
       </div>
 
-      <div
-        ref={scrollerRef}
-        className="product-showcase-grid product-carousel-track"
-        aria-label={`${collection.label} products`}
-        onScroll={updateScrollState}
-        onMouseEnter={updateScrollState}
-      >
-        {products.map((product, productIndex) => (
-          <ProductPanel
-            key={`${collection.id}-${product.category}-${product.name}`}
-            product={product}
-            image={getImage(product.name)}
-            index={Math.min(productIndex, 8)}
-            className="product-showcase-card"
-            onSelect={onSelectProduct}
+      <div className="product-collection-categories">
+        {collection.categories.map((category, categoryIndex) => (
+          <ProductCategoryRow
+            key={category.title}
+            collectionId={collection.id}
+            category={category}
+            index={categoryIndex}
+            getImage={getImage}
+            onSelectProduct={onSelectProduct}
           />
         ))}
       </div>
@@ -119,12 +161,7 @@ export default function ProductCategoryShowcase({
 }) {
   const [activeProduct, setActiveProduct] = useState(null);
   const productTotal = collections.reduce(
-    (total, collection) =>
-      total +
-      collection.categories.reduce(
-        (collectionTotal, category) => collectionTotal + category.products.length,
-        0
-      ),
+    (total, collection) => total + countProducts(collection.categories),
     0
   );
 
@@ -145,7 +182,7 @@ export default function ProductCategoryShowcase({
 
       <div className="product-showcase-stage">
         {collections.map((collection, index) => (
-          <ProductCollectionCarousel
+          <ProductCollection
             key={collection.id}
             collection={collection}
             getImage={getImage}

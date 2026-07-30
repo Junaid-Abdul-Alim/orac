@@ -18,8 +18,10 @@ import {
   internationalServices,
   internationalStats,
   portfolioIntro,
+  processClosing,
   processHeading,
   processNarrative,
+  processOpeningLines,
   tradeProcess,
   whatWeDoClosing,
 } from "../data/internationalData";
@@ -174,9 +176,15 @@ export default function OracInternational() {
         <div className="container">
           <SectionHeader eyebrow="IV · Process" title={processHeading} />
           <Reveal className="rich-copy process-narrative">
+            <p className="process-stanza">
+              {processOpeningLines.map((line) => (
+                <span key={line}>{line}</span>
+              ))}
+            </p>
             {processNarrative.map((paragraph) => (
               <p key={paragraph}>{paragraph}</p>
             ))}
+            <p className="process-closing">{processClosing}</p>
           </Reveal>
           <ProcessTimeline steps={tradeProcess} />
         </div>

@@ -317,8 +317,8 @@
     border-radius: 0;
   }
 
-  .product-collection-carousel {
-    gap: 24px;
+  .product-collection {
+    gap: 28px;
     padding: 0;
     border-radius: 0;
   }
@@ -333,6 +333,14 @@
 
   .product-collection-row-head p {
     font-size: 0.93rem;
+  }
+
+  .product-collection-categories {
+    gap: 40px;
+  }
+
+  .product-category-title h4 {
+    font-size: 1.62rem;
   }
 
   .product-carousel-track .product-showcase-card.product-panel {
@@ -689,8 +697,8 @@
     border-radius: 0;
   }
 
-  .product-collection-carousel {
-    gap: 22px;
+  .product-collection {
+    gap: 24px;
     padding: 0;
     border-radius: 0;
   }
@@ -698,6 +706,38 @@
   .product-collection-row-head {
     display: grid;
     gap: 14px;
+  }
+
+  /* The tally and the carousel arrows both stop earning their horizontal
+     column here: the collection head stacks, and each category keeps its
+     title and its controls on one line with the count dropped. */
+  .product-collection-tally {
+    justify-self: start;
+  }
+
+  .product-collection-categories {
+    gap: 34px;
+  }
+
+  .product-category-head {
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .product-category-title {
+    gap: 11px;
+  }
+
+  .product-category-title h4 {
+    font-size: 1.42rem;
+  }
+
+  .product-category-title p {
+    font-size: 0.9rem;
+  }
+
+  .product-category-count {
+    display: none;
   }
 
   .product-collection-row-head > div:first-child {

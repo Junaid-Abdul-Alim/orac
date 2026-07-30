@@ -445,7 +445,7 @@
 .leader-tile h4,
 .service-card h3,
 .service-block h3,
-.product-panel h3,
+.product-panel .product-panel-name,
 .timeline-step h3,
 .contact-card h2,
 .reason-panel-list h3 {
