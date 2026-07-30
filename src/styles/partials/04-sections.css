@@ -771,15 +771,6 @@
   --panel-radius: var(--radius-lg);
 }
 
-/* fashion-atelier.webp is a 16:9 source cropped to a taller frame, so
-   cover crops horizontally: the subject (toile on the stand, then the
-   fitter) sits between roughly 38% and 90% of the source width, while a
-   centred crop windows 20-80% and cuts the fitter's face. Biasing right
-   keeps both the garment and the fitter whole. */
-.venture-chapter-luxe .preview-image-panel img {
-  object-position: 72% 50%;
-}
-
 .venture-chapter-luxe .venture-chapter-meta {
   color: var(--accent-luxe);
   letter-spacing: 0.1em;

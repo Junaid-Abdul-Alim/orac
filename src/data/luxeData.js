@@ -33,11 +33,7 @@ import { imageSlot } from "./imageSlot";
 import { pad2 } from "../utils/pad2";
 
 export const luxeImages = {
-  hero: imageSlot(
-    "The House of Azrin",
-    "Fashion atelier workspace for ORAC Luxe and The House of Azrin",
-    luxeAtelier
-  ),
+  hero: imageSlot("The House of Azrin", "The House of Azrin tunic in motion — Maison Series", frontTunics),
   opening: imageSlot(
     "ORAC Luxe image",
     "Fashion atelier workspace for ORAC Luxe and The House of Azrin",
