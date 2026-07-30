@@ -56,7 +56,7 @@ export default function LuxuryExport() {
           sharp corners. Placed directly after Vault XIII. */}
       <section className="luxe-collections-section">
         <div className="container">
-          <SectionHeader title="Collections" />
+          <SectionHeader title="The Collections" />
         </div>
         <div className="luxe-collage-banner">
           <SafeImage
@@ -76,24 +76,18 @@ export default function LuxuryExport() {
             title="Three ways into the House."
             text="Every Azrin piece belongs to one of three editions - a way of choosing how considered you want the making to be."
           />
-          <div className="editions-grid">
+          <div className="editions-grid" data-motion-grid>
             {houseEditions.map((edition, index) => {
               const EditionIcon = editionIcons[index] || Gem;
               return (
-                <Reveal
-                  as="article"
-                  className="edition-card"
-                  key={edition.id}
-                  kind="card"
-                  delay={index * 115}
-                >
+                <article className="edition-card" key={edition.id}>
                   <div className="edition-card-top">
                     <IconBadge icon={EditionIcon} className="icon-badge-soft" size={24} />
                     <span className="edition-number">{pad2(index + 1)}</span>
                   </div>
                   <h3>{edition.title}</h3>
                   <p>{edition.tagline}</p>
-                </Reveal>
+                </article>
               );
             })}
           </div>
@@ -122,14 +116,12 @@ export default function LuxuryExport() {
             title="The Maison Series."
             text="Four families of garment, each with its own story. Explore a category to meet the looks."
           />
-          <div className="maison-grid">
-            {maisonSeries.map((category, index) => (
-              <Reveal
-                as={Link}
+          <div className="maison-grid" data-motion-grid>
+            {maisonSeries.map((category) => (
+              <Link
                 to={`/luxury-export/${category.slug}`}
-                className="maison-card"
+                className={`maison-card maison-card-${category.slug}`}
                 key={category.id}
-                delay={index * 70}
                 aria-label={`Explore ${category.name}`}
               >
                 <div className="maison-card-media">
@@ -148,7 +140,7 @@ export default function LuxuryExport() {
                   </div>
                   <ArrowRight size={18} strokeWidth={1.7} aria-hidden="true" />
                 </div>
-              </Reveal>
+              </Link>
             ))}
           </div>
         </div>
@@ -178,12 +170,12 @@ export default function LuxuryExport() {
             title="Built with purpose."
             text="Four principles carry through every piece, from first cut to final stitch."
           />
-          <div className="reason-panel-list">
-            {azrinValues.map((value, index) => (
-              <Reveal as="article" key={value.title} delay={index * 70}>
+          <div className="reason-panel-list" data-motion-grid>
+            {azrinValues.map((value) => (
+              <article key={value.title}>
                 <h3>{value.title}</h3>
                 <p>{value.text}</p>
-              </Reveal>
+              </article>
             ))}
           </div>
         </div>

@@ -48,6 +48,7 @@ export default function OracInternational() {
           title: "Delivering Value Across Every Border",
           description: "Built for international import and export",
         }}
+        variant="door"
       />
 
       <section className="section founder-section">
@@ -82,12 +83,12 @@ export default function OracInternational() {
                 long-term relationships across international markets.
               </p>
             </Reveal>
-            <div className="stat-grid">
-              {internationalStats.map((stat, index) => (
-                <Reveal as="article" className="stat-tile" key={stat.label} delay={index * 70}>
+            <div className="stat-grid" data-motion-grid>
+              {internationalStats.map((stat) => (
+                <article className="stat-tile" key={stat.label}>
                   <strong>{stat.value}</strong>
                   <span>{stat.label}</span>
-                </Reveal>
+                </article>
               ))}
             </div>
           </div>
@@ -109,9 +110,9 @@ export default function OracInternational() {
                 <p>{whatWeDoClosing.text}</p>
               </Reveal>
             </div>
-            <div className="trade-capability-grid" aria-label="ORAC International capabilities">
+            <div className="trade-capability-grid" aria-label="ORAC International capabilities" data-motion-grid>
               {internationalServices.map((service, index) => (
-                <Reveal as="article" className="trade-capability-card" key={service.title} delay={index * 65}>
+                <article className="trade-capability-card" key={service.title}>
                   <div className="trade-capability-top">
                     <IconBadge icon={serviceIcons[index]} className="icon-badge-soft" size={17} />
                     <span className="trade-capability-number">{pad2(index + 1)}</span>
@@ -121,7 +122,7 @@ export default function OracInternational() {
                     <p className="trade-capability-tagline">{service.tagline}</p>
                     <p>{service.description}</p>
                   </div>
-                </Reveal>
+                </article>
               ))}
             </div>
           </div>
@@ -166,6 +167,7 @@ export default function OracInternational() {
         image={internationalImages.banner}
         title="Your Vision. Our Commitment."
         description="From sourcing to delivery, we go the extra mile to find the right products, overcome challenges, and create trade solutions tailored to your business."
+        variant="door"
       />
 
       <section className="section process-section">

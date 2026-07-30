@@ -1,6 +1,6 @@
 import ImagePanel from "./ImagePanel";
 
-export default function CinematicBanner({ image, title, description }) {
+export default function CinematicBanner({ image, title, description, variant = "panel" }) {
   return (
     <section className="cinematic-banner-section">
       <div className="container">
@@ -11,6 +11,7 @@ export default function CinematicBanner({ image, title, description }) {
           description={description || image?.description}
           dark
           className="cinematic-banner"
+          variant={variant}
         />
       </div>
     </section>

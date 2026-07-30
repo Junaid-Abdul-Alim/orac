@@ -26,6 +26,7 @@ export default function OracEventus() {
         meta="Company Profile & Services Brochure 2026"
         heroNote="EST. CHENNAI"
         image={eventusImages.hero}
+        variant="frame"
       />
 
       <EventusVelorawedSection />
@@ -70,7 +71,7 @@ export default function OracEventus() {
       <section className="section muted-section eventus-services-section">
         <div className="container">
           <SectionHeader eyebrow="What We Do" title="Everything your celebration needs." />
-          <div className="service-grid">
+          <div className="service-grid" data-motion-grid>
             {eventusServices.map((service, index) => (
               <ServiceBlock
                 key={service.title}
@@ -78,6 +79,7 @@ export default function OracEventus() {
                 points={service.points}
                 image={eventusImages.services[service.title]}
                 index={index}
+                variant="frame"
               />
             ))}
           </div>
@@ -91,7 +93,7 @@ export default function OracEventus() {
             title="From the first decor sketch to the last guest leaving with a gift in hand."
             text="ORAC Eventus designs and manages every layer of a celebration. Choose a single service or hand over the entire event - either way, you work with one team and one timeline."
           />
-          <EditorialGallery images={eventusImages.gallery} />
+          <EditorialGallery images={eventusImages.gallery} variant="frame" />
         </div>
       </section>
 

@@ -1,5 +1,4 @@
 import { Camera, Gift, MapPinned, Music, Palette, Route, Sparkles, Utensils } from "lucide-react";
-import Reveal from "./Reveal";
 import ImagePanel from "./ImagePanel";
 import IconBadge from "./IconBadge";
 import { pad2 } from "../../utils/pad2";
@@ -19,10 +18,18 @@ const serviceIcon = (title = "") => {
   return Sparkles;
 };
 
-export default function ServiceBlock({ title, points, image, index = 0 }) {
+// No longer wraps itself in a `Reveal` - it is always rendered inside a
+// `.service-grid` that carries `data-motion-grid` (see OracEventus.jsx), so
+// the grid's own ScrollTrigger staggers the whole card as one of its
+// children. The image inside still opens on its own via `ImagePanel`'s
+// `ImageReveal`, so a card entering is two things happening together: the
+// card sliding into place and its photo wiping open inside it.
+export default function ServiceBlock({ title, points, image, index = 0, variant = "panel" }) {
   return (
-    <Reveal as="article" className="service-block" delay={index * 70}>
-      {image ? <ImagePanel image={image} label={title} className="service-block-image" delay={0} /> : null}
+    <article className="service-block">
+      {image ? (
+        <ImagePanel image={image} label={title} className="service-block-image" delay={0} variant={variant} />
+      ) : null}
       <div className="service-block-top">
         <IconBadge icon={serviceIcon(title)} className="icon-badge-soft" size={17} />
         <span>{pad2(index + 1)}</span>
@@ -33,6 +40,6 @@ export default function ServiceBlock({ title, points, image, index = 0 }) {
           <li key={point}>{point}</li>
         ))}
       </ul>
-    </Reveal>
+    </article>
   );
 }

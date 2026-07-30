@@ -47,8 +47,9 @@ export default function EventusVelorawedSection() {
           title="Cinematic wedding films"
           dark
           className="velorawed-film-frame"
+          variant="frame"
         />
-        <EditorialGallery images={velorawedImages.gallery} dark />
+        <EditorialGallery images={velorawedImages.gallery} dark variant="frame" />
       </div>
     </section>
   );

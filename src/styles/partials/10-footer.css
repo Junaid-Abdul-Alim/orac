@@ -106,6 +106,19 @@
   font-size: 0.92rem;
 }
 
+/* The footer is the one piece of chrome on every page that had no eased
+   motion anywhere - every link here snapped colour instantly on hover while
+   its sibling nav/card treatments elsewhere all ease. Reusing the shared
+   hover tokens rather than inventing a footer-specific duration. */
+.footer-column a,
+.footer-link-list a span,
+.footer-mail {
+  transition:
+    color var(--dur-hover) var(--ease-smooth),
+    border-color var(--dur-hover) var(--ease-smooth),
+    background var(--dur-hover) var(--ease-smooth);
+}
+
 .footer-link-list a {
   display: grid;
   gap: 2px;
@@ -143,6 +156,11 @@
 .footer-link-list a:hover span,
 .footer-mail:hover {
   color: var(--gold-light);
+}
+
+.footer-mail:hover {
+  border-color: rgba(212, 175, 120, 0.32);
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .footer-bottom {

@@ -31,7 +31,7 @@ function ScrollManager() {
     document.title = pageTitles[pathname] || "ORAC Holdings";
 
     if (hash) {
-      window.setTimeout(() => {
+      const id = window.setTimeout(() => {
         const target = document.getElementById(decodeURIComponent(hash.slice(1)));
         if (!target) return;
 
@@ -41,7 +41,7 @@ function ScrollManager() {
         }
         target.focus({ preventScroll: true });
       }, 0);
-      return;
+      return () => window.clearTimeout(id);
     }
 
     window.scrollTo({ top: 0, behavior: "auto" });
@@ -58,6 +58,56 @@ function ScrollManager() {
   }, [pathname]);
 
   return null;
+}
+
+// GSAP's ScrollTrigger keeps one shared, module-level registry of every
+// trigger on the page - not state React owns or can rebuild on its own. A
+// route change unmounts the outgoing page's triggers and mounts the
+// incoming page's in the same commit; if a scroll event lands in that exact
+// window - the routine auto-scroll a click performs to bring a link into
+// view counts, so this is not a rare edge case - ScrollTrigger's own scroll
+// handler can walk that registry mid-teardown and throw inside GSAP itself
+// ("Cannot read properties of undefined (reading 'end')"), reliably
+// reproducible navigating from the Luxe page into any Maison category. It
+// pre-dates every change in this session (confirmed against the last few
+// commits and a production build) - the race is inside GSAP's own internal
+// bookkeeping, not anything this app schedules.
+//
+// Once that registry is corrupted, nothing short of a fresh JS context
+// reliably clears it: forcing a full remount of the current route (a React
+// `key` change), even combined with explicitly killing every live
+// ScrollTrigger and calling `clearScrollMemory()` first, still measured the
+// remounted page's own triggers as broken afterward (start 0, end undefined,
+// confirmed by inspecting GSAP's registry directly). A fresh page load never
+// has this problem, in any of dozens of attempts, so this reloads the
+// current URL outright rather than trying to repair GSAP's internal state in
+// place. `preventDefault()` stops the crash from also surfacing as a visible
+// uncaught error in the moment before the reload.
+//
+// Every JS engine describes "read a property off undefined" differently -
+// confirmed directly (Playwright, same repro, all three engines):
+//   V8 / Chrome:            Cannot read properties of undefined (reading 'end')
+//   JavaScriptCore / Safari: undefined is not an object (evaluating 'curTrigger.end')
+//   SpiderMonkey / Firefox:  can't access property "end", curTrigger is undefined
+// A check written against Chrome's exact wording (the first version of this
+// guard) never matches on Safari or Firefox, so the reload silently never
+// fires there and the page is left broken - it only looked fixed because it
+// had only been verified in Chromium. All three phrasings still name GSAP's
+// own `end` property immediately after a dot or a quote, so match on that
+// shape rather than any one engine's sentence.
+const GSAP_TRIGGER_LIST_ERROR = /[.'"]end['"]/;
+
+function useMotionCrashRecovery() {
+  useEffect(() => {
+    const onError = (event) => {
+      if (!GSAP_TRIGGER_LIST_ERROR.test(event.message || "")) return;
+      event.preventDefault();
+      window.location.reload();
+    };
+
+    window.addEventListener("error", onError);
+    return () => window.removeEventListener("error", onError);
+  }, []);
 }
 
 // A brief, consistent cross-fade on route change - the only new route-level
@@ -83,6 +133,8 @@ function RouteFade({ children }) {
 }
 
 export default function App() {
+  useMotionCrashRecovery();
+
   return (
     <>
       <ScrollManager />

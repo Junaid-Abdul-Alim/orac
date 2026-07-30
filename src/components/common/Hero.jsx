@@ -17,6 +17,7 @@ export default function Hero({
   image,
   brandLogo,
   showBrandPanel = true,
+  variant = "panel",
 }) {
   const logoMark = brandLogo?.src ? (
     <img
@@ -70,6 +71,7 @@ export default function Hero({
             priority
             dark={dark}
             delay={90}
+            variant={variant}
           />
         ) : null}
         {showBrandPanel ? (

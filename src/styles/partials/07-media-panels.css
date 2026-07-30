@@ -262,6 +262,11 @@
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
+/* The steps sit in one continuous strip (`.process-timeline`'s 1px gap +
+   border reads as hairlines between cells, not separated cards), so a
+   `.trade-capability-card`-style lift would pull a cell out of that shared
+   edge - a background tint plus the same gold underline draw used on every
+   other card heading here reads as "hovered" without breaking the strip. */
 .timeline-step {
   display: grid;
   grid-template-rows: auto auto 1fr;
@@ -270,6 +275,25 @@
   align-content: stretch;
   padding: 28px;
   background: rgba(255, 255, 255, 0.9);
+  transition: background 320ms var(--ease-smooth);
+}
+
+.timeline-step:hover {
+  background: var(--cream);
+}
+
+.timeline-step h3::after {
+  content: "";
+  display: block;
+  width: 0;
+  height: 1px;
+  margin-top: 10px;
+  background: var(--gold);
+  transition: width 0.5s var(--ease-smooth);
+}
+
+.timeline-step:hover h3::after {
+  width: 32px;
 }
 
 .timeline-step-top {

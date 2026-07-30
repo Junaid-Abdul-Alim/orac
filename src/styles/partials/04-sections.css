@@ -360,6 +360,27 @@
   box-shadow: 0 28px 60px -36px rgba(26, 24, 20, 0.5);
 }
 
+/* Every sibling card type in the shared block above (leader tiles, stat
+   tiles, product panels, contact cards, reason-panel articles) has some kind
+   of hover response; these two were the only ones that carried the shadowed
+   card look with nothing to show for pointing at them. Same lift language as
+   `.trade-capability-card:hover` (this file) and `.product-panel:hover`
+   (06-contact.css) rather than a new value. */
+.service-block,
+.service-card {
+  transition:
+    transform 360ms var(--ease-smooth),
+    border-color 360ms var(--ease-smooth),
+    box-shadow 360ms var(--ease-smooth);
+}
+
+.service-block:hover,
+.service-card:hover {
+  transform: translate3d(0, -4px, 0);
+  border-color: rgba(184, 151, 90, 0.28);
+  box-shadow: 0 28px 70px rgba(26, 24, 20, 0.09);
+}
+
 /* Why ORAC keeps its own deliberately flat, shadowless card (see the
    `.why-section .reason-panel-list article` rule above) - no lift or shadow
    on hover here, just the same gold underline as Leadership, at the tempo the
@@ -372,7 +393,9 @@
    drawing" vocabulary the continuum and venture-chapter marks use elsewhere,
    read here as a hover response instead of a scroll one. */
 .leader-tile h4::after,
-.reason-panel-list article h3::after {
+.reason-panel-list article h3::after,
+.service-block h3::after,
+.service-card h3::after {
   content: "";
   display: block;
   width: 0;
@@ -383,7 +406,9 @@
 }
 
 .leader-tile:hover h4::after,
-.reason-panel-list article:hover h3::after {
+.reason-panel-list article:hover h3::after,
+.service-block:hover h3::after,
+.service-card:hover h3::after {
   width: 32px;
 }
 

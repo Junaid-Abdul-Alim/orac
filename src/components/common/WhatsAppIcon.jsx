@@ -1,16 +1,22 @@
 import { useId } from "react";
 
 /**
- * WhatsApp glyph, drawn locally as an inline SVG path rather than hotlinked
- * or approximated with lucide's generic MessageCircle speech bubble, which is
+ * WhatsApp glyph, drawn locally as an inline SVG rather than hotlinked or
+ * approximated with lucide's generic MessageCircle speech bubble, which is
  * what the contact rows previously used - so "WhatsApp" was labelled with an
  * icon that reads as a comment, not as the service.
  *
- * Filled with WhatsApp's own brand gradient (#25D366 -> #128C7E) rather than
- * `currentColor`, so it always renders as the real WhatsApp green regardless
- * of the row's own text colour - a fixed brand mark, not a themeable icon.
+ * Built the same way as GmailIcon.jsx - `fill="none"` root, a white-filled
+ * main shape with a colour stroke outline, a small solid detail on top, same
+ * `strokeWidth` prop - so the two contact icons read as one matched pair
+ * (same line weight, same white base) instead of the bubble sitting next to
+ * the envelope as a solid colour blob. That mismatch in ink weight is also
+ * what made the bubble look off-centre next to the light envelope: a solid
+ * fill with an off-axis tail carries more visual weight toward the tail than
+ * a thin outline does, so it read as pulled left even though the geometry
+ * itself isn't.
  */
-export default function WhatsAppIcon({ size = 16, className = "", title }) {
+export default function WhatsAppIcon({ size = 16, strokeWidth = 1.6, className = "", title }) {
   const gradientId = useId();
 
   return (
@@ -19,6 +25,7 @@ export default function WhatsAppIcon({ size = 16, className = "", title }) {
       width={size}
       height={size}
       viewBox="0 0 24 24"
+      fill="none"
       role={title ? "img" : undefined}
       aria-hidden={title ? undefined : "true"}
       focusable="false"
@@ -31,8 +38,11 @@ export default function WhatsAppIcon({ size = 16, className = "", title }) {
         </linearGradient>
       </defs>
       <path
-        fill={`url(#${gradientId})`}
-        d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.87 9.87 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm0 1.67c2.2 0 4.27.86 5.83 2.42a8.19 8.19 0 0 1 2.41 5.82c0 4.54-3.7 8.24-8.25 8.24a8.22 8.22 0 0 1-4.19-1.15l-.3-.18-3.11.82.83-3.04-.2-.31a8.17 8.17 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24Z"
+        d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.87 9.87 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Z"
+        fill="#fff"
+        stroke={`url(#${gradientId})`}
+        strokeWidth={strokeWidth}
+        strokeLinejoin="round"
       />
       <path
         fill={`url(#${gradientId})`}

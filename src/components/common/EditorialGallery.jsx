@@ -1,6 +1,6 @@
 import ImagePanel from "./ImagePanel";
 
-export default function EditorialGallery({ images, dark = false }) {
+export default function EditorialGallery({ images, dark = false, variant = "panel" }) {
   return (
     <div className="editorial-gallery">
       {images.map((image, index) => (
@@ -11,6 +11,7 @@ export default function EditorialGallery({ images, dark = false }) {
           dark={dark}
           className={`gallery-item gallery-item-${index + 1}`}
           delay={index * 90}
+          variant={variant}
         />
       ))}
     </div>

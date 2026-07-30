@@ -119,23 +119,11 @@
   cursor: pointer;
   font-size: 0.82rem;
   font-weight: 500;
-  letter-spacing: 0;
-  text-transform: none;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
   transition:
     color 260ms var(--ease-smooth),
     background 260ms var(--ease-smooth);
-}
-
-/* The three venture links (International / Eventus / Luxe) are the only
-   caps-set labels in the nav - Home and Contact stay sentence case - so the
-   transform is scoped to their own label span rather than the shared
-   `.desktop-nav > a` rule. Scoping to the span (not the anchor) matters on
-   the mobile card variant, where the same class wraps both the venture name
-   and its lowercase purpose line in `<small>`; transforming the anchor would
-   capitalise that sentence too. */
-.nav-venture-link span {
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
 }
 
 .nav-contact-actions {
@@ -247,6 +235,8 @@
   background: rgba(255, 255, 255, 0.68);
   color: var(--ink);
   font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
 }
 
 .mobile-contact-actions {
@@ -270,8 +260,13 @@
   font-weight: 600;
 }
 
+/* Undoes the anchor's own uppercase transform, which otherwise inherits down
+   onto this purpose blurb - a full sentence reads far worse in caps than the
+   one-word venture label above it. */
 .mobile-menu small {
   color: var(--ink-muted);
   font-size: 0.8rem;
   font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
 }
