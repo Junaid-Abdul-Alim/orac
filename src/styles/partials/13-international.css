@@ -5,6 +5,51 @@
    last in the barrel so its own media queries stay co-located.
    ============================================================= */
 
+/* --- Official photography: page hero + capability banner --- Both are
+   real, uncropped ORAC assets (src/assets/images/international/README.md)
+   with their own native ratio, not the shared components' generic crop
+   band tuned for stock photography. The frame is sized to the asset's
+   exact ratio and `object-fit: contain` is set explicitly, so the full
+   photograph is always visible - the fill colour only matters for the
+   sub-pixel rounding gap `aspect-ratio` math can leave, never a real crop. */
+.venture-page-international .product-hero-image .image-panel-media {
+  height: auto;
+  aspect-ratio: 1672 / 941;
+}
+
+.venture-page-international .product-hero-image img {
+  object-fit: contain;
+  background: var(--ink);
+}
+
+/* The banner graphic already bakes in its own wordmark, capability icons
+   and "Your Vision. Our Commitment." line (OracInternational.jsx passes no
+   title/description), so the shared caption scrim is switched off too -
+   there is no overlaid text left for it to keep legible. */
+.venture-page-international .cinematic-banner .image-panel-media {
+  height: auto;
+  aspect-ratio: 1536 / 1024;
+}
+
+.venture-page-international .cinematic-banner img {
+  object-fit: contain;
+  background: var(--ink);
+}
+
+.venture-page-international .cinematic-banner .image-panel-overlay {
+  display: none;
+}
+
+/* Both assets swap to a dedicated portrait recomposition below 820px
+   (SafeImage's mobileSrc <picture> source) - the frame ratio follows it. */
+@media (max-width: 820px) {
+  .venture-page-international .product-hero-image .image-panel-media,
+  .venture-page-international .cinematic-banner .image-panel-media {
+    height: auto;
+    aspect-ratio: 941 / 1672;
+  }
+}
+
 /* --- What We Do — premium capability system --- */
 /* Icon left, large serif index right, divided by a hairline. */
 .trade-capability-top {
@@ -225,6 +270,7 @@
 .product-spec-media {
   min-height: 240px;
   overflow: hidden;
+  background: #f7f7f5;
 }
 
 .product-spec-media img,
@@ -232,10 +278,7 @@
   width: 100%;
   height: 100%;
   min-height: 240px;
-  object-fit: cover;
-  /* Same crop as the card it opened from, so the branded band printed on
-     the catalogue source stays out of frame here too. */
-  transform: scale(1.5);
+  object-fit: contain;
 }
 
 /* The body is the scroll container, so long specifications scroll inside
@@ -474,6 +517,18 @@
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
   border-color: rgba(184, 151, 90, 0.2);
   box-shadow: none;
+}
+
+/* Several official automotive photos aren't square, so `contain` (06-contact.css)
+   letterboxes them - fine on the light catalogue cards, where a product shot's
+   own white studio background blends into the card, but a stark white bar
+   would read as a defect against Neumatrix's dark ground. Match the card's own
+   dark fill instead. */
+.neumatrix-category-products .product-panel-image,
+.neumatrix-category-products .product-panel-image-surface,
+.neumatrix-category-products .product-panel-photo,
+.neumatrix-category-products .product-panel-image img {
+  background: var(--ink);
 }
 
 .neumatrix-category-products .product-panel-meta span {

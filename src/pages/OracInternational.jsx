@@ -46,7 +46,7 @@ export default function OracInternational() {
         meta="EST 2026 / CHENNAI - SINGAPORE ALIGNED"
         heroNote="EST 2026 / CHENNAI - SINGAPORE ALIGNED"
         image={{
-          ...internationalImages.hero,
+          ...internationalImages.pageHero,
           title: "Delivering Value Across Every Border",
           description: "Built for international import and export",
         }}
@@ -165,12 +165,11 @@ export default function OracInternational() {
 
       <NeumatrixSection getImage={productImageSlot} />
 
-      <CinematicBanner
-        image={internationalImages.banner}
-        title="Your Vision. Our Commitment."
-        description="From sourcing to delivery, we go the extra mile to find the right products, overcome challenges, and create trade solutions tailored to your business."
-        variant="door"
-      />
+      {/* The banner graphic already carries "Your Vision. Our Commitment."
+          and the full What We Do capability set baked into the image itself,
+          so no title/description is passed here - overlaying the same copy
+          a second time would duplicate what the photograph already says. */}
+      <CinematicBanner image={internationalImages.banner} variant="door" />
 
       <section className="section process-section">
         <div className="container">

@@ -1,25 +1,17 @@
 International page image notes
 
-These images are local site assets selected from free-to-use Unsplash photo sources.
-They replaced the earlier Husarich/Cropses hotlinked images so the ORAC website does
-not rely on unlicensed company-owned product imagery or third-party redirects.
+Most images here are official ORAC International product and brand photography,
+supplied directly by the client (`-official.webp` suffix denotes this set,
+converted from source PNGs via cwebp for web delivery). They cover the full
+export/import catalogue plus the page hero and "What We Do" banner.
 
-Unsplash License:
+Two files remain from the earlier free-to-use Unsplash placeholder set,
+kept deliberately unchanged because they feed shared, cross-venture homepage
+layouts (Home.jsx's venture chapter and the OriginSequence thread panel) with
+their own fixed-ratio crop tuning, out of scope for the /international page's
+own official-photography pass:
+- raw-cotton.jpg
+- coir-fiber.webp
+
+Unsplash License (for the two files above):
 https://unsplash.com/license
-
-Source photo pages used:
-- https://unsplash.com/photos/spices-are-displayed-in-a-market-stall-jaQdGWNJ2WA
-- https://unsplash.com/photos/five-gray-spoons-filled-with-assorted-color-powders-near-chilli-vA1L1jRTM70
-- https://unsplash.com/photos/0P-RFP6Za4A
-- https://unsplash.com/photos/uYG1PCwjgIU
-- https://unsplash.com/photos/cashew-nuts-FG29J5efMYQ
-- https://unsplash.com/photos/-ui6FpfwT1g
-- https://unsplash.com/photos/zNIIdqN9YJc
-- https://unsplash.com/photos/QiiFKzzsH3w
-- https://unsplash.com/photos/XGB72JP6Kms
-- https://unsplash.com/photos/xNTkgtOTGz4
-- https://unsplash.com/photos/CPmW6VHb1Yg
-- https://unsplash.com/photos/v73htotbdLw
-- https://unsplash.com/photos/onion-lot-U4YdDVliDlA
-
-Replace these with final ORAC-owned product photography whenever available.

@@ -21,6 +21,7 @@ export default function ImagePanel({
       <div className="image-panel-media">
         <SafeImage
           src={image?.src}
+          mobileSrc={image?.mobileSrc}
           alt={image?.alt || title || label || ""}
           priority={priority}
           fallbackLabel={image?.label || label || "ORAC visual"}

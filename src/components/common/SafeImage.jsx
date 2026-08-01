@@ -10,6 +10,7 @@ export default function SafeImage({
   loading = "lazy",
   priority = false,
   aspectRatio,
+  mobileSrc,
 }) {
   const [failed, setFailed] = useState(!src);
   const [loaded, setLoaded] = useState(false);
@@ -32,7 +33,7 @@ export default function SafeImage({
     );
   }
 
-  const img = (
+  const imgEl = (
     <img
       className={`safe-image ${loaded ? "is-loaded" : ""} ${aspectRatio ? "safe-image-fill" : ""} ${className}`.trim()}
       src={src}
@@ -45,6 +46,20 @@ export default function SafeImage({
       onLoad={() => setLoaded(true)}
       onError={() => setFailed(true)}
     />
+  );
+
+  /* Art-directed swap, not a resolution switch: `mobileSrc` is a distinct
+     crop/composition (e.g. a portrait recomposition of a landscape photo),
+     so it needs its own <source>, not a srcSet density hint. Matches the
+     site's shared 820px breakpoint (11-responsive.css) so the swap lands on
+     the same boundary every other mobile layout change already uses. */
+  const img = mobileSrc ? (
+    <picture>
+      <source media="(max-width: 820px)" srcSet={mobileSrc} />
+      {imgEl}
+    </picture>
+  ) : (
+    imgEl
   );
 
   if (!aspectRatio) {
