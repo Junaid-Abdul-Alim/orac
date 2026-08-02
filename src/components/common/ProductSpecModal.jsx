@@ -49,6 +49,59 @@ function unlockScroll() {
 }
 
 /**
+ * One group from `product.specGroups`, rendered as whichever shape its own
+ * source table was: a plain label/value list for most spec sections, a real
+ * `<table>` for groups that are genuinely a matrix (e.g. a winch's model
+ * range across pulling capacity / rope length / weight), or a tag list for
+ * groups that were just a set of applications/features on the sheet.
+ */
+function SpecGroup({ group }) {
+  return (
+    <div className="product-spec-group">
+      <h4 className="product-spec-group-title">{group.title}</h4>
+
+      {group.type === "table" ? (
+        <div className="product-spec-table-wrap">
+          <table className="product-spec-table">
+            <thead>
+              <tr>
+                {group.columns.map((column) => (
+                  <th key={column}>{column}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {group.rows.map((row) => (
+                <tr key={row.join("|")}>
+                  {row.map((cell, cellIndex) => (
+                    <td key={`${row[0]}-${cellIndex}`}>{cell}</td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ) : group.type === "tags" ? (
+        <ul className="product-spec-tags">
+          {group.items.map((tag) => (
+            <li key={tag}>{tag}</li>
+          ))}
+        </ul>
+      ) : (
+        <dl className="product-spec-list">
+          {group.items.map((item) => (
+            <div key={item.label}>
+              <dt>{item.label}</dt>
+              <dd>{item.value}</dd>
+            </div>
+          ))}
+        </dl>
+      )}
+    </div>
+  );
+}
+
+/**
  * Product specification sheet.
  *
  * Rendered through a portal on document.body. It used to render inline inside
@@ -156,20 +209,13 @@ export default function ProductSpecModal({ product, image, onClose }) {
           <h3 id="product-spec-title">{product.name}</h3>
           {product.story ? <p className="product-spec-story">{product.story}</p> : null}
 
-          <dl className="product-spec-list">
-            {product.spec ? (
-              <div>
-                <dt>Specification</dt>
-                <dd>{product.spec}</dd>
-              </div>
-            ) : null}
-            {product.origin ? (
-              <div>
-                <dt>Origin</dt>
-                <dd>{product.origin}</dd>
-              </div>
-            ) : null}
-          </dl>
+          {product.specGroups?.length ? (
+            <div className="product-spec-groups">
+              {product.specGroups.map((group) => (
+                <SpecGroup key={group.title} group={group} />
+              ))}
+            </div>
+          ) : null}
         </div>
       </div>
     </div>,

@@ -8,6 +8,7 @@ import ProcessTimeline from "../components/common/ProcessTimeline";
 import CinematicBanner from "../components/common/CinematicBanner";
 import GlobalReach from "../components/common/GlobalReach";
 import Hero from "../components/common/Hero";
+import { Globe } from "../components/ui/globe";
 import NeumatrixSection from "../sections/NeumatrixSection";
 import InternationalContactCTA from "../sections/InternationalContactCTA";
 import {
@@ -26,10 +27,33 @@ import {
   whatWeDoClosing,
 } from "../data/internationalData";
 import { internationalImages, productImageSlot } from "../data/internationalImages";
+import { globeMarkers } from "../data/reachData";
 import { pad2 } from "../utils/pad2";
 import usePageMotion from "../motion/usePageMotion";
 
 const serviceIcons = [Ship, Truck, SearchCheck, Handshake, ClipboardCheck, FileCheck2];
+
+// A quiet, brand-toned opening mark for the hero - not a second "reach"
+// visualisation (see GlobalReach below, which owns that job with real
+// corridor arcs and an accessible country list). Markers are the exact same
+// `highlightedCountries` GlobalReach draws from (data/reachData.js), just
+// plotted on a sphere instead of a flat map, so the two never disagree.
+const heroGlobeConfig = {
+  width: 800,
+  height: 800,
+  onRender: () => {},
+  devicePixelRatio: 2,
+  phi: 0.9,
+  theta: 0.28,
+  dark: 0,
+  diffuse: 0.55,
+  mapSamples: 16000,
+  mapBrightness: 1.15,
+  baseColor: [0.98, 0.97, 0.96], // --cream
+  markerColor: [0.72, 0.59, 0.35], // --gold
+  glowColor: [0.83, 0.69, 0.47], // --gold-light
+  markers: globeMarkers,
+};
 
 export default function OracInternational() {
   const scope = useRef(null);
@@ -51,6 +75,11 @@ export default function OracInternational() {
           description: "Built for international import and export",
         }}
         variant="door"
+        topAccessory={
+          <div className="international-hero-globe" aria-hidden="true">
+            <Globe config={heroGlobeConfig} />
+          </div>
+        }
       />
 
       <section className="section founder-section">
@@ -144,8 +173,6 @@ export default function OracInternational() {
                 short: "Export",
                 description: exportPortfolioTagline,
                 categories: exportCategories,
-                catalogueHref: "/downloads/orac-international-export-portfolio-catalogue.pdf",
-                catalogueLabel: "Click below to download the ORAC INTERNATIONAL Export Portfolio Catalogue",
               },
               {
                 id: "imports",
@@ -153,8 +180,6 @@ export default function OracInternational() {
                 short: "Import",
                 description: importPortfolioTagline,
                 categories: importCategories,
-                catalogueHref: "/downloads/orac-international-import-portfolio-catalogue.pdf",
-                catalogueLabel: "Click below to download the ORAC INTERNATIONAL Import Portfolio Catalogue",
               },
             ]}
             getImage={productImageSlot}

@@ -53,6 +53,7 @@ export default function ProductPanel({
   image,
   index = 0,
   className = "",
+  description,
   onSelect,
   headingLevel: Heading = "h3",
 }) {
@@ -102,7 +103,7 @@ export default function ProductPanel({
         </small>
       </div>
       <Heading className="product-panel-name">{product.name}</Heading>
-      <p>{productSummary(product.tag)}</p>
+      <p>{description || productSummary(product.tag)}</p>
     </Reveal>
   );
 }

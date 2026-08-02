@@ -50,6 +50,20 @@
   }
 }
 
+/* --- Hero opening mark: a small, quiet globe above the eyebrow, the very
+   first thing painted on the page. Compact on purpose - this is a brand
+   flourish, not a data visualisation (that's GlobalReach, further down the
+   page), so it stays far smaller than the 420px default. */
+.international-hero-globe {
+  /* `.product-hero-copy` is a grid with `justify-items: center`, so this
+     child shrinks to its content's intrinsic width rather than stretching -
+     and `.orac-globe`'s own `width: 100%` has nothing definite to resolve
+     against there, collapsing to 0. Giving the wrapper an explicit width
+     breaks that circularity. */
+  width: 132px;
+  margin-bottom: 2px;
+}
+
 /* --- What We Do — premium capability system --- */
 /* Icon left, large serif index right, divided by a hairline. */
 .trade-capability-top {
@@ -168,21 +182,59 @@
   color: var(--ink);
 }
 
-/* --- Portfolio: per-collection catalogue download link --- */
-.product-collection-download {
+/* --- Catalogue download chip ---
+   One shared control for "there's a real PDF for this category," used at
+   every category head that has one - both here (Export/Import) and on
+   Neumatrix's dark ground below. Deliberately small and quiet rather than a
+   full button: the real spec data now lives one click away in the product
+   popup, so this chip's only job is the literal document, not persuasion.
+   The icon's downward nudge on hover is the one bit of motion - a small,
+   literal echo of the download it triggers, not decoration for its own
+   sake. */
+.catalogue-download {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  width: fit-content;
-  margin-top: 6px;
-  color: var(--gold);
-  font-size: 0.86rem;
+  gap: 6px;
+  flex: 0 0 auto;
+  padding: 7px 14px 7px 11px;
+  border: 1px solid rgba(184, 151, 90, 0.32);
+  border-radius: 999px;
+  color: var(--gold-text);
+  font-size: 0.76rem;
   font-weight: 600;
-  transition: color 220ms var(--ease-smooth);
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  transition:
+    background 220ms var(--ease-smooth),
+    border-color 220ms var(--ease-smooth);
 }
 
-.product-collection-download:hover {
-  color: var(--ink);
+.catalogue-download svg {
+  transition: transform 220ms var(--ease-smooth);
+}
+
+.catalogue-download:hover,
+.catalogue-download:focus-visible {
+  background: rgba(184, 151, 90, 0.1);
+  border-color: rgba(184, 151, 90, 0.5);
+}
+
+.catalogue-download:hover svg,
+.catalogue-download:focus-visible svg {
+  transform: translateY(2px);
+}
+
+/* Neumatrix sits on dark ground - recolour the chip the same way every
+   other reused control on this section already is. */
+.neumatrix-category-aside .catalogue-download {
+  color: var(--gold-light);
+  border-color: rgba(184, 151, 90, 0.4);
+}
+
+.neumatrix-category-aside .catalogue-download:hover,
+.neumatrix-category-aside .catalogue-download:focus-visible {
+  background: rgba(184, 151, 90, 0.16);
+  border-color: rgba(184, 151, 90, 0.6);
 }
 
 /* --- Product spec modal --- */
@@ -223,10 +275,11 @@
 .product-spec-dialog {
   position: relative;
   width: min(680px, 100%);
-  max-height: min(86svh, 720px);
+  height: min(86svh, 720px);
   overflow: hidden;
   display: grid;
   grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  grid-template-rows: minmax(0, 1fr);
   border-radius: var(--radius-lg);
   background: var(--white);
   box-shadow: 0 40px 120px rgba(15, 14, 12, 0.32);
@@ -267,18 +320,42 @@
   color: var(--white);
 }
 
+/* A framed photo, not a filled panel: the box has no floor of its own and
+   never stretches to match however tall the specification column runs - it
+   sits centred in the column and sizes to whatever the photo itself needs,
+   at its own natural proportions, with a fixed collar of white around it.
+   The product sheets this data comes from present their hero photo the same
+   way - centred on generous white ground, not bled to the frame. */
 .product-spec-media {
-  min-height: 240px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  max-height: 100%;
+  padding: clamp(20px, 3vw, 32px);
   overflow: hidden;
-  background: #f7f7f5;
 }
 
-.product-spec-media img,
+.product-spec-media img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 16px;
+  box-shadow: 0 14px 34px rgba(15, 14, 12, 0.14);
+  /* A no-op in the normal case (the box already sizes to the photo's own
+     ratio), but the mobile bottom-sheet override below forces a fixed
+     height band, at which point this is what keeps the photo letterboxed
+     instead of stretched. */
+  object-fit: contain;
+}
+
 .product-spec-media .safe-image-fallback {
   width: 100%;
   height: 100%;
   min-height: 240px;
-  object-fit: contain;
+  border-radius: 16px;
 }
 
 /* The body is the scroll container, so long specifications scroll inside
@@ -286,6 +363,7 @@
 .product-spec-body {
   display: grid;
   align-content: start;
+  min-height: 0;
   gap: 14px;
   padding: clamp(24px, 3vw, 34px);
   overflow-y: auto;
@@ -314,12 +392,26 @@
   line-height: 1.65;
 }
 
-.product-spec-list {
+.product-spec-groups {
   display: grid;
-  gap: 12px;
+  gap: 22px;
   margin-top: 4px;
   padding-top: 16px;
   border-top: 1px solid var(--rule);
+}
+
+.product-spec-group-title {
+  margin-bottom: 10px;
+  color: var(--gold-text);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.product-spec-list {
+  display: grid;
+  gap: 12px;
 }
 
 .product-spec-list dt {
@@ -335,6 +427,64 @@
   color: var(--ink);
   font-size: 0.94rem;
   line-height: 1.5;
+}
+
+/* A genuine matrix from the source sheet (e.g. a winch's model range across
+   pulling capacity / rope length / weight) - a label/value list would have
+   flattened the relationship between columns, so this stays a real table.
+   Horizontally scrollable in its own frame rather than compressing text,
+   since several of these run to 7-8 columns. */
+.product-spec-table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+}
+
+.product-spec-table {
+  width: 100%;
+  min-width: max-content;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+}
+
+.product-spec-table th,
+.product-spec-table td {
+  padding: 8px 12px;
+  text-align: left;
+  white-space: nowrap;
+  border-bottom: 1px solid var(--rule);
+}
+
+.product-spec-table th {
+  color: var(--gold-text);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: rgba(184, 151, 90, 0.08);
+}
+
+.product-spec-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.product-spec-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.product-spec-tags li {
+  padding: 6px 12px;
+  border: 1px solid rgba(184, 151, 90, 0.22);
+  border-radius: 999px;
+  background: rgba(184, 151, 90, 0.06);
+  color: var(--ink-soft);
+  font-size: 0.78rem;
+  font-weight: 600;
 }
 
 /* --- Neumatrix — distinct dark, technical brand band --- */
@@ -376,44 +526,112 @@
   color: rgba(255, 255, 255, 0.64);
 }
 
-/* Stacked, not side-by-side: the plate used to sit in its own column and
-   pushed the eyebrow, title and copy 136px in from the page's left edge -
-   the one section on this route whose text did not start on the container
-   guide. */
+/* Stacked, not side-by-side: the mark sits above the eyebrow, title and copy
+   rather than beside them, so the text keeps the section's own left edge
+   instead of being pushed in from it. */
 .neumatrix-brand-head {
   display: grid;
   justify-items: start;
-  gap: clamp(20px, 2.4vw, 32px);
-  margin-bottom: var(--space-lg);
+  gap: clamp(18px, 2vw, 26px);
+  margin-bottom: clamp(28px, 3vw, 40px);
 }
 
-.neumatrix-logo-mark {
-  width: 96px;
-  height: 96px;
-  border-radius: var(--radius-md);
-  overflow: hidden;
+/* A purpose-built monogram, not an image-fallback UI wearing a brand name.
+   The tick ring is a restrained instrument-gauge cue — the one literal
+   automotive reference this dark, technical band allows itself — built from
+   a repeating conic-gradient masked into a ring, no logo asset required. */
+.neumatrix-mark {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 72px;
+  height: 72px;
   flex-shrink: 0;
-  border: 1px solid rgba(184, 151, 90, 0.28);
 }
 
-/* No NEUMATRIX logo asset exists yet, so this is the SafeImage fallback.
-   Set as a deliberate wordmark plate rather than a broken-image notice -
-   the "ORAC visual asset" sub-line is what made it read as a defect. */
-.neumatrix-logo-fallback {
-  min-height: 0;
-  aspect-ratio: 1 / 1;
-  width: 96px;
-  height: 96px;
-  padding: 8px;
+.neumatrix-mark-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: repeating-conic-gradient(rgba(212, 175, 120, 0.55) 0deg 1.4deg, transparent 1.4deg 9deg);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 7px), #000 calc(100% - 6px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 7px), #000 calc(100% - 6px));
+}
+
+.neumatrix-mark-glyph {
+  position: relative;
+  font-family: var(--font-display);
+  font-size: 1.7rem;
+  font-weight: 600;
+  color: var(--gold-light);
+}
+
+/* Range index — see NeumatrixSection.jsx's NeumatrixIndex. A technical
+   manifest of all four categories (including the one still "coming soon")
+   that reads in one glance, and doubles as in-page navigation into the
+   tracks below for the three that have products. */
+.neumatrix-index {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1px;
+  margin-bottom: var(--space-lg);
+  border: 1px solid rgba(184, 151, 90, 0.18);
   border-radius: var(--radius-md);
-  font-size: 0.62rem;
-  letter-spacing: 0.12em;
-  background: rgba(255, 255, 255, 0.04);
-  color: rgba(255, 255, 255, 0.72);
+  background: rgba(184, 151, 90, 0.18);
+  overflow: hidden;
 }
 
-.neumatrix-logo-fallback small {
-  display: none;
+.neumatrix-index-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex: 1 1 220px;
+  padding: 18px clamp(16px, 2vw, 22px);
+  background: rgba(20, 18, 16, 0.92);
+  color: inherit;
+  text-decoration: none;
+  transition: background 260ms var(--ease-smooth);
+}
+
+a.neumatrix-index-item:hover,
+a.neumatrix-index-item:focus-visible {
+  background: rgba(184, 151, 90, 0.1);
+}
+
+.neumatrix-index-item.is-pending {
+  color: rgba(255, 255, 255, 0.4);
+  cursor: default;
+}
+
+.neumatrix-index-number {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--gold-light);
+  font-variant-numeric: tabular-nums;
+}
+
+.neumatrix-index-item.is-pending .neumatrix-index-number {
+  color: rgba(255, 255, 255, 0.32);
+}
+
+.neumatrix-index-copy {
+  display: grid;
+  gap: 2px;
+}
+
+.neumatrix-index-copy strong {
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.neumatrix-index-copy small {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.42);
 }
 
 .neumatrix-led-panel {
@@ -440,6 +658,7 @@
 }
 
 .neumatrix-led-download {
+  gap: 8px;
   width: fit-content;
   margin-top: 10px;
   background: var(--white);
@@ -447,52 +666,68 @@
   border-color: transparent;
 }
 
+.neumatrix-led-download svg {
+  transition: transform 220ms var(--ease-smooth);
+}
+
 .neumatrix-led-download:hover {
   background: var(--gold-pale);
   color: var(--ink);
 }
 
+.neumatrix-led-download:hover svg {
+  transform: translateY(2px);
+}
+
 .neumatrix-category-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: clamp(16px, 2vw, 22px);
+  gap: clamp(20px, 2.6vw, 30px);
 }
 
+/* A ledger of tracks, not a stack of boxes: each category is a ruled band —
+   number, title, intro and controls on one line, its products in a
+   horizontal track underneath — rather than its own bordered card. A
+   category with one product now reads as one card on a line, not one card
+   adrift in a grid sized for nine. */
 .neumatrix-category {
   display: grid;
   align-content: start;
   gap: 20px;
-  padding: clamp(22px, 2.4vw, 32px);
-  border: 1px solid rgba(184, 151, 90, 0.18);
-  border-radius: 26px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.015));
-  transition:
-    border-color 0.5s var(--ease-smooth),
-    transform 0.5s var(--ease-smooth);
+  padding-top: clamp(22px, 2.4vw, 32px);
+  border-top: 1px solid rgba(184, 151, 90, 0.18);
+  scroll-margin-top: calc(var(--nav-height) + 24px);
 }
 
-.neumatrix-category:hover {
-  transform: translateY(-4px);
-  border-color: rgba(184, 151, 90, 0.42);
+.neumatrix-category:first-child {
+  padding-top: 0;
+  border-top: 0;
 }
 
 .neumatrix-category-head {
   display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.neumatrix-category-title {
+  display: flex;
   align-items: baseline;
   gap: 16px;
-  padding-bottom: 18px;
-  border-bottom: 1px solid rgba(184, 151, 90, 0.16);
+  max-width: 620px;
 }
 
 .neumatrix-category-number {
+  flex: 0 0 auto;
   font-family: var(--font-display);
-  font-size: clamp(2rem, 2.6vw, 2.8rem);
+  font-size: clamp(1.6rem, 2vw, 2.1rem);
   font-weight: 600;
-  line-height: 0.8;
+  line-height: 0.9;
   color: rgba(212, 175, 120, 0.65);
 }
 
-.neumatrix-category-head h3 {
+.neumatrix-category-title h3 {
   font-family: var(--font-display);
   color: var(--white);
   font-size: clamp(1.35rem, 1.7vw, 1.75rem);
@@ -500,20 +735,38 @@
   margin-bottom: 5px;
 }
 
-.neumatrix-category-head p {
+.neumatrix-category-title p {
   color: rgba(255, 255, 255, 0.56);
   font-size: 0.92rem;
   line-height: 1.5;
 }
 
-.neumatrix-category-products {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 14px;
+.neumatrix-category-aside {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  flex: 0 0 auto;
 }
 
-/* Neumatrix sits on dark ground — recolour the product tile to match. */
-.neumatrix-category-products .product-showcase-card.product-panel {
+.neumatrix-category-count {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.71rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* The track and its cards reuse the same proven carousel mechanics as the
+   Export/Import portfolio above (05-product-showcase.css /
+   06-contact.css) — only the colouring changes here, for Neumatrix's dark
+   ground. */
+.neumatrix-category-track.product-carousel-track {
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 2%, #000 96%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 2%, #000 96%, transparent);
+}
+
+.neumatrix-category-track .product-showcase-card.product-panel {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
   border-color: rgba(184, 151, 90, 0.2);
   box-shadow: none;
@@ -524,52 +777,23 @@
    own white studio background blends into the card, but a stark white bar
    would read as a defect against Neumatrix's dark ground. Match the card's own
    dark fill instead. */
-.neumatrix-category-products .product-panel-image,
-.neumatrix-category-products .product-panel-image-surface,
-.neumatrix-category-products .product-panel-photo,
-.neumatrix-category-products .product-panel-image img {
+.neumatrix-category-track .product-panel-image,
+.neumatrix-category-track .product-panel-image-surface,
+.neumatrix-category-track .product-panel-photo,
+.neumatrix-category-track .product-panel-image img {
   background: var(--ink);
 }
 
-.neumatrix-category-products .product-panel-meta span {
+.neumatrix-category-track .product-panel-meta span {
   color: var(--gold-light);
 }
 
-.neumatrix-category-products .product-panel .product-panel-name {
+.neumatrix-category-track .product-panel .product-panel-name {
   color: var(--white);
 }
 
-.neumatrix-category-products .product-panel p {
+.neumatrix-category-track .product-panel p {
   color: rgba(255, 255, 255, 0.56);
-}
-
-.neumatrix-category-empty {
-  padding: 26px;
-  border: 1px dashed rgba(184, 151, 90, 0.3);
-  border-radius: 18px;
-  background: rgba(184, 151, 90, 0.05);
-  text-align: center;
-}
-
-.neumatrix-category-empty p {
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 0.9rem;
-  font-style: italic;
-}
-
-.neumatrix-category-download {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  width: fit-content;
-  color: var(--gold-light);
-  font-size: 0.86rem;
-  font-weight: 600;
-  transition: color 220ms var(--ease-smooth);
-}
-
-.neumatrix-category-download:hover {
-  color: var(--white);
 }
 
 /* --- International contact CTA --- */
@@ -792,6 +1016,22 @@
     grid-template-columns: minmax(0, 1fr);
   }
 
+  /* The count and the carousel arrows both stop earning a horizontal column
+     here: the head stacks, and the count drops since the arrows alone are
+     enough affordance for a touch-scrollable track. */
+  .neumatrix-category-head {
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .neumatrix-category-count {
+    display: none;
+  }
+
+  .neumatrix-index-item {
+    flex-basis: 45%;
+  }
+
   /* Phone and small tablet: a bottom sheet. It is anchored to the bottom of
      the viewport rather than centred, so the close control and the product
      name are the first things in reach, the media takes a fixed share of the
@@ -813,12 +1053,23 @@
     animation-name: productSheetIn;
   }
 
-  .product-spec-media,
+  /* Full-bleed hero band here, not the desktop's inset card - a phone sheet
+     doesn't have the spare width for a floating frame with a collar of
+     white around it. */
+  .product-spec-media {
+    min-height: 0;
+    height: 30svh;
+    max-height: 240px;
+    padding: 0;
+  }
+
   .product-spec-media img,
   .product-spec-media .safe-image-fallback {
     min-height: 0;
     height: 30svh;
     max-height: 240px;
+    border-radius: 0;
+    box-shadow: none;
   }
 
   /* Large enough to hit comfortably, and always over the media so it never
@@ -848,7 +1099,7 @@
     justify-items: start;
   }
 
-  .neumatrix-category-products {
-    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  .neumatrix-index-item {
+    flex-basis: 100%;
   }
 }

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { ArrowDownToLine, ArrowLeft, ArrowRight, ArrowUpFromLine, Download } from "lucide-react";
+import { ArrowDownToLine, ArrowLeft, ArrowRight, ArrowUpFromLine, FileDown } from "lucide-react";
 import Reveal from "./Reveal";
 import ProductPanel from "./ProductPanel";
 import ProductSpecModal from "./ProductSpecModal";
@@ -62,6 +62,12 @@ function ProductCategoryRow({ collectionId, category, index, getImage, onSelectP
           </div>
         </div>
         <div className="product-category-aside">
+          {category.catalogueHref ? (
+            <a className="catalogue-download" href={category.catalogueHref} download>
+              <FileDown size={15} strokeWidth={1.8} aria-hidden="true" />
+              <span>Catalogue</span>
+            </a>
+          ) : null}
           <small className="product-category-count">{pad2(productCount)} products</small>
           <div className="product-carousel-controls" aria-label={`${category.title} carousel controls`}>
             <button
@@ -119,12 +125,6 @@ function ProductCollection({ collection, getImage, index, onSelectProduct }) {
             <small>{collection.short}</small>
             <h3>{collection.label}</h3>
             <p>{collection.description}</p>
-            {collection.catalogueHref ? (
-              <a className="product-collection-download" href={collection.catalogueHref} download>
-                <Download size={14} strokeWidth={1.8} aria-hidden="true" />
-                {collection.catalogueLabel || `Download the ${collection.label} Catalogue`}
-              </a>
-            ) : null}
           </div>
         </div>
         <p className="product-collection-tally">

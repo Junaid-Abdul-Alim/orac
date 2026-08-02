@@ -11,6 +11,7 @@
 @import "./partials/11-responsive.css";
 @import "./partials/12-maison.css";
 @import "./partials/13-international.css";
+@import "./partials/15-globe.css";
 /* Last, so the motion layer's initial states can override any resting-state
    rule a section partial sets on the same element. */
 @import "./partials/14-motion.css";

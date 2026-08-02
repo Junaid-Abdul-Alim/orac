@@ -1,0 +1,21 @@
+/* ==========================================================================
+   Globe (src/components/ui/globe.jsx) — plain-CSS translation of the
+   upstream Tailwind classes, since this project has no Tailwind build.
+   Scoped to `.orac-globe*` so it can't collide with anything else.
+   ========================================================================== */
+.orac-globe {
+  position: relative;
+  width: 100%;
+  max-width: var(--orac-globe-max, 420px);
+  margin-inline: auto;
+  aspect-ratio: 1 / 1;
+}
+
+.orac-globe-canvas {
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+  opacity: 0;
+  transition: opacity 500ms var(--ease-smooth, ease);
+  contain: layout paint size;
+}

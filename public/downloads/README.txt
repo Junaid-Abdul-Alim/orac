@@ -9,27 +9,36 @@ in src/data/luxeData.js.
 
 ---
 
-ORAC International's catalogue buttons expect these files (drop them in with
-the exact filenames below and each button works with no code changes):
+ORAC International's catalogue chips expect these files (drop them in with
+the exact filenames below and each chip works with no code changes). Every
+filename below is already present in this folder as of the last update.
 
-  orac-international-export-portfolio-catalogue.pdf
-    Export Portfolio "Download catalogue" button.
-    Update the href in src/pages/OracInternational.jsx if you rename it.
+  orac-international-fibres-coir-industrial-catalogue.pdf
+  orac-international-fresh-processed-dry-catalogue.pdf
+  orac-international-pulses-nuts-catalogue.pdf
+  orac-international-spices-catalogue.pdf
+    Export Portfolio category catalogue chips. `catalogueHref` on each
+    category in src/data/internationalData.js (exportCategories).
 
-  orac-international-import-portfolio-catalogue.pdf
-    Import Portfolio "Download catalogue" button.
-    Update the href in src/pages/OracInternational.jsx if you rename it.
+  orac-international-agri-commodities-catalogue.pdf
+    Import Portfolio "Agri Commodities" category catalogue chip.
+    `catalogueHref` on that category in internationalData.js
+    (importCategories). The "Scrap" category intentionally has no chip -
+    no combined catalogue PDF exists for it, only three per-product sheets
+    (OCC / PVC Regrind / UBC), which aren't wired up individually.
 
   neumatrix-automotive-led-lights-catalogue.pdf
-    Neumatrix "Automotive LED Lights" download button.
-    Update the href in src/sections/NeumatrixSection.jsx if you rename it.
+    Neumatrix "Automotive LED Lights" intro panel download button.
+    href in src/sections/NeumatrixSection.jsx.
 
-  neumatrix-led-headlights-catalogue.pdf
-  neumatrix-other-led-lights-spares-catalogue.pdf
   neumatrix-projector-fog-lights-catalogue.pdf
   neumatrix-automotive-off-road-parts-catalogue.pdf
-    Per-category "Click to view the catalogue" links on the Neumatrix
-    section. Filenames are derived from each category's title in
-    src/data/neumatrixData.js (lowercased, non-alphanumeric runs replaced
-    with a single hyphen) — keep category titles and filenames in sync if
-    either changes.
+    Per-category catalogue chips on the Neumatrix section. `catalogueHref`
+    on each category in src/data/neumatrixData.js. The "LED Lights &
+    Spares" category intentionally has no chip - the only source document
+    for it is a 90-page generic multi-brand supplier catalogue, not an
+    ORAC-branded sheet, so it isn't presented as ORAC's own literature.
+
+Every href above is a plain `/downloads/<filename>.pdf` path plus a
+category- or product-name-derived slug where noted - update both the file
+here and the corresponding `catalogueHref` together if either changes.

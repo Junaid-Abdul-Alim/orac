@@ -18,6 +18,7 @@ export default function Hero({
   brandLogo,
   showBrandPanel = true,
   variant = "panel",
+  topAccessory,
 }) {
   const logoMark = brandLogo?.src ? (
     <img
@@ -38,6 +39,10 @@ export default function Hero({
     <section className={`product-hero ${dark ? "product-hero-dark" : "product-hero-light"}`}>
       <div className="container product-hero-inner">
         <Reveal className="product-hero-copy">
+          {/* Opt-in, defaults to nothing: only a caller that explicitly
+              passes it renders anything here, so every other Hero (Eventus,
+              Luxe) is byte-for-byte unaffected. */}
+          {topAccessory}
           {logoIsHeading ? <h1 className="hero-logo-heading">{logoMark}</h1> : logoMark}
           {/* A custom brand logo (Luxe's "House of Azrin" wordmark) already
               names the venture, so the plain-text lockup directly beneath it
