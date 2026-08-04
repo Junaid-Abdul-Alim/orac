@@ -3,6 +3,7 @@ import coverLandscape from "../assets/images/international/hero/cover-landscape.
 import coverPortrait from "../assets/images/international/hero/cover-portrait.webp";
 import bannerLandscape from "../assets/images/international/hero/banner-landscape.webp";
 import bannerPortrait from "../assets/images/international/hero/banner-portrait.webp";
+import homeCargoCompass from "../assets/images/international/hero/international-home-cargo-compass.webp";
 
 const catalogAssets = import.meta.glob("../assets/images/international/catalog/*.{jpg,webp}", {
   eager: true,
@@ -124,8 +125,8 @@ export const internationalImages = {
   // their own fixed-ratio crop tuning (see 04-sections.css), out of scope
   // for the /international page's own official-photography pass.
   hero: {
-    src: catalogImage("raw-cotton.jpg"),
-    alt: "Baled raw cotton in a trade warehouse, handled by ORAC International",
+    src: homeCargoCompass,
+    alt: "Aerial view of a loaded container ship at sea, marked with a compass motif over an outlined world map",
     label: "Trade image",
     title: "Source. Verify. Move with care.",
     description: "ORAC International product imagery prepared for export and import conversations.",

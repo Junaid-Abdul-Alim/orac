@@ -64,7 +64,7 @@ function ProductCategoryRow({ collectionId, category, index, getImage, onSelectP
         <div className="product-category-aside">
           {category.catalogueHref ? (
             <a className="catalogue-download" href={category.catalogueHref} download>
-              <FileDown size={15} strokeWidth={1.8} aria-hidden="true" />
+              <FileDown size={18} strokeWidth={1.8} aria-hidden="true" />
               <span>Catalogue</span>
             </a>
           ) : null}

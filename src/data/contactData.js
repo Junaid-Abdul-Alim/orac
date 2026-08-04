@@ -9,6 +9,7 @@ export const contactDetails = {
     name: "Rajkumar",
     role: "Director - Client Relations",
     location: "Singapore",
+    address: "10 #402, Lorong 1 Toa Payoh, Singapore - 310115",
     phone: "+65 8814 4034",
     email: "info@oracholdings.com",
   },
@@ -27,9 +28,8 @@ export const contactDetails = {
     social: ["@oraceventus", "@velorawed"],
   },
   luxe: {
-    name: "The House of Azrin",
-    role: "ORAC Luxe flagship brand",
-    location: "Tiruchirappalli / Chennai, Tamil Nadu",
+    name: "The House of Azrin - By ORAC Luxe",
+    location: "India / Singapore",
     phone: "+91 70103 60357",
     emails: [
       "hello@thehouseofazrin.com",

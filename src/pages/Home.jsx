@@ -55,7 +55,7 @@ export default function Home() {
         ]}
         meta="Est. Chennai"
         cta={{ to: "/eventus", label: "Visit Eventus" }}
-        image={eventusImages.hero}
+        image={eventusImages.homeHero}
         imageLabel="Wedding Experience"
       />
       <VentureChapter

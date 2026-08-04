@@ -85,6 +85,31 @@ export default function LuxeContactCTA() {
                 />
               </div>
             </Reveal>
+
+            <Reveal as="article" className="international-contact-card" delay={190}>
+              <div className="international-contact-card-top">
+                <span className="eyebrow">Managing Director, ORAC Luxe</span>
+                <h3>Ohm Pranav</h3>
+                <p>India</p>
+              </div>
+              <div className="international-contact-links">
+                <ContactRow
+                  icon={WhatsAppIcon}
+                  kind="WhatsApp"
+                  text={contactDetails.holding.phone}
+                  href={`https://wa.me/${contactDetails.holding.phone.replace(/\D/g, "")}`}
+                  channel="whatsapp"
+                  external
+                />
+                <ContactRow
+                  icon={GmailIcon}
+                  kind="Email"
+                  text={contactDetails.holding.secondaryEmail}
+                  href={`mailto:${contactDetails.holding.secondaryEmail}`}
+                  channel="email"
+                />
+              </div>
+            </Reveal>
           </div>
         </div>
       </div>

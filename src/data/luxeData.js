@@ -1,4 +1,5 @@
 import luxeAtelier from "../assets/images/luxe/fashion-atelier.webp";
+import luxeHomeMannequin from "../assets/images/luxe/luxe-home-mannequin.webp";
 import vaultXiiiPalette from "../assets/images/luxe/vault-xiii-palette.jpg";
 import maisonCollage from "../assets/images/luxe/maison-collage.webp";
 import frontDresses from "../assets/images/maison/fronts/dresses.jpg";
@@ -33,7 +34,11 @@ import { imageSlot } from "./imageSlot";
 import { pad2 } from "../utils/pad2";
 
 export const luxeImages = {
-  hero: imageSlot("The House of Azrin", "The House of Azrin tunic in motion — Maison Series", frontTunics),
+  hero: imageSlot(
+    "The House of Azrin",
+    "A gilded mannequin draped in burgundy velvet with a tailor's measuring tape, in an atelier setting",
+    luxeHomeMannequin
+  ),
   opening: imageSlot(
     "ORAC Luxe image",
     "Fashion atelier workspace for ORAC Luxe and The House of Azrin",

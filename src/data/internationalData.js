@@ -1211,32 +1211,64 @@ export const exportCategories = [
         tag: "Agri / Pulse",
         story:
           "The pulse that built South India's breakfast table, indispensable in idli, dosa, and dal makhani kitchens worldwide.",
-        spec: "Moisture <=14% / Admixture <=2% / Purity 98%+",
-        origin: "Madhya Pradesh, Uttar Pradesh",
+        specGroups: [
+          {
+            title: "Specification",
+            type: "list",
+            items: [
+              { label: "Specification", value: "Moisture <=14% / Admixture <=2% / Purity 98%+" },
+              { label: "Origin", value: "Madhya Pradesh, Uttar Pradesh" },
+            ],
+          },
+        ],
       },
       {
         name: "Toor Dal",
         tag: "Agri / Pulse",
         story:
           "India's most exported lentil, earthy, wholesome, and at home in sambar pots from Chennai to Nairobi.",
-        spec: "Moisture <=12% / Admixture <=1.5% / Purity 98%+",
-        origin: "Maharashtra, Karnataka, Gujarat",
+        specGroups: [
+          {
+            title: "Specification",
+            type: "list",
+            items: [
+              { label: "Specification", value: "Moisture <=12% / Admixture <=1.5% / Purity 98%+" },
+              { label: "Origin", value: "Maharashtra, Karnataka, Gujarat" },
+            ],
+          },
+        ],
       },
       {
         name: "Masoor Dal",
         tag: "Agri / Pulse",
         story:
           "Quick to cook, rich in flavour, and able to cross cultural kitchens with ease from the Middle East to South Asia.",
-        spec: "Moisture <=13% / Admixture <=2% / Purity 98%+",
-        origin: "Madhya Pradesh, Uttar Pradesh, Bihar",
+        specGroups: [
+          {
+            title: "Specification",
+            type: "list",
+            items: [
+              { label: "Specification", value: "Moisture <=13% / Admixture <=2% / Purity 98%+" },
+              { label: "Origin", value: "Madhya Pradesh, Uttar Pradesh, Bihar" },
+            ],
+          },
+        ],
       },
       {
         name: "Cashew Nuts",
         tag: "Agri / Nut",
         story:
           "Creamy, naturally sweet, and prized globally, Indian cashew is processed with care before export.",
-        spec: "Grade W180, W210, W240, W320 / Moisture <=5%",
-        origin: "Kerala, Goa, Maharashtra",
+        specGroups: [
+          {
+            title: "Specification",
+            type: "list",
+            items: [
+              { label: "Specification", value: "Grade W180, W210, W240, W320 / Moisture <=5%" },
+              { label: "Origin", value: "Kerala, Goa, Maharashtra" },
+            ],
+          },
+        ],
       },
     ],
   },

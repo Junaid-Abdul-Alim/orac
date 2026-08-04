@@ -1,8 +1,9 @@
-import { CalendarDays, Gem, Globe2, Landmark } from "lucide-react";
+import { CalendarDays, Gem, Globe2, Landmark, TrendingUp } from "lucide-react";
 import BrandLockup from "../components/common/BrandLockup";
 import IconBadge from "../components/common/IconBadge";
 import Reveal from "../components/common/Reveal";
 import { contactDetails } from "../data/contactData";
+import oracLogo from "../assets/logos/orac-orange.svg";
 
 function ContactCard({ icon, label, title, description, links = [], note, delay = 0, wide = false }) {
   return (
@@ -61,6 +62,33 @@ export default function Contact() {
           kind: "Web",
         },
       ],
+    },
+    {
+      icon: TrendingUp,
+      label: "Investment enquiry",
+      title: "ORAC Holdings",
+      description: "Rak J / Director / Singapore",
+      links: [
+        {
+          href: `mailto:${contactDetails.international.email}`,
+          text: contactDetails.international.email,
+          label: "Email the ORAC Holdings investment desk",
+          kind: "Email",
+        },
+        {
+          href: `tel:${contactDetails.international.phone.replaceAll(" ", "")}`,
+          text: contactDetails.international.phone,
+          label: "Call the ORAC Holdings investment desk",
+          kind: "Phone",
+        },
+        {
+          href: `https://${contactDetails.holding.website}`,
+          text: contactDetails.holding.website,
+          label: "Visit ORAC Holdings website",
+          kind: "Web",
+        },
+      ],
+      note: contactDetails.international.address,
     },
     {
       icon: Globe2,
@@ -133,7 +161,7 @@ export default function Contact() {
       icon: Gem,
       label: "Luxe enquiry",
       title: "ORAC Luxe / The House of Azrin",
-      description: `${contactDetails.luxe.name} / ${contactDetails.luxe.role} / ${contactDetails.luxe.location}`,
+      description: `${contactDetails.luxe.name} / ${contactDetails.luxe.location}`,
       links: [
         {
           href: `tel:${contactDetails.luxe.phone.replaceAll(" ", "")}`,
@@ -159,6 +187,7 @@ export default function Contact() {
           <Reveal className="contact-heading">
             <BrandLockup items={["ORAC", "Contact"]} />
             <span className="eyebrow">Start a Conversation</span>
+            <img className="contact-hero-logo" src={oracLogo} alt="ORAC" loading="eager" decoding="async" />
             <h1>Let's build something together.</h1>
             <p>
               Choose the ORAC desk that fits your enquiry. Each message reaches the team closest to the work.

@@ -6,6 +6,7 @@ import Reveal from "../components/common/Reveal";
 import SectionHeader from "../components/common/SectionHeader";
 import { pad2 } from "../utils/pad2";
 import { neumatrixCategories, neumatrixIntro, neumatrixLedLightsContent } from "../data/neumatrixData";
+import neumatrixLogo from "../assets/images/international/brand/neumatrix-led-logo.webp";
 
 const slugify = (value) =>
   value
@@ -98,7 +99,7 @@ function NeumatrixCategory({ category, index, getImage, onSelectProduct }) {
         <div className="neumatrix-category-aside">
           {category.catalogueHref ? (
             <a className="catalogue-download" href={category.catalogueHref} download>
-              <FileDown size={15} strokeWidth={1.8} aria-hidden="true" />
+              <FileDown size={18} strokeWidth={1.8} aria-hidden="true" />
               <span>Catalogue</span>
             </a>
           ) : null}
@@ -159,11 +160,19 @@ export default function NeumatrixSection({ getImage }) {
     <section className="section neumatrix-section" aria-label="NEUMATRIX automotive brand">
       <div className="container">
         <div className="neumatrix-brand-head">
-          <div className="neumatrix-mark" aria-hidden="true">
-            <span className="neumatrix-mark-ring" />
-            <span className="neumatrix-mark-glyph">N</span>
-          </div>
-          <SectionHeader eyebrow="A Part of ORAC International" title="NEUMATRIX" text={neumatrixIntro} />
+          <img
+            className="neumatrix-logo"
+            src={neumatrixLogo}
+            alt="NEUMATRIX LED"
+            width={1049}
+            height={322}
+            loading="eager"
+          />
+          <SectionHeader
+            eyebrow="A Part of ORAC International"
+            title={<span className="sr-only">NEUMATRIX</span>}
+            text={neumatrixIntro}
+          />
         </div>
 
         <NeumatrixIndex categories={neumatrixCategories} />

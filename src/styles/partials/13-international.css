@@ -185,23 +185,23 @@
 /* --- Catalogue download chip ---
    One shared control for "there's a real PDF for this category," used at
    every category head that has one - both here (Export/Import) and on
-   Neumatrix's dark ground below. Deliberately small and quiet rather than a
-   full button: the real spec data now lives one click away in the product
-   popup, so this chip's only job is the literal document, not persuasion.
-   The icon's downward nudge on hover is the one bit of motion - a small,
-   literal echo of the download it triggers, not decoration for its own
-   sake. */
+   Neumatrix's dark ground below. Filled rather than an outline-only hairline
+   so it reads as a real, clickable document control at a glance rather than
+   disappearing next to the product count beside it. The icon's downward
+   nudge on hover is the one bit of motion - a small, literal echo of the
+   download it triggers, not decoration for its own sake. */
 .catalogue-download {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 10px;
   flex: 0 0 auto;
-  padding: 7px 14px 7px 11px;
-  border: 1px solid rgba(184, 151, 90, 0.32);
+  padding: 14px 26px 14px 20px;
+  border: 1px solid rgba(184, 151, 90, 0.45);
   border-radius: 999px;
+  background: rgba(184, 151, 90, 0.1);
   color: var(--gold-text);
-  font-size: 0.76rem;
-  font-weight: 600;
+  font-size: 0.95rem;
+  font-weight: 700;
   letter-spacing: 0.01em;
   white-space: nowrap;
   transition:
@@ -215,8 +215,8 @@
 
 .catalogue-download:hover,
 .catalogue-download:focus-visible {
-  background: rgba(184, 151, 90, 0.1);
-  border-color: rgba(184, 151, 90, 0.5);
+  background: rgba(184, 151, 90, 0.2);
+  border-color: rgba(184, 151, 90, 0.65);
 }
 
 .catalogue-download:hover svg,
@@ -224,17 +224,20 @@
   transform: translateY(2px);
 }
 
-/* Neumatrix sits on dark ground - recolour the chip the same way every
-   other reused control on this section already is. */
+/* Neumatrix sits on dark ground - a solid, high-contrast fill rather than a
+   tint, so the control holds up against the section's near-black gradient
+   the way the tint version does against light ground above. */
 .neumatrix-category-aside .catalogue-download {
-  color: var(--gold-light);
-  border-color: rgba(184, 151, 90, 0.4);
+  background: var(--gold-light);
+  border-color: var(--gold-light);
+  color: #1a1712;
 }
 
 .neumatrix-category-aside .catalogue-download:hover,
 .neumatrix-category-aside .catalogue-download:focus-visible {
-  background: rgba(184, 151, 90, 0.16);
-  border-color: rgba(184, 151, 90, 0.6);
+  background: var(--white);
+  border-color: var(--white);
+  color: #1a1712;
 }
 
 /* --- Product spec modal --- */
@@ -536,34 +539,14 @@
   margin-bottom: clamp(28px, 3vw, 40px);
 }
 
-/* A purpose-built monogram, not an image-fallback UI wearing a brand name.
-   The tick ring is a restrained instrument-gauge cue — the one literal
-   automotive reference this dark, technical band allows itself — built from
-   a repeating conic-gradient masked into a ring, no logo asset required. */
-.neumatrix-mark {
-  position: relative;
-  display: grid;
-  place-items: center;
-  width: 72px;
-  height: 72px;
+/* The official NEUMATRIX LED wordmark, cropped tight to its own glow with a
+   transparent ground so it sits directly on the section's dark gradient with
+   no plate behind it. Fixed-ratio (1049 × 322) so the layout never jumps
+   while the asset loads. */
+.neumatrix-logo {
+  width: min(280px, 60vw);
+  height: auto;
   flex-shrink: 0;
-}
-
-.neumatrix-mark-ring {
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  background: repeating-conic-gradient(rgba(212, 175, 120, 0.55) 0deg 1.4deg, transparent 1.4deg 9deg);
-  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 7px), #000 calc(100% - 6px));
-  mask: radial-gradient(farthest-side, transparent calc(100% - 7px), #000 calc(100% - 6px));
-}
-
-.neumatrix-mark-glyph {
-  position: relative;
-  font-family: var(--font-display);
-  font-size: 1.7rem;
-  font-weight: 600;
-  color: var(--gold-light);
 }
 
 /* Range index — see NeumatrixSection.jsx's NeumatrixIndex. A technical

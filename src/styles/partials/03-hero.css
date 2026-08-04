@@ -398,6 +398,16 @@
   font-size: clamp(2.4rem, 1.2rem + 3.8vw, 4.5rem);
 }
 
+/* The ORAC mark, sized up well past the header's wordmark - this hero is
+   the one place on the page whose whole job is announcing the brand before
+   the "choose your desk" directory below it. */
+.contact-hero-logo {
+  display: block;
+  width: min(300px, 62vw);
+  height: auto;
+  margin: 4px 0 2px;
+}
+
 .hero-line,
 .hero-kicker {
   max-width: 820px;

@@ -1,4 +1,5 @@
 import eventusHero from "../assets/images/eventus/eventus-hero.webp";
+import eventusHomeFlatlay from "../assets/images/eventus/eventus-home-flatlay.webp";
 import weddingCouple from "../assets/images/eventus/wedding-couple.webp";
 import bridalEntry from "../assets/images/eventus/bridal-entry.webp";
 import cateringTable from "../assets/images/eventus/catering-table.webp";
@@ -14,6 +15,16 @@ export const eventusImages = {
   hero: {
     src: eventusHero,
     alt: "ORAC Eventus wedding celebration",
+    label: "Eventus image",
+    title: "Weddings, Celebrations & Moments, Mastered",
+    description: "Wedding celebration imagery for ORAC Eventus.",
+  },
+  // Home.jsx's venture chapter only - distinct from `hero` above, which the
+  // /eventus page itself also uses. Keeping this separate means the
+  // homepage flatlay never leaks onto the venture page's own hero.
+  homeHero: {
+    src: eventusHomeFlatlay,
+    alt: "Our Wedding & Event Planner book by ORAC Eventus / VELORAWED, styled with florals, bridal shoes, jewellery, and a wax-sealed invitation",
     label: "Eventus image",
     title: "Weddings, Celebrations & Moments, Mastered",
     description: "Wedding celebration imagery for ORAC Eventus.",
