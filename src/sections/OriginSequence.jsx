@@ -59,15 +59,14 @@ const ventureTones = {
   "luxury-export": "luxe",
 };
 
-// Opening-specific crops, distinct from each venture's own hero/banner
-// image elsewhere on the site (see data files' `opening` slots). Chosen so
-// a portrait/band crop never cuts into the source photo's own packaging or
-// caption text (see docs/ORAC-EXPERIENCE-BLUEPRINT.md Phase 4, Asset
-// selection).
+// Reuses the same signature image each venture's own homepage chapter shows
+// further down the page (Home.jsx's VentureChapter instances), so the top
+// apertures and the chapter below never disagree on which photo represents
+// a venture.
 const openingImages = {
-  international: internationalImages.opening,
-  eventus: eventusImages.opening,
-  "luxury-export": luxeImages.opening,
+  international: internationalImages.hero,
+  eventus: eventusImages.homeHero,
+  "luxury-export": luxeImages.hero,
 };
 
 // The original flat connective geometry - kept exactly as it was, as the

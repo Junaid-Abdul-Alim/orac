@@ -195,31 +195,8 @@
   transition: transform 900ms var(--ease-smooth);
 }
 
-/* The source photo (coir-fiber.webp) prints its own "ORAC INTERNATIONAL"
-   logo lockup in a band across its top ~14% and its own "COIR FIBER..."
-   caption in a band across its bottom ~18%; object-fit: cover alone can't
-   crop those out here since this aperture's container is narrower than the
-   source (crops width, not height). Scaling the image itself pushes both
-   printed text bands outside the visible window, leaving only the clean
-   product texture behind our own overlaid name/eyebrow - this replaces the
-   shared 1.02/1.07 hover scale for this one venture only. */
-.orac-frame-international .venture-compact-media .safe-image {
-  transform: scale(1.5);
-}
-
-.origin-venture.orac-frame-international:hover .venture-compact-media .safe-image {
-  transform: scale(1.56);
-}
-
 .origin-venture:hover .venture-compact-media .safe-image {
   transform: scale(1.07);
-}
-
-/* The Luxe aperture is much taller than fashion-atelier.webp's 16:9 frame,
-   so cover crops width hard; centred, it split the toile and clipped the
-   fitter. Biasing right holds the whole garment in the aperture. */
-.orac-frame-luxe .venture-compact-media .safe-image {
-  object-position: 66% center;
 }
 
 .venture-compact-scrim {
