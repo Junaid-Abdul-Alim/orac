@@ -771,6 +771,16 @@ a.neumatrix-index-item:focus-visible {
   color: var(--gold-light);
 }
 
+/* The badge pill (icon + "Import Ready" etc.) keeps its light-ground pill
+   shape from 06-contact.css, but that pill's dark-ink-on-white-tint styling
+   goes near-invisible against Neumatrix's dark ground - the icon inherits
+   the same low-contrast ink via currentColor, so both need a swap here. */
+.neumatrix-category-track .product-panel-meta small {
+  border-color: rgba(184, 151, 90, 0.3);
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--gold-light);
+}
+
 .neumatrix-category-track .product-panel .product-panel-name {
   color: var(--white);
 }

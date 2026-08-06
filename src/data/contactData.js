@@ -32,8 +32,6 @@ export const contactDetails = {
     location: "India / Singapore",
     phone: "+91 70103 60357",
     emails: [
-      "hello@thehouseofazrin.com",
-      "trade@thehouseofazrin.com",
       "studio@thehouseofazrin.com",
       "thehouseofazrin@gmail.com",
     ],
