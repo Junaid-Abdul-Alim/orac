@@ -62,10 +62,8 @@ export default function OracInternational() {
   return (
     <div className="venture-page venture-page-international" ref={scope} data-motion-identity="international">
       <Hero
-        lockup={["ORAC", "International"]}
         eyebrow="GLOBAL IMPORT AND EXPORT NETWORK"
         title="ORAC INTERNATIONAL"
-        kicker="Global Import & Export"
         text="Global Trade Excellence in Agriculture, Industrial Materials, Minerals & Automotive Accessories."
         meta="EST 2026 / CHENNAI - SINGAPORE ALIGNED"
         heroNote="EST 2026 / CHENNAI - SINGAPORE ALIGNED"
