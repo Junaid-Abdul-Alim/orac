@@ -24,7 +24,7 @@ export default function OracEventus() {
         kicker="Weddings, Celebrations & Moments, Mastered"
         text="Building celebrations that are felt, not just seen."
         meta="Company Profile & Services Brochure 2026"
-        heroNote="EST. CHENNAI"
+        heroNote="EST. INDIA"
         image={eventusImages.hero}
         variant="frame"
       />
@@ -36,7 +36,7 @@ export default function OracEventus() {
           <SectionHeader eyebrow="Who We Are" title="Building celebrations that are felt, not just seen." />
           <Reveal className="rich-copy">
             <p>
-              ORAC Eventus is a Chennai-based full-service event management company built around one belief: a
+              ORAC Eventus is an India-based full-service event management company built around one belief: a
               wedding or celebration should feel carefully handled for the family hosting it, from the first
               call to the final frame.
             </p>

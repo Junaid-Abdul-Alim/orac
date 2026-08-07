@@ -33,12 +33,12 @@ export const companies = [
     shortName: "Eventus",
     label: "Event Planning",
     purpose:
-      "Chennai-based full-service event management for weddings, celebrations, and visual storytelling through VELORAWED.",
+      "India-based full-service event management for weddings, celebrations, and visual storytelling through VELORAWED.",
     route: "/eventus",
     image: assetPaths.eventus,
     logo: oracEventusLogo,
     summary:
-      "Chennai-based full-service event management for weddings, celebrations, and visual storytelling through VELORAWED.",
+      "India-based full-service event management for weddings, celebrations, and visual storytelling through VELORAWED.",
     cta: "Visit Eventus",
   },
   {
@@ -76,6 +76,6 @@ export const leadership = [
   {
     name: "Athila Ashrin Rahmathullah",
     role: "Managing Director",
-    focus: "ORAC Luxe, Fashion & Textiles",
+    focus: "ORAC Luxe",
   },
 ];

@@ -189,10 +189,9 @@
   /* The homepage opening's mobile recomposition (Blueprint §2, First
      Viewport Specification - mobile). Not a shrunk desktop layout: the fork
      becomes a single vertical tick instead of a wide horizontal fork, and
-     the three apertures become full-width stacked bands with the label
-     overlaying the image/scrim rather than sitting in a separate row below
-     it - the specific mechanism the arithmetic in the blueprint relies on
-     to fit all three inside 360x640 with zero scroll. */
+     the three apertures become full-width stacked bands - the specific
+     mechanism the arithmetic in the blueprint relies on to fit all three
+     inside 360x640 with zero scroll. */
   .home-hero {
     min-height: calc(100svh - var(--nav-height));
     padding: clamp(12px, 3vw, 20px) 0 clamp(14px, 3vw, 22px);
@@ -229,16 +228,25 @@
     gap: 8px;
   }
 
+  /* Stacked full-width bands have far less height per aperture than the
+     desktop three-up row, so the logo zone needs its own (smaller) budget
+     rather than inheriting the desktop clamp - see the min-height:0 note
+     above the media/link rules in 03-hero.css for why this genuinely has to
+     shrink rather than just clip. */
+  .venture-compact-media {
+    padding: 10px 14px;
+  }
+
+  .venture-compact-logo {
+    width: min(56%, 160px);
+  }
+
   .venture-compact-label {
     padding: 10px 16px 12px;
   }
 
   .venture-compact-label .eyebrow {
     font-size: 0.66rem;
-  }
-
-  .venture-compact-label h2 {
-    font-size: 1.35rem;
   }
 
   .luxe-partner-layout {

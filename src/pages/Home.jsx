@@ -47,13 +47,13 @@ export default function Home() {
         reverse
         eyebrow="ORAC Eventus"
         title="Building celebrations that are felt, not just seen."
-        text="ORAC Eventus is a Chennai-based full-service event management company built around one belief: the family should feel supported from the first call to the final frame."
+        text="ORAC Eventus is an India-based full-service event management company built around one belief: the family should feel supported from the first call to the final frame."
         points={[
           "Planning, decor and execution",
           "Photography and cinematography through VELORAWED",
           "Clear timelines, clear pricing and one accountable team",
         ]}
-        meta="Est. Chennai"
+        meta="Est. India"
         cta={{ to: "/eventus", label: "Visit Eventus" }}
         image={eventusImages.homeHero}
         imageLabel="Wedding Experience"
@@ -65,10 +65,10 @@ export default function Home() {
         text="ORAC Luxe is the fashion and textile side of ORAC: ready-to-wear, white-label fabric foundations, atelier pieces, and handmade craft with a slower sense of making."
         points={[
           "Ready-to-wear and fabric materials",
-          "White-label and B2B foundations",
+          "B2B foundations",
           "In-house atelier and handmade crochet",
         ]}
-        meta="The House of Azrin"
+        meta="EST INDIA"
         cta={{ to: "/luxury-export", label: "Visit ORAC Luxe" }}
         image={luxeImages.hero}
         imageLabel="ORAC Luxe"

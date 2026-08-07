@@ -1,11 +1,7 @@
 import { Component, lazy, Suspense, useLayoutEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Frame from "../components/common/Frame";
-import SafeImage from "../components/common/SafeImage";
 import { companies } from "../data/companyData";
-import { internationalImages } from "../data/internationalImages";
-import { eventusImages } from "../data/eventusImages";
-import { luxeImages } from "../data/luxeData";
 import { DESKTOP_QUERY } from "../motion/motionTokens";
 import oracLogo from "../assets/logos/orac-orange.svg";
 
@@ -57,16 +53,6 @@ const ventureTones = {
   international: "international",
   eventus: "eventus",
   "luxury-export": "luxe",
-};
-
-// Reuses the same signature image each venture's own homepage chapter shows
-// further down the page (Home.jsx's VentureChapter instances), so the top
-// apertures and the chapter below never disagree on which photo represents
-// a venture.
-const openingImages = {
-  international: internationalImages.hero,
-  eventus: eventusImages.homeHero,
-  "luxury-export": luxeImages.hero,
 };
 
 // The original flat connective geometry - kept exactly as it was, as the
@@ -147,17 +133,16 @@ export default function OriginSequence() {
           >
             <Link to={company.route} className="venture-compact-link" aria-label={`Explore ${company.name}`}>
               <div className="venture-compact-media">
-                <SafeImage
-                  src={openingImages[company.id]?.src}
-                  alt=""
-                  fallbackLabel={company.name}
-                  priority
+                <img
+                  className="venture-compact-logo"
+                  src={company.logo}
+                  alt={`${company.name} logo`}
+                  decoding="async"
                 />
-                <span className="venture-compact-scrim" />
               </div>
               <div className="venture-compact-label">
+                <h2 className="sr-only">{company.shortName}</h2>
                 <span className="eyebrow">{company.label}</span>
-                <h2>{company.shortName}</h2>
               </div>
             </Link>
           </Frame>

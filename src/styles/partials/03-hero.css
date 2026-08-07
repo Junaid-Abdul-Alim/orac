@@ -160,9 +160,10 @@
   min-height: 0;
 }
 
-.origin-venture.orac-frame-venture {
+.origin-venture.orac-frame-venture-compact {
   padding: 0;
   margin: 0;
+  min-height: 0;
   overflow: hidden;
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-md);
@@ -170,75 +171,75 @@
 
 .venture-compact-link {
   position: relative;
-  display: block;
+  display: flex;
+  flex-direction: column;
   width: 100%;
   height: 100%;
-  color: var(--white);
+  min-height: 0;
+  color: var(--ink);
 }
 
+/* The logo carries the venture's name on its own (each is that venture's
+   own wordmark), so this zone is just a clean, generously padded field for
+   it to sit in - no photo, no overlay text competing with it. */
 .venture-compact-media {
   position: relative;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
+  display: grid;
+  place-items: center;
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: clamp(20px, 4vw, 40px) clamp(18px, 3vw, 30px);
+  background: var(--white);
 }
 
-.venture-compact-media .safe-image,
-.venture-compact-media .safe-image-fallback {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center center;
-  transform: scale(1.02);
+.venture-compact-logo {
+  width: min(74%, 250px);
+  max-width: 88%;
+  height: auto;
+  object-fit: contain;
   transition: transform 900ms var(--ease-smooth);
 }
 
-.origin-venture:hover .venture-compact-media .safe-image {
-  transform: scale(1.07);
+.origin-venture:hover .venture-compact-logo {
+  transform: scale(1.06);
 }
 
-.venture-compact-scrim {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(15, 14, 12, 0.08) 45%, rgba(15, 14, 12, 0.68) 100%);
-}
-
-/* The eyebrow is inline-flex (left-aligned) while the name inherited the
-   hero's centred text-align, so every aperture label read as one
-   left-aligned line above one centred line. Both now share one left edge. */
+/* The eyebrow alone (the venture's category, e.g. "Global Trade") sits in a
+   per-venture tinted strip beneath the logo - the accent token that used to
+   only color small text now also carries the identity that a photo used to,
+   since there's no image behind it anymore. The venture name itself stays
+   in the DOM as an sr-only heading rather than repeating what the logo
+   above already shows. */
 .venture-compact-label {
-  position: absolute;
-  inset: auto 0 0 0;
-  z-index: 1;
-  display: grid;
+  flex: 0 0 auto;
+  display: flex;
   justify-items: start;
-  gap: 6px;
-  padding: clamp(14px, 2vw, 22px) clamp(16px, 2vw, 24px);
+  padding: clamp(12px, 1.8vw, 18px) clamp(18px, 3vw, 24px);
   text-align: left;
 }
 
-.venture-compact-label .eyebrow {
-  color: var(--gold-light);
+.origin-venture.orac-frame-international .venture-compact-label {
+  background: color-mix(in srgb, var(--accent-international-light) 24%, var(--white));
 }
 
-.venture-compact-label h2 {
-  color: var(--white);
-  font-size: clamp(1.3rem, 1.8vw, 1.7rem);
-  line-height: 1.05;
+.origin-venture.orac-frame-eventus .venture-compact-label {
+  background: color-mix(in srgb, var(--accent-eventus-light) 24%, var(--white));
+}
+
+.origin-venture.orac-frame-luxe .venture-compact-label {
+  background: color-mix(in srgb, var(--accent-luxe-light) 24%, var(--white));
 }
 
 .origin-venture.orac-frame-international .venture-compact-label .eyebrow {
-  color: var(--accent-international-light);
+  color: var(--accent-international);
 }
 
 .origin-venture.orac-frame-eventus .venture-compact-label .eyebrow {
-  color: var(--accent-eventus-light);
+  color: var(--accent-eventus);
 }
 
 .origin-venture.orac-frame-luxe .venture-compact-label .eyebrow {
-  color: var(--accent-luxe-light);
+  color: var(--accent-luxe);
 }
 
 .origin-venture:has(.venture-compact-link:focus-visible) {
@@ -342,6 +343,14 @@
    --hero-copy-min floor below is what actually equalises the openings. */
 .product-hero h1 {
   font-size: clamp(2.55rem, 1rem + 5vw, 5.6rem);
+}
+
+/* The International hero's "ORAC INTERNATIONAL" title in the wordmark's own
+   ink, not the shared --ink - matches orac-international.svg's "ORAC" fill
+   exactly (#BA7F31), which also clears 3:1 contrast on this hero's light
+   background at this heading's size. */
+.venture-page-international .product-hero h1 {
+  color: #ba7f31;
 }
 
 /* An H1 whose only content is a wordmark image: it needs the heading's
