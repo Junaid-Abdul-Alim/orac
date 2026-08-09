@@ -13,7 +13,6 @@ export default function ImagePanel({
   className = "",
   delay = 0,
   variant = "panel",
-  motionId,
   bare = false,
 }) {
   const content = (
@@ -58,7 +57,7 @@ export default function ImagePanel({
   }
 
   return (
-    <ImageReveal className={panelClassName} delay={delay} variant={variant} motionId={motionId}>
+    <ImageReveal className={panelClassName} delay={delay} variant={variant}>
       {inner}
     </ImageReveal>
   );

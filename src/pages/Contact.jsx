@@ -1,5 +1,6 @@
-import { ArrowUpRight, Globe, Mail, Phone } from "lucide-react";
+import { Globe, Mail, Phone } from "lucide-react";
 import BrandLockup from "../components/common/BrandLockup";
+import ContactActionRow from "../components/common/ContactActionRow";
 import Reveal from "../components/common/Reveal";
 import { contactDetails } from "../data/contactData";
 import { pad2 } from "../utils/pad2";
@@ -13,16 +14,7 @@ const KIND_ICON = { Phone, Email: Mail, Web: Globe };
 // this page.
 function ContactRow({ kind, text, href }) {
   const Icon = KIND_ICON[kind] || Mail;
-  return (
-    <a className="contact-action" href={href} aria-label={`${kind}: ${text}`}>
-      <span className="contact-action-icon" aria-hidden="true">
-        <Icon size={16} strokeWidth={1.7} />
-      </span>
-      <span className="contact-action-kind">{kind}</span>
-      <span className="contact-action-value">{text}</span>
-      <ArrowUpRight className="contact-action-arrow" size={15} strokeWidth={1.7} aria-hidden="true" />
-    </a>
-  );
+  return <ContactActionRow icon={Icon} kind={kind} text={text} href={href} iconSize={16} />;
 }
 
 function DirectoryEntry({ index, label, org, person, note, actions, geoColumns, wide }) {
@@ -45,7 +37,7 @@ function DirectoryEntry({ index, label, org, person, note, actions, geoColumns, 
         <div className="contact-directory-geo">
           {geoColumns.map((column) => (
             <div className="contact-directory-geo-column" key={column.title}>
-              <h4>{column.title}</h4>
+              <h3>{column.title}</h3>
               {column.actions.map((action) => (
                 <ContactRow key={`${action.kind}-${action.text}`} {...action} />
               ))}
@@ -65,134 +57,142 @@ function DirectoryEntry({ index, label, org, person, note, actions, geoColumns, 
   );
 }
 
-export default function Contact() {
-  const entries = [
-    {
-      label: "General Enquiry",
-      org: "ORAC Holdings",
-      person: "Ohm Pranav / Managing Director / India",
-      actions: [
-        { kind: "Email", text: contactDetails.holding.email, href: `mailto:${contactDetails.holding.email}` },
-        {
-          kind: "Email",
-          text: contactDetails.holding.secondaryEmail,
-          href: `mailto:${contactDetails.holding.secondaryEmail}`,
-        },
-        {
-          kind: "Phone",
-          text: contactDetails.holding.phone,
-          href: `tel:${contactDetails.holding.phone.replaceAll(" ", "")}`,
-        },
-        { kind: "Web", text: contactDetails.holding.website, href: `https://${contactDetails.holding.website}` },
-      ],
-    },
-    {
-      label: "Investment Enquiry",
-      org: "ORAC Holdings",
-      person: "Rak J / Director / Singapore",
-      note: contactDetails.international.address,
-      actions: [
-        {
-          kind: "Email",
-          text: contactDetails.international.email,
-          href: `mailto:${contactDetails.international.email}`,
-        },
-        {
-          kind: "Phone",
-          text: contactDetails.international.phone,
-          href: `tel:${contactDetails.international.phone.replaceAll(" ", "")}`,
-        },
-        { kind: "Web", text: contactDetails.holding.website, href: `https://${contactDetails.holding.website}` },
-      ],
-    },
-    {
-      label: "Trade Enquiry",
-      org: "ORAC International",
-      person: "Three regional desks for export, import, and sourcing conversations.",
-      wide: true,
-      geoColumns: [
-        {
-          title: "Singapore",
-          actions: [
-            {
-              kind: "Phone",
-              text: contactDetails.international.phone,
-              href: `tel:${contactDetails.international.phone.replaceAll(" ", "")}`,
-            },
-            {
-              kind: "Email",
-              text: contactDetails.international.email,
-              href: `mailto:${contactDetails.international.email}`,
-            },
-          ],
-        },
-        {
-          title: "India",
-          actions: [
-            {
-              kind: "Phone",
-              text: contactDetails.holding.phone,
-              href: `tel:${contactDetails.holding.phone.replaceAll(" ", "")}`,
-            },
-            {
-              kind: "Email",
-              text: contactDetails.holding.secondaryEmail,
-              href: `mailto:${contactDetails.holding.secondaryEmail}`,
-            },
-          ],
-        },
-        {
-          title: "Africa",
-          actions: [
-            {
-              kind: "Phone",
-              text: contactDetails.africa.phone,
-              href: `tel:${contactDetails.africa.phone.replaceAll(" ", "")}`,
-            },
-            { kind: "Email", text: contactDetails.africa.email, href: `mailto:${contactDetails.africa.email}` },
-          ],
-        },
-      ],
-    },
-    {
-      label: "Event Enquiry",
-      org: "ORAC Eventus",
-      person: contactDetails.eventus.address,
-      wide: true,
-      note: `${contactDetails.eventus.social.join(" / ")} on Instagram & Facebook`,
-      actions: [
-        ...contactDetails.eventus.phones.map((phone) => ({
-          kind: "Phone",
-          text: phone,
-          href: `tel:${phone.replaceAll(" ", "")}`,
-        })),
-        ...contactDetails.eventus.emails.map((email) => ({
-          kind: "Email",
-          text: email,
-          href: `mailto:${email}`,
-        })),
-      ],
-    },
-    {
-      label: "Luxe Enquiry",
-      org: "ORAC Luxe / The House of Azrin",
-      person: `${contactDetails.luxe.name} / ${contactDetails.luxe.location}`,
-      note: `${contactDetails.luxe.social} on Instagram`,
-      actions: [
-        {
-          kind: "Phone",
-          text: contactDetails.luxe.phone,
-          href: `tel:${contactDetails.luxe.phone.replaceAll(" ", "")}`,
-        },
-        ...contactDetails.luxe.emails.map((email) => ({
-          kind: "Email",
-          text: email,
-          href: `mailto:${email}`,
-        })),
-      ],
-    },
-  ];
+const contactEntries = [
+  {
+    label: "General Enquiry",
+    org: "ORAC Holdings",
+    person: "Ohm Pranav / Managing Director / India",
+    actions: [
+      { kind: "Email", text: contactDetails.holding.email, href: `mailto:${contactDetails.holding.email}` },
+      {
+        kind: "Email",
+        text: contactDetails.holding.secondaryEmail,
+        href: `mailto:${contactDetails.holding.secondaryEmail}`,
+      },
+      {
+        kind: "Phone",
+        text: contactDetails.holding.phone,
+        href: `tel:${contactDetails.holding.phone.replaceAll(" ", "")}`,
+      },
+      {
+        kind: "Web",
+        text: contactDetails.holding.website,
+        href: `https://${contactDetails.holding.website}`,
+      },
+    ],
+  },
+  {
+    label: "Investment Enquiry",
+    org: "ORAC Holdings",
+    person: "Rak J / Director / Singapore",
+    note: contactDetails.international.address,
+    actions: [
+      {
+        kind: "Email",
+        text: contactDetails.international.email,
+        href: `mailto:${contactDetails.international.email}`,
+      },
+      {
+        kind: "Phone",
+        text: contactDetails.international.phone,
+        href: `tel:${contactDetails.international.phone.replaceAll(" ", "")}`,
+      },
+      {
+        kind: "Web",
+        text: contactDetails.holding.website,
+        href: `https://${contactDetails.holding.website}`,
+      },
+    ],
+  },
+  {
+    label: "Trade Enquiry",
+    org: "ORAC International",
+    person: "Three regional desks for export, import, and sourcing conversations.",
+    wide: true,
+    geoColumns: [
+      {
+        title: "Singapore",
+        actions: [
+          {
+            kind: "Phone",
+            text: contactDetails.international.phone,
+            href: `tel:${contactDetails.international.phone.replaceAll(" ", "")}`,
+          },
+          {
+            kind: "Email",
+            text: contactDetails.international.email,
+            href: `mailto:${contactDetails.international.email}`,
+          },
+        ],
+      },
+      {
+        title: "India",
+        actions: [
+          {
+            kind: "Phone",
+            text: contactDetails.holding.phone,
+            href: `tel:${contactDetails.holding.phone.replaceAll(" ", "")}`,
+          },
+          {
+            kind: "Email",
+            text: contactDetails.holding.secondaryEmail,
+            href: `mailto:${contactDetails.holding.secondaryEmail}`,
+          },
+        ],
+      },
+      {
+        title: "Africa",
+        actions: [
+          {
+            kind: "Phone",
+            text: contactDetails.africa.phone,
+            href: `tel:${contactDetails.africa.phone.replaceAll(" ", "")}`,
+          },
+          { kind: "Email", text: contactDetails.africa.email, href: `mailto:${contactDetails.africa.email}` },
+        ],
+      },
+    ],
+  },
+  {
+    label: "Event Enquiry",
+    org: "ORAC Eventus",
+    person: contactDetails.eventus.address,
+    wide: true,
+    note: `${contactDetails.eventus.social.join(" / ")} on Instagram & Facebook`,
+    actions: [
+      ...contactDetails.eventus.phones.map((phone) => ({
+        kind: "Phone",
+        text: phone,
+        href: `tel:${phone.replaceAll(" ", "")}`,
+      })),
+      ...contactDetails.eventus.emails.map((email) => ({
+        kind: "Email",
+        text: email,
+        href: `mailto:${email}`,
+      })),
+    ],
+  },
+  {
+    label: "Luxe Enquiry",
+    org: "ORAC Luxe / The House of Azrin",
+    person: `${contactDetails.luxe.name} / ${contactDetails.luxe.location}`,
+    note: `${contactDetails.luxe.social} on Instagram`,
+    actions: [
+      {
+        kind: "Phone",
+        text: contactDetails.luxe.phone,
+        href: `tel:${contactDetails.luxe.phone.replaceAll(" ", "")}`,
+      },
+      ...contactDetails.luxe.emails.map((email) => ({
+        kind: "Email",
+        text: email,
+        href: `mailto:${email}`,
+      })),
+    ],
+  },
+];
 
+export default function Contact() {
   return (
     <div className="contact-page">
       <section className="contact-hero">
@@ -220,7 +220,7 @@ export default function Contact() {
             <h2 id="contact-directory-title">One house. The right desk.</h2>
           </Reveal>
           <div className="contact-directory-list">
-            {entries.map((entry, index) => (
+            {contactEntries.map((entry, index) => (
               <DirectoryEntry key={entry.label} index={index + 1} {...entry} />
             ))}
           </div>

@@ -37,16 +37,13 @@ export const EASE = {
   // Line/route/seam drawing. Even pace reads as "being drawn" rather than
   // "snapping into place".
   draw: "power1.inOut",
-  // Continuum scrub. Linear, because it is tied to scroll position, not time.
-  scrub: "none",
 };
 
-// Durations. One tier for content, one for media, one for drawn lines - the
-// duration ladder the references use, rather than a value invented per section.
+// Durations. One tier for content, one for media - the duration ladder the
+// references use, rather than a value invented per section.
 export const DUR = {
   text: 0.95,
   media: 1.2,
-  draw: 1.15,
   card: 0.9,
 };
 
@@ -63,8 +60,6 @@ export const DIST = {
   text: 38,
   card: 26,
   media: 34,
-  // Editorial media settle. 1.07 sits inside the 1.06-1.09 band.
-  mediaScale: 1.07,
 };
 
 // Mobile keeps the same vocabulary at a shorter reach and a shorter timeline -
@@ -78,8 +73,7 @@ export const MOBILE = {
 };
 
 export const STAGGER = {
-  // 90-140ms for related text groups, 90-130ms for cards.
-  text: 0.115,
+  // 90-130ms for cards.
   card: 0.105,
   // Corridors are many and thin, so they run tighter or the draw outlasts the
   // section.
@@ -110,8 +104,6 @@ export const PARALLAX = {
 export const START = {
   text: "top 86%",
   media: "top 88%",
-  section: "top 80%",
-  line: "top 78%",
 };
 
 export const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";

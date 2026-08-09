@@ -59,17 +59,12 @@ function findMediaBox(element) {
  * 3. `data-motion-state` is stamped as soon as a trigger exists, which is what
  *    the runtime safety sweep looks for.
  */
-export default function useMotionReveal({
-  kind = "text",
-  delay = 0,
-  variant = "panel",
-  disabled = false,
-} = {}) {
+export default function useMotionReveal({ kind = "text", delay = 0, variant = "panel" } = {}) {
   const ref = useRef(null);
 
   useLayoutEffect(() => {
     const element = ref.current;
-    if (!element || disabled) return undefined;
+    if (!element) return undefined;
     // The runtime only adds this class when GSAP is healthy and the visitor has
     // not asked for reduced motion. Without it the element is already in its
     // final composition and must be left exactly there.
@@ -173,7 +168,7 @@ export default function useMotionReveal({
       ctx.revert();
       delete element.dataset.motionState;
     };
-  }, [kind, delay, variant, disabled]);
+  }, [kind, delay, variant]);
 
   return ref;
 }

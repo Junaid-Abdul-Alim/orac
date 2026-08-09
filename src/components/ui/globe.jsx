@@ -69,8 +69,14 @@ export function Globe({
       const dt = Math.max(now - lastPointer.current.t, 1);
       const maxVelocity = 0.15;
       velocity.current = {
-        phi: Math.max(-maxVelocity, Math.min(maxVelocity, ((event.clientX - lastPointer.current.x) / dt) * 0.3)),
-        theta: Math.max(-maxVelocity, Math.min(maxVelocity, ((event.clientY - lastPointer.current.y) / dt) * 0.08)),
+        phi: Math.max(
+          -maxVelocity,
+          Math.min(maxVelocity, ((event.clientX - lastPointer.current.x) / dt) * 0.3)
+        ),
+        theta: Math.max(
+          -maxVelocity,
+          Math.min(maxVelocity, ((event.clientY - lastPointer.current.y) / dt) * 0.08)
+        ),
       };
     }
     lastPointer.current = { x: event.clientX, y: event.clientY, t: now };
@@ -117,6 +123,13 @@ export function Globe({
     let animationId;
     let phi = 0;
     let resizeObserver;
+    let visibilityObserver;
+    let disposed = false;
+    let fadeInId;
+    // Gates the rAF loop itself, not just the idle spin: off-screen (hero
+    // scrolled away, or never scrolled to) or a backgrounded tab should stop
+    // this canvas from redrawing every frame, not merely skip advancing phi.
+    let isOnScreen = true;
 
     function animate() {
       if (!isPausedRef.current) {
@@ -150,7 +163,7 @@ export function Globe({
         markers: cobeMarkers,
         arcs: cobeArcs,
       });
-      animationId = requestAnimationFrame(animate);
+      animationId = isOnScreen ? requestAnimationFrame(animate) : undefined;
     }
 
     function init() {
@@ -180,7 +193,19 @@ export function Globe({
       });
 
       animate();
-      setTimeout(() => canvas && (canvas.style.opacity = "1"));
+      fadeInId = window.setTimeout(() => canvas && (canvas.style.opacity = "1"));
+
+      if (typeof IntersectionObserver !== "undefined") {
+        visibilityObserver = new IntersectionObserver(
+          ([entry]) => {
+            const wasOnScreen = isOnScreen;
+            isOnScreen = entry.isIntersecting;
+            if (isOnScreen && !wasOnScreen && !disposed && !animationId) animate();
+          },
+          { threshold: 0 }
+        );
+        visibilityObserver.observe(canvas);
+      }
     }
 
     if (canvas.offsetWidth > 0) {
@@ -196,7 +221,10 @@ export function Globe({
     }
 
     return () => {
+      disposed = true;
       resizeObserver?.disconnect();
+      visibilityObserver?.disconnect();
+      window.clearTimeout(fadeInId);
       if (animationId) cancelAnimationFrame(animationId);
       globe?.destroy();
     };

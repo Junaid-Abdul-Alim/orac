@@ -81,7 +81,7 @@ export default function Navbar() {
           </NavLink>
         ))}
         <NavLink to="/contact">Contact</NavLink>
-        <div className="nav-contact-actions" aria-label="Quick contact links">
+        <div className="nav-contact-actions" role="group" aria-label="Quick contact links">
           <a
             className="nav-action-whatsapp"
             href={whatsappUrl}
@@ -119,7 +119,7 @@ export default function Navbar() {
           </NavLink>
         ))}
         <NavLink to="/contact">Contact</NavLink>
-        <div className="mobile-contact-actions" aria-label="Quick contact links">
+        <div className="mobile-contact-actions" role="group" aria-label="Quick contact links">
           <a
             className="nav-action-whatsapp"
             href={whatsappUrl}

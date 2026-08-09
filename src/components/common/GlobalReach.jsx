@@ -335,11 +335,16 @@ export default function GlobalReach({
         )}
 
         {bare ? (
-          <div className="global-reach-stats" aria-label="Global reach highlights">
+          <div className="global-reach-stats" role="group" aria-label="Global reach highlights">
             {statsContent}
           </div>
         ) : (
-          <Reveal className="global-reach-stats" delay={220} aria-label="Global reach highlights">
+          <Reveal
+            className="global-reach-stats"
+            delay={220}
+            role="group"
+            aria-label="Global reach highlights"
+          >
             {statsContent}
           </Reveal>
         )}

@@ -114,7 +114,7 @@
   margin-bottom: var(--space-md);
 }
 
-.leadership-intro h3 {
+.leadership-intro h2 {
   font-size: clamp(1.6rem, 1.1rem + 1.5vw, 2.4rem);
   line-height: 1.1;
 }
@@ -199,10 +199,6 @@
 
 .reason-panel-list article:not(:first-child) h3 {
   font-size: clamp(1.15rem, 0.95rem + 0.8vw, 1.4rem);
-}
-
-.service-grid-compact {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .trade-capability-showcase {
@@ -362,7 +358,6 @@
   }
 }
 
-
 /* One card language: same border, same radius token, same shadow. Reserved
    for surfaces that genuinely need a container (leadership tiles, product
    panels) - Why ORAC / values rows and the contact directory now use their
@@ -370,11 +365,9 @@
    Contact.jsx's own partial). */
 .leader-tile,
 .stat-tile,
-.service-card,
 .service-block,
 .product-panel,
-.editorial-panel,
-.feature-panel {
+.editorial-panel {
   border: 1px solid rgba(184, 151, 90, 0.14);
   border-radius: var(--radius-lg);
   background: rgba(255, 255, 255, 0.82);
@@ -382,7 +375,6 @@
 }
 
 .leader-tile,
-.service-card,
 .service-block,
 .product-panel {
   display: grid;
@@ -419,20 +411,18 @@
 
 /* Every sibling card type in the shared block above (leader tiles, stat
    tiles, product panels, contact cards, reason-panel articles) has some kind
-   of hover response; these two were the only ones that carried the shadowed
-   card look with nothing to show for pointing at them. Same lift language as
+   of hover response; this one was the only other that carried the shadowed
+   card look with nothing to show for pointing at it. Same lift language as
    `.trade-capability-card:hover` (this file) and `.product-panel:hover`
    (06-contact.css) rather than a new value. */
-.service-block,
-.service-card {
+.service-block {
   transition:
     transform 360ms var(--ease-smooth),
     border-color 360ms var(--ease-smooth),
     box-shadow 360ms var(--ease-smooth);
 }
 
-.service-block:hover,
-.service-card:hover {
+.service-block:hover {
   transform: translate3d(0, -4px, 0);
   border-color: rgba(184, 151, 90, 0.28);
   box-shadow: 0 28px 70px rgba(26, 24, 20, 0.09);
@@ -445,8 +435,7 @@
    above - a whole-row background wash and number colour change, since a
    short underline reads as too small a gesture on a full-width row.) */
 .leader-tile h4::after,
-.service-block h3::after,
-.service-card h3::after {
+.service-block h3::after {
   content: "";
   display: block;
   width: 0;
@@ -457,8 +446,7 @@
 }
 
 .leader-tile:hover h4::after,
-.service-block:hover h3::after,
-.service-card:hover h3::after {
+.service-block:hover h3::after {
   width: 32px;
 }
 
@@ -479,7 +467,6 @@
 }
 
 .leader-tile span,
-.service-card span,
 .service-block > span,
 .service-block-top span,
 .product-panel-meta span,
@@ -491,7 +478,6 @@
 }
 
 .leader-tile h4,
-.service-card h3,
 .service-block h3,
 .product-panel .product-panel-name,
 .timeline-step h3 {
@@ -504,8 +490,7 @@
   font-weight: 600;
 }
 
-.editorial-panel,
-.feature-panel {
+.editorial-panel {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: var(--space-lg);
@@ -554,115 +539,6 @@
   font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-}
-
-/* Stage 2 - the identity frame separating into three (see Frame.jsx,
-   CompanyPortfolio.jsx, docs/ORAC-REDESIGN-SPEC.md §2 stage 2). Each
-   venture frame holds a still image and a name only. */
-.venture-frame-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 18px;
-}
-
-.orac-frame-venture {
-  padding: 0;
-  overflow: hidden;
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-md);
-  transition:
-    transform 420ms var(--ease-smooth),
-    box-shadow 420ms var(--ease-smooth);
-}
-
-.venture-frame-grid:hover .orac-frame-venture:not(:hover) {
-  opacity: 0.78;
-}
-
-.orac-frame-venture:hover {
-  transform: translateY(-6px);
-  box-shadow: var(--shadow-lg);
-}
-
-/* :focus-within on the frame itself, not an outline on the link - the
-   frame's own overflow: hidden would clip an outline/ring drawn on its
-   clipped child, but a box-shadow on the frame's own box paints outside
-   its border and is unaffected by its own overflow. */
-.orac-frame-venture:has(.venture-frame-link:focus-visible) {
-  box-shadow:
-    0 0 0 2px var(--white),
-    0 0 0 4px var(--ink),
-    0 0 0 7px var(--gold);
-}
-
-.venture-frame-link {
-  display: grid;
-  grid-template-rows: minmax(260px, 1fr) auto;
-  color: var(--ink);
-}
-
-.venture-frame-link:focus-visible {
-  outline: none;
-}
-
-.venture-frame-media {
-  position: relative;
-  overflow: hidden;
-}
-
-.venture-frame-media .safe-image,
-.venture-frame-media .safe-image-fallback {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transform: scale(1.02);
-  transition: transform 900ms var(--ease-smooth);
-}
-
-.orac-frame-venture:hover .venture-frame-media .safe-image {
-  transform: scale(1.07);
-}
-
-.venture-frame-scrim {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(15, 14, 12, 0.06), rgba(15, 14, 12, 0.5));
-}
-
-.venture-frame-number {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  z-index: 1;
-  color: rgba(255, 255, 255, 0.76);
-  font-size: 0.78rem;
-  font-weight: 700;
-}
-
-.venture-frame-label {
-  display: grid;
-  gap: 6px;
-  padding: 22px 26px 26px;
-  background: var(--white);
-}
-
-.venture-frame-label h3 {
-  font-size: 1.7rem;
-  line-height: 1.05;
-}
-
-.orac-frame-international .venture-frame-label .eyebrow {
-  color: var(--accent-international);
-}
-
-.orac-frame-eventus .venture-frame-label .eyebrow {
-  color: var(--accent-eventus);
-}
-
-.orac-frame-luxe .venture-frame-label .eyebrow {
-  color: var(--accent-luxe);
 }
 
 /* Stage 3 - venture chapters (VentureChapter.jsx). Shared structure
@@ -768,11 +644,10 @@
   --panel-radius: var(--radius-md);
 }
 
-/* raw-cotton.jpg prints its own ORAC INTERNATIONAL lockup across the top
-   ~24% of the source, and the frame is wider than the source, so cover
-   crops vertically. Holding the crop low keeps the printed lockup out of
-   the frame entirely and puts the baled cotton - the trade material, which
-   is the point - on the frame's centre line. */
+/* The homepage International chapter's source photo carries its own
+   lockup/graphic baked into the top of the frame; holding the crop low
+   keeps that print out of the frame and puts the trade subject - the point
+   of the image - on the frame's centre line. */
 .venture-chapter-international .preview-image-panel img {
   object-position: 50% 96%;
 }
@@ -821,4 +696,3 @@
   color: var(--accent-luxe);
   letter-spacing: 0.1em;
 }
-

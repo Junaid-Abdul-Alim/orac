@@ -7,8 +7,8 @@ import Reveal from "./Reveal";
  * caller (business pages, and any Home usage that doesn't pass it) is
  * unaffected: the default is the exact previous behaviour.
  */
-export default function SectionHeader({ eyebrow, title, text, align = "left", bare = false }) {
-  const className = `section-header section-header-${align}`;
+export default function SectionHeader({ eyebrow, title, text, bare = false }) {
+  const className = "section-header";
   const content = (
     <>
       {eyebrow ? <span className="eyebrow">{eyebrow}</span> : null}

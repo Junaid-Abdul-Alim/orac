@@ -1,9 +1,11 @@
-import { useCallback, useEffect, useRef, useState } from "react";
-import { ArrowDownToLine, ArrowLeft, ArrowRight, ArrowUpFromLine, FileDown } from "lucide-react";
+import { useState } from "react";
+import { ArrowDownToLine, ArrowUpFromLine, FileDown } from "lucide-react";
+import CarouselControls from "./CarouselControls";
 import Reveal from "./Reveal";
 import ProductPanel from "./ProductPanel";
 import ProductSpecModal from "./ProductSpecModal";
 import IconBadge from "./IconBadge";
+import useCardCarousel from "./useCardCarousel";
 import { pad2 } from "../../utils/pad2";
 
 const countProducts = (categories) =>
@@ -17,37 +19,10 @@ const countProducts = (categories) =>
  * Commodities and Scrap on import). Each is now read as its own chapter.
  */
 function ProductCategoryRow({ collectionId, category, index, getImage, onSelectProduct }) {
-  const scrollerRef = useRef(null);
-  const [canScrollPrev, setCanScrollPrev] = useState(false);
-  const [canScrollNext, setCanScrollNext] = useState(false);
   const productCount = category.products.length;
-
-  const updateScrollState = useCallback(() => {
-    const element = scrollerRef.current;
-    if (!element) return;
-
-    const maxScroll = element.scrollWidth - element.clientWidth;
-    setCanScrollPrev(element.scrollLeft > 8);
-    setCanScrollNext(maxScroll > 8 && element.scrollLeft < maxScroll - 8);
-  }, []);
-
-  useEffect(() => {
-    updateScrollState();
-    window.addEventListener("resize", updateScrollState);
-    return () => window.removeEventListener("resize", updateScrollState);
-  }, [updateScrollState, productCount]);
-
-  const scrollByCard = (direction) => {
-    const element = scrollerRef.current;
-    if (!element) return;
-
-    const card = element.querySelector(".product-showcase-card");
-    const cardWidth = card?.getBoundingClientRect().width || element.clientWidth * 0.82;
-    element.scrollBy({
-      left: direction * (cardWidth + 18),
-      behavior: "smooth",
-    });
-  };
+  const { scrollerRef, canScrollPrev, canScrollNext, updateScrollState, scrollByCard } = useCardCarousel({
+    dependency: productCount,
+  });
 
   return (
     <Reveal as="article" className="product-category-row" delay={index * 70}>
@@ -69,31 +44,22 @@ function ProductCategoryRow({ collectionId, category, index, getImage, onSelectP
             </a>
           ) : null}
           <small className="product-category-count">{pad2(productCount)} products</small>
-          <div className="product-carousel-controls" aria-label={`${category.title} carousel controls`}>
-            <button
-              type="button"
-              aria-label={`Previous ${category.title} products`}
-              disabled={!canScrollPrev}
-              onClick={() => scrollByCard(-1)}
-            >
-              <ArrowLeft size={16} strokeWidth={1.8} aria-hidden="true" />
-            </button>
-            <button
-              type="button"
-              aria-label={`Next ${category.title} products`}
-              disabled={!canScrollNext}
-              onClick={() => scrollByCard(1)}
-            >
-              <ArrowRight size={16} strokeWidth={1.8} aria-hidden="true" />
-            </button>
-          </div>
+          <CarouselControls
+            label={category.title}
+            canScrollPrev={canScrollPrev}
+            canScrollNext={canScrollNext}
+            onPrev={() => scrollByCard(-1)}
+            onNext={() => scrollByCard(1)}
+          />
         </div>
       </div>
 
       <div
         ref={scrollerRef}
         className="product-showcase-grid product-carousel-track"
+        role="group"
         aria-label={`${category.title} products`}
+        tabIndex={0}
         onScroll={updateScrollState}
         onMouseEnter={updateScrollState}
       >

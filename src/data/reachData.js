@@ -50,7 +50,7 @@ export const regionalCorridors = 5;
 // implausible, e.g. a small dense country). Chennai stands in for India
 // specifically, since it's ORAC's actual stated base ("EST 2026 / CHENNAI -
 // SINGAPORE ALIGNED" in the page hero), not a generic country centroid.
-export const globeMarkers = [
+const globeMarkers = [
   { location: [13.0827, 80.2707], size: 0.14 }, // India (Chennai - ORAC's base)
   { location: [35.8617, 104.1954], size: 0.07 }, // China
   { location: [14.0583, 108.2772], size: 0.06 }, // Vietnam
@@ -110,11 +110,6 @@ export const globeMarkerPoints = Array.from(highlightedCountries).map((country, 
   location: globeMarkers[index].location,
   label: featuredGlobeLabels.has(country) ? displayNames[country] || country : undefined,
 }));
-
-// Same dots, no name tags - for the smaller globes reused elsewhere on the
-// page (founder section, about panel) where the hero's gateway labels would
-// just be repeated clutter rather than useful context.
-export const globeMarkerPointsUnlabeled = globeMarkerPoints.map(({ id, location }) => ({ id, location }));
 
 // Same "one corridor from India to each focused country" geometry
 // GlobalReach draws on the flat map (see buildCorridors in GlobalReach.jsx) -

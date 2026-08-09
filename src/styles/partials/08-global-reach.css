@@ -256,32 +256,6 @@
     0 0 0 7px var(--gold);
 }
 
-.quote-block {
-  padding: var(--space-2xl) 0;
-}
-
-.quote-block-inner {
-  width: min(920px, 100%);
-  display: grid;
-  justify-items: center;
-  gap: var(--space-md);
-  margin-inline: auto;
-  text-align: center;
-}
-
-.quote-block blockquote {
-  margin: 0;
-  color: var(--white);
-  font-size: clamp(1.85rem, 1rem + 2.6vw, 3.2rem);
-  font-weight: 700;
-  line-height: 1.08;
-}
-
-.quote-block p {
-  max-width: 560px;
-  color: rgba(255, 255, 255, 0.58);
-}
-
 .velorawed-section {
   background: radial-gradient(circle at 50% 0%, rgba(212, 175, 120, 0.12), transparent 40%), var(--ink);
   color: var(--white);

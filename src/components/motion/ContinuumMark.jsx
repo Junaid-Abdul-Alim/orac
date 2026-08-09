@@ -1,10 +1,8 @@
 import { useId } from "react";
 
 /**
- * The continuum's in-section expressions.
- *
- * The fixed rail (Continuum.jsx) is the thread; these are what the thread
- * becomes once it is inside a section. Every one of them starts at the edge the
+ * The continuum's in-section expressions - the thread's gold line rendered
+ * as it looks once inside a section. Every one of them starts at the edge the
  * thread arrives from - the top, or the left - so a section visibly receives
  * the line rather than growing its own unrelated gold decoration.
  *

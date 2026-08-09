@@ -1,33 +1,15 @@
-import { ArrowUpRight } from "lucide-react";
 import BrandLockup from "../components/common/BrandLockup";
+import ContactActionRow from "../components/common/ContactActionRow";
+import ContactBrandCard from "../components/common/ContactBrandCard";
 import GmailIcon from "../components/common/GmailIcon";
 import Reveal from "../components/common/Reveal";
 import WhatsAppIcon from "../components/common/WhatsAppIcon";
 import { contactDetails } from "../data/contactData";
-import oracLogo from "../assets/logos/orac-orange.svg";
 
 // Same two-column contact pattern as InternationalContactCTA.jsx: a
 // "held by ORAC Holdings" brand card on the left, the venture's own contact
 // person on the right. See ORAC LUXE Website Corrections, item 8. The action
 // rows share the .contact-action system defined in 13-international.css.
-function ContactRow({ icon: Icon, kind, text, href, channel, external }) {
-  return (
-    <a
-      className={`contact-action contact-action-${channel}`}
-      href={href}
-      aria-label={`${kind}: ${text}`}
-      {...(external ? { target: "_blank", rel: "noreferrer" } : {})}
-    >
-      <span className="contact-action-icon" aria-hidden="true">
-        <Icon size={17} strokeWidth={1.7} />
-      </span>
-      <span className="contact-action-kind">{kind}</span>
-      <span className="contact-action-value">{text}</span>
-      <ArrowUpRight className="contact-action-arrow" size={15} strokeWidth={1.7} aria-hidden="true" />
-    </a>
-  );
-}
-
 export default function LuxeContactCTA() {
   const { luxe } = contactDetails;
   const whatsappUrl = `https://wa.me/${luxe.phone.replace(/\D/g, "")}`;
@@ -43,22 +25,7 @@ export default function LuxeContactCTA() {
         </Reveal>
 
         <div className="international-contact-grid">
-          <Reveal className="international-contact-brand" delay={70}>
-            <img
-              className="international-contact-logo"
-              src={oracLogo}
-              alt="ORAC"
-              loading="lazy"
-              decoding="async"
-            />
-            <p className="international-contact-held">
-              Held by <strong>ORAC HOLDINGS</strong>
-            </p>
-            <p className="international-contact-tagline">Trade, events, and fashion under one house.</p>
-            <p className="international-contact-collective">
-              A collective of ventures united by one purpose.
-            </p>
-          </Reveal>
+          <ContactBrandCard heldByLabel="ORAC HOLDINGS" />
 
           <div className="international-contact-people">
             <Reveal as="article" className="international-contact-card" delay={130}>
@@ -68,7 +35,7 @@ export default function LuxeContactCTA() {
                 <p>India</p>
               </div>
               <div className="international-contact-links">
-                <ContactRow
+                <ContactActionRow
                   icon={WhatsAppIcon}
                   kind="WhatsApp"
                   text={luxe.phone}
@@ -76,7 +43,7 @@ export default function LuxeContactCTA() {
                   channel="whatsapp"
                   external
                 />
-                <ContactRow
+                <ContactActionRow
                   icon={GmailIcon}
                   kind="Email"
                   text={primaryEmail}
@@ -93,7 +60,7 @@ export default function LuxeContactCTA() {
                 <p>India</p>
               </div>
               <div className="international-contact-links">
-                <ContactRow
+                <ContactActionRow
                   icon={WhatsAppIcon}
                   kind="WhatsApp"
                   text={contactDetails.holding.phone}
@@ -101,7 +68,7 @@ export default function LuxeContactCTA() {
                   channel="whatsapp"
                   external
                 />
-                <ContactRow
+                <ContactActionRow
                   icon={GmailIcon}
                   kind="Email"
                   text={contactDetails.holding.secondaryEmail}

@@ -1,7 +1,29 @@
-import { useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Line, Sphere } from "@react-three/drei";
 import * as THREE from "three";
+
+// The hero thread sits at the very top of the homepage, so it starts
+// visible - but once the visitor scrolls the rest of the page, this WebGL
+// scene has no reason to keep redrawing every frame. `frameloop="never"`
+// stops R3F's render loop outright rather than merely skipping work inside
+// it, so an off-screen thread costs nothing until it scrolls back into view.
+function useIsVisible(ref) {
+  const [visible, setVisible] = useState(true);
+
+  useEffect(() => {
+    const element = ref.current;
+    if (!element || typeof IntersectionObserver === "undefined") return undefined;
+
+    const observer = new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting), {
+      threshold: 0,
+    });
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, [ref]);
+
+  return visible;
+}
 
 // Reads the live CSS custom property rather than duplicating its hex value,
 // so this stays in sync with variables.css instead of drifting from it -
@@ -102,16 +124,22 @@ function ThreadGroup() {
 // this never becomes the only way to see "one origin, multiple worlds."
 export default function OriginThread3D() {
   const gold = cssVar("--gold", "#b8975a");
+  const wrapperRef = useRef(null);
+  const visible = useIsVisible(wrapperRef);
+
   return (
-    <Canvas
-      dpr={[1, 1.5]}
-      camera={{ position: [0, 0, 4.4], fov: 30 }}
-      gl={{ alpha: true, antialias: true }}
-      style={{ position: "absolute", inset: 0 }}
-    >
-      <ambientLight intensity={0.75} />
-      <pointLight position={[1.5, 1.8, 2.6]} intensity={22} color={gold} />
-      <ThreadGroup />
-    </Canvas>
+    <div ref={wrapperRef} style={{ position: "absolute", inset: 0 }}>
+      <Canvas
+        dpr={[1, 1.5]}
+        camera={{ position: [0, 0, 4.4], fov: 30 }}
+        gl={{ alpha: true, antialias: true }}
+        frameloop={visible ? "always" : "never"}
+        style={{ position: "absolute", inset: 0 }}
+      >
+        <ambientLight intensity={0.75} />
+        <pointLight position={[1.5, 1.8, 2.6]} intensity={22} color={gold} />
+        <ThreadGroup />
+      </Canvas>
+    </div>
   );
 }

@@ -66,23 +66,6 @@ export default function usePageMotion(scopeRef, identity = "default") {
             }
           );
         });
-
-        // The venture identity's own line: one rule under the page hero that
-        // draws in, tying the page back to the homepage continuum without
-        // rebuilding it.
-        const rule = q("[data-page-rule]")[0];
-        if (rule) {
-          gsap.fromTo(
-            rule,
-            { scaleX: 0, transformOrigin: "left center" },
-            {
-              scaleX: 1,
-              duration: 1.1 * spec.dur,
-              ease: EASE.draw,
-              scrollTrigger: { id: `${identity}-rule`, trigger: rule, start: "top 92%", once: true },
-            }
-          );
-        }
       };
 
       mm.add(DESKTOP_QUERY, () => build(true));

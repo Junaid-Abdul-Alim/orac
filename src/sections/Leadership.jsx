@@ -21,7 +21,7 @@ export default function Leadership() {
         <ContinuumMark kind="timeline" className="leadership-timeline" nodes={leadership.length} />
         <div className="leadership-intro">
           <span className="eyebrow">The People Behind ORAC</span>
-          <h3>Leadership across the ORAC group.</h3>
+          <h2>Leadership across the ORAC group.</h2>
         </div>
         <div className="leadership-grid">
           {leadership.map((leader) => (

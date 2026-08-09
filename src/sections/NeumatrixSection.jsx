@@ -1,9 +1,11 @@
-import { useCallback, useEffect, useRef, useState } from "react";
-import { ArrowLeft, ArrowRight, Download, FileDown } from "lucide-react";
+import { useState } from "react";
+import { Download, FileDown } from "lucide-react";
+import CarouselControls from "../components/common/CarouselControls";
 import ProductPanel from "../components/common/ProductPanel";
 import ProductSpecModal from "../components/common/ProductSpecModal";
 import Reveal from "../components/common/Reveal";
 import SectionHeader from "../components/common/SectionHeader";
+import useCardCarousel from "../components/common/useCardCarousel";
 import { pad2 } from "../utils/pad2";
 import { neumatrixCategories, neumatrixIntro, neumatrixLedLightsContent } from "../data/neumatrixData";
 import neumatrixLogo from "../assets/images/international/brand/neumatrix-led-logo.webp";
@@ -39,7 +41,9 @@ function NeumatrixIndex({ categories }) {
             <span className="neumatrix-index-number">{pad2(index + 1)}</span>
             <span className="neumatrix-index-copy">
               <strong>{category.title}</strong>
-              <small>{pending ? "Coming soon" : `${pad2(count)} ${count === 1 ? "product" : "products"}`}</small>
+              <small>
+                {pending ? "Coming soon" : `${pad2(count)} ${count === 1 ? "product" : "products"}`}
+              </small>
             </span>
           </ItemTag>
         );
@@ -49,37 +53,10 @@ function NeumatrixIndex({ categories }) {
 }
 
 function NeumatrixCategory({ category, index, getImage, onSelectProduct }) {
-  const scrollerRef = useRef(null);
-  const [canScrollPrev, setCanScrollPrev] = useState(false);
-  const [canScrollNext, setCanScrollNext] = useState(false);
   const productCount = category.products.length;
-
-  const updateScrollState = useCallback(() => {
-    const element = scrollerRef.current;
-    if (!element) return;
-
-    const maxScroll = element.scrollWidth - element.clientWidth;
-    setCanScrollPrev(element.scrollLeft > 8);
-    setCanScrollNext(maxScroll > 8 && element.scrollLeft < maxScroll - 8);
-  }, []);
-
-  useEffect(() => {
-    updateScrollState();
-    window.addEventListener("resize", updateScrollState);
-    return () => window.removeEventListener("resize", updateScrollState);
-  }, [updateScrollState, productCount]);
-
-  const scrollByCard = (direction) => {
-    const element = scrollerRef.current;
-    if (!element) return;
-
-    const card = element.querySelector(".product-showcase-card");
-    const cardWidth = card?.getBoundingClientRect().width || element.clientWidth * 0.82;
-    element.scrollBy({
-      left: direction * (cardWidth + 18),
-      behavior: "smooth",
-    });
-  };
+  const { scrollerRef, canScrollPrev, canScrollNext, updateScrollState, scrollByCard } = useCardCarousel({
+    dependency: productCount,
+  });
 
   return (
     <Reveal
@@ -107,24 +84,13 @@ function NeumatrixCategory({ category, index, getImage, onSelectProduct }) {
             {pad2(productCount)} {productCount === 1 ? "product" : "products"}
           </small>
           {productCount > 1 ? (
-            <div className="product-carousel-controls" aria-label={`${category.title} carousel controls`}>
-              <button
-                type="button"
-                aria-label={`Previous ${category.title} products`}
-                disabled={!canScrollPrev}
-                onClick={() => scrollByCard(-1)}
-              >
-                <ArrowLeft size={16} strokeWidth={1.8} aria-hidden="true" />
-              </button>
-              <button
-                type="button"
-                aria-label={`Next ${category.title} products`}
-                disabled={!canScrollNext}
-                onClick={() => scrollByCard(1)}
-              >
-                <ArrowRight size={16} strokeWidth={1.8} aria-hidden="true" />
-              </button>
-            </div>
+            <CarouselControls
+              label={category.title}
+              canScrollPrev={canScrollPrev}
+              canScrollNext={canScrollNext}
+              onPrev={() => scrollByCard(-1)}
+              onNext={() => scrollByCard(1)}
+            />
           ) : null}
         </div>
       </div>
@@ -132,7 +98,9 @@ function NeumatrixCategory({ category, index, getImage, onSelectProduct }) {
       <div
         ref={scrollerRef}
         className="product-showcase-grid product-carousel-track neumatrix-category-track"
+        role="group"
         aria-label={`${category.title} products`}
+        tabIndex={0}
         onScroll={updateScrollState}
         onMouseEnter={updateScrollState}
       >

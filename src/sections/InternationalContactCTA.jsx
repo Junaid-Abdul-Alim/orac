@@ -1,38 +1,11 @@
-import { ArrowUpRight, Globe2 } from "lucide-react";
+import { Globe2 } from "lucide-react";
 import BrandLockup from "../components/common/BrandLockup";
+import ContactActionRow from "../components/common/ContactActionRow";
+import ContactBrandCard from "../components/common/ContactBrandCard";
 import GmailIcon from "../components/common/GmailIcon";
 import Reveal from "../components/common/Reveal";
 import WhatsAppIcon from "../components/common/WhatsAppIcon";
 import { contactDetails } from "../data/contactData";
-import oracLogo from "../assets/logos/orac-orange.svg";
-
-/**
- * One contact action. Built as a ruled row rather than a bordered box inside
- * a bordered card: label, value and affordance sit on a four-column grid so
- * the icons, the kind labels and the values each line up down the column, and
- * a single hairline separates one action from the next.
- *
- * `channel` opts a row into its service's own cue - WhatsApp's green appears
- * only on the glyph, at the same optical weight as the mail icon, never as a
- * filled button.
- */
-function ContactRow({ icon: Icon, kind, text, href, channel, external }) {
-  return (
-    <a
-      className={`contact-action contact-action-${channel}`}
-      href={href}
-      aria-label={`${kind}: ${text}`}
-      {...(external ? { target: "_blank", rel: "noreferrer" } : {})}
-    >
-      <span className="contact-action-icon" aria-hidden="true">
-        <Icon size={17} strokeWidth={1.7} />
-      </span>
-      <span className="contact-action-kind">{kind}</span>
-      <span className="contact-action-value">{text}</span>
-      <ArrowUpRight className="contact-action-arrow" size={15} strokeWidth={1.7} aria-hidden="true" />
-    </a>
-  );
-}
 
 function ContactPerson({ name, role, location, phone, email, website }) {
   const whatsappUrl = `https://wa.me/${phone.replace(/\D/g, "")}`;
@@ -45,7 +18,7 @@ function ContactPerson({ name, role, location, phone, email, website }) {
         {location ? <p>{location}</p> : null}
       </div>
       <div className="international-contact-links">
-        <ContactRow
+        <ContactActionRow
           icon={WhatsAppIcon}
           kind="WhatsApp"
           text={phone}
@@ -54,7 +27,7 @@ function ContactPerson({ name, role, location, phone, email, website }) {
           external
         />
         {email ? (
-          <ContactRow
+          <ContactActionRow
             icon={GmailIcon}
             kind="Email"
             text={email}
@@ -63,7 +36,7 @@ function ContactPerson({ name, role, location, phone, email, website }) {
           />
         ) : null}
         {website ? (
-          <ContactRow
+          <ContactActionRow
             icon={Globe2}
             kind="Web"
             text={website}
@@ -88,22 +61,7 @@ export default function InternationalContactCTA() {
         </Reveal>
 
         <div className="international-contact-grid">
-          <Reveal className="international-contact-brand" delay={70}>
-            <img
-              className="international-contact-logo"
-              src={oracLogo}
-              alt="ORAC"
-              loading="lazy"
-              decoding="async"
-            />
-            <p className="international-contact-held">
-              Held by <strong>ORAC Holdings</strong>
-            </p>
-            <p className="international-contact-tagline">Trade, events, and fashion under one house.</p>
-            <p className="international-contact-collective">
-              A collective of ventures united by one purpose.
-            </p>
-          </Reveal>
+          <ContactBrandCard heldByLabel="ORAC Holdings" />
 
           <div className="international-contact-people">
             <ContactPerson

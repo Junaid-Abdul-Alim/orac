@@ -1,16 +1,6 @@
-import { eventusImages } from "./eventusImages";
-import { internationalImages } from "./internationalImages";
 import oracEventusLogo from "../assets/logos/orac-eventus.svg";
 import oracInternationalLogo from "../assets/logos/orac-international.svg";
 import oracLuxeLogo from "../assets/logos/orac-luxe.svg";
-import luxeAtelier from "../assets/images/luxe/fashion-atelier.webp";
-
-// Local to this file - the venture entries below are the exported surface.
-const assetPaths = {
-  international: internationalImages.hero.src,
-  eventus: eventusImages.hero.src,
-  luxuryExport: luxeAtelier,
-};
 
 export const companies = [
   {
@@ -21,11 +11,7 @@ export const companies = [
     purpose:
       "Export and import trading across agri-commodities, natural fibres and industrial minerals, and automotive accessories.",
     route: "/international",
-    image: assetPaths.international,
     logo: oracInternationalLogo,
-    summary:
-      "Export and import trading across agri-commodities, natural fibres and industrial minerals, and automotive accessories.",
-    cta: "Visit International",
   },
   {
     id: "eventus",
@@ -35,11 +21,7 @@ export const companies = [
     purpose:
       "India-based full-service event management for weddings, celebrations, and visual storytelling through VELORAWED.",
     route: "/eventus",
-    image: assetPaths.eventus,
     logo: oracEventusLogo,
-    summary:
-      "India-based full-service event management for weddings, celebrations, and visual storytelling through VELORAWED.",
-    cta: "Visit Eventus",
   },
   {
     id: "luxury-export",
@@ -49,11 +31,7 @@ export const companies = [
     purpose:
       "A fabric-forward fashion house for ready-to-wear, white-label textiles, in-house atelier work, and handmade craft.",
     route: "/luxury-export",
-    image: assetPaths.luxuryExport,
     logo: oracLuxeLogo,
-    summary:
-      "A fabric-forward fashion house built around deliberate making, quality cloth, atelier work, and handmade craft.",
-    cta: "Explore Luxe",
   },
 ];
 

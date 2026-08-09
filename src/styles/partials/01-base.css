@@ -58,8 +58,7 @@ select,
 .brand small,
 .editorial-list,
 .partner-services,
-.footer-column,
-.contact-card a {
+.footer-column {
   font-family: var(--font-body);
 }
 
@@ -132,10 +131,8 @@ main:focus {
 .nav-contact-actions a:focus-visible,
 .mobile-toggle:focus-visible,
 .mobile-menu a:focus-visible,
-.contact-card a:focus-visible,
 .product-carousel-controls button:focus-visible,
-.product-collection-switch button:focus-visible,
-.product-showcase-tabs button:focus-visible {
+.product-collection-switch button:focus-visible {
   outline: none;
   box-shadow:
     0 0 0 2px var(--white),
@@ -155,8 +152,7 @@ main:focus {
 /* Secondary/ghost buttons render on both light and dark sections
    (ContactCTA's dark panel, HomeHero/Hero's light panels), so they need
    the same surface-agnostic two-layer ring as the shared default. */
-.button-secondary:focus-visible,
-.button-ghost:focus-visible {
+.button-secondary:focus-visible {
   outline: none;
   box-shadow:
     0 0 0 2px var(--white),
@@ -252,21 +248,16 @@ h4 {
 .home-hero h1,
 .product-hero h1,
 .contact-heading h1,
-.hero-line,
 .hero-kicker,
-.hero-brand-word,
 .section-header h2,
-.leadership-intro h3,
+.leadership-intro h2,
 .leader-tile h4,
-.service-card h3,
 .service-block h3,
 .product-panel .product-panel-name,
 .timeline-step h3,
-.quote-block blockquote,
 .partner-title h2,
 .partner-copy blockquote,
 .contact-cta h2,
-.contact-card h2,
 .reason-panel-list h3,
 .footer h2 {
   font-family: var(--font-display);
@@ -284,36 +275,14 @@ p {
   margin-inline: auto;
 }
 
-.container-wide {
-  width: min(100% - (2 * var(--gutter)), var(--max-wide));
-}
-
-.container-narrow {
-  width: min(100% - (2 * var(--gutter)), var(--max-narrow));
-}
-
 .section {
   padding: var(--section-y) 0;
 }
 
-/* Chapter boundary - used where a section opens a new movement in the
-   page rather than continuing the previous one. */
-.section-loose {
-  padding: var(--section-y-loose) 0;
-}
-
-/* Related content continuing inside a chapter. */
-.section-tight {
-  padding: var(--section-y-tight) 0;
-}
-
 .muted-section,
-.portfolio-section,
-.eventus-preview,
 .why-section,
 .founder-section,
-.holding-intro,
-.import-section {
+.holding-intro {
   background: var(--cream);
 }
 
@@ -378,15 +347,13 @@ p {
   color: var(--ink);
 }
 
-.button-secondary,
-.button-ghost {
+.button-secondary {
   background: transparent;
   color: var(--gold-light);
   border-color: rgba(212, 175, 120, 0.36);
 }
 
-.button-secondary:hover,
-.button-ghost:hover {
+.button-secondary:hover {
   background: rgba(212, 175, 120, 0.12);
   color: var(--gold-light);
   border-color: rgba(212, 175, 120, 0.68);

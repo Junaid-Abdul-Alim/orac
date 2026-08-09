@@ -10,7 +10,6 @@ export default function Hero({
   text,
   meta,
   cta,
-  secondaryCta,
   dark = true,
   lockup,
   heroNote,
@@ -60,14 +59,9 @@ export default function Hero({
             {kicker ? <p className="hero-kicker">{kicker}</p> : null}
             {text ? <p className="hero-body">{text}</p> : null}
             {meta ? <p className="hero-meta">{meta}</p> : null}
-            {cta || secondaryCta ? (
+            {cta ? (
               <div className="hero-actions">
-                {cta ? <Button to={cta.to}>{cta.label}</Button> : null}
-                {secondaryCta ? (
-                  <Button to={secondaryCta.to} variant="ghost">
-                    {secondaryCta.label}
-                  </Button>
-                ) : null}
+                <Button to={cta.to}>{cta.label}</Button>
               </div>
             ) : null}
           </div>
