@@ -1,5 +1,5 @@
 import { useLayoutEffect } from "react";
-import { gsap, ScrollTrigger } from "./gsap";
+import { gsap, safeRefresh } from "./gsap";
 import { DESKTOP_QUERY, EASE, MOBILE_QUERY, STAGGER } from "./motionTokens";
 import { hasSettled, markSettled, restoreDrawn } from "./settled";
 
@@ -122,7 +122,7 @@ export default function useCorridorMotion(containerRef, { scrub = false } = {}) 
       if (scrub) buildScrub(corridors);
       else buildOnceShot(corridors);
 
-      ScrollTrigger.refresh();
+      safeRefresh();
       return true;
     };
 

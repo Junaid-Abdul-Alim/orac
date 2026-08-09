@@ -1,4 +1,4 @@
-import { gsap, ScrollTrigger } from "./gsap";
+import { gsap, ScrollTrigger, safeRefresh } from "./gsap";
 import { REDUCED_MOTION_QUERY } from "./motionTokens";
 
 export const MOTION_READY_CLASS = "orac-motion-ready";
@@ -51,7 +51,7 @@ export function initMotionRuntime() {
         gsap.set("[data-motion]", { clearProps: "all" });
         ScrollTrigger.getAll().forEach((t) => t.kill());
       }
-      ScrollTrigger.refresh();
+      safeRefresh();
     };
 
     apply();
@@ -73,7 +73,7 @@ export function initMotionRuntime() {
  * lazily loaded imagery resolving its intrinsic height.
  */
 function watchLayoutSettle() {
-  const refresh = () => ScrollTrigger.refresh();
+  const refresh = () => safeRefresh();
 
   if (document.fonts?.ready) {
     document.fonts.ready.then(refresh).catch(() => {});

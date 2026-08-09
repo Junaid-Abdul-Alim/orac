@@ -1,5 +1,5 @@
 import { useLayoutEffect } from "react";
-import { gsap, ScrollTrigger } from "./gsap";
+import { gsap, safeRefresh } from "./gsap";
 import { DESKTOP_QUERY, MEDIA_SETTLE, MOBILE_QUERY, PARALLAX } from "./motionTokens";
 
 /**
@@ -487,7 +487,7 @@ export default function useHomeMotion(scopeRef) {
 
     // Fonts/images can still change section heights after mount; re-measure
     // once shortly after, without rebuilding any of the timelines above.
-    const refresh = window.setTimeout(() => ScrollTrigger.refresh(), 120);
+    const refresh = window.setTimeout(() => safeRefresh(), 120);
 
     return () => {
       window.clearTimeout(refresh);

@@ -1,5 +1,5 @@
 import { useLayoutEffect } from "react";
-import { gsap, ScrollTrigger } from "./gsap";
+import { gsap, safeRefresh } from "./gsap";
 import { DESKTOP_QUERY, DIST, DUR, EASE, MOBILE, MOBILE_QUERY, STAGGER, START } from "./motionTokens";
 
 /**
@@ -74,7 +74,7 @@ export default function usePageMotion(scopeRef, identity = "default") {
       return () => mm.revert();
     }, scopeRef);
 
-    const refresh = window.setTimeout(() => ScrollTrigger.refresh(), 120);
+    const refresh = window.setTimeout(() => safeRefresh(), 120);
 
     return () => {
       window.clearTimeout(refresh);

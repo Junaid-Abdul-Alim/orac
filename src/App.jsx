@@ -3,7 +3,7 @@ import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
 import PageShell from "./components/layout/PageShell";
-import { ScrollTrigger } from "./motion/gsap";
+import { safeRefresh } from "./motion/gsap";
 import Home from "./pages/Home";
 import OracInternational from "./pages/OracInternational";
 import OracEventus from "./pages/OracEventus";
@@ -80,7 +80,7 @@ function ScrollManager() {
   // ones (navbar, footer) need re-measuring or they keep firing at the old
   // page's scroll positions.
   useEffect(() => {
-    const id = window.setTimeout(() => ScrollTrigger.refresh(), 260);
+    const id = window.setTimeout(() => safeRefresh(), 260);
     return () => window.clearTimeout(id);
   }, [pathname]);
 

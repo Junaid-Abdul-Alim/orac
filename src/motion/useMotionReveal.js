@@ -1,5 +1,5 @@
 import { useLayoutEffect, useRef } from "react";
-import { gsap, ScrollTrigger } from "./gsap";
+import { gsap, safeRefresh } from "./gsap";
 import { DESKTOP_QUERY, DIST, DUR, EASE, FADE, MOBILE, MOBILE_QUERY, START } from "./motionTokens";
 import { hasSettled, markSettled, restoreSettled } from "./settled";
 
@@ -186,6 +186,6 @@ export function sweepUnarmedReveals() {
     gsap.set(el, { clearProps: "all" });
     el.dataset.motionState = "recovered";
   });
-  ScrollTrigger.refresh();
+  safeRefresh();
   return stranded.length;
 }
