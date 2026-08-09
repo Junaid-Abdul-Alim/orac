@@ -1,8 +1,9 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { ClipboardCheck, FileCheck2, Handshake, SearchCheck, Ship, Truck } from "lucide-react";
 import Reveal from "../components/common/Reveal";
 import SectionHeader from "../components/common/SectionHeader";
 import IconBadge from "../components/common/IconBadge";
+import SafeImage from "../components/common/SafeImage";
 import ProductCategoryShowcase from "../components/common/ProductCategoryShowcase";
 import ProcessTimeline from "../components/common/ProcessTimeline";
 import CinematicBanner from "../components/common/CinematicBanner";
@@ -27,36 +28,52 @@ import {
   whatWeDoClosing,
 } from "../data/internationalData";
 import { internationalImages, productImageSlot } from "../data/internationalImages";
-import { globeMarkers } from "../data/reachData";
+import { globeArcs, globeMarkerPoints } from "../data/reachData";
 import { pad2 } from "../utils/pad2";
 import usePageMotion from "../motion/usePageMotion";
 
 const serviceIcons = [Ship, Truck, SearchCheck, Handshake, ClipboardCheck, FileCheck2];
 
-// A quiet, brand-toned opening mark for the hero - not a second "reach"
-// visualisation (see GlobalReach below, which owns that job with real
-// corridor arcs and an accessible country list). Markers are the exact same
-// `highlightedCountries` GlobalReach draws from (data/reachData.js), just
-// plotted on a sphere instead of a flat map, so the two never disagree.
-const heroGlobeConfig = {
-  width: 800,
-  height: 800,
-  onRender: () => {},
-  devicePixelRatio: 2,
-  phi: 0.9,
+// The three ways into ORAC International's catalogue - visitors pick a path
+// rather than scrolling past all of them stacked.
+const tradePaths = [
+  {
+    id: "export",
+    label: "Export Portfolio",
+    images: [productImageSlot("Cardamom"), productImageSlot("Cotton Yarn")],
+  },
+  {
+    id: "import",
+    label: "Import Portfolio",
+    images: [productImageSlot("Raw Cotton"), productImageSlot("Kidney Beans")],
+  },
+  {
+    id: "neumatrix",
+    label: "NEUMATRIX",
+    images: [productImageSlot("Grill Lights"), productImageSlot("Projector & LED Headlights")],
+  },
+];
+
+// ORAC's own palette for the hero globe, not the reference component's stock
+// blue/white - a brand flourish should read as ours. Corridor arcs (Chennai
+// to every highlighted country) mirror the ones GlobalReach draws on the
+// flat map below, via the same reachData.js source.
+const heroGlobeProps = {
   theta: 0.28,
   dark: 0,
   diffuse: 0.55,
   mapSamples: 16000,
   mapBrightness: 1.15,
+  markerSize: 0.05,
   baseColor: [0.98, 0.97, 0.96], // --cream
   markerColor: [0.72, 0.59, 0.35], // --gold
   glowColor: [0.83, 0.69, 0.47], // --gold-light
-  markers: globeMarkers,
+  arcColor: [0.72, 0.59, 0.35], // --gold
 };
 
 export default function OracInternational() {
   const scope = useRef(null);
+  const [activePath, setActivePath] = useState(null);
   usePageMotion(scope, "international");
 
   return (
@@ -75,7 +92,7 @@ export default function OracInternational() {
         variant="door"
         topAccessory={
           <div className="international-hero-globe" aria-hidden="true">
-            <Globe config={heroGlobeConfig} />
+            <Globe markers={globeMarkerPoints} arcs={globeArcs} {...heroGlobeProps} />
           </div>
         }
       />
@@ -139,54 +156,103 @@ export default function OracInternational() {
                 <p>{whatWeDoClosing.text}</p>
               </Reveal>
             </div>
-            <div className="trade-capability-grid" aria-label="ORAC International capabilities" data-motion-grid>
+            <ol className="trade-flow-route" aria-label="ORAC International capabilities" data-motion-grid>
               {internationalServices.map((service, index) => (
-                <article className="trade-capability-card" key={service.title}>
-                  <div className="trade-capability-top">
-                    <IconBadge icon={serviceIcons[index]} className="icon-badge-soft" size={17} />
-                    <span className="trade-capability-number">{pad2(index + 1)}</span>
-                  </div>
-                  <div>
+                <li className="trade-flow-step" key={service.title}>
+                  <div className="trade-flow-step-head">
+                    <span className="trade-flow-index">{pad2(index + 1)}</span>
+                    <IconBadge icon={serviceIcons[index]} className="icon-badge-soft" size={16} />
                     <h3>{service.title}</h3>
-                    <p className="trade-capability-tagline">{service.tagline}</p>
-                    <p>{service.description}</p>
                   </div>
-                </article>
+                  <div className="trade-flow-step-body">
+                    <div>
+                      <p className="trade-flow-tagline">{service.tagline}</p>
+                      <p>{service.description}</p>
+                    </div>
+                  </div>
+                </li>
               ))}
-            </div>
+            </ol>
           </div>
         </div>
       </section>
 
       <section className="section">
         <div className="container">
-          <ProductCategoryShowcase
-            eyebrow="III · Trade Catalogue"
-            title="Export & Import Portfolio"
-            text={portfolioIntro}
-            collections={[
-              {
-                id: "exports",
-                label: "Export Portfolio",
-                short: "Export",
-                description: exportPortfolioTagline,
-                categories: exportCategories,
-              },
-              {
-                id: "imports",
-                label: "Import Portfolio",
-                short: "Import",
-                description: importPortfolioTagline,
-                categories: importCategories,
-              },
-            ]}
-            getImage={productImageSlot}
-            label="ORAC International trade catalogue"
-          />
+          <Reveal className="product-showcase-head">
+            <div>
+              <span className="eyebrow">III · Trade Catalogue</span>
+              <h2>Choose Your Path</h2>
+            </div>
+            <div className="product-showcase-context">
+              <p>{portfolioIntro}</p>
+            </div>
+          </Reveal>
+
+          <div className="product-collection-switch trade-path-switch" data-motion-grid role="group" aria-label="Trade catalogue paths">
+            {tradePaths.map((path) => (
+              <button
+                type="button"
+                key={path.id}
+                className={activePath === path.id ? "is-active" : ""}
+                aria-pressed={activePath === path.id}
+                onClick={() => setActivePath(path.id)}
+              >
+                <div className="trade-path-collage" aria-hidden="true">
+                  <SafeImage
+                    src={path.images[0].src}
+                    alt=""
+                    className="trade-path-collage-photo trade-path-collage-photo-back"
+                    fallbackLabel={path.images[0].label}
+                  />
+                  <SafeImage
+                    src={path.images[1].src}
+                    alt=""
+                    className="trade-path-collage-photo trade-path-collage-photo-front"
+                    fallbackLabel={path.images[1].label}
+                  />
+                </div>
+                <span className="trade-path-title">{path.label}</span>
+              </button>
+            ))}
+          </div>
         </div>
       </section>
 
-      <NeumatrixSection getImage={productImageSlot} />
+      <>
+        {activePath === "export" || activePath === "import" ? (
+          <section className="section">
+            <div className="container">
+              <ProductCategoryShowcase
+                eyebrow={activePath === "export" ? "Export Portfolio" : "Import Portfolio"}
+                title={activePath === "export" ? "Export Portfolio" : "Import Portfolio"}
+                text={activePath === "export" ? exportPortfolioTagline : importPortfolioTagline}
+                collections={[
+                  activePath === "export"
+                    ? {
+                        id: "exports",
+                        label: "Export Portfolio",
+                        short: "Export",
+                        description: exportPortfolioTagline,
+                        categories: exportCategories,
+                      }
+                    : {
+                        id: "imports",
+                        label: "Import Portfolio",
+                        short: "Import",
+                        description: importPortfolioTagline,
+                        categories: importCategories,
+                      },
+                ]}
+                getImage={productImageSlot}
+                label={`ORAC International ${activePath} catalogue`}
+              />
+            </div>
+          </section>
+        ) : null}
+
+        {activePath === "neumatrix" ? <NeumatrixSection getImage={productImageSlot} /> : null}
+      </>
 
       {/* The banner graphic already carries "Your Vision. Our Commitment."
           and the full What We Do capability set baked into the image itself,
@@ -195,20 +261,25 @@ export default function OracInternational() {
       <CinematicBanner image={internationalImages.banner} variant="door" />
 
       <section className="section process-section">
-        <div className="container">
-          <SectionHeader eyebrow="IV · Process" title={processHeading} />
-          <Reveal className="rich-copy process-narrative">
-            <p className="process-stanza">
-              {processOpeningLines.map((line) => (
-                <span key={line}>{line}</span>
+        <div className="container process-layout">
+          <div className="process-layout-copy">
+            <SectionHeader eyebrow="IV · Process" title={processHeading} />
+            <Reveal className="rich-copy process-narrative">
+              <p className="process-stanza">
+                {processOpeningLines.map((line) => (
+                  <span key={line}>{line}</span>
+                ))}
+              </p>
+              {processNarrative.map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
               ))}
-            </p>
-            {processNarrative.map((paragraph) => (
-              <p key={paragraph}>{paragraph}</p>
-            ))}
-            <p className="process-closing">{processClosing}</p>
-          </Reveal>
-          <ProcessTimeline steps={tradeProcess} />
+              <p className="process-closing">{processClosing}</p>
+            </Reveal>
+          </div>
+          <div className="process-layout-route">
+            <span className="process-route-label">The Route</span>
+            <ProcessTimeline steps={tradeProcess} className="process-timeline-route" />
+          </div>
         </div>
       </section>
 

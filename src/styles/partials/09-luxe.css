@@ -342,14 +342,6 @@
 }
 
 
-.luxe-page .reason-panel-list {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-}
-
-.luxe-page .reason-panel-list article {
-  min-height: 250px;
-  align-content: space-between;
-}
 
 /* Was the one .section on the site paying --space-2xl (155px at 1440)
    instead of the shared section rhythm, so the closing CTA opened with a
@@ -421,117 +413,88 @@
   line-height: 0.98;
 }
 
-.contact-grid {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  align-items: stretch;
-  gap: clamp(14px, 1.6vw, 20px);
-}
-
-.contact-card-wide {
-  grid-column: 1 / -1;
-}
-
-.contact-card {
-  align-content: start;
-  min-height: 100%;
-  gap: 16px;
-  border-radius: 32px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(250, 248, 243, 0.72)), var(--white);
-}
-
-.contact-card-wide {
-  grid-template-columns: minmax(0, 0.52fr) minmax(0, 0.48fr);
-  column-gap: clamp(24px, 4vw, 58px);
-  align-items: start;
-}
-
-.contact-card-wide .contact-card-top,
-.contact-card-wide h2,
-.contact-card-wide > p {
-  grid-column: 1;
-}
-
-.contact-card-wide .contact-link-list,
-.contact-card-wide .contact-card-note {
-  grid-column: 2;
-}
-
-.contact-card > p {
-  color: var(--ink-muted);
-  line-height: 1.6;
-}
-
-.contact-link-list {
+/* An editorial directory - indexed rows separated by hairlines, not a grid
+   of rounded dashboard cards (each of which used to contain a second layer
+   of smaller rounded pill-boxes for every phone/email). One `.contact-action`
+   row language throughout, the same one the International/Luxe contact CTAs
+   use (13-international.css), so a phone number reads the same way whether
+   it is met here or on a venture page. */
+.contact-directory-list {
   display: grid;
-  gap: 10px;
-  margin-top: 4px;
 }
 
-.contact-card:not(.contact-card-wide) .contact-link-list {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.contact-card a {
-  width: 100%;
+.contact-directory-entry {
   display: grid;
-  grid-template-columns: 70px minmax(0, 1fr);
-  align-items: center;
-  gap: 12px;
-  min-height: 46px;
-  padding: 9px 12px;
-  border: 1px solid rgba(184, 151, 90, 0.12);
-  border-radius: 16px;
-  background: rgba(250, 248, 243, 0.54);
+  gap: clamp(18px, 2.2vw, 28px);
+  padding: clamp(28px, 3.4vw, 48px) 0;
+  border-top: 1px solid var(--rule);
+}
+
+.contact-directory-list .contact-directory-entry:last-child {
+  border-bottom: 1px solid var(--rule);
+}
+
+.contact-directory-entry-head {
+  display: flex;
+  gap: clamp(16px, 2.2vw, 28px);
+  align-items: baseline;
+}
+
+.contact-directory-index {
+  flex: 0 0 auto;
+  color: rgba(184, 151, 90, 0.45);
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 2.4vw, 2.6rem);
+  font-weight: 600;
+  line-height: 1;
+}
+
+.contact-directory-entry-head h2 {
   color: var(--ink);
-  word-break: break-word;
-  transition:
-    color 260ms var(--ease-smooth),
-    border-color 260ms var(--ease-smooth),
-    background 260ms var(--ease-smooth),
-    transform 260ms var(--ease-smooth);
+  font-size: clamp(1.5rem, 2vw, 2rem);
+  line-height: 1.05;
+  margin: 2px 0 4px;
 }
 
-.contact-card:not(.contact-card-wide) a {
-  grid-template-columns: 1fr;
-  align-content: center;
-  gap: 4px;
-  min-height: 64px;
-  padding: 12px 14px;
+.contact-directory-entry-head p {
+  max-width: 56ch;
+  color: var(--ink-muted);
+  font-size: 0.95rem;
+  line-height: 1.55;
 }
 
-.contact-card a span {
+.contact-directory-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: clamp(24px, 3vw, 48px);
+  padding-left: calc(2.4rem + clamp(16px, 2.2vw, 28px));
+}
+
+/* Trade's three regional desks - a real geographic composition (three named
+   columns) rather than a flat run of "Singapore / India / Africa" pill
+   labels stacked one after another. */
+.contact-directory-geo {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(20px, 2.6vw, 40px);
+  padding-left: calc(2.4rem + clamp(16px, 2.2vw, 28px));
+}
+
+.contact-directory-geo-column h4 {
+  margin-bottom: 6px;
   color: var(--gold);
-  font-size: 0.68rem;
+  font-size: 0.72rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 
-.contact-card a strong {
-  color: inherit;
-  font-size: clamp(0.9rem, 1.1vw, 1rem);
-  font-weight: 600;
-  line-height: 1.2;
-}
-
-.contact-card a:hover {
-  border-color: rgba(184, 151, 90, 0.28);
-  background: rgba(255, 255, 255, 0.9);
-  color: var(--gold);
-  transform: translateY(-1px);
-}
-
-.contact-card-note {
-  width: fit-content;
-  max-width: 100%;
-  margin-top: 2px;
-  padding: 8px 12px;
-  border: 1px solid rgba(184, 151, 90, 0.12);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.58);
-  color: var(--ink-soft);
+.contact-directory-note {
+  grid-column: 1 / -1;
+  padding-left: calc(2.4rem + clamp(16px, 2.2vw, 28px));
+  color: var(--ink-muted);
   font-size: 0.86rem;
-  font-weight: 600;
+  font-style: italic;
 }
 
 .gold-line {

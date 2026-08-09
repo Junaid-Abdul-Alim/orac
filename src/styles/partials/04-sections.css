@@ -1,7 +1,5 @@
 .service-block-top,
-.timeline-step-top,
-.contact-card-top,
-.trade-capability-top {
+.timeline-step-top {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -122,9 +120,7 @@
 }
 
 .stat-grid,
-.service-grid,
-.contact-grid,
-.reason-panel-list {
+.service-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--gap-md);
@@ -136,25 +132,73 @@
   gap: var(--gap-md);
 }
 
-/* Why ORAC carries five points. On a three-column grid that leaves a
-   card-sized hole in the bottom-right corner; a six-column grid lets the
-   last two run 3+3 so the block closes as a rectangle. Scoped to the
-   widths that actually have three columns - unscoped it outranked the
-   narrower breakpoints' single-column rules and squeezed five columns
-   onto a phone. */
-@media (min-width: 901px) {
-  .why-section .reason-panel-list {
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-  }
+/* Why ORAC / values principles - an indexed row list, not a card grid (see
+   the shared block below). Works unmodified for any item count (5 on the
+   homepage, 4 on Luxe, 4 on Eventus): each row is full-width, so there's no
+   "card-sized hole" to solve for like the old N-column grid had. */
+.reason-panel-list {
+  counter-reset: principle;
+}
 
-  .why-section .reason-panel-list > * {
-    grid-column: span 2;
-  }
+.reason-panel-list article {
+  position: relative;
+  counter-increment: principle;
+  display: grid;
+  grid-template-columns: 84px minmax(180px, 300px) minmax(0, 1fr);
+  align-items: baseline;
+  column-gap: clamp(16px, 2.6vw, 40px);
+  padding: clamp(20px, 2.4vw, 32px) 0;
+  border-top: 1px solid var(--rule);
+  transition: background 420ms var(--ease-smooth);
+}
 
-  .why-section .reason-panel-list > *:nth-child(4),
-  .why-section .reason-panel-list > *:nth-child(5) {
-    grid-column: span 3;
-  }
+.reason-panel-list article:last-child {
+  border-bottom: 1px solid var(--rule);
+}
+
+.reason-panel-list article::before {
+  content: counter(principle, decimal-leading-zero);
+  font-family: var(--font-display);
+  font-size: clamp(1.7rem, 1.2rem + 1.6vw, 2.5rem);
+  font-weight: 600;
+  line-height: 1;
+  color: rgba(184, 151, 90, 0.38);
+  transition: color 420ms var(--ease-smooth);
+}
+
+.reason-panel-list article:hover {
+  background: linear-gradient(90deg, rgba(184, 151, 90, 0.06), transparent 65%);
+}
+
+.reason-panel-list article:hover::before {
+  color: var(--gold);
+}
+
+.reason-panel-list h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.15;
+}
+
+.reason-panel-list p {
+  color: var(--ink-muted);
+  font-size: 0.98rem;
+  line-height: 1.62;
+  max-width: 48ch;
+}
+
+/* The lead principle - larger type only, same row grid, so everything still
+   lines up on one shared number/title/body baseline. */
+.reason-panel-list article:first-child::before {
+  color: var(--gold);
+}
+
+.reason-panel-list article:first-child h3 {
+  font-size: clamp(1.5rem, 1rem + 1.6vw, 2rem);
+}
+
+.reason-panel-list article:not(:first-child) h3 {
+  font-size: clamp(1.15rem, 0.95rem + 0.8vw, 1.4rem);
 }
 
 .service-grid-compact {
@@ -221,98 +265,114 @@
   line-height: 1.75;
 }
 
-.trade-capability-grid {
+/* A route, not a 2x3 grid of boxes: six capabilities read top to bottom as
+   stages of one trade relationship, each collapsed to its index/title by
+   default and opening on hover/focus to reveal what it means - the same
+   progressive-disclosure language the Process route (13-international.css)
+   uses lower on the page, so "what we do" and "how we do it" read as one
+   system rather than two different card languages. */
+.trade-flow-route {
   position: relative;
   z-index: 1;
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--gap-sm);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  counter-reset: flow;
 }
 
-.trade-capability-card {
-  position: relative;
-  min-height: 172px;
-  display: grid;
-  align-content: space-between;
-  gap: 22px;
-  padding: clamp(20px, 2.2vw, 28px);
-  border: 1px solid rgba(184, 151, 90, 0.16);
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.62)), rgba(255, 255, 255, 0.72);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.86),
-    0 18px 54px rgba(26, 24, 20, 0.045);
-  transition:
-    border-color 360ms var(--ease-smooth),
-    box-shadow 360ms var(--ease-smooth),
-    transform 360ms var(--ease-smooth);
+.trade-flow-step {
+  counter-increment: flow;
+  border-top: 1px solid rgba(184, 151, 90, 0.22);
 }
 
-.trade-capability-card::after {
-  content: "";
-  position: absolute;
-  right: -44px;
-  top: -44px;
-  width: 128px;
-  height: 128px;
-  border: 1px solid rgba(184, 151, 90, 0.16);
-  border-radius: 50%;
-  background: rgba(245, 237, 216, 0.42);
+.trade-flow-step:last-child {
+  border-bottom: 1px solid rgba(184, 151, 90, 0.22);
 }
 
-.trade-capability-card:hover {
-  transform: translate3d(0, -4px, 0);
-  border-color: rgba(184, 151, 90, 0.28);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.92),
-    0 28px 70px rgba(26, 24, 20, 0.072);
+.trade-flow-step-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: clamp(14px, 1.8vw, 20px) 4px;
+  cursor: default;
 }
 
-.trade-capability-number {
-  position: relative;
-  z-index: 1;
-  width: fit-content;
+.trade-flow-index {
+  color: rgba(184, 151, 90, 0.55);
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 600;
+  transition: color 320ms var(--ease-smooth);
+}
+
+.trade-flow-step:hover .trade-flow-index,
+.trade-flow-step:focus-within .trade-flow-index {
   color: var(--gold);
-  font-size: 0.76rem;
-  font-weight: 700;
-  letter-spacing: 0.16em;
 }
 
-.trade-capability-top {
-  position: relative;
-  z-index: 1;
-}
-
-.trade-capability-card div {
-  position: relative;
-  z-index: 1;
-  display: grid;
-  gap: 10px;
-}
-
-.trade-capability-card h3 {
+.trade-flow-step-head h3 {
   color: var(--ink);
-  font-size: clamp(1.28rem, 1.65vw, 1.72rem);
-  line-height: 1.04;
+  font-size: clamp(1.05rem, 1.2vw, 1.24rem);
+  line-height: 1.15;
 }
 
-.trade-capability-card p {
-  max-width: 280px;
+.trade-flow-step-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition:
+    grid-template-rows 420ms var(--ease-smooth),
+    opacity 320ms var(--ease-smooth);
+}
+
+.trade-flow-step:hover .trade-flow-step-body,
+.trade-flow-step:focus-within .trade-flow-step-body {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.trade-flow-step-body > * {
+  overflow: hidden;
+}
+
+.trade-flow-tagline {
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.02rem;
+  padding: 0 4px;
+  margin-top: 2px;
+}
+
+.trade-flow-step-body p:not(.trade-flow-tagline) {
+  max-width: 46ch;
   color: var(--ink-muted);
   font-size: 0.92rem;
-  line-height: 1.55;
+  line-height: 1.6;
+  padding: 6px 4px 18px;
 }
 
-/* One card language: same border, same radius token, same shadow. */
+/* Touch/no-hover: nothing to hover, so nothing should stay hidden - nudge
+   every step open by default instead of trapping the description behind an
+   interaction that doesn't exist on the device. */
+@media (hover: none) {
+  .trade-flow-step-body {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+}
+
+
+/* One card language: same border, same radius token, same shadow. Reserved
+   for surfaces that genuinely need a container (leadership tiles, product
+   panels) - Why ORAC / values rows and the contact directory now use their
+   own flat, ruled layouts instead (see below / 13-international.css /
+   Contact.jsx's own partial). */
 .leader-tile,
 .stat-tile,
 .service-card,
 .service-block,
 .product-panel,
-.contact-card,
-.reason-panel-list article,
 .editorial-panel,
 .feature-panel {
   border: 1px solid rgba(184, 151, 90, 0.14);
@@ -324,18 +384,15 @@
 .leader-tile,
 .service-card,
 .service-block,
-.product-panel,
-.contact-card,
-.reason-panel-list article {
+.product-panel {
   display: grid;
   gap: 12px;
   padding: clamp(22px, 2vw, 30px);
 }
 
 /* Leadership card lift. Leader tiles keep the same shadowed-card language as
-   `.product-panel:hover` (06-contact.css) and the luxe page's own
-   `.reason-panel-list article:hover` (12-maison.css) - closing the gap for
-   the one homepage grid that reached the visitor without it.
+   `.product-panel:hover` (06-contact.css) - closing the gap for the one
+   homepage grid that reached the visitor without it.
 
    `!important` on the hover transform is deliberate, not a specificity
    workaround: useHomeMotion.js's "leadership" scene leaves every `.leader-tile`
@@ -381,19 +438,13 @@
   box-shadow: 0 28px 70px rgba(26, 24, 20, 0.09);
 }
 
-/* Why ORAC keeps its own deliberately flat, shadowless card (see the
-   `.why-section .reason-panel-list article` rule above) - no lift or shadow
-   on hover here, just the same gold underline as Leadership, at the tempo the
-   quieter section calls for. */
-.reason-panel-list article {
-  position: relative;
-}
-
 /* A short gold rule draws in under the heading on hover - the same "line
    drawing" vocabulary the continuum and venture-chapter marks use elsewhere,
-   read here as a hover response instead of a scroll one. */
+   read here as a hover response instead of a scroll one. (Why ORAC / values
+   rows have their own hover language - see the reason-panel-list block
+   above - a whole-row background wash and number colour change, since a
+   short underline reads as too small a gesture on a full-width row.) */
 .leader-tile h4::after,
-.reason-panel-list article h3::after,
 .service-block h3::after,
 .service-card h3::after {
   content: "";
@@ -406,7 +457,6 @@
 }
 
 .leader-tile:hover h4::after,
-.reason-panel-list article:hover h3::after,
 .service-block:hover h3::after,
 .service-card:hover h3::after {
   width: 32px;
@@ -433,9 +483,7 @@
 .service-block > span,
 .service-block-top span,
 .product-panel-meta span,
-.timeline-step span,
-.contact-card > span,
-.contact-card-top span {
+.timeline-step span {
   color: var(--gold);
   font-size: 0.76rem;
   font-weight: 700;
@@ -446,9 +494,7 @@
 .service-card h3,
 .service-block h3,
 .product-panel .product-panel-name,
-.timeline-step h3,
-.contact-card h2,
-.reason-panel-list h3 {
+.timeline-step h3 {
   font-size: 1.45rem;
   line-height: 1.14;
 }
@@ -776,12 +822,3 @@
   letter-spacing: 0.1em;
 }
 
-/* WhyOrac reads as support material after the venture chapters, not
-   another chapter in its own right - a flatter, quieter card treatment
-   than the shadowed cards used elsewhere (leader tiles, service cards),
-   scoped to this section only. */
-.why-section .reason-panel-list article {
-  border-color: rgba(184, 151, 90, 0.1);
-  background: transparent;
-  box-shadow: none;
-}

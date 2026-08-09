@@ -82,3 +82,46 @@ export const globeMarkers = [
   { location: [46.2276, 2.2137], size: 0.06 }, // France
   { location: [40.4637, -3.7492], size: 0.05 }, // Spain
 ];
+
+// All 30 highlighted countries get a dot on the globe, but only one per
+// region cluster gets a name tag - the full set, all labelled at once,
+// reads as noise (West Africa alone is 7 countries a few degrees apart).
+// One legible anchor per corridor cluster, gateway-style, says the same
+// geographic story without thirty overlapping tags fighting for space.
+const featuredGlobeLabels = new Set([
+  "India", // hub
+  "China", // East Asia
+  "Indonesia", // Southeast Asia
+  "United Arab Emirates", // Middle East
+  "Nigeria", // West Africa
+  "Tanzania", // East Africa
+  "Germany", // Europe
+  "United States of America", // North America
+  "Brazil", // South America
+  "Australia", // Oceania
+]);
+
+// Same points as `globeMarkers`, labelled - for the hero globe's marker
+// props (id/label), which cobe's own marker shape doesn't carry. Zipped by
+// position against `highlightedCountries` (a Set, so insertion order is
+// preserved) since that's the order both arrays were written in above.
+export const globeMarkerPoints = Array.from(highlightedCountries).map((country, index) => ({
+  id: country.toLowerCase().replace(/[^a-z0-9]+/g, "-"),
+  location: globeMarkers[index].location,
+  label: featuredGlobeLabels.has(country) ? displayNames[country] || country : undefined,
+}));
+
+// Same dots, no name tags - for the smaller globes reused elsewhere on the
+// page (founder section, about panel) where the hero's gateway labels would
+// just be repeated clutter rather than useful context.
+export const globeMarkerPointsUnlabeled = globeMarkerPoints.map(({ id, location }) => ({ id, location }));
+
+// Same "one corridor from India to each focused country" geometry
+// GlobalReach draws on the flat map (see buildCorridors in GlobalReach.jsx) -
+// reused here rather than re-derived, so the globe and the map never
+// disagree about which countries are connected to the Chennai hub.
+export const globeArcs = globeMarkerPoints.slice(1).map((point) => ({
+  id: `chennai-${point.id}`,
+  from: globeMarkerPoints[0].location,
+  to: point.location,
+}));

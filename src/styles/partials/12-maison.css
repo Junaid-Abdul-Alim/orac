@@ -400,29 +400,6 @@
   text-transform: uppercase;
 }
 
-.luxe-page .why-section .reason-panel-list article {
-  align-content: start;
-  gap: 12px;
-  border-radius: var(--radius-lg);
-  background: linear-gradient(180deg, var(--white), rgba(250, 248, 243, 0.66));
-  transition:
-    transform 0.5s var(--ease-smooth),
-    border-color 0.5s var(--ease-smooth),
-    box-shadow 0.5s var(--ease-smooth);
-}
-
-.luxe-page .why-section .reason-panel-list article:hover {
-  transform: translateY(-4px);
-  border-color: rgba(184, 151, 90, 0.3);
-  box-shadow: 0 28px 60px -36px rgba(26, 24, 20, 0.5);
-}
-
-.luxe-page .why-section .reason-panel-list h3 {
-  font-family: var(--font-display);
-  font-size: clamp(1.5rem, 1.8vw, 1.9rem);
-  font-weight: 600;
-  line-height: 1.02;
-}
 
 /* --- Per-category page --- */
 .maison-category-hero {

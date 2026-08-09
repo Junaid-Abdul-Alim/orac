@@ -44,6 +44,33 @@ function ScrollManager() {
       return () => window.clearTimeout(id);
     }
 
+    // A same-URL reload from useMotionCrashRecovery below stashes the
+    // pre-crash scroll offset (and the pathname it happened on) here -
+    // restore it once instead of the normal fresh-navigation reset to top,
+    // otherwise recovering from that GSAP crash always reads to the visitor
+    // as "scrolling down snaps me to top". Only restore when this reload
+    // landed back on the *same* route: the crash the comment below documents
+    // is typically caught mid-route-change (a click firing while GSAP is
+    // between tearing down the outgoing page's triggers and building the
+    // incoming page's), so the reload often lands on a genuinely different,
+    // intentionally-navigated-to page - which should open at its own top,
+    // not the old page's scroll offset.
+    const recoveryRaw = window.sessionStorage.getItem(MOTION_RECOVERY_SCROLL_KEY);
+    window.sessionStorage.removeItem(MOTION_RECOVERY_SCROLL_KEY);
+    const recovery = recoveryRaw ? JSON.parse(recoveryRaw) : null;
+    if (recovery && recovery.pathname === pathname) {
+      // The jump is deliberately delayed rather than immediate: landing
+      // deep-scrolled the instant this route mounts recreates the exact
+      // condition that caused the crash (many not-yet-settled reveal
+      // triggers suddenly due at once during this fresh mount's own refresh
+      // cycle below and in usePageMotion) - waiting past both lets those
+      // settle against the top-of-page state first.
+      const id = window.setTimeout(() => {
+        window.scrollTo({ top: recovery.scrollY || 0, behavior: "auto" });
+      }, 500);
+      return () => window.clearTimeout(id);
+    }
+
     window.scrollTo({ top: 0, behavior: "auto" });
     document.getElementById("main-content")?.focus({ preventScroll: true });
   }, [pathname, hash]);
@@ -97,11 +124,33 @@ function ScrollManager() {
 // shape rather than any one engine's sentence.
 const GSAP_TRIGGER_LIST_ERROR = /[.'"]end['"]/;
 
+// Read by ScrollManager above after the reload below completes, so recovering
+// from the GSAP crash restores where the visitor was instead of resetting to
+// top the way a genuine fresh navigation should.
+const MOTION_RECOVERY_SCROLL_KEY = "orac-motion-recovery-scroll";
+const MOTION_RECOVERY_TIME_KEY = "orac-motion-recovery-time";
+
 function useMotionCrashRecovery() {
   useEffect(() => {
     const onError = (event) => {
       if (!GSAP_TRIGGER_LIST_ERROR.test(event.message || "")) return;
       event.preventDefault();
+
+      // If this same crash fires again within a few seconds of the last
+      // recovery, restoring the same deep scroll offset is what's
+      // re-triggering it - drop the offset so this reload settles at the
+      // top for good instead of bouncing through repeated reloads.
+      const now = Date.now();
+      const lastCrash = Number(window.sessionStorage.getItem(MOTION_RECOVERY_TIME_KEY)) || 0;
+      if (now - lastCrash > 5000) {
+        window.sessionStorage.setItem(
+          MOTION_RECOVERY_SCROLL_KEY,
+          JSON.stringify({ scrollY: window.scrollY, pathname: window.location.pathname })
+        );
+      } else {
+        window.sessionStorage.removeItem(MOTION_RECOVERY_SCROLL_KEY);
+      }
+      window.sessionStorage.setItem(MOTION_RECOVERY_TIME_KEY, String(now));
       window.location.reload();
     };
 

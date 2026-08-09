@@ -21,10 +21,6 @@
     grid-template-columns: 1fr;
   }
 
-  .luxe-page .reason-panel-list {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
   .luxe-studio-strip {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -72,9 +68,17 @@
   .leadership-grid,
   .service-grid,
   .service-grid-compact,
-  .luxe-offering-grid,
-  .reason-panel-list {
+  .luxe-offering-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .reason-panel-list article {
+    grid-template-columns: 64px minmax(0, 1fr);
+    row-gap: 6px;
+  }
+
+  .reason-panel-list p {
+    grid-column: 1 / -1;
   }
 
   .product-showcase-grid {
@@ -159,9 +163,7 @@
   .leader-tile,
   .service-card,
   .service-block,
-  .product-panel,
-  .contact-card,
-  .reason-panel-list article {
+  .product-panel {
     padding: 24px;
   }
 
@@ -173,7 +175,6 @@
   .luxe-studio-strip,
   .product-showcase-grid,
   .contact-grid,
-  .reason-panel-list,
   .process-timeline,
   .process-four,
   .editorial-gallery,
@@ -253,12 +254,7 @@
     grid-template-columns: 1fr;
   }
 
-  .luxe-page .reason-panel-list {
-    grid-template-columns: 1fr;
-  }
-
-  .eventus-services-section .service-grid,
-  .eventus-why-section .reason-panel-list {
+  .eventus-services-section .service-grid {
     grid-template-columns: 1fr;
   }
 
@@ -541,15 +537,11 @@
   .luxe-offering-grid,
   .luxe-studio-strip,
   .contact-grid,
-  .reason-panel-list,
-  .why-section .reason-panel-list,
   .editorial-gallery,
   .eventus-gallery-section .editorial-gallery,
   .velorawed-section .editorial-gallery,
   .venture-frame-grid,
   .eventus-services-section .service-grid,
-  .eventus-why-section .reason-panel-list,
-  .luxe-page .reason-panel-list,
   .luxe-page .luxe-offerings-section .luxe-offering-grid,
   .azrin-collection-grid,
   .process-timeline,
@@ -557,9 +549,6 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .why-section .reason-panel-list > *,
-  .why-section .reason-panel-list > *:nth-child(4),
-  .why-section .reason-panel-list > *:nth-child(5),
   .gallery-item,
   .eventus-gallery-section .gallery-item,
   .eventus-gallery-section .gallery-item-1,
@@ -573,7 +562,6 @@
 
   /* Odd-count grids: the last card spans the full row instead of leaving a
      card-sized hole beside it. */
-  .why-section .reason-panel-list > *:last-child,
   .leadership-grid > *:nth-child(odd):last-child {
     grid-column: 1 / -1;
   }
@@ -840,15 +828,6 @@
 
   .trade-capability-showcase::before {
     inset: 10px;
-    border-radius: 24px;
-  }
-
-  .trade-capability-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .trade-capability-card {
-    min-height: 150px;
     border-radius: 24px;
   }
 

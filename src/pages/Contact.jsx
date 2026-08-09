@@ -1,182 +1,195 @@
-import { CalendarDays, Gem, Globe2, Landmark, TrendingUp } from "lucide-react";
+import { ArrowUpRight, Globe, Mail, Phone } from "lucide-react";
 import BrandLockup from "../components/common/BrandLockup";
-import IconBadge from "../components/common/IconBadge";
 import Reveal from "../components/common/Reveal";
 import { contactDetails } from "../data/contactData";
+import { pad2 } from "../utils/pad2";
 import oracLogo from "../assets/logos/orac-orange.svg";
 
-function ContactCard({ icon, label, title, description, links = [], note, delay = 0, wide = false }) {
+const KIND_ICON = { Phone, Email: Mail, Web: Globe };
+
+// The same hairline `.contact-action` row (icon / kind / value / arrow) the
+// International and Luxe contact CTAs already use - one interaction
+// language for every way ORAC can be reached, not a second one invented for
+// this page.
+function ContactRow({ kind, text, href }) {
+  const Icon = KIND_ICON[kind] || Mail;
   return (
-    <Reveal as="article" className={`contact-card ${wide ? "contact-card-wide" : ""}`.trim()} delay={delay}>
-      <div className="contact-card-top">
-        <IconBadge icon={icon} className="icon-badge-soft" size={17} />
-        <span>{label}</span>
+    <a className="contact-action" href={href} aria-label={`${kind}: ${text}`}>
+      <span className="contact-action-icon" aria-hidden="true">
+        <Icon size={16} strokeWidth={1.7} />
+      </span>
+      <span className="contact-action-kind">{kind}</span>
+      <span className="contact-action-value">{text}</span>
+      <ArrowUpRight className="contact-action-arrow" size={15} strokeWidth={1.7} aria-hidden="true" />
+    </a>
+  );
+}
+
+function DirectoryEntry({ index, label, org, person, note, actions, geoColumns, wide }) {
+  return (
+    <Reveal
+      as="article"
+      className={`contact-directory-entry ${wide ? "contact-directory-entry-wide" : ""}`.trim()}
+      delay={index * 60}
+    >
+      <div className="contact-directory-entry-head">
+        <span className="contact-directory-index">{pad2(index)}</span>
+        <div>
+          <span className="eyebrow">{label}</span>
+          <h2>{org}</h2>
+          {person ? <p>{person}</p> : null}
+        </div>
       </div>
-      <h2>{title}</h2>
-      {description ? <p>{description}</p> : null}
-      {links.length ? (
-        <div className="contact-link-list">
-          {links.map((link) => (
-            <a key={`${link.kind}-${link.href}-${link.text}`} href={link.href} aria-label={link.label}>
-              <span>{link.kind || "Contact"}</span>
-              <strong>{link.text}</strong>
-            </a>
+
+      {geoColumns ? (
+        <div className="contact-directory-geo">
+          {geoColumns.map((column) => (
+            <div className="contact-directory-geo-column" key={column.title}>
+              <h4>{column.title}</h4>
+              {column.actions.map((action) => (
+                <ContactRow key={`${action.kind}-${action.text}`} {...action} />
+              ))}
+            </div>
           ))}
         </div>
-      ) : null}
-      {note ? <p className="contact-card-note">{note}</p> : null}
+      ) : (
+        <div className="contact-directory-actions">
+          {actions.map((action) => (
+            <ContactRow key={`${action.kind}-${action.text}`} {...action} />
+          ))}
+        </div>
+      )}
+
+      {note ? <p className="contact-directory-note">{note}</p> : null}
     </Reveal>
   );
 }
 
 export default function Contact() {
-  const contactCards = [
+  const entries = [
     {
-      icon: Landmark,
-      label: "General enquiry",
-      title: "ORAC Holdings",
-      description: "Ohm Pranav / Managing Director / India",
-      links: [
+      label: "General Enquiry",
+      org: "ORAC Holdings",
+      person: "Ohm Pranav / Managing Director / India",
+      actions: [
+        { kind: "Email", text: contactDetails.holding.email, href: `mailto:${contactDetails.holding.email}` },
         {
-          href: `mailto:${contactDetails.holding.email}`,
-          text: contactDetails.holding.email,
-          label: "Email ORAC Holdings",
           kind: "Email",
-        },
-        {
-          href: `mailto:${contactDetails.holding.secondaryEmail}`,
           text: contactDetails.holding.secondaryEmail,
-          label: "Email ORAC information desk",
-          kind: "Email",
+          href: `mailto:${contactDetails.holding.secondaryEmail}`,
         },
         {
-          href: `tel:${contactDetails.holding.phone.replaceAll(" ", "")}`,
-          text: contactDetails.holding.phone,
-          label: "Call ORAC Holdings",
           kind: "Phone",
+          text: contactDetails.holding.phone,
+          href: `tel:${contactDetails.holding.phone.replaceAll(" ", "")}`,
         },
-        {
-          href: `https://${contactDetails.holding.website}`,
-          text: contactDetails.holding.website,
-          label: "Visit ORAC Holdings website",
-          kind: "Web",
-        },
+        { kind: "Web", text: contactDetails.holding.website, href: `https://${contactDetails.holding.website}` },
       ],
     },
     {
-      icon: TrendingUp,
-      label: "Investment enquiry",
-      title: "ORAC Holdings",
-      description: "Rak J / Director / Singapore",
-      links: [
-        {
-          href: `mailto:${contactDetails.international.email}`,
-          text: contactDetails.international.email,
-          label: "Email the ORAC Holdings investment desk",
-          kind: "Email",
-        },
-        {
-          href: `tel:${contactDetails.international.phone.replaceAll(" ", "")}`,
-          text: contactDetails.international.phone,
-          label: "Call the ORAC Holdings investment desk",
-          kind: "Phone",
-        },
-        {
-          href: `https://${contactDetails.holding.website}`,
-          text: contactDetails.holding.website,
-          label: "Visit ORAC Holdings website",
-          kind: "Web",
-        },
-      ],
+      label: "Investment Enquiry",
+      org: "ORAC Holdings",
+      person: "Rak J / Director / Singapore",
       note: contactDetails.international.address,
+      actions: [
+        {
+          kind: "Email",
+          text: contactDetails.international.email,
+          href: `mailto:${contactDetails.international.email}`,
+        },
+        {
+          kind: "Phone",
+          text: contactDetails.international.phone,
+          href: `tel:${contactDetails.international.phone.replaceAll(" ", "")}`,
+        },
+        { kind: "Web", text: contactDetails.holding.website, href: `https://${contactDetails.holding.website}` },
+      ],
     },
     {
-      icon: Globe2,
-      label: "Trade enquiry",
-      title: "ORAC International",
-      description: "Three regional desks for export, import, and sourcing conversations.",
+      label: "Trade Enquiry",
+      org: "ORAC International",
+      person: "Three regional desks for export, import, and sourcing conversations.",
       wide: true,
-      links: [
+      geoColumns: [
         {
-          href: `tel:${contactDetails.international.phone.replaceAll(" ", "")}`,
-          text: contactDetails.international.phone,
-          label: `Call the Singapore desk - ${contactDetails.international.name}, ${contactDetails.international.role}`,
-          kind: "Singapore",
+          title: "Singapore",
+          actions: [
+            {
+              kind: "Phone",
+              text: contactDetails.international.phone,
+              href: `tel:${contactDetails.international.phone.replaceAll(" ", "")}`,
+            },
+            {
+              kind: "Email",
+              text: contactDetails.international.email,
+              href: `mailto:${contactDetails.international.email}`,
+            },
+          ],
         },
         {
-          href: `mailto:${contactDetails.international.email}`,
-          text: contactDetails.international.email,
-          label: "Email the Singapore desk",
-          kind: "Singapore",
+          title: "India",
+          actions: [
+            {
+              kind: "Phone",
+              text: contactDetails.holding.phone,
+              href: `tel:${contactDetails.holding.phone.replaceAll(" ", "")}`,
+            },
+            {
+              kind: "Email",
+              text: contactDetails.holding.secondaryEmail,
+              href: `mailto:${contactDetails.holding.secondaryEmail}`,
+            },
+          ],
         },
         {
-          href: `tel:${contactDetails.holding.phone.replaceAll(" ", "")}`,
-          text: contactDetails.holding.phone,
-          label: "Call the India desk - Ohm Pranav, Managing Director",
-          kind: "India",
-        },
-        {
-          href: `mailto:${contactDetails.holding.secondaryEmail}`,
-          text: contactDetails.holding.secondaryEmail,
-          label: "Email the India desk",
-          kind: "India",
-        },
-        {
-          href: `tel:${contactDetails.africa.phone.replaceAll(" ", "")}`,
-          text: contactDetails.africa.phone,
-          label: `Call the Africa desk - ${contactDetails.africa.role}, ${contactDetails.africa.location}`,
-          kind: "Africa",
-        },
-        {
-          href: `mailto:${contactDetails.africa.email}`,
-          text: contactDetails.africa.email,
-          label: "Email the Africa desk",
-          kind: "Africa",
+          title: "Africa",
+          actions: [
+            {
+              kind: "Phone",
+              text: contactDetails.africa.phone,
+              href: `tel:${contactDetails.africa.phone.replaceAll(" ", "")}`,
+            },
+            { kind: "Email", text: contactDetails.africa.email, href: `mailto:${contactDetails.africa.email}` },
+          ],
         },
       ],
     },
     {
-      icon: CalendarDays,
-      label: "Event enquiry",
-      title: "ORAC Eventus",
-      description: contactDetails.eventus.address,
+      label: "Event Enquiry",
+      org: "ORAC Eventus",
+      person: contactDetails.eventus.address,
       wide: true,
-      links: [
+      note: `${contactDetails.eventus.social.join(" / ")} on Instagram & Facebook`,
+      actions: [
         ...contactDetails.eventus.phones.map((phone) => ({
-          href: `tel:${phone.replaceAll(" ", "")}`,
-          text: phone,
-          label: `Call ORAC Eventus at ${phone}`,
           kind: "Phone",
+          text: phone,
+          href: `tel:${phone.replaceAll(" ", "")}`,
         })),
         ...contactDetails.eventus.emails.map((email) => ({
-          href: `mailto:${email}`,
-          text: email,
-          label: `Email ORAC Eventus at ${email}`,
           kind: "Email",
+          text: email,
+          href: `mailto:${email}`,
         })),
       ],
-      note: `${contactDetails.eventus.social.join(" / ")} on Instagram & Facebook`,
     },
     {
-      icon: Gem,
-      label: "Luxe enquiry",
-      title: "ORAC Luxe / The House of Azrin",
-      description: `${contactDetails.luxe.name} / ${contactDetails.luxe.location}`,
-      links: [
+      label: "Luxe Enquiry",
+      org: "ORAC Luxe / The House of Azrin",
+      person: `${contactDetails.luxe.name} / ${contactDetails.luxe.location}`,
+      note: `${contactDetails.luxe.social} on Instagram`,
+      actions: [
         {
-          href: `tel:${contactDetails.luxe.phone.replaceAll(" ", "")}`,
-          text: contactDetails.luxe.phone,
-          label: "Call The House of Azrin",
           kind: "Phone",
+          text: contactDetails.luxe.phone,
+          href: `tel:${contactDetails.luxe.phone.replaceAll(" ", "")}`,
         },
         ...contactDetails.luxe.emails.map((email) => ({
-          href: `mailto:${email}`,
-          text: email,
-          label: `Email The House of Azrin at ${email}`,
           kind: "Email",
+          text: email,
+          href: `mailto:${email}`,
         })),
       ],
-      note: `${contactDetails.luxe.social} on Instagram`,
     },
   ];
 
@@ -206,9 +219,9 @@ export default function Contact() {
             <span className="eyebrow">Contact Directory</span>
             <h2 id="contact-directory-title">One house. The right desk.</h2>
           </Reveal>
-          <div className="contact-grid">
-            {contactCards.map((card, index) => (
-              <ContactCard key={card.label} {...card} delay={index * 80} />
+          <div className="contact-directory-list">
+            {entries.map((entry, index) => (
+              <DirectoryEntry key={entry.label} index={index + 1} {...entry} />
             ))}
           </div>
         </div>

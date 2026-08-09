@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Gem, PenTool, Sparkles } from "lucide-react";
 import Hero from "../components/common/Hero";
 import IconBadge from "../components/common/IconBadge";
+import ImagePanel from "../components/common/ImagePanel";
 import LuxeContactCTA from "../sections/LuxeContactCTA";
 import Reveal from "../components/common/Reveal";
 import SafeImage from "../components/common/SafeImage";
@@ -16,6 +17,7 @@ import {
   azrinValues,
   catalogue,
   houseEditions,
+  luxeImages,
   luxeTagline,
   maisonBanner,
   maisonSeries,
@@ -94,16 +96,28 @@ export default function LuxuryExport() {
         </div>
       </section>
 
-      {/* iv) What is Azrin */}
+      {/* iv) What is Azrin - an editorial spread (text against real atelier
+          photography), not text answered by more text with an empty column
+          beside it. Reuses the homepage venture-chapter's own editorial-layout
+          / seam-reveal pattern rather than inventing a new one. */}
       <section className="section luxe-founder-section">
-        <div className="container split-layout">
-          <SectionHeader eyebrow={`III · ${whatIsAzrin.eyebrow}`} title={whatIsAzrin.title} />
-          <Reveal className="rich-copy luxe-founder-copy">
-            {whatIsAzrin.paragraphs.map((paragraph) => (
-              <p key={paragraph}>{paragraph}</p>
-            ))}
-            <blockquote>{azrinFounder.quote}</blockquote>
-          </Reveal>
+        <div className="container editorial-layout">
+          <div className="editorial-copy luxe-founder-copy">
+            <SectionHeader eyebrow={`III · ${whatIsAzrin.eyebrow}`} title={whatIsAzrin.title} />
+            <Reveal className="rich-copy" delay={80}>
+              {whatIsAzrin.paragraphs.map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
+              <blockquote>{azrinFounder.quote}</blockquote>
+            </Reveal>
+          </div>
+          <ImagePanel
+            image={luxeImages.opening}
+            label="The House of Azrin"
+            className="editorial-media luxe-founder-media"
+            variant="seam"
+            delay={90}
+          />
         </div>
       </section>
 

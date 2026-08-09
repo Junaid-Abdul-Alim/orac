@@ -239,14 +239,6 @@
   grid-template-columns: minmax(280px, 0.7fr) minmax(0, 1.3fr);
 }
 
-.eventus-why-section .reason-panel-list {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.eventus-why-section .reason-panel-list article {
-  min-height: 260px;
-  align-content: space-between;
-}
 
 .process-timeline {
   display: grid;

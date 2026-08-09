@@ -256,7 +256,16 @@
 /* Shared hero-height logic across International / Eventus / Luxe: the copy
    block reserves the same minimum vertical space on all three, so a
    one-line title and a two-line title still open the page at the same
-   height. Content sits centred inside that reserved block. */
+   height. Content sits centred inside that reserved block.
+
+   `.product-hero-copy` itself only arranges its direct children - normally
+   just `.product-hero-copy-text` alone (centred, full width), or on
+   International, that text block plus `topAccessory` (the hero globe) side
+   by side. The actual eyebrow/title/paragraph stacking - what used to live
+   directly on `.product-hero-copy` - now lives on `.product-hero-copy-text`,
+   so a two-column caller can place the whole stack as a single grid item
+   instead of spanning one sibling across several independently auto-sized
+   rows (which visibly mis-sizes and re-centres the others - see Hero.jsx). */
 .product-hero-copy,
 .contact-heading {
   width: min(920px, 100%);
@@ -264,12 +273,22 @@
   display: grid;
   align-content: center;
   justify-items: center;
-  gap: var(--space-sm);
   margin-inline: auto;
 }
 
 .product-hero-copy {
   --hero-copy-min: clamp(300px, 30vw, 440px);
+}
+
+.contact-heading {
+  gap: var(--space-sm);
+}
+
+.product-hero-copy-text {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-sm);
+  width: 100%;
 }
 
 .product-hero-image {
