@@ -3,7 +3,8 @@ import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
 import PageShell from "./components/layout/PageShell";
-import { safeRefresh } from "./motion/gsap";
+import { gsap, ScrollTrigger, requestRefresh } from "./motion/gsap";
+import { MOTION_READY_CLASS } from "./motion/runtime";
 import Home from "./pages/Home";
 import OracInternational from "./pages/OracInternational";
 import OracEventus from "./pages/OracEventus";
@@ -44,33 +45,6 @@ function ScrollManager() {
       return () => window.clearTimeout(id);
     }
 
-    // A same-URL reload from useMotionCrashRecovery below stashes the
-    // pre-crash scroll offset (and the pathname it happened on) here -
-    // restore it once instead of the normal fresh-navigation reset to top,
-    // otherwise recovering from that GSAP crash always reads to the visitor
-    // as "scrolling down snaps me to top". Only restore when this reload
-    // landed back on the *same* route: the crash the comment below documents
-    // is typically caught mid-route-change (a click firing while GSAP is
-    // between tearing down the outgoing page's triggers and building the
-    // incoming page's), so the reload often lands on a genuinely different,
-    // intentionally-navigated-to page - which should open at its own top,
-    // not the old page's scroll offset.
-    const recoveryRaw = window.sessionStorage.getItem(MOTION_RECOVERY_SCROLL_KEY);
-    window.sessionStorage.removeItem(MOTION_RECOVERY_SCROLL_KEY);
-    const recovery = recoveryRaw ? JSON.parse(recoveryRaw) : null;
-    if (recovery && recovery.pathname === pathname) {
-      // The jump is deliberately delayed rather than immediate: landing
-      // deep-scrolled the instant this route mounts recreates the exact
-      // condition that caused the crash (many not-yet-settled reveal
-      // triggers suddenly due at once during this fresh mount's own refresh
-      // cycle below and in usePageMotion) - waiting past both lets those
-      // settle against the top-of-page state first.
-      const id = window.setTimeout(() => {
-        window.scrollTo({ top: recovery.scrollY || 0, behavior: "auto" });
-      }, 500);
-      return () => window.clearTimeout(id);
-    }
-
     window.scrollTo({ top: 0, behavior: "auto" });
     document.getElementById("main-content")?.focus({ preventScroll: true });
   }, [pathname, hash]);
@@ -78,10 +52,10 @@ function ScrollManager() {
   // Every trigger on the outgoing route was measured against that route's
   // document height. The incoming route's hooks build their own, but the shared
   // ones (navbar, footer) need re-measuring or they keep firing at the old
-  // page's scroll positions.
+  // page's scroll positions. requestRefresh() defers past the route-change
+  // commit on its own (see motion/gsap.js) - no timer needed here.
   useEffect(() => {
-    const id = window.setTimeout(() => safeRefresh(), 260);
-    return () => window.clearTimeout(id);
+    requestRefresh();
   }, [pathname]);
 
   return null;
@@ -89,69 +63,78 @@ function ScrollManager() {
 
 // GSAP's ScrollTrigger keeps one shared, module-level registry of every
 // trigger on the page - not state React owns or can rebuild on its own. A
-// route change unmounts the outgoing page's triggers and mounts the
-// incoming page's in the same commit; if a scroll event lands in that exact
-// window - the routine auto-scroll a click performs to bring a link into
-// view counts, so this is not a rare edge case - ScrollTrigger's own scroll
-// handler can walk that registry mid-teardown and throw inside GSAP itself
-// ("Cannot read properties of undefined (reading 'end')"), reliably
-// reproducible navigating from the Luxe page into any Maison category. It
-// pre-dates every change in this session (confirmed against the last few
-// commits and a production build) - the race is inside GSAP's own internal
-// bookkeeping, not anything this app schedules.
+// trigger's own refresh() walks that registry live, by index, with no
+// snapshot, and GSAP itself can call that on a single newly created trigger
+// (bypassing its own safe, snapshot-based full refresh) the moment a scroll
+// event arrives before that trigger has been measured once. See gsap.js's
+// refreshNow() for the exact mechanism, read directly out of
+// gsap/src/ScrollTrigger.js (installed 3.15.0, also the latest published
+// release - there is no upstream fix to upgrade into) and the fix built
+// around it: every hook that creates ScrollTrigger timelines now measures
+// them synchronously, in the same tick, before the browser can process the
+// scroll event that would otherwise race it.
 //
-// Once that registry is corrupted, nothing short of a fresh JS context
-// reliably clears it: forcing a full remount of the current route (a React
-// `key` change), even combined with explicitly killing every live
-// ScrollTrigger and calling `clearScrollMemory()` first, still measured the
-// remounted page's own triggers as broken afterward (start 0, end undefined,
-// confirmed by inspecting GSAP's registry directly). A fresh page load never
-// has this problem, in any of dozens of attempts, so this reloads the
-// current URL outright rather than trying to repair GSAP's internal state in
-// place. `preventDefault()` stops the crash from also surfacing as a visible
-// uncaught error in the moment before the reload.
+// This handler is what's left over for a GSAP failure that fix didn't
+// anticipate - a defensive backstop, not the mechanism this bug is fixed by.
+//
+// A motion-library exception is not an application failure: nothing here
+// held any state the visitor's session depends on, so there is nothing to
+// reload for. Instead this discards GSAP's corrupted registry outright and
+// returns every animated element to the same fully-visible, finished
+// composition the site already renders with no JavaScript, a failed GSAP
+// load, or prefers-reduced-motion (see runtime.js's own comment on
+// MOTION_READY_CLASS) - motion stops, the page stays exactly where the
+// visitor left it, and the site keeps working.
 //
 // Every JS engine describes "read a property off undefined" differently -
 // confirmed directly (Playwright, same repro, all three engines):
 //   V8 / Chrome:            Cannot read properties of undefined (reading 'end')
 //   JavaScriptCore / Safari: undefined is not an object (evaluating 'curTrigger.end')
 //   SpiderMonkey / Firefox:  can't access property "end", curTrigger is undefined
-// A check written against Chrome's exact wording (the first version of this
-// guard) never matches on Safari or Firefox, so the reload silently never
-// fires there and the page is left broken - it only looked fixed because it
-// had only been verified in Chromium. All three phrasings still name GSAP's
-// own `end` property immediately after a dot or a quote, so match on that
-// shape rather than any one engine's sentence.
+// All three name GSAP's own `end` property immediately after a dot or a
+// quote, so match on that shape rather than any one engine's sentence.
 const GSAP_TRIGGER_LIST_ERROR = /[.'"]end['"]/;
 
-// Read by ScrollManager above after the reload below completes, so recovering
-// from the GSAP crash restores where the visitor was instead of resetting to
-// top the way a genuine fresh navigation should.
-const MOTION_RECOVERY_SCROLL_KEY = "orac-motion-recovery-scroll";
-const MOTION_RECOVERY_TIME_KEY = "orac-motion-recovery-time";
+// Reuses GSAP's own bookkeeping (gsap.globalTimeline holds every top-level
+// tween/timeline, scroll-triggered or not) rather than hardcoding the
+// selector list of everything the site currently animates, which would
+// silently miss anything added later.
+//
+// The tween list has to be captured *before* any ScrollTrigger is killed:
+// killing a trigger reverts it first (ScrollTrigger.js's disable() ->
+// revert(true, true)), which can detach its animation from gsap.globalTimeline
+// as part of putting the pin/measurement state back - so a trigger killed
+// first and then searched for second is already gone from the search.
+// Capturing up front and killing everything after fixed a real bug here: a
+// scroll-triggered `once: true` reveal that had not yet played (still at its
+// hidden "from" state) was left permanently invisible because its tween was
+// missed by exactly this ordering mistake.
+function shutDownMotion() {
+  const targets = new Set();
+  const tweens = gsap.globalTimeline.getChildren(true, true, false);
+  tweens.forEach((tween) => {
+    tween.targets().forEach((target) => {
+      if (target && target.nodeType === 1) targets.add(target);
+    });
+  });
+
+  ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+  tweens.forEach((tween) => tween.kill());
+  targets.forEach((target) => gsap.set(target, { clearProps: "all" }));
+
+  // The CSS hidden/translated initial states in 14-motion.css are all scoped
+  // under this class; removing it makes every section render in its finished
+  // composition by definition, the same guarantee runtime.js documents for a
+  // GSAP-less visitor.
+  document.documentElement.classList.remove(MOTION_READY_CLASS);
+}
 
 function useMotionCrashRecovery() {
   useEffect(() => {
     const onError = (event) => {
       if (!GSAP_TRIGGER_LIST_ERROR.test(event.message || "")) return;
       event.preventDefault();
-
-      // If this same crash fires again within a few seconds of the last
-      // recovery, restoring the same deep scroll offset is what's
-      // re-triggering it - drop the offset so this reload settles at the
-      // top for good instead of bouncing through repeated reloads.
-      const now = Date.now();
-      const lastCrash = Number(window.sessionStorage.getItem(MOTION_RECOVERY_TIME_KEY)) || 0;
-      if (now - lastCrash > 5000) {
-        window.sessionStorage.setItem(
-          MOTION_RECOVERY_SCROLL_KEY,
-          JSON.stringify({ scrollY: window.scrollY, pathname: window.location.pathname })
-        );
-      } else {
-        window.sessionStorage.removeItem(MOTION_RECOVERY_SCROLL_KEY);
-      }
-      window.sessionStorage.setItem(MOTION_RECOVERY_TIME_KEY, String(now));
-      window.location.reload();
+      shutDownMotion();
     };
 
     window.addEventListener("error", onError);

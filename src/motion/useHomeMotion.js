@@ -1,5 +1,5 @@
 import { useLayoutEffect } from "react";
-import { gsap, safeRefresh } from "./gsap";
+import { gsap, refreshNow } from "./gsap";
 import { DESKTOP_QUERY, MEDIA_SETTLE, MOBILE_QUERY, PARALLAX } from "./motionTokens";
 
 /**
@@ -485,12 +485,14 @@ export default function useHomeMotion(scopeRef) {
       return () => mm.revert();
     }, scopeRef);
 
-    // Fonts/images can still change section heights after mount; re-measure
-    // once shortly after, without rebuilding any of the timelines above.
-    const refresh = window.setTimeout(() => safeRefresh(), 120);
+    // Synchronous, same tick: see gsap.js's refreshNow() for why a trigger
+    // must be safely measured before the browser can process another event,
+    // not merely before the next animation frame. Later layout shifts (fonts
+    // swapping in, lazy images resolving height) are handled site-wide by
+    // runtime.js's own font/image listeners, not repeated here.
+    refreshNow();
 
     return () => {
-      window.clearTimeout(refresh);
       ctx.revert();
     };
   }, [scopeRef]);

@@ -1,4 +1,4 @@
-import { gsap, ScrollTrigger, safeRefresh } from "./gsap";
+import { gsap, ScrollTrigger, requestRefresh } from "./gsap";
 import { REDUCED_MOTION_QUERY } from "./motionTokens";
 
 export const MOTION_READY_CLASS = "orac-motion-ready";
@@ -51,7 +51,7 @@ export function initMotionRuntime() {
         gsap.set("[data-motion]", { clearProps: "all" });
         ScrollTrigger.getAll().forEach((t) => t.kill());
       }
-      safeRefresh();
+      requestRefresh();
     };
 
     apply();
@@ -65,6 +65,46 @@ export function initMotionRuntime() {
   }
 }
 
+// Crucially, a refresh should never land while the visitor is scrolling.
+// ScrollTrigger.refresh() re-evaluates every gsap.matchMedia() context, and
+// rebuilding a context re-applies its fromTo start values. On a long page with
+// lazily loaded imagery that used to happen every ~180ms throughout a scroll,
+// which put already-revealed elements back to opacity 0 with their one-shot
+// triggers already spent - 20 of 25 revealed elements on /luxury-export ended
+// up permanently invisible. Waiting for a quiet moment costs nothing: layout
+// only matters again once the visitor stops to read.
+let pendingQuietRefresh = 0;
+let lastScroll = 0;
+const QUIET_MS = 300;
+
+if (typeof window !== "undefined") {
+  window.addEventListener(
+    "scroll",
+    () => {
+      lastScroll = performance.now();
+    },
+    { passive: true }
+  );
+}
+
+/**
+ * Shared by every call site that wants a refresh once the page stops moving,
+ * not the instant it's asked for - the runtime's own font/image settle below,
+ * and (via requestRefreshWhenQuiet's export) the reveal sweep and the corridor
+ * draw, which used to call requestRefresh() directly and bypass this
+ * discipline entirely.
+ */
+export function requestRefreshWhenQuiet() {
+  window.clearTimeout(pendingQuietRefresh);
+  pendingQuietRefresh = window.setTimeout(() => {
+    if (performance.now() - lastScroll < QUIET_MS) {
+      requestRefreshWhenQuiet();
+      return;
+    }
+    requestRefresh();
+  }, QUIET_MS);
+}
+
 /**
  * Trigger positions are measured against the document as it stands when a
  * trigger is created. Two things move the document afterwards and would
@@ -73,52 +113,18 @@ export function initMotionRuntime() {
  * lazily loaded imagery resolving its intrinsic height.
  */
 function watchLayoutSettle() {
-  const refresh = () => safeRefresh();
-
   if (document.fonts?.ready) {
-    document.fonts.ready.then(refresh).catch(() => {});
+    document.fonts.ready.then(requestRefresh).catch(() => {});
   }
 
-  window.addEventListener("load", refresh, { once: true });
+  window.addEventListener("load", requestRefresh, { once: true });
 
   // Images inside a reveal change the height of the thing being revealed, so
   // positions have to be re-measured as each one lands.
-  //
-  // Crucially, never while the visitor is scrolling. ScrollTrigger.refresh()
-  // re-evaluates every gsap.matchMedia() context, and rebuilding a context
-  // re-applies its fromTo start values. On a long page with lazily loaded
-  // imagery that used to happen every ~180ms throughout a scroll, which put
-  // already-revealed elements back to opacity 0 with their one-shot triggers
-  // already spent - 20 of 25 revealed elements on /luxury-export ended up
-  // permanently invisible. Waiting for a quiet moment costs nothing: layout
-  // only matters again once the visitor stops to read.
-  let pending = 0;
-  let lastScroll = 0;
-  const QUIET_MS = 300;
-
-  window.addEventListener(
-    "scroll",
-    () => {
-      lastScroll = performance.now();
-    },
-    { passive: true }
-  );
-
-  const refreshWhenQuiet = () => {
-    window.clearTimeout(pending);
-    pending = window.setTimeout(() => {
-      if (performance.now() - lastScroll < QUIET_MS) {
-        refreshWhenQuiet();
-        return;
-      }
-      refresh();
-    }, QUIET_MS);
-  };
-
   document.addEventListener(
     "load",
     (event) => {
-      if (event.target instanceof HTMLImageElement) refreshWhenQuiet();
+      if (event.target instanceof HTMLImageElement) requestRefreshWhenQuiet();
     },
     true
   );

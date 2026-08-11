@@ -1,5 +1,6 @@
 import { useLayoutEffect } from "react";
-import { gsap, safeRefresh } from "./gsap";
+import { gsap, refreshNow } from "./gsap";
+import { requestRefreshWhenQuiet } from "./runtime";
 import { DESKTOP_QUERY, EASE, MOBILE_QUERY, STAGGER } from "./motionTokens";
 import { hasSettled, markSettled, restoreDrawn } from "./settled";
 
@@ -122,7 +123,13 @@ export default function useCorridorMotion(containerRef, { scrub = false } = {}) 
       if (scrub) buildScrub(corridors);
       else buildOnceShot(corridors);
 
-      safeRefresh();
+      // Synchronous, same tick: see gsap.js's refreshNow() for why the
+      // corridors' own brand-new triggers must be safely measured before the
+      // browser can process another event. requestRefreshWhenQuiet() below is
+      // a separate concern - the rest of the page's already-measured triggers
+      // whose positions shifted now that the map has its real height.
+      refreshNow();
+      requestRefreshWhenQuiet();
       return true;
     };
 

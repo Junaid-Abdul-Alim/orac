@@ -1,5 +1,6 @@
 import { useLayoutEffect, useRef } from "react";
-import { gsap, safeRefresh } from "./gsap";
+import { gsap, refreshNow } from "./gsap";
+import { requestRefreshWhenQuiet } from "./runtime";
 import { DESKTOP_QUERY, DIST, DUR, EASE, FADE, MOBILE, MOBILE_QUERY, START } from "./motionTokens";
 import { hasSettled, markSettled, restoreSettled } from "./settled";
 
@@ -161,6 +162,10 @@ export default function useMotionReveal({ kind = "text", delay = 0, variant = "p
       media.add(MOBILE_QUERY, () => build(false));
 
       if (!element.dataset.motionState) element.dataset.motionState = "armed";
+      // Synchronous, same tick: see gsap.js's refreshNow() for why a trigger
+      // must be safely measured before the browser can process another event,
+      // not merely before the next animation frame.
+      refreshNow();
       return () => media.revert();
     }, element);
 
@@ -186,6 +191,6 @@ export function sweepUnarmedReveals() {
     gsap.set(el, { clearProps: "all" });
     el.dataset.motionState = "recovered";
   });
-  safeRefresh();
+  requestRefreshWhenQuiet();
   return stranded.length;
 }
