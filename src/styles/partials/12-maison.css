@@ -12,10 +12,12 @@
     linear-gradient(180deg, var(--white), var(--cream));
 }
 
-/* Full-width landscape banner, uncropped (aspect-ratio matches the source
-   image almost exactly, so object-fit: cover never trims meaningful
-   content) - no text/label overlay. It now follows the copy rather than
-   leading it, so the spacing is above, not below.
+/* Full-width banner, uncropped. Desktop swaps to a portrait recomposition
+   under 820px (see luxeData.js `mobileSrc`), so height is left to the
+   image's own native ratio rather than a fixed aspect-ratio + object-fit:
+   cover, which would trim the portrait crop on mobile. No text/label
+   overlay. It now follows the copy rather than leading it, so the spacing
+   is above, not below.
 
    `overflow: hidden` is load-bearing, not tidiness: the seam reveal settles
    the artwork out of a 1.06 over-scale, and on a full-bleed element that
@@ -31,8 +33,7 @@
 .vault-banner .safe-image-fallback {
   display: block;
   width: 100%;
-  aspect-ratio: 16 / 9;
-  object-fit: cover;
+  height: auto;
 }
 
 /* --- Collections --- */

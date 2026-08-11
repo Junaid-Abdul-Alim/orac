@@ -59,15 +59,12 @@ const productImages = {
   "Coco Peat": localImage("coco-peat-blocks-official.webp", "Coco peat blocks export product visual"),
   "Jute Bags - Customised": localImage("jute-bags-official.webp", "Customised jute bag export product visual"),
   "Quartz Lumps": localImage("quartz-lumps-official.webp", "Quartz lumps export product visual"),
-  "Grill Lights": localImage("grill-lights-official.webp", "Vehicle grill lights import product visual"),
-  "Projector & LED Headlights": localImage(
-    "projector-lights-official.webp",
-    "Projector lights import product visual",
-    {
-      secondarySrc: catalogImage("led-headlights-official.webp"),
-      secondaryAlt: "LED headlights import product visual",
-    }
+  "Other LED Lights & Spares": localImage(
+    "grill-lights-official.webp",
+    "Vehicle grill lights import product visual"
   ),
+  "Projector & Fog Lights": localImage("projector-lights-official.webp", "Projector and fog lights import product visual"),
+  "LED Headlights": localImage("led-headlights-official.webp", "LED headlights import product visual"),
   "Damping Sheets": localImage("damping-sheets-official.webp", "Automotive damping sheets import product visual"),
   "4x4 Winches": localImage("4x4-winches-official.webp", "4x4 winches import product visual"),
   "On-Board Air Compressors": localImage(
@@ -77,10 +74,6 @@ const productImages = {
   "PPF - Paint Protection Film": localImage(
     "ppf-paint-protection-film-official.webp",
     "Paint protection film import product visual"
-  ),
-  "Dashboard Gadgets": localImage(
-    "ambient-strip-lights-official.webp",
-    "Automotive dashboard lighting accessory visual"
   ),
   "Ambient Strip Lights": localImage(
     "ambient-strip-lights-official.webp",

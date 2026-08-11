@@ -21,7 +21,7 @@ export const neumatrixCategories = [
     intro: "Grille lights, auxiliary lights, and lighting spares for every build.",
     products: [
       {
-        name: "Grill Lights",
+        name: "Other LED Lights & Spares",
         tag: "Auto / Lighting",
         story:
           "High-output auxiliary lighting mounted on vehicle grilles, built for off-road visibility and a commanding road presence.",
@@ -39,12 +39,12 @@ export const neumatrixCategories = [
     ],
   },
   {
-    title: "Projector & FOG Lights",
-    intro: "Precision projector assemblies and fog lighting for sharper, longer-range illumination.",
-    catalogueHref: "/downloads/neumatrix-projector-fog-lights-catalogue.pdf",
+    title: "Other LED Lights & Spares",
+    intro: "Precision projector and fog lighting, plus LED headlight bulbs, for sharper, longer-range illumination.",
+    catalogueHref: "/downloads/neumatrix-other-led-lights-catalogue.pdf",
     products: [
       {
-        name: "Projector & LED Headlights",
+        name: "Projector & Fog Lights",
         tag: "Auto / Lighting",
         story: "Precision beam assemblies for sharper illumination and longer range.",
         specGroups: [
@@ -113,6 +113,22 @@ export const neumatrixCategories = [
                 "Aluminum + 1 cooling fan",
                 "U-shaped bracket",
               ],
+            ],
+          },
+        ],
+      },
+      {
+        name: "LED Headlights",
+        tag: "Auto / Lighting",
+        story: "High-output LED headlight bulbs for a brighter, whiter beam with a direct H4 fit.",
+        specGroups: [
+          {
+            title: "Product Information",
+            type: "list",
+            items: [
+              { label: "Product Type", value: "LED Headlight Bulbs" },
+              { label: "Warranty", value: "1-Year Warranty" },
+              { label: "Installation", value: "Plug & Play" },
             ],
           },
           {
@@ -383,21 +399,6 @@ export const neumatrixCategories = [
               { label: "Width (Inches)", value: "24″ / 30″ / 48″ / 60″ / 72″" },
               { label: "Standard Roll Length", value: "15 m (All Widths)" },
               { label: "Custom Cuts", value: "Available on Request" },
-            ],
-          },
-        ],
-      },
-      {
-        name: "Dashboard Gadgets",
-        tag: "Auto / Interior",
-        story: "HUDs, digital dash displays, and smart cameras for modern cockpit upgrades.",
-        specGroups: [
-          {
-            title: "Specification",
-            type: "list",
-            items: [
-              { label: "Specification", value: "HUD / Dashcam / OBD display" },
-              { label: "Origin", value: "Sourced: China, South Korea" },
             ],
           },
         ],

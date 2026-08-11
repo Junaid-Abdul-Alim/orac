@@ -1,6 +1,6 @@
-import luxeAtelier from "../assets/images/luxe/fashion-atelier.webp";
 import luxeHomeEditorial from "../assets/images/luxe/paris-editorial-gown.webp";
-import vaultXiiiPalette from "../assets/images/luxe/vault-xiii-palette.jpg";
+import vaultXiiiPalette from "../assets/images/luxe/vault-xiii-palette.webp";
+import vaultXiiiPaletteMobile from "../assets/images/luxe/vault-xiii-palette-mobile.webp";
 import maisonCollage from "../assets/images/luxe/maison-collage.webp";
 import frontDresses from "../assets/images/maison/fronts/dresses.jpg";
 import frontCoOrds from "../assets/images/maison/fronts/co-ords.jpg";
@@ -39,11 +39,6 @@ export const luxeImages = {
     "A woman in a flowing burnt-orange gown on a Paris bridge, the Eiffel Tower behind her and motion-blurred figures in matching gowns passing by",
     luxeHomeEditorial
   ),
-  opening: imageSlot(
-    "ORAC Luxe image",
-    "Fashion atelier workspace for ORAC Luxe and The House of Azrin",
-    luxeAtelier
-  ),
 };
 
 // Full-bleed collage introducing the Maison Series categories together.
@@ -64,7 +59,8 @@ export const vaultXiii = {
   image: imageSlot(
     "Vault XIII",
     "The House of Azrin Vault XIII colour palette — thirteen tones from ivory to burnt sienna",
-    vaultXiiiPalette
+    vaultXiiiPalette,
+    { mobileSrc: vaultXiiiPaletteMobile }
   ),
   // The thirteen tones, read directly off the House's own Vault XIII artwork
   // (vault-xiii-palette.jpg), which prints each card's number, name and hex.

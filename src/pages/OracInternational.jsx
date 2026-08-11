@@ -50,7 +50,7 @@ const tradePaths = [
   {
     id: "neumatrix",
     label: "NEUMATRIX",
-    images: [productImageSlot("Grill Lights"), productImageSlot("Projector & LED Headlights")],
+    images: [productImageSlot("Other LED Lights & Spares"), productImageSlot("Projector & Fog Lights")],
   },
 ];
 

@@ -40,6 +40,7 @@ export default function VaultPalette({ vault }) {
       <ImageReveal className="vault-banner" variant="seam" delay={260}>
         <SafeImage
           src={vault.image.src}
+          mobileSrc={vault.image.mobileSrc}
           alt={vault.image.alt}
           fallbackLabel={vault.image.label}
           className="vault-image"

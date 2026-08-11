@@ -112,7 +112,7 @@ export default function LuxuryExport() {
             </Reveal>
           </div>
           <ImagePanel
-            image={luxeImages.opening}
+            image={luxeImages.hero}
             label="The House of Azrin"
             className="editorial-media luxe-founder-media"
             variant="seam"
