@@ -130,56 +130,31 @@
   margin-top: var(--space-xl);
 }
 
-/* A 420px floor is a three-column proportion. Once these stack it leaves
-   roughly 230px of empty card under two lines of copy on a phone, so the
-   floor scales with the layout instead of being fixed. */
+/* P1-3: the 420px floor produced ~150px of empty card beneath two lines of
+   copy at the three-column proportion (not just on a stacked phone) - a box
+   sized for content taller than these editions ever have. Dissolved to a
+   hairline-topped column instead of a bordered/shadowed card: height now
+   comes from content alone, and the top rule (echoing
+   `.reason-panel-list article`/`.trade-flow-step` elsewhere) replaces the
+   box border. Icon and number are kept, restyled below. */
 .edition-card {
   position: relative;
   display: grid;
   align-content: start;
-  gap: clamp(20px, 2.2vw, 28px);
-  min-height: clamp(220px, 30vw, 420px);
-  padding: clamp(28px, 3.6vw, 52px) clamp(26px, 3vw, 42px);
-  background: linear-gradient(180deg, var(--white), rgba(250, 248, 243, 0.7));
-  border: 1px solid var(--rule);
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  transition:
-    transform 0.5s var(--ease-smooth),
-    box-shadow 0.5s var(--ease-smooth),
-    border-color 0.5s var(--ease-smooth);
-}
-
-/* Hairline that draws across on hover — restrained, not gold-heavy */
-.edition-card::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  height: 2px;
-  transform: scaleX(0);
-  transform-origin: left;
-  background: linear-gradient(90deg, var(--gold), transparent);
-  transition: transform 0.6s var(--ease-smooth);
+  gap: clamp(18px, 2vw, 24px);
+  padding: clamp(24px, 2.6vw, 34px) 0 0;
+  border-top: 1px solid var(--rule);
+  transition: border-color 0.5s var(--ease-smooth);
 }
 
 .edition-card:hover {
-  transform: translateY(-5px);
-  border-color: rgba(184, 151, 90, 0.32);
-  box-shadow: 0 30px 64px -36px rgba(26, 24, 20, 0.55);
-}
-
-.edition-card:hover::after {
-  transform: scaleX(1);
+  border-top-color: rgba(184, 151, 90, 0.5);
 }
 
 .edition-card-top {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-bottom: clamp(18px, 2vw, 24px);
-  border-bottom: 1px solid var(--rule);
 }
 
 .edition-card-top .icon-badge-soft {
@@ -330,6 +305,17 @@
   transform: translateX(5px);
 }
 
+/* Audit follow-up (P1-H): the panel already carries its own generous
+   internal padding (clamp(32-60px)), same as .cinematic-banner-section's
+   single-banner treatment - stacked on top of the section's full
+   --section-y rhythm (built for sections that start directly with a
+   heading), the two paddings compounded to 196px of lead, the worst
+   measured on the site. --section-y-tight matches the pattern
+   .cinematic-banner-section already uses for the same reason. */
+.catalogue-section {
+  padding: var(--section-y-tight) 0;
+}
+
 /* --- Downloadable catalogue --- */
 .catalogue-panel {
   display: flex;
@@ -395,10 +381,22 @@
 .luxe-page .hero-meta {
   margin-top: 6px;
   color: var(--ink-muted);
-  font-size: 0.74rem;
+  font-size: 0.8rem;
   font-weight: 600;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
+}
+
+/* P1-4: a short rule closes the composition below the meta rail, so the
+   generous cream field around the wordmark reads as a deliberately framed
+   field rather than unclaimed space - no image added, per instruction. */
+.luxe-page .hero-meta::after {
+  content: "";
+  display: block;
+  width: 40px;
+  height: 1px;
+  margin: clamp(22px, 2.6vw, 32px) auto 0;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
 }
 
 

@@ -87,6 +87,12 @@
 .origin-sequence {
   display: flex;
   flex-direction: column;
+  /* Was flex-start by default: now that .origin-ventures no longer grows to
+     fill this column (see .venture-compact-media/.origin-ventures below),
+     the sequence's total content height can be shorter than this 100% box -
+     centering it keeps the reduced-height composition looking intentional
+     rather than pinned to the top with a new gap opening up beneath it. */
+  justify-content: center;
   width: 100%;
   height: 100%;
   min-height: 0;
@@ -120,8 +126,8 @@
   max-width: 640px;
   padding: 0 var(--space-sm);
   color: var(--ink-muted);
-  font-size: clamp(0.86rem, 1vw, 1rem);
-  line-height: 1.4;
+  font-size: clamp(1rem, 0.94rem + 0.3vw, 1.05rem);
+  line-height: 1.45;
 }
 
 /* One continuous piece of connective geometry - a single inline SVG path
@@ -153,19 +159,35 @@
 .origin-ventures {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
+  /* align-items default (stretch) would re-introduce the dead space this
+     fix removes: with media no longer flex-growing, a stretched grid row
+     would still force each card up to the row's full height, just moving
+     the empty interior from around the logo to below the label instead. */
+  align-items: start;
   gap: clamp(10px, 1.4vw, 18px);
   width: 100%;
-  flex: 1 1 auto;
+  /* Was 1 1 auto: grew this grid to fill all remaining vertical space in
+     .origin-sequence, which is what let .venture-compact-media's own
+     padding get re-absorbed instead of actually closing. Sized to content
+     now; .origin-sequence's justify-content:center (above) keeps the
+     shorter block looking centered rather than pinned to the top. */
+  flex: 0 1 auto;
   min-height: 0;
 }
 
+/* P0-5: the card treatment (32px radius, shadow, and a full-bleed tinted
+   label strip) is what made the three apertures read as three identical
+   white cards distinguished only by a small word. Radius drops to a
+   restrained value, the shadow is gone, and each world's difference now
+   comes from its own accent hairline/mark (below) plus the label's border
+   rather than a solid tint fill - the wordmark image itself is untouched. */
 .origin-venture.orac-frame-venture-compact {
+  position: relative;
   padding: 0;
   margin: 0;
   min-height: 0;
   overflow: hidden;
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-md);
+  border-radius: var(--radius-sm);
 }
 
 .venture-compact-link {
@@ -185,9 +207,23 @@
   position: relative;
   display: grid;
   place-items: center;
-  flex: 1 1 auto;
+  /* flex:1 1 auto (its previous value) let this box stretch to fill
+     whatever vertical space .origin-ventures had available - which is why
+     tightening its own padding never closed the dead space above/below the
+     logo: the box just re-absorbed the difference. flex:0 0 auto sizes it
+     to its own padding + the logo's own height instead, and .origin-sequence
+     (below) recentres the now-shorter block of hero content. */
+  flex: 0 0 auto;
   min-height: 0;
-  padding: clamp(20px, 4vw, 40px) clamp(18px, 3vw, 30px);
+  /* Vertical padding only, tightened from clamp(20-40px) to close the empty
+     interior above/below the logo. Horizontal padding is left exactly as it
+     was (clamp(18px, 3vw, 30px)): the logo's box is `width: min(74%, 250px)`
+     (below) - a percentage of *this* padding box - so narrowing the
+     horizontal padding would silently grow the logo's own rendered width
+     even though its own rule is untouched. Confirmed by the image-box diff
+     against the pre-edit baseline: touching horizontal padding here moved
+     the rendered logo from 238x90 to 250x94. */
+  padding: clamp(10px, 1.8vw, 20px) clamp(18px, 3vw, 30px);
   background: var(--white);
 }
 
@@ -214,19 +250,23 @@
   display: flex;
   justify-items: start;
   padding: clamp(12px, 1.8vw, 18px) clamp(18px, 3vw, 24px);
+  border-top: 1px solid rgba(184, 151, 90, 0.16);
   text-align: left;
 }
 
+/* A hairline in the venture's own accent, not a full-bleed tint fill - the
+   same "which world" signal, read at the restraint the brief asks gold-only
+   decoration to have (see CLAUDE.md: gold is not the sole luxury signal). */
 .origin-venture.orac-frame-international .venture-compact-label {
-  background: color-mix(in srgb, var(--accent-international-light) 24%, var(--white));
+  border-top-color: var(--accent-international);
 }
 
 .origin-venture.orac-frame-eventus .venture-compact-label {
-  background: color-mix(in srgb, var(--accent-eventus-light) 24%, var(--white));
+  border-top-color: var(--accent-eventus);
 }
 
 .origin-venture.orac-frame-luxe .venture-compact-label {
-  background: color-mix(in srgb, var(--accent-luxe-light) 24%, var(--white));
+  border-top-color: var(--accent-luxe);
 }
 
 .origin-venture.orac-frame-international .venture-compact-label .eyebrow {
@@ -239,6 +279,96 @@
 
 .origin-venture.orac-frame-luxe .venture-compact-label .eyebrow {
   color: var(--accent-luxe);
+}
+
+/* Each aperture's geometric signature (see OriginSequence.jsx), sized as a
+   restrained accent rather than the full-card outline .continuum-mark-frame/
+   -seam's default inset:0/left:0 (14-motion.css, tuned for a large venture-
+   chapter photograph) would otherwise draw here. Each is pulled in from the
+   card edges and thinned down to read as a mark, not a border - and each
+   takes its own venture accent instead of the shared gold the marks default
+   to elsewhere, the same "which world" signal the label hairline uses. */
+.origin-venture .continuum-mark-route {
+  position: absolute;
+  top: clamp(14px, 2vw, 20px);
+  left: 12%;
+  width: 34%;
+  height: 3px;
+  z-index: 3;
+}
+
+.origin-venture .continuum-mark-route .continuum-mark-line {
+  width: 100%;
+  height: 3px;
+}
+
+.origin-venture.orac-frame-international .continuum-mark-route .continuum-mark-line {
+  background: linear-gradient(90deg, var(--accent-international), transparent);
+}
+
+/* The base .continuum-mark-frame rule (14-motion.css) also sets explicit
+   width/height: 100%, tuned for a large venture-chapter photo - those win
+   over two of these four inset edges (explicit width/height beats an
+   implied one from left+right or top+bottom), which is what was pulling the
+   bracket box back out to the card's full size on two sides.
+
+   `width: auto; height: auto` was tried next, but the frame svg carries an
+   intrinsic 4:3 ratio (viewBox="0 0 400 300"). For an absolutely positioned
+   replaced element, explicit auto width/height is sized from that intrinsic
+   ratio, not from the inset box, even though inset alone would already fully
+   determine the box - so at a short, wide aperture (<=768px) the box comes
+   out 4:3 regardless of the actual (wide, short) media area and its bottom
+   overflows the card, clipped by .origin-venture's overflow:hidden. Setting
+   width/height as an explicit calc against the same inset value sidesteps
+   the ratio entirely and always yields a symmetric box. */
+.origin-venture .continuum-mark-frame {
+  --mark-inset: clamp(16px, 2.4vw, 24px);
+  inset: var(--mark-inset);
+  width: calc(100% - 2 * var(--mark-inset));
+  height: calc(100% - 2 * var(--mark-inset));
+}
+
+.origin-venture .continuum-frame-bracket {
+  stroke-width: 2;
+}
+
+.origin-venture.orac-frame-eventus .continuum-frame-bracket {
+  stroke: var(--accent-eventus-light);
+  filter: none;
+}
+
+/* The base .continuum-mark-seam rule (14-motion.css) sets left:0, tuned for
+   a full-bleed chapter photo. Left was never overridden here, so the seam
+   sat flush with .venture-compact-media's own left edge rather than inset
+   into the card - spilling outside .origin-venture's clipped box by the
+   padding amount. Giving it the same inset as the frame keeps it inside.
+
+   height was left as auto, which reproduces the same intrinsic-ratio bug as
+   the frame mark above (10.6.5): with an explicit width and height:auto, a
+   replaced element with an intrinsic ratio (viewBox="0 0 60 400", very tall
+   and narrow) sizes its height from that ratio, not from the top+bottom
+   insets - so the seam came out far taller than the card and still spilled
+   past the bottom. An explicit calc against the same inset value fixes it
+   the same way the frame's width/height fix does. */
+.origin-venture .continuum-mark-seam {
+  --mark-inset: clamp(16px, 2.4vw, 24px);
+  top: var(--mark-inset);
+  bottom: var(--mark-inset);
+  left: var(--mark-inset);
+  height: calc(100% - 2 * var(--mark-inset));
+  width: clamp(18px, 2.2vw, 26px);
+}
+
+.origin-venture.orac-frame-luxe .continuum-seam-stitch {
+  stroke: var(--accent-luxe);
+  stroke-width: 2.5;
+  filter: none;
+}
+
+.origin-venture.orac-frame-luxe .continuum-seam-guide {
+  stroke: rgba(47, 82, 64, 0.45);
+  stroke-width: 1.5;
+  filter: none;
 }
 
 .origin-venture:has(.venture-compact-link:focus-visible) {

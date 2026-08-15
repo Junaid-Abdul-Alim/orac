@@ -118,9 +118,32 @@
   color: rgba(255, 255, 255, 0.68);
 }
 
+/* Audit follow-up: the caption was moved out of the image (below, in flow)
+   for P0-6 because the overlay caption was unreadable on bright photo areas.
+   That created a worse defect - it now sits 72px directly above a title
+   using the exact same words ("GIFTING & KEEPSAKES" over "Gifting &
+   Keepsakes"), reading as a duplication bug, and adds ~28px of block height
+   per card (~223px across 8 mobile cards). Restored to an overlay, this
+   time with the scrim actually strong enough to read on every one of the 8
+   service photos (verified against the brightest - event-table.webp,
+   floral-table.webp) rather than the base .image-panel-overlay's gradient,
+   which was tuned for the venture-chapter photos elsewhere and was too
+   light here.
+
+   The horizontal bleed (image sitting ~23-30px left of the caption/icon/
+   title/list column below it) looked like a P0-6 regression at first read,
+   but it isn't one: this margin's horizontal component is exactly what HEAD
+   (the pre-redesign baseline) already used to bleed the photo to the card's
+   edge while text respected the card's padding - P0-6 only ever changed the
+   top value (removing the *vertical* bleed that no longer had a card top
+   border to bleed into). The horizontal bleed was left as-is by that pass
+   and still renders every image at its exact original box size. Removing it
+   here would resize the image relative to the locked baseline, so it stays;
+   the visual "misalignment" is this bleed reading as a bug now that there's
+   no card edge for it to visibly bleed into, not an actual box-size defect. */
 .service-block-image {
   --panel-radius: var(--radius-lg) var(--radius-lg) 18px 18px;
-  margin: clamp(-30px, -2vw, -22px) clamp(-30px, -2vw, -22px) 12px;
+  margin: 0 clamp(-30px, -2vw, -22px) 12px;
   box-shadow: none;
 }
 
@@ -128,6 +151,20 @@
 .service-block-image .safe-image-fallback {
   min-height: 230px;
   aspect-ratio: 16 / 10;
+}
+
+.service-block-image .image-panel-overlay {
+  background: linear-gradient(180deg, transparent 34%, rgba(10, 9, 7, 0.32) 58%, rgba(8, 7, 6, 0.82) 100%);
+}
+
+.service-block-image .image-panel-copy {
+  padding: clamp(14px, 1.6vw, 20px);
+  gap: 2px;
+}
+
+.service-block-image .image-panel-copy span {
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
 }
 
 .eventus-services-section .service-grid {

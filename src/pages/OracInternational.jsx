@@ -73,7 +73,10 @@ const heroGlobeProps = {
 
 export default function OracInternational() {
   const scope = useRef(null);
-  const [activePath, setActivePath] = useState(null);
+  // Defaults to the Export path so the catalogue - the core of this page -
+  // is never hidden behind a click on first load; the picker still switches
+  // freely between all three paths.
+  const [activePath, setActivePath] = useState("export");
   usePageMotion(scope, "international");
 
   return (

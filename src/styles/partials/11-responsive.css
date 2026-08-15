@@ -130,6 +130,17 @@
     font-size: 1.35rem;
   }
 
+  /* This padding (and .service-block-image's matching -24px/-24px bleed
+     below) predate P0-6 and were left untouched by it: .service-block's
+     mobile padding and its image's mobile bleed still cancel out exactly
+     the way they did at HEAD, which is what keeps every service photo's
+     rendered box identical to the locked baseline at every width. An
+     earlier version of this audit fix pass scoped .service-block out of
+     both rules to fix a visual misalignment - but that changed the image's
+     own rendered box (347x206 vs the locked 299x180 at 393px), a real
+     image-lock violation caught by the post-fix regression diff. Reverted:
+     the "misalignment" it was fixing is the same bleed-to-edge pattern
+     HEAD's card design always used, not a defect introduced by this pass. */
   .leader-tile,
   .service-block,
   .product-panel {
@@ -146,6 +157,25 @@
   .editorial-gallery,
   .velorawed-section .editorial-gallery {
     grid-template-columns: 1fr;
+  }
+
+  /* P0-4's ruled stat strip is a more specific selector than the plain
+     `.stat-grid` rule above (needed on desktop so it doesn't fall back to
+     the shared 2-column `.stat-grid` layout), which meant it was also
+     winning over this collapse rule at the same breakpoint. Matched here so
+     the four stats still stack instead of staying cramped into four narrow
+     columns on a tablet-width screen. */
+  .about-trade-panel .stat-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .about-trade-panel .stat-tile {
+    border-right: 0;
+    border-bottom: 1px solid rgba(184, 151, 90, 0.14);
+  }
+
+  .about-trade-panel .stat-tile:last-child {
+    border-bottom: 0;
   }
 
   /* The homepage opening's mobile recomposition (Blueprint §2, First
@@ -353,6 +383,11 @@
     aspect-ratio: 4 / 3;
   }
 
+  /* Kept in sync with .service-block's mobile padding above: both predate
+     P0-6, both left untouched by it, and together they reproduce the exact
+     locked image box HEAD's card design produced. See the note on
+     .service-block above for why an earlier version of this fix removed
+     .service-block-image here and had to be reverted. */
   .service-block-image,
   .product-panel-image {
     margin: -24px -24px 10px;
@@ -373,7 +408,6 @@
 
   .trade-capability-showcase {
     grid-template-columns: 1fr;
-    border-radius: 34px;
   }
 
   .trade-capability-copy {
@@ -382,7 +416,7 @@
 
   .trade-capability-statement {
     max-width: 100%;
-    padding-top: 0;
+    padding-top: 18px;
   }
 
   .trade-capability-statement span {
@@ -558,13 +592,32 @@
     gap: 34px;
   }
 
+  /* Audit follow-up (P1-I): this row was built to keep the title and its
+     controls (the catalogue download pill + carousel arrows) on one line,
+     but the controls never shrink (flex: 0 0 auto) and take a fixed ~250px,
+     so as the viewport narrows the title is squeezed toward its own
+     min-content - which for these category names is a single long word, not
+     the full title. Below ~400px there wasn't enough room left for even
+     that word, so the browser wrapped inside individual words, exploding a
+     ~300-400px head into 900-2000px (measured: 393px already cramped at
+     78px of title width; 360px collapsed to 46px, tripling the page's
+     length). Wrapping the row - title takes its own full-width line, the
+     controls drop to a second line beneath it, same source order - gives
+     the title real width to wrap normally at every width down to 360,
+     instead of degrading suddenly past one specific breakpoint. */
   .product-category-head {
     align-items: flex-start;
+    flex-wrap: wrap;
     gap: 14px;
   }
 
   .product-category-title {
+    flex: 1 1 100%;
     gap: 11px;
+  }
+
+  .product-category-aside {
+    flex-basis: 100%;
   }
 
   .product-category-title h4 {
@@ -657,16 +710,6 @@
   .product-panel-image img {
     --product-photo-zoom: 1.42;
     object-position: center;
-  }
-
-  .trade-capability-showcase {
-    padding: 18px;
-    border-radius: var(--radius-lg);
-  }
-
-  .trade-capability-showcase::before {
-    inset: 10px;
-    border-radius: 24px;
   }
 
   .product-showcase-card.product-panel p {

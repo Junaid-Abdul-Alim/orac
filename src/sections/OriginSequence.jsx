@@ -1,6 +1,7 @@
 import { Component, lazy, Suspense, useLayoutEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Frame from "../components/common/Frame";
+import ContinuumMark from "../components/motion/ContinuumMark";
 import { companies } from "../data/companyData";
 import { DESKTOP_QUERY } from "../motion/motionTokens";
 import oracLogo from "../assets/logos/orac-orange.svg";
@@ -53,6 +54,19 @@ const ventureTones = {
   international: "international",
   eventus: "eventus",
   "luxury-export": "luxe",
+};
+
+// Each aperture's own geometric signature (Blueprint's "one origin, multiple
+// worlds" system), drawn with the existing ContinuumMark vocabulary rather
+// than a fourth new device: a directional rule for International, the
+// existing corner-bracket frame for Eventus, the existing seam for Luxe.
+// Decorative only (ContinuumMark itself is aria-hidden) - this is how the
+// three apertures read as distinct worlds without touching the venture
+// wordmark images they sit beside.
+const ventureMarks = {
+  international: "route",
+  eventus: "frame",
+  luxe: "seam",
 };
 
 // The original flat connective geometry - kept exactly as it was, as the
@@ -120,33 +134,44 @@ export default function OriginSequence() {
       )}
 
       <div className="origin-ventures">
-        {companies.map((company, index) => (
-          <Frame
-            key={company.id}
-            variant="venture-compact"
-            tone={ventureTones[company.id]}
-            className="origin-venture"
-            /* The three worlds arrive one after another rather than as a
-               block, which is what makes the opening read as a fork from one
-               origin instead of a row of three cards. */
-            delay={160 + index * 130}
-          >
-            <Link to={company.route} className="venture-compact-link" aria-label={`Explore ${company.name}`}>
-              <div className="venture-compact-media">
-                <img
-                  className="venture-compact-logo"
-                  src={company.logo}
-                  alt={`${company.name} logo`}
-                  decoding="async"
-                />
-              </div>
-              <div className="venture-compact-label">
-                <h2 className="sr-only">{company.shortName}</h2>
-                <span className="eyebrow">{company.label}</span>
-              </div>
-            </Link>
-          </Frame>
-        ))}
+        {companies.map((company, index) => {
+          const tone = ventureTones[company.id];
+          const mark = ventureMarks[tone];
+          return (
+            <Frame
+              key={company.id}
+              variant="venture-compact"
+              tone={tone}
+              className="origin-venture"
+              /* The three worlds arrive one after another rather than as a
+                 block, which is what makes the opening read as a fork from
+                 one origin instead of a row of three cards. */
+              delay={160 + index * 130}
+            >
+              {/* International's rule reads as the route arriving from the
+                  fork above, so it sits at the top of the whole aperture;
+                  Eventus's brackets and Luxe's seam are scoped to the media
+                  zone only (below), so they frame the wordmark rather than
+                  spanning into the label row underneath it. */}
+              {mark === "route" ? <ContinuumMark kind={mark} className="origin-venture-mark" /> : null}
+              <Link to={company.route} className="venture-compact-link" aria-label={`Explore ${company.name}`}>
+                <div className="venture-compact-media">
+                  {mark !== "route" ? <ContinuumMark kind={mark} className="origin-venture-mark" /> : null}
+                  <img
+                    className="venture-compact-logo"
+                    src={company.logo}
+                    alt={`${company.name} logo`}
+                    decoding="async"
+                  />
+                </div>
+                <div className="venture-compact-label">
+                  <h2 className="sr-only">{company.shortName}</h2>
+                  <span className="eyebrow">{company.label}</span>
+                </div>
+              </Link>
+            </Frame>
+          );
+        })}
       </div>
     </div>
   );

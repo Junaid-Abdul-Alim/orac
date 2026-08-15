@@ -90,8 +90,14 @@
 
   /* Vertical rhythm. Previously every `.section` used --space-2xl top and
      bottom, so two adjacent sections produced up to 320px of dead space at
-     1440px. */
-  --section-y: clamp(4rem, 2.8rem + 4vw, 6.75rem);
+     1440px. This pass tightens the top-end further (was 6.75rem/108px,
+     ~204px between two adjacent sections at 1440) so two full-rhythm
+     sections in a row land closer to 120-140px of combined dead band
+     instead of ~204px, while the low end (mobile) is left alone - mobile
+     was already reasonably tight. --section-y-tight is for sections that
+     share a background or continue a thought with their neighbour and
+     should sit closer still. */
+  --section-y: clamp(4rem, 3.1rem + 3vw, 5.5rem);
   --section-y-tight: clamp(2.75rem, 2rem + 2.5vw, 4.25rem);
 
   /* Gap scale for grids, so cards/galleries/columns stop inventing their

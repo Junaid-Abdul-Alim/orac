@@ -42,8 +42,14 @@
   line-height: 0.92;
 }
 
+/* Audit follow-up (P1-M): --measure (68ch) is tuned for this page's other
+   running copy, but `ch` is the width of "0" - wider than this body face's
+   average glyph - so the actual rendered line came out to 662px, ~79
+   characters per line at this font-size, above the 55-75 target. A direct
+   pixel value (measured against the rendered line, not the `ch` unit)
+   lands it in range without touching --measure globally. */
 .luxe-page .hero-body {
-  max-width: 760px;
+  max-width: min(600px, 100%);
 }
 
 .luxe-page .hero-meta {
@@ -136,6 +142,14 @@
 }
 
 .contact-directory-entry {
+  /* Single source of truth for the index column's width, shared by the
+     index itself and by every row below it that needs to align its left
+     edge to the heading (not to the index). Previously the index sized
+     itself from its own font-size clamp() while the rows below guessed a
+     fixed 2.4rem - the two only coincidentally matched, producing a
+     186/188/189/190px cluster of near-identical but not equal left
+     guides. One token now drives both. */
+  --directory-index-w: clamp(1.8rem, 2.4vw, 2.6rem);
   display: grid;
   gap: clamp(18px, 2.2vw, 28px);
   padding: clamp(28px, 3.4vw, 48px) 0;
@@ -153,10 +167,10 @@
 }
 
 .contact-directory-index {
-  flex: 0 0 auto;
+  flex: 0 0 var(--directory-index-w);
   color: rgba(184, 151, 90, 0.45);
   font-family: var(--font-display);
-  font-size: clamp(1.8rem, 2.4vw, 2.6rem);
+  font-size: var(--directory-index-w);
   font-weight: 600;
   line-height: 1;
 }
@@ -179,7 +193,7 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   column-gap: clamp(24px, 3vw, 48px);
-  padding-left: calc(2.4rem + clamp(16px, 2.2vw, 28px));
+  padding-left: calc(var(--directory-index-w) + clamp(16px, 2.2vw, 28px));
 }
 
 /* Trade's three regional desks - a real geographic composition (three named
@@ -189,21 +203,26 @@
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: clamp(20px, 2.6vw, 40px);
-  padding-left: calc(2.4rem + clamp(16px, 2.2vw, 28px));
+  padding-left: calc(var(--directory-index-w) + clamp(16px, 2.2vw, 28px));
 }
 
 .contact-directory-geo-column h3 {
   margin-bottom: 6px;
-  color: var(--gold);
-  font-size: 0.72rem;
+  color: var(--gold-text);
+  font-size: 0.8rem;
   font-weight: 700;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
+/* Audit follow-up (P1-N): grid-column:1/-1 with no max-width let this line
+   run the container's full width - at this font-size the worst measured
+   line length on the site (172 characters per line). --measure caps it
+   like the site's other running copy. */
 .contact-directory-note {
   grid-column: 1 / -1;
-  padding-left: calc(2.4rem + clamp(16px, 2.2vw, 28px));
+  max-width: var(--measure);
+  padding-left: calc(var(--directory-index-w) + clamp(16px, 2.2vw, 28px));
   color: var(--ink-muted);
   font-size: 0.86rem;
   font-style: italic;

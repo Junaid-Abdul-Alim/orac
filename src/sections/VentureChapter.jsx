@@ -10,7 +10,7 @@ import ContinuumMark from "../components/motion/ContinuumMark";
  * another world's motion.
  */
 const CHAPTER_MOTION = {
-  international: { variant: "door" },
+  international: { variant: "door", mark: "route" },
   eventus: { variant: "frame", mark: "frame" },
   luxe: { variant: "seam", mark: "seam" },
 };

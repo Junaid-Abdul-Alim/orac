@@ -15,8 +15,9 @@ export default function ContinuumMark({ kind, className = "", nodes = 0 }) {
 
   // Structural lines. Cheap transforms rather than SVG, because a straight
   // rule scaled from one end is indistinguishable from a drawn one and costs
-  // nothing.
-  if (kind === "spine" || kind === "divider" || kind === "guide") {
+  // nothing. "route" is the same primitive, used where International's
+  // directional accent needs a plain rule rather than a frame or a seam.
+  if (kind === "spine" || kind === "divider" || kind === "guide" || kind === "route") {
     return (
       <span className={cls} data-mark={kind} aria-hidden="true">
         <span className="continuum-mark-line" data-draw />

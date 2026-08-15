@@ -66,17 +66,24 @@
 
 .rich-copy p {
   max-width: var(--measure);
-  font-size: 1.02rem;
+  font-size: 1.0625rem;
 }
 
+/* The title states the same line at the top of this section; here it
+   returns as a closing refrain rather than a second, unrelated heading -
+   set at a distinctly smaller scale, preceded by its own rule, and given
+   room to read as the argument's conclusion rather than a repeat. */
 .holding-statement {
   display: block;
-  margin-top: 8px;
+  margin-top: clamp(20px, 2.4vw, 32px);
+  padding-top: clamp(18px, 2vw, 26px);
+  border-top: 1px solid var(--rule);
   color: var(--ink);
   font-family: var(--font-display);
-  font-size: clamp(1.55rem, 2.8vw, 2.3rem);
+  font-size: clamp(1.3rem, 1.05rem + 1vw, 1.7rem);
   font-weight: 600;
-  line-height: 1.12;
+  font-style: italic;
+  line-height: 1.3;
 }
 
 /* Rules sit *between* rows, not under the last one - a trailing rule read
@@ -102,6 +109,32 @@
   height: 7px;
   border-radius: 999px;
   background: var(--gold);
+}
+
+/* International reads its three points as a route (01/02/03) rather than a
+   bullet list - CSS counters, not real text, so this stays decorative and
+   the underlying content/order is untouched. Matches the "structured,
+   directional" register the route mark above (14-motion.css) and the
+   trade-flow route lower on /international already use. */
+.venture-chapter-international .editorial-list {
+  counter-reset: chapter-route;
+}
+
+.venture-chapter-international .editorial-list span {
+  gap: 16px;
+}
+
+.venture-chapter-international .editorial-list span::before {
+  counter-increment: chapter-route;
+  content: counter(chapter-route, decimal-leading-zero);
+  width: auto;
+  height: auto;
+  border-radius: 0;
+  background: none;
+  color: var(--accent-international);
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 600;
 }
 
 .leadership-panel {
@@ -144,7 +177,7 @@
   position: relative;
   counter-increment: principle;
   display: grid;
-  grid-template-columns: 84px minmax(180px, 300px) minmax(0, 1fr);
+  grid-template-columns: 84px minmax(180px, 260px) minmax(0, 1fr);
   align-items: baseline;
   column-gap: clamp(16px, 2.6vw, 40px);
   padding: clamp(20px, 2.4vw, 32px) 0;
@@ -184,7 +217,12 @@
   color: var(--ink-muted);
   font-size: 0.98rem;
   line-height: 1.62;
-  max-width: 48ch;
+  /* Was capped at 48ch, which on a wide description column (the widest of
+     the row's three tracks) left roughly 250-400px of empty space to its
+     right - the row's rule ran the full width but its content stopped
+     well short of it. Raised to use the column, not just a comfortable
+     line length within it. */
+  max-width: 62ch;
 }
 
 /* The lead principle - larger type only, same row grid, so everything still
@@ -201,38 +239,28 @@
   font-size: clamp(1.15rem, 0.95rem + 0.8vw, 1.4rem);
 }
 
+/* P0-2: previously a 40px-radius card (with a second, inset border of its
+   own) whose right column - six capabilities, collapsed by default to a
+   title row each - never came close to the left column's height once
+   `align-content: space-between` had pushed the closing statement to the
+   bottom. `align-items: stretch` then forced the shorter route list to
+   fill that inflated row track anyway, leaving a large empty band beneath
+   its last row. Now a plain grid on the section background, both columns
+   sized to their own content (`align-items: start`), matching the Process
+   route lower on this same page rather than a card of its own. */
 .trade-capability-showcase {
   position: relative;
   display: grid;
   grid-template-columns: minmax(280px, 0.78fr) minmax(0, 1.22fr);
   gap: clamp(28px, 4vw, 64px);
-  align-items: stretch;
-  overflow: hidden;
-  padding: clamp(24px, 3.8vw, 56px);
-  border: 1px solid rgba(184, 151, 90, 0.16);
-  border-radius: var(--radius-xl);
-  background:
-    radial-gradient(circle at 18% 18%, rgba(212, 175, 120, 0.18), transparent 31%),
-    radial-gradient(circle at 88% 18%, rgba(27, 34, 64, 0.08), transparent 29%),
-    linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(250, 248, 243, 0.78));
-  box-shadow: 0 30px 90px rgba(26, 24, 20, 0.055);
-}
-
-.trade-capability-showcase::before {
-  content: "";
-  position: absolute;
-  inset: 18px;
-  pointer-events: none;
-  border: 1px solid rgba(184, 151, 90, 0.1);
-  border-radius: var(--radius-lg);
+  align-items: start;
 }
 
 .trade-capability-copy {
   position: relative;
-  z-index: 1;
   display: grid;
-  align-content: space-between;
-  gap: clamp(28px, 4vw, 72px);
+  align-content: start;
+  gap: clamp(28px, 3.4vw, 48px);
 }
 
 .trade-capability-copy .section-header {
@@ -243,7 +271,8 @@
   display: grid;
   gap: 18px;
   max-width: 430px;
-  padding-top: clamp(28px, 6vw, 86px);
+  padding-top: clamp(20px, 2.6vw, 34px);
+  border-top: 1px solid rgba(184, 151, 90, 0.18);
 }
 
 .trade-capability-statement span {
@@ -285,11 +314,20 @@
   border-bottom: 1px solid rgba(184, 151, 90, 0.22);
 }
 
+/* Audit follow-up (P1-D): the copy column's giant display statement
+   ("Beyond Transactions. Building Global Connections.") runs far taller
+   (~798px @1440) than the six collapsed route rows ever reached (~475px),
+   leaving a ~685x323px void in the showcase's bottom-right that P0-2 aimed
+   to remove but didn't fully close. Widening each row's own padding (rather
+   than spacing the six rows apart, which would break the continuous
+   hairline strip this route deliberately shares with the Process route
+   lower on the page) lets the route reach a proportionate height on its
+   own - a generosity that also suits sitting beside display-scale type. */
 .trade-flow-step-head {
   display: flex;
   align-items: center;
   gap: 14px;
-  padding: clamp(14px, 1.8vw, 20px) 4px;
+  padding: clamp(28px, 3.4vw, 41px) 4px;
   cursor: default;
 }
 
@@ -382,31 +420,35 @@
   padding: clamp(22px, 2vw, 30px);
 }
 
-/* Leadership card lift. Leader tiles keep the same shadowed-card language as
-   `.product-panel:hover` (06-contact.css) - closing the gap for the one
-   homepage grid that reached the visitor without it.
+/* P1-5: `.leader-tile` is only ever used on Leadership.jsx (no image inside
+   it, so none of P0-6's grid-rounding caveats apply here), so this scoped
+   reset dissolves its card treatment - a ruled institutional roster instead
+   of four shadowed tiles, aligned to the existing timeline mark beside it.
+   Kept: the h4::after rule-draw hover (below) and the reveal's own inline
+   transform (untouched - only the hover lift is removed, not the GSAP
+   scene that sets the resting transform). */
+.leader-tile {
+  border: none;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  padding: clamp(18px, 1.8vw, 26px) 0 clamp(18px, 1.8vw, 26px) clamp(20px, 2vw, 26px);
+  border-left: 1px solid rgba(184, 151, 90, 0.16);
+}
 
-   `!important` on the hover transform is deliberate, not a specificity
-   workaround: useHomeMotion.js's "leadership" scene leaves every `.leader-tile`
-   with a permanent inline `transform` (GSAP keeps it, rather than clearing it,
-   because the reveal is scrub-tied and must stay reversible on scroll-up) -
-   an inline style always wins over a plain class rule regardless of
-   specificity, so only an `!important` stylesheet rule can still add a hover
-   lift on top of it. Nothing else on this page needs the same override.
-   `prefers-reduced-motion: reduce` already collapses every transition
-   duration to ~0 (11-responsive.css), so no separate guard is needed here. */
+/* P1-5: the shadowed-card lift is retired along with the card itself -
+   Leadership should read as the calmest chapter of the page (brief §22),
+   not a hover-animated grid. GSAP's "leadership" scene (useHomeMotion.js)
+   still leaves its own resting inline `transform` on `.leader-tile` for the
+   scrub-tied reveal; that is untouched here, only the extra hover lift on
+   top of it is removed. */
 .leader-tile {
   position: relative;
-  transition:
-    transform 0.5s var(--ease-smooth),
-    border-color 0.5s var(--ease-smooth),
-    box-shadow 0.5s var(--ease-smooth);
+  transition: border-color 0.5s var(--ease-smooth);
 }
 
 .leader-tile:hover {
-  transform: translate3d(0, -6px, 0) !important;
-  border-color: rgba(184, 151, 90, 0.3);
-  box-shadow: 0 28px 60px -36px rgba(26, 24, 20, 0.5);
+  border-left-color: rgba(184, 151, 90, 0.4);
 }
 
 /* Every sibling card type in the shared block above (leader tiles, stat
@@ -461,9 +503,17 @@
 
 /* Reserve two lines for the name so a tile whose name wraps does not push
    its focus line below the other three. */
+/* Audit follow-up (P1-K): the reserved two-line height matched the h4's own
+   line-height (1.14em) exactly, with no slack - close enough that the one
+   name that actually wraps to two lines ("Athila Ashrin Rahmathullah")
+   still rendered a few pixels taller than the reserved space, nudging that
+   tile's focus line 11px below the other three's shared baseline. A small
+   buffer above the exact two-line math absorbs sub-pixel/rounding
+   differences the browser introduces between a reserved min-height and the
+   actual rendered line box. */
 .leader-tile h4 {
   align-self: start;
-  min-height: calc(2 * 1.14em);
+  min-height: calc(2 * 1.14em + 6px);
 }
 
 .leader-tile span,
@@ -490,6 +540,41 @@
   font-weight: 600;
 }
 
+/* P0-6: ServiceBlock is only ever used on /eventus's "What We Do" grid, so
+   this scoped reset dissolves its card treatment (border/radius/background/
+   shadow/hover-lift, all inherited from the shared block above) without
+   touching `.leader-tile`/`.stat-tile`/`.product-panel`, which keep it. The
+   eight services become hairline-separated editorial units on the section
+   background instead - each keeps its own top rule (an index/rule pairing
+   already used by `.trade-flow-step`/`.reason-panel-list article`
+   elsewhere) rather than a rounded box. The hover response becomes the
+   existing `h3::after` rule-draw alone (kept, below); the translate3d lift
+   is removed since there's no card edge left to lift.
+
+   Border stays 1px on all four sides (three now transparent) rather than
+   `border: none` - confirmed against the pre-edit baseline that dropping
+   the side borders outright shrinks the border-box by 2px per cell, which
+   nudges `.service-grid`'s `minmax(0,1fr)` column-width rounding just
+   enough to move two of the eight photos (the two reusing the same source
+   image, `floral-table.webp`) by a measurable 2px. Keeping the same 1px
+   border width, only recoloring it, keeps every image's box byte-identical
+   to before. */
+.service-block {
+  border: 1px solid transparent;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  padding-top: clamp(20px, 2vw, 26px);
+  border-top-color: rgba(184, 151, 90, 0.16);
+  transition: border-color 360ms var(--ease-smooth);
+}
+
+.service-block:hover {
+  transform: none;
+  border-top-color: rgba(184, 151, 90, 0.4);
+  box-shadow: none;
+}
+
 .editorial-panel {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -497,11 +582,66 @@
   padding: var(--space-lg);
 }
 
+/* P0-4: `.about-trade-panel` is the only user of `.editorial-panel`, so its
+   card treatment (border/radius/background/shadow, plus the two-column
+   split above) is reset here rather than left as a card holding another
+   set of cards. The paragraph now reads at the container guide, full
+   width; the four stats become a ruled strip beneath it instead of a
+   second, nested set of boxes - the same "ruled instrument, not cards"
+   language GlobalReach's own stat strip already uses successfully lower on
+   this same page (08-global-reach.css's .global-reach-stats), reused here
+   rather than reinvented. */
+.about-trade-panel {
+  display: block;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+}
+
 .about-trade-panel p {
   max-width: 620px;
   margin-top: 18px;
   font-size: 1.12rem;
   color: var(--ink-soft);
+}
+
+.about-trade-panel .stat-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-top: clamp(28px, 3.2vw, 44px);
+  border-top: 1px solid rgba(184, 151, 90, 0.18);
+  border-bottom: 1px solid rgba(184, 151, 90, 0.18);
+}
+
+.about-trade-panel .stat-tile {
+  align-content: center;
+  min-height: 128px;
+  padding: clamp(18px, 2vw, 26px) clamp(16px, 2vw, 28px);
+  border: none;
+  border-right: 1px solid rgba(184, 151, 90, 0.14);
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+}
+
+.about-trade-panel .stat-tile:last-child {
+  border-right: 0;
+}
+
+/* Audit follow-up (P1-G): every tile shares the same horizontal padding, so
+   the first tile's own number sat ~32px right of the section's own left
+   guide (the same x every heading/paragraph/rule above it uses) - a real
+   deviation, not a border-driven offset like tiles 2-4 (which need their
+   left padding as breathing room after the divider). Zeroing the outer
+   edge on the first and last tile only lines the strip's ends back up with
+   the guide on both sides. */
+.about-trade-panel .stat-tile:first-child {
+  padding-left: 0;
+}
+
+.about-trade-panel .stat-tile:last-child {
+  padding-right: 0;
 }
 
 .stat-grid {
@@ -555,10 +695,10 @@
   color: var(--accent-luxe);
 }
 
-.venture-chapter-international .editorial-list span::before {
-  background: var(--accent-international);
-}
-
+/* International's own dot-background rule is superseded by the counter
+   treatment above (a background would paint behind the "01/02/03" text and
+   make it unreadable against its own colour) - Eventus and Luxe keep the
+   plain dot. */
 .venture-chapter-eventus .editorial-list span::before {
   background: var(--accent-eventus);
 }

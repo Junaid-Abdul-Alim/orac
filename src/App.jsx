@@ -47,6 +47,41 @@ function ScrollManager() {
 
     window.scrollTo({ top: 0, behavior: "auto" });
     document.getElementById("main-content")?.focus({ preventScroll: true });
+
+    // requestRefresh() (below) defers its own ScrollTrigger.refresh() by two
+    // animation frames so React has committed the new route first. That
+    // refresh re-measures every pinned trigger, which involves GSAP
+    // temporarily reverting and restoring each one's scroll position as part
+    // of measuring it - and because the incoming route's own triggers can
+    // still be mounting synchronously in the same commit as this effect
+    // (each new page's motion hook calls refreshNow() from its own
+    // useLayoutEffect, which runs before this useEffect), that restore can
+    // capture the outgoing route's old scroll position rather than the top
+    // this effect just set, landing the new route mid-page instead of at
+    // its start. A trailing re-assertion three frames later - always after
+    // requestRefresh's own two-frame schedule finishes, regardless of which
+    // of this component's two effects React happens to run first - restates
+    // top without changing requestRefresh() or refreshNow() themselves, so
+    // their synchronous-measurement guarantee for newly created triggers is
+    // untouched. Cancelled if the route changes again before it fires, so a
+    // fast double-navigation can't scroll a later route back to 0.
+    let cancelled = false;
+    let raf2 = 0;
+    let raf3 = 0;
+    const raf1 = requestAnimationFrame(() => {
+      raf2 = requestAnimationFrame(() => {
+        raf3 = requestAnimationFrame(() => {
+          if (!cancelled) window.scrollTo({ top: 0, behavior: "auto" });
+        });
+      });
+    });
+
+    return () => {
+      cancelled = true;
+      cancelAnimationFrame(raf1);
+      cancelAnimationFrame(raf2);
+      cancelAnimationFrame(raf3);
+    };
   }, [pathname, hash]);
 
   // Every trigger on the outgoing route was measured against that route's
