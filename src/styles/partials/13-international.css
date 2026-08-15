@@ -1018,6 +1018,21 @@ a.neumatrix-index-item:focus-visible {
   transition: color var(--dur-hover) var(--ease-smooth);
 }
 
+/* Every list of .contact-action rows sits inside a card/entry that already
+   closes with its own border - either the next card's border-top, or (for
+   the last one in a list) its own explicit border-bottom. The last row's
+   own border-bottom used to draw a second hairline ~32px above that one,
+   with nothing but padding between them - two dividers bracketing an empty
+   gap that reads as a leftover, unfinished row rather than intentional
+   spacing. One divider per boundary, on every page that uses this row
+   (the International/Luxe contact CTAs and the main /contact directory,
+   for both flat action lists and the geo-column layout). */
+.international-contact-links .contact-action:last-child,
+.contact-directory-actions .contact-action:last-child,
+.contact-directory-geo-column .contact-action:last-child {
+  border-bottom: none;
+}
+
 .contact-action-icon {
   display: inline-grid;
   place-items: center;

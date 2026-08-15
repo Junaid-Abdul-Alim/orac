@@ -193,52 +193,10 @@
     min-height: calc(100svh - var(--nav-height) - clamp(26px, 6vw, 42px));
   }
 
-  .origin-identity {
-    gap: 4px;
-    padding-bottom: 4px;
-  }
-
-  .origin-logo-heading img {
-    width: min(240px, 58vw);
-    max-height: min(56px, 9svh);
-  }
-
   .origin-tagline {
     max-width: 92vw;
     font-size: 0.82rem;
     line-height: 1.32;
-  }
-
-  .origin-fork {
-    width: 3px;
-    height: clamp(18px, 3.6vh, 26px);
-  }
-
-  .origin-ventures {
-    grid-template-columns: 1fr;
-    grid-template-rows: repeat(3, minmax(0, 1fr));
-    gap: 8px;
-  }
-
-  /* Stacked full-width bands have far less height per aperture than the
-     desktop three-up row, so the logo zone needs its own (smaller) budget
-     rather than inheriting the desktop clamp - see the min-height:0 note
-     above the media/link rules in 03-hero.css for why this genuinely has to
-     shrink rather than just clip. */
-  .venture-compact-media {
-    padding: 10px 14px;
-  }
-
-  .venture-compact-logo {
-    width: min(56%, 160px);
-  }
-
-  .venture-compact-label {
-    padding: 10px 16px 12px;
-  }
-
-  .venture-compact-label .eyebrow {
-    font-size: 0.66rem;
   }
 
   .eventus-services-section .service-grid {
@@ -445,6 +403,93 @@
 
   .footer-bottom {
     display: grid;
+  }
+}
+
+/* True phone widths only now (was <=820px, which also caught tablet -
+   see the 621-820px block above for why that was the actual bug). Below
+   this, the card itself is narrow enough that the compact logo cap and
+   the wide banner ratio are proportionate again, not a small logo lost in
+   a wide empty band. */
+@media (max-width: 620px) {
+  .origin-ventures {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  /* Stacked full-width bands have far less height per aperture than the
+     desktop three-up row, so the logo zone needs its own (smaller) budget
+     rather than inheriting the desktop clamp - see the min-height:0 note
+     above the media/link rules in 03-hero.css for why this genuinely has to
+     shrink rather than just clip. The desktop 4:5 ratio (03-hero.css) would
+     make three stacked full-width cards taller than the viewport itself -
+     a wide banner ratio here keeps each aperture visibly bigger than the
+     original compact strip without reopening the scroll the mobile hero is
+     built to avoid. */
+  .venture-compact-media {
+    aspect-ratio: 16 / 7;
+    padding: 10px 14px;
+  }
+
+  .venture-compact-logo {
+    width: min(56%, 160px);
+  }
+
+  .venture-compact-label {
+    padding: 10px 16px 12px;
+  }
+
+  .venture-compact-label .eyebrow {
+    font-size: 0.66rem;
+  }
+}
+
+/* Tablet portrait (768x1024 and neighbours) for the homepage hero cards.
+   Same class of bug as the "Two-up card rows" note below, for the same
+   reason: stacking to one full-width column at <=820px was tuned for the
+   old compact aperture (a small logo strip that shrank right along with
+   the card). Now that each card is a tall 4:5 photograph, a stacked card
+   at ~700-745px wide still centres a logo capped at 160px - leaving
+   ~290px of empty band on either side of it, the actual bug this fixes.
+   Below this, at true phone widths, the 3-up row would squeeze each card
+   under ~180px and the full-width stacked band (03-hero.css's mobile
+   .venture-compact-media override) is the better composition again. */
+@media (min-width: 621px) and (max-width: 820px) {
+  .origin-ventures {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-rows: none;
+    gap: clamp(12px, 1.6vw, 18px);
+  }
+
+  .venture-compact-media {
+    aspect-ratio: 4 / 5;
+    padding: clamp(14px, 2vw, 20px);
+  }
+
+  .venture-compact-logo {
+    width: min(74%, 200px);
+  }
+
+  .venture-compact-label {
+    padding: clamp(10px, 1.4vw, 14px) clamp(14px, 2vw, 18px);
+  }
+
+  /* .home-hero/.home-hero-inner (both set in the <=820px block above) force
+     the hero to fill the full first viewport - the phone "zero-scroll"
+     requirement this was built for. At this tablet width the row is now
+     3-up and much shorter than the old stacked bands were, so forcing that
+     same full-viewport height left ~275px of dead cream above AND below
+     the row (measured) - the same class of bug the desktop fix upstream in
+     03-hero.css closed, just reappearing at this width once the cards got
+     short again. Tablet was never bound by the phone's zero-scroll
+     arithmetic, so sizing to content here is safe. */
+  .home-hero {
+    min-height: auto;
+  }
+
+  .home-hero-inner {
+    min-height: auto;
   }
 }
 

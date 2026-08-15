@@ -443,40 +443,6 @@ export default function useHomeMotion(scopeRef) {
           ],
         });
 
-        /* -----------------------------------------------------------------
-           Scene 9 - Contact. Motion nearly stops: a short guide, the heading,
-           then the action.
-           ----------------------------------------------------------------- */
-        scene({
-          id: "contact",
-          trigger: one(".contact-cta"),
-          start: isDesktop ? "top 92%" : "top 94%",
-          end: isDesktop ? "top 60%" : "top 70%",
-          scrub: SCRUB,
-          steps: [
-            {
-              el: one(".contact-guide [data-draw]"),
-              from: { scaleY: 0, transformOrigin: "top center" },
-              to: { scaleY: 1 },
-              at: 0,
-              duration: 0.5,
-            },
-            {
-              el: all(".contact-cta-copy .eyebrow, .contact-cta-copy h2, .contact-cta-copy p"),
-              from: { opacity: 0, y: isDesktop ? 40 : 26 },
-              to: { opacity: 1, y: 0 },
-              at: 0.25,
-              duration: 0.5,
-            },
-            {
-              el: one(".contact-cta-copy .button"),
-              from: { opacity: 0, y: isDesktop ? 25 : 18 },
-              to: { opacity: 1, y: 0 },
-              at: 0.55,
-              duration: 0.45,
-            },
-          ],
-        });
       };
 
       mm.add(DESKTOP_QUERY, () => build(true));

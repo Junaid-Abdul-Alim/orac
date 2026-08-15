@@ -24,6 +24,19 @@
   background: var(--white);
 }
 
+/* This chapter's copy runs longer than most (three paragraphs plus a
+   founder quote), so against the shared .editorial-layout's frozen image
+   height and align-items:start, the image (locked to its own clamped
+   height, not resizable) stopped well short of the copy column and left a
+   ~290px void beneath it - reading as the image cutting off rather than a
+   deliberate composition. Centering it within the row instead splits that
+   leftover space above and below, so it reads as a photograph placed
+   beside a longer passage of text, not a shorter one that ran out. The
+   image's own box is untouched - only its position within its grid cell. */
+.luxe-founder-media {
+  align-self: center;
+}
+
 .luxe-founder-brand {
   color: var(--gold);
   font-size: 0.8rem;
@@ -92,6 +105,15 @@
 .contact-cta p {
   max-width: 620px;
   color: rgba(255, 255, 255, 0.62);
+}
+
+/* .eyebrow's ::before dash (22px + 10px gap = 32px) only sits on the left of
+   the text, which is invisible in a left-aligned eyebrow (the usual case)
+   but visibly pulls the word off-center in this one centered instance -
+   matching padding-right balances the box so the text itself, not just its
+   flex container, lands on the section's true center. */
+.contact-cta .eyebrow {
+  padding-right: 32px;
 }
 
 .contact-heading {

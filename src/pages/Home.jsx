@@ -1,5 +1,4 @@
 import { useRef } from "react";
-import ContactCTA from "../sections/ContactCTA";
 import HoldingIntro from "../sections/HoldingIntro";
 import HomeHero from "../sections/HomeHero";
 import GlobalReach from "../components/common/GlobalReach";
@@ -75,11 +74,6 @@ export default function Home() {
       />
       <WhyOrac />
       <Leadership />
-      <ContactCTA
-        bare
-        title="Explore the right ORAC venture or start a conversation."
-        text="Choose a business, send an enquiry, or work with ORAC on the next serious opportunity."
-      />
     </div>
   );
 }

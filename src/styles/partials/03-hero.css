@@ -98,62 +98,18 @@
   min-height: 0;
 }
 
-.origin-identity {
-  display: grid;
-  justify-items: center;
-  align-content: center;
-  gap: clamp(6px, 1vw, 12px);
-  flex: 0 0 auto;
-  padding-bottom: clamp(4px, 1vw, 10px);
-}
-
-.origin-logo-heading {
-  display: flex;
-  justify-content: center;
-  margin: 0;
-}
-
-.origin-logo-heading img {
-  display: block;
-  width: min(420px, 60vw);
-  max-width: 100%;
-  max-height: min(112px, 11svh);
-  object-fit: contain;
-  filter: drop-shadow(0 22px 42px rgba(184, 87, 40, 0.12));
-}
-
+/* Sits below the three ventures now (see OriginSequence.jsx) - the wordmark
+   itself was dropped from this view entirely (the navbar already carries it
+   on every page), so the ventures are the first thing this section shows,
+   with the tagline reading as a closing line underneath them. */
 .origin-tagline {
   max-width: 640px;
+  margin: clamp(18px, 2.4vw, 28px) auto 0;
   padding: 0 var(--space-sm);
   color: var(--ink-muted);
   font-size: clamp(1rem, 0.94rem + 0.3vw, 1.05rem);
   line-height: 1.45;
-}
-
-/* One continuous piece of connective geometry - a single inline SVG path
-   with three branches - rather than three separate DOM elements, so it
-   reads as one fork, not three unrelated lines. */
-.origin-fork {
-  display: block;
-  width: min(320px, 70%);
-  height: clamp(28px, 4vw, 44px);
-  flex: 0 0 auto;
-  margin-inline: auto;
-  overflow: visible;
-}
-
-/* The 3D thread (OriginThread3D, desktop/WebGL/motion-enabled visitors only
-   - see OriginSequence.jsx's useShow3D) needs real depth to read as
-   dimensional rather than a flat line rendered in a canvas, so it gets a
-   taller box than the flat SVG fork ever needed. Never rendered below
-   DESKTOP_QUERY's 861px, so it never competes with the mobile hero's
-   "zero scroll" budget. */
-.origin-fork-3d {
-  position: relative;
-  width: min(420px, 70%);
-  height: clamp(90px, 9vw, 130px);
-  flex: 0 0 auto;
-  margin-inline: auto;
+  text-align: center;
 }
 
 .origin-ventures {
@@ -164,8 +120,10 @@
      would still force each card up to the row's full height, just moving
      the empty interior from around the logo to below the label instead. */
   align-items: start;
-  gap: clamp(10px, 1.4vw, 18px);
+  gap: clamp(18px, 2.2vw, 28px);
   width: 100%;
+  max-width: 1180px;
+  margin-inline: auto;
   /* Was 1 1 auto: grew this grid to fill all remaining vertical space in
      .origin-sequence, which is what let .venture-compact-media's own
      padding get re-absorbed instead of actually closing. Sized to content
@@ -175,12 +133,10 @@
   min-height: 0;
 }
 
-/* P0-5: the card treatment (32px radius, shadow, and a full-bleed tinted
-   label strip) is what made the three apertures read as three identical
-   white cards distinguished only by a small word. Radius drops to a
-   restrained value, the shadow is gone, and each world's difference now
-   comes from its own accent hairline/mark (below) plus the label's border
-   rather than a solid tint fill - the wordmark image itself is untouched. */
+/* A real card again: soft radius, a hairline border in the venture's own
+   accent, and a shadow that lifts further on hover - the frame the
+   photograph and wordmark sit inside, rather than an unbounded rectangle
+   floating on the page. */
 .origin-venture.orac-frame-venture-compact {
   position: relative;
   padding: 0;
@@ -188,6 +144,45 @@
   min-height: 0;
   overflow: hidden;
   border-radius: var(--radius-sm);
+  border: 1px solid rgba(26, 24, 20, 0.08);
+  box-shadow: 0 18px 44px rgba(26, 24, 20, 0.1);
+  transition:
+    transform 420ms var(--ease-smooth),
+    opacity 420ms var(--ease-smooth),
+    filter 420ms var(--ease-smooth),
+    box-shadow 420ms var(--ease-smooth),
+    border-color 420ms var(--ease-smooth);
+}
+
+.origin-venture.orac-frame-international.orac-frame-venture-compact {
+  border-color: rgba(44, 74, 99, 0.16);
+}
+
+.origin-venture.orac-frame-eventus.orac-frame-venture-compact {
+  border-color: rgba(138, 59, 52, 0.16);
+}
+
+.origin-venture.orac-frame-luxe.orac-frame-venture-compact {
+  border-color: rgba(47, 82, 64, 0.16);
+}
+
+/* Hover-reveal: pointing at one world quietly steps the other two back
+   rather than all three sitting at equal weight all the time - the same
+   "which one has your attention" signal a spotlight gives, done here with
+   opacity/blur/scale instead. Keyboard focus gets the identical treatment
+   via :focus-within, so the effect isn't mouse-only. */
+.origin-ventures:hover .origin-venture:not(:hover):not(:focus-within),
+.origin-ventures:focus-within .origin-venture:not(:hover):not(:focus-within) {
+  transform: scale(0.97);
+  opacity: 0.62;
+  filter: blur(1.5px);
+}
+
+.origin-venture:hover,
+.origin-venture:focus-within {
+  z-index: 2;
+  transform: scale(1.015);
+  box-shadow: 0 28px 64px rgba(26, 24, 20, 0.16);
 }
 
 .venture-compact-link {
@@ -201,37 +196,105 @@
 }
 
 /* The logo carries the venture's name on its own (each is that venture's
-   own wordmark), so this zone is just a clean, generously padded field for
-   it to sit in - no photo, no overlay text competing with it. */
+   own wordmark), so this zone is a padded field for it to sit in, now with
+   that venture's own homepage photograph behind it rather than a plain
+   white fill. */
 .venture-compact-media {
   position: relative;
   display: grid;
   place-items: center;
-  /* flex:1 1 auto (its previous value) let this box stretch to fill
-     whatever vertical space .origin-ventures had available - which is why
-     tightening its own padding never closed the dead space above/below the
-     logo: the box just re-absorbed the difference. flex:0 0 auto sizes it
-     to its own padding + the logo's own height instead, and .origin-sequence
-     (below) recentres the now-shorter block of hero content. */
-  flex: 0 0 auto;
+  overflow: hidden;
+  /* Sized to an aspect-ratio now rather than to its own padding + the
+     logo's height (flex:0 0 auto) - the whole point of bringing the
+     photograph in was to actually show it, not just tint a thin strip
+     behind the wordmark. .home-hero is built to fill the viewport
+     (Blueprint's "zero-scroll first viewport"); with the old central
+     wordmark gone, cards at 4:3 left ~180px of empty cream above AND
+     below the row - .origin-sequence's own centering was working exactly
+     as designed, there just wasn't enough content left to justify the
+     box it was centering into. Taller cards use that space instead of
+     leaving it blank: 4:5 brings the top/bottom margin down to a normal
+     ~90px, in the same range every other section on the site already
+     opens and closes with. */
+  aspect-ratio: 4 / 5;
   min-height: 0;
-  /* Vertical padding only, tightened from clamp(20-40px) to close the empty
-     interior above/below the logo. Horizontal padding is left exactly as it
-     was (clamp(18px, 3vw, 30px)): the logo's box is `width: min(74%, 250px)`
-     (below) - a percentage of *this* padding box - so narrowing the
-     horizontal padding would silently grow the logo's own rendered width
-     even though its own rule is untouched. Confirmed by the image-box diff
-     against the pre-edit baseline: touching horizontal padding here moved
-     the rendered logo from 238x90 to 250x94. */
-  padding: clamp(10px, 1.8vw, 20px) clamp(18px, 3vw, 30px);
+  padding: clamp(18px, 2.6vw, 30px);
   background: var(--white);
 }
 
+/* Same photograph each venture's own homepage chapter uses lower on the
+   page (see OriginSequence.jsx). Kept at reduced opacity, blended against
+   the white fill behind it, so the gold wordmark stays legible over any
+   photograph without needing a heavy scrim - "less transparent" than a
+   faint watermark, but still secondary to the logo it sits behind. */
+.venture-compact-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  opacity: 0.55;
+}
+
+/* International's and Luxe's source photos are both near-perfect squares
+   (1254x1254) - covering this box's tall 4:5 shape crops only their sides,
+   leaving the full, mostly plain sky/background top and bottom untouched.
+   With the subject small and centred in the middle of all that, the corners
+   read as dead space. Eventus's source is already portrait-shaped and
+   doesn't have this problem. A closer, subject-led crop on these two
+   specifically fills the frame instead of floating a small subject in a
+   mostly-empty square.
+
+   This was first done with `transform: scale()`, which zooms at paint time
+   rather than layout time - Safari's compositor left a hairline gap along
+   one edge of the scaled image (visible as a thin sliver of the white
+   .venture-compact-media background showing through, worse at some zoom
+   levels than others), because the scaled paint layer and the box
+   overflow:hidden clips against don't always agree on sub-pixel boundaries.
+   Sizing the box itself larger than its container via a negative inset
+   achieves the same zoomed crop at layout time instead, so overflow:hidden
+   clips it the same way it clips every other unscaled image on the site -
+   no separate compositing step, no seam.
+
+   `top/left: -18%; width/height: auto` was tried first, and hit the exact
+   same over-constrained-replaced-element bug as the homepage aperture
+   marks earlier in this file: with all four box edges implied but
+   width/height left auto, a replaced element with an intrinsic ratio (this
+   image is a perfect square) is sized from that ratio instead of from the
+   inset math, collapsing the box back down to a plain square and undoing
+   the zoom entirely. Explicit width/height percentages sidestep the ratio
+   the same way the marks' fix did. */
+.origin-venture.orac-frame-international .venture-compact-bg {
+  top: -18%;
+  left: -18%;
+  /* The sitewide `img { max-width: 100% }` reset (01-base.css) was capping
+     this back down to 100% regardless of the value here. */
+  max-width: none;
+  width: 136%;
+  height: 136%;
+  object-position: center 38%;
+}
+
+.origin-venture.orac-frame-luxe .venture-compact-bg {
+  top: -18%;
+  left: -18%;
+  max-width: none;
+  width: 136%;
+  height: 136%;
+  object-position: center 30%;
+}
+
 .venture-compact-logo {
+  position: relative;
+  z-index: 1;
   width: min(74%, 250px);
   max-width: 88%;
   height: auto;
   object-fit: contain;
+  /* A soft white halo, not a shadow - keeps the wordmark reading clearly
+     over whichever part of the photograph sits behind it. */
+  filter: drop-shadow(0 0 14px rgba(255, 255, 255, 0.85)) drop-shadow(0 0 3px rgba(255, 255, 255, 0.9));
   transition: transform 900ms var(--ease-smooth);
 }
 
@@ -240,33 +303,16 @@
 }
 
 /* The eyebrow alone (the venture's category, e.g. "Global Trade") sits in a
-   per-venture tinted strip beneath the logo - the accent token that used to
-   only color small text now also carries the identity that a photo used to,
-   since there's no image behind it anymore. The venture name itself stays
-   in the DOM as an sr-only heading rather than repeating what the logo
-   above already shows. */
+   plain strip beneath the logo, no divider line between the two - the
+   photograph above and the plain strip below are already visually distinct
+   without one. The venture name itself stays in the DOM as an sr-only
+   heading rather than repeating what the logo above already shows. */
 .venture-compact-label {
   flex: 0 0 auto;
   display: flex;
   justify-items: start;
   padding: clamp(12px, 1.8vw, 18px) clamp(18px, 3vw, 24px);
-  border-top: 1px solid rgba(184, 151, 90, 0.16);
   text-align: left;
-}
-
-/* A hairline in the venture's own accent, not a full-bleed tint fill - the
-   same "which world" signal, read at the restraint the brief asks gold-only
-   decoration to have (see CLAUDE.md: gold is not the sole luxury signal). */
-.origin-venture.orac-frame-international .venture-compact-label {
-  border-top-color: var(--accent-international);
-}
-
-.origin-venture.orac-frame-eventus .venture-compact-label {
-  border-top-color: var(--accent-eventus);
-}
-
-.origin-venture.orac-frame-luxe .venture-compact-label {
-  border-top-color: var(--accent-luxe);
 }
 
 .origin-venture.orac-frame-international .venture-compact-label .eyebrow {
@@ -279,96 +325,6 @@
 
 .origin-venture.orac-frame-luxe .venture-compact-label .eyebrow {
   color: var(--accent-luxe);
-}
-
-/* Each aperture's geometric signature (see OriginSequence.jsx), sized as a
-   restrained accent rather than the full-card outline .continuum-mark-frame/
-   -seam's default inset:0/left:0 (14-motion.css, tuned for a large venture-
-   chapter photograph) would otherwise draw here. Each is pulled in from the
-   card edges and thinned down to read as a mark, not a border - and each
-   takes its own venture accent instead of the shared gold the marks default
-   to elsewhere, the same "which world" signal the label hairline uses. */
-.origin-venture .continuum-mark-route {
-  position: absolute;
-  top: clamp(14px, 2vw, 20px);
-  left: 12%;
-  width: 34%;
-  height: 3px;
-  z-index: 3;
-}
-
-.origin-venture .continuum-mark-route .continuum-mark-line {
-  width: 100%;
-  height: 3px;
-}
-
-.origin-venture.orac-frame-international .continuum-mark-route .continuum-mark-line {
-  background: linear-gradient(90deg, var(--accent-international), transparent);
-}
-
-/* The base .continuum-mark-frame rule (14-motion.css) also sets explicit
-   width/height: 100%, tuned for a large venture-chapter photo - those win
-   over two of these four inset edges (explicit width/height beats an
-   implied one from left+right or top+bottom), which is what was pulling the
-   bracket box back out to the card's full size on two sides.
-
-   `width: auto; height: auto` was tried next, but the frame svg carries an
-   intrinsic 4:3 ratio (viewBox="0 0 400 300"). For an absolutely positioned
-   replaced element, explicit auto width/height is sized from that intrinsic
-   ratio, not from the inset box, even though inset alone would already fully
-   determine the box - so at a short, wide aperture (<=768px) the box comes
-   out 4:3 regardless of the actual (wide, short) media area and its bottom
-   overflows the card, clipped by .origin-venture's overflow:hidden. Setting
-   width/height as an explicit calc against the same inset value sidesteps
-   the ratio entirely and always yields a symmetric box. */
-.origin-venture .continuum-mark-frame {
-  --mark-inset: clamp(16px, 2.4vw, 24px);
-  inset: var(--mark-inset);
-  width: calc(100% - 2 * var(--mark-inset));
-  height: calc(100% - 2 * var(--mark-inset));
-}
-
-.origin-venture .continuum-frame-bracket {
-  stroke-width: 2;
-}
-
-.origin-venture.orac-frame-eventus .continuum-frame-bracket {
-  stroke: var(--accent-eventus-light);
-  filter: none;
-}
-
-/* The base .continuum-mark-seam rule (14-motion.css) sets left:0, tuned for
-   a full-bleed chapter photo. Left was never overridden here, so the seam
-   sat flush with .venture-compact-media's own left edge rather than inset
-   into the card - spilling outside .origin-venture's clipped box by the
-   padding amount. Giving it the same inset as the frame keeps it inside.
-
-   height was left as auto, which reproduces the same intrinsic-ratio bug as
-   the frame mark above (10.6.5): with an explicit width and height:auto, a
-   replaced element with an intrinsic ratio (viewBox="0 0 60 400", very tall
-   and narrow) sizes its height from that ratio, not from the top+bottom
-   insets - so the seam came out far taller than the card and still spilled
-   past the bottom. An explicit calc against the same inset value fixes it
-   the same way the frame's width/height fix does. */
-.origin-venture .continuum-mark-seam {
-  --mark-inset: clamp(16px, 2.4vw, 24px);
-  top: var(--mark-inset);
-  bottom: var(--mark-inset);
-  left: var(--mark-inset);
-  height: calc(100% - 2 * var(--mark-inset));
-  width: clamp(18px, 2.2vw, 26px);
-}
-
-.origin-venture.orac-frame-luxe .continuum-seam-stitch {
-  stroke: var(--accent-luxe);
-  stroke-width: 2.5;
-  filter: none;
-}
-
-.origin-venture.orac-frame-luxe .continuum-seam-guide {
-  stroke: rgba(47, 82, 64, 0.45);
-  stroke-width: 1.5;
-  filter: none;
 }
 
 .origin-venture:has(.venture-compact-link:focus-visible) {
