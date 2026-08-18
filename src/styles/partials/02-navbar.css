@@ -210,6 +210,15 @@
   align-content: start;
   gap: 10px;
   min-height: 100svh;
+  /* `inset: 0` pins the panel's own box to the viewport height, so on a
+     short phone (measured: 320x568, five links plus two purpose lines
+     each) the content run taller than that box - the last entries and the
+     WhatsApp/Email row sat past the bottom edge with nothing to scroll
+     them into reach. The panel now scrolls its own content instead of
+     assuming every phone is tall enough for the full list. */
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
   padding: calc(var(--nav-height) + 28px) var(--gutter) 32px;
   background: rgba(250, 248, 244, 0.98);
   opacity: 0;

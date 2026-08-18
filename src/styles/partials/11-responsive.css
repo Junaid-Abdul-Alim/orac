@@ -267,14 +267,15 @@
     border-radius: 22px;
   }
 
+  /* --product-media-height is no longer redeclared here - the desktop
+     formula (06-contact.css) now carries through unchanged at every width,
+     so the product photo keeps the same crop/scale it has on desktop. */
   .product-panel {
-    --product-media-height: clamp(284px, 52vw, 342px);
     min-height: calc(var(--product-media-height) + 146px);
   }
 
   .product-showcase-card.product-panel {
     grid-column: auto;
-    --product-media-height: clamp(284px, 52vw, 342px);
     min-height: calc(var(--product-media-height) + 146px);
     grid-template-rows: var(--product-media-height) auto auto 1fr;
     padding: 14px;
@@ -302,43 +303,6 @@
   .gallery-item-5,
   .gallery-item-6 {
     grid-column: auto;
-  }
-
-  /* Stacked image system. Crops are decided here independently of desktop:
-     a full-width single column turns any wide desktop band into a
-     letterbox sliver, so media is sized by ratio rather than by height
-     from this breakpoint down. */
-  .image-panel-media,
-  .safe-image-fallback,
-  .preview-image-panel .image-panel-media,
-  .preview-image-panel .safe-image-fallback,
-  .cinematic-banner .image-panel-media,
-  .cinematic-banner .safe-image-fallback,
-  .velorawed-film-frame .image-panel-media,
-  .velorawed-film-frame .safe-image-fallback,
-  .venture-chapter .preview-image-panel .image-panel-media,
-  .venture-chapter .preview-image-panel .safe-image-fallback {
-    height: auto;
-    min-height: 0;
-    aspect-ratio: 4 / 3;
-  }
-
-  .gallery-item .image-panel-media,
-  .gallery-item .safe-image-fallback,
-  .eventus-gallery-section .gallery-item .image-panel-media,
-  .eventus-gallery-section .gallery-item .safe-image-fallback {
-    height: auto;
-    min-height: 0;
-    aspect-ratio: 4 / 3;
-  }
-
-  /* The venture hero band stays wide even on a phone - it sits directly
-     under the page title and works as a header, not as a subject photo. */
-  .product-hero-image .image-panel-media,
-  .product-hero-image .safe-image-fallback {
-    height: auto;
-    min-height: 0;
-    aspect-ratio: 4 / 3;
   }
 
   /* Kept in sync with .service-block's mobile padding above: both predate
@@ -406,6 +370,37 @@
   }
 }
 
+/* Full-bleed editorial photography, mobile only. Every large standalone
+   photo below - the homepage venture chapters, each venture page's own
+   hero image, the editorial galleries, the International "What We Do"
+   banner, and the VELORAWED film frame - stacks to a single full-width
+   column by this breakpoint (see the grid collapses above and in
+   07-media-panels.css/08-global-reach.css). Once it's the only thing in
+   its row, there's no reason left for it to sit inset inside the page
+   gutter with a rounded, shadowed card edge: run the photo to both true
+   edges of the screen instead, the way a photograph fills a page rather
+   than sitting on one. `.image-panel` (not `.image-panel-media`) is the
+   breakout target - it's the box that actually carries the radius,
+   shadow and `overflow: hidden` that would otherwise clip a wider child,
+   and `.image-panel-copy`'s caption overlay is positioned against it, so
+   breaking out here carries the caption edge-to-edge with the photo
+   rather than leaving it stranded at the old inset width. Card-grid
+   photography (product carousel cards, Maison thumbnails) is untouched -
+   those live inside a bordered card next to price/name text, where an
+   edge-to-edge photo would break the card, not the page. */
+@media (max-width: 820px) {
+  .preview-image-panel,
+  .product-hero-image,
+  .gallery-item,
+  .cinematic-banner,
+  .velorawed-film-frame {
+    width: 100vw;
+    margin-inline: calc(50% - 50vw);
+    border-radius: 0;
+    box-shadow: none;
+  }
+}
+
 /* True phone widths only now (was <=820px, which also caught tablet -
    see the 621-820px block above for why that was the actual bug). Below
    this, the card itself is narrow enough that the compact logo cap and
@@ -442,6 +437,21 @@
 
   .venture-compact-label .eyebrow {
     font-size: 0.66rem;
+  }
+
+  /* .contact-directory-actions (2 columns) and .contact-directory-geo (3,
+     for the Trade desk's Singapore/India/Africa columns) have no width
+     budget left to give .contact-action at true phone widths - each column
+     was 90-140px, and .contact-action-value's overflow-wrap:anywhere (set
+     for the row itself, 13-international.css) had no choice but to break
+     "info@oracholdings.com" one or two characters per line. Stacking to a
+     single column hands every row the full content width, which is what
+     13-international.css's own 620px .contact-action fix (stacked
+     icon/kind above value) was already sized for. */
+  .contact-directory-actions,
+  .contact-directory-geo {
+    grid-template-columns: 1fr;
+    row-gap: clamp(20px, 2.6vw, 40px);
   }
 }
 
@@ -529,43 +539,9 @@
   .leadership-grid > *:nth-child(odd):last-child {
     grid-column: 1 / -1;
   }
-
-  .gallery-item .image-panel-media,
-  .gallery-item .safe-image-fallback,
-  .eventus-gallery-section .gallery-item .image-panel-media,
-  .eventus-gallery-section .gallery-item .safe-image-fallback {
-    aspect-ratio: 1 / 1;
-  }
 }
 
 @media (max-width: 520px) {
-  /* Phone crops, checked independently of desktop and tablet. A 4:3 frame
-     across a ~350px column is only ~260px tall - too small for a subject
-     photograph - so the large editorial media and the galleries go
-     portrait here, while the venture hero band stays wide because it is
-     acting as a page header. */
-  .preview-image-panel .image-panel-media,
-  .preview-image-panel .safe-image-fallback,
-  .venture-chapter .preview-image-panel .image-panel-media,
-  .venture-chapter .preview-image-panel .safe-image-fallback,
-  .velorawed-film-frame .image-panel-media,
-  .velorawed-film-frame .safe-image-fallback,
-  .gallery-item .image-panel-media,
-  .gallery-item .safe-image-fallback,
-  .eventus-gallery-section .gallery-item .image-panel-media,
-  .eventus-gallery-section .gallery-item .safe-image-fallback {
-    aspect-ratio: 4 / 5;
-  }
-
-  /* A 4:5 phone frame would crop nothing from this source photo's own
-     aspect ratio, bringing its printed lockup back into view (see the
-     04-sections.css note above). A slightly wider frame restores the
-     vertical crop that keeps it out. */
-  .venture-chapter-international .preview-image-panel .image-panel-media,
-  .venture-chapter-international .preview-image-panel .safe-image-fallback {
-    aspect-ratio: 6 / 5;
-  }
-
   .footer {
     padding-top: var(--section-y);
   }
@@ -694,9 +670,28 @@
     justify-self: end;
   }
 
+  /* The 38px circle is deliberate at this width - it pairs with the
+     .icon-badge-soft above, which is set to the same 38px. But 38px is
+     under the 44px touch minimum, and box-sizing is border-box sitewide
+     (01-base.css), so padding would eat into the circle rather than grow
+     the tap area. The hit area is extended past the visible button
+     instead, via an absolutely-positioned pseudo-element. Its containing
+     block is the button's padding box (36px - the border-box 38px minus
+     the 1px border on each side, per 06-contact.css), so inset:-4px
+     lands on 36 + 4 + 4 = 44, not the -3px a border-free box would need.
+     .product-carousel-controls' 8px gap is wider than the 8px the two
+     neighbours spend growing toward each other, so the areas touch but
+     never overlap. */
   .product-carousel-controls button {
+    position: relative;
     width: 38px;
     height: 38px;
+  }
+
+  .product-carousel-controls button::before {
+    content: "";
+    position: absolute;
+    inset: -4px;
   }
 
   .product-showcase-grid.product-carousel-track {
@@ -724,8 +719,9 @@
     font-size: 1.55rem;
   }
 
+  /* --product-media-height is no longer redeclared here either (see the
+     820px block above) - same reasoning, same desktop formula. */
   .product-showcase-card.product-panel {
-    --product-media-height: clamp(252px, 74vw, 318px);
     min-height: calc(var(--product-media-height) + 150px);
     grid-template-rows: var(--product-media-height) auto auto 1fr;
     border-radius: 28px;

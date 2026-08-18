@@ -619,6 +619,23 @@
     flex-direction: column;
     align-items: flex-start;
   }
+
+  /* Was a 22px-tall text link (line-height only, no padding) - the page's
+     one way back to the collection, sized for a mouse. Rather than
+     padding the link itself (which would push the heading below it
+     down), an absolutely-positioned pseudo-element extends the tap area
+     to 44px above and below the text; the link's own box, margins and
+     text size are untouched. */
+  .maison-back {
+    position: relative;
+  }
+
+  .maison-back::after {
+    content: "";
+    position: absolute;
+    inset-block: -11px;
+    inset-inline: 0;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
