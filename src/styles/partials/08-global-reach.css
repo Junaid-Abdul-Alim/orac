@@ -360,3 +360,162 @@
 .velorawed-section .gallery-item .safe-image-fallback {
   min-height: 272px;
 }
+
+/* Studio pillars - a dark-surface counterpart to `.reason-panel-list`
+   (light-only: its body copy sets `color: var(--ink-muted)`, unreadable on
+   this section's near-black background). Three interactive cards instead
+   of ruled rows, since the pillar count never grows past three here. */
+.velorawed-pillars {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(16px, 1.8vw, 24px);
+  margin-top: var(--space-lg);
+}
+
+.velorawed-pillar {
+  position: relative;
+  padding: clamp(22px, 2vw, 30px) clamp(20px, 1.8vw, 26px);
+  border: 1px solid rgba(212, 175, 120, 0.18);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(165deg, rgba(212, 175, 120, 0.08), transparent 60%), rgba(255, 255, 255, 0.03);
+  transition:
+    transform 420ms var(--ease-smooth),
+    border-color 420ms var(--ease-smooth),
+    background 420ms var(--ease-smooth);
+}
+
+.velorawed-pillar:hover {
+  transform: translate3d(0, -4px, 0);
+  border-color: rgba(212, 175, 120, 0.4);
+  background: linear-gradient(165deg, rgba(212, 175, 120, 0.14), transparent 65%), rgba(255, 255, 255, 0.045);
+}
+
+.velorawed-pillar-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.icon-badge-dark {
+  width: 38px;
+  height: 38px;
+  border: 1px solid rgba(212, 175, 120, 0.32);
+  border-radius: 999px;
+  background: rgba(212, 175, 120, 0.08);
+  color: var(--gold-light);
+  transition: background 420ms var(--ease-smooth), border-color 420ms var(--ease-smooth);
+}
+
+.velorawed-pillar:hover .icon-badge-dark {
+  background: rgba(212, 175, 120, 0.18);
+  border-color: rgba(212, 175, 120, 0.55);
+}
+
+.velorawed-pillar-index {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.velorawed-pillar h3 {
+  color: var(--white);
+  font-size: 1.3rem;
+  margin: 0 0 10px;
+  position: relative;
+  display: inline-block;
+}
+
+.velorawed-pillar h3::after {
+  content: "";
+  display: block;
+  width: 0;
+  height: 1px;
+  margin-top: 8px;
+  background: var(--gold-light);
+  transition: width 0.5s var(--ease-smooth);
+}
+
+.velorawed-pillar:hover h3::after {
+  width: 32px;
+}
+
+.velorawed-pillar p {
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 0.98rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Coverage checklist + pull-quote, replacing the old pill-tag row - an
+   interactive list (each line lifts and turns gold on hover/focus) paired
+   with a larger, attributed quote instead of a plain unstyled blockquote. */
+.velorawed-covers {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  gap: var(--gap-column);
+  align-items: start;
+  margin-top: var(--space-xl);
+  padding-top: var(--space-lg);
+  border-top: 1px solid rgba(212, 175, 120, 0.16);
+}
+
+.velorawed-covers-list .eyebrow {
+  display: block;
+  margin-bottom: 18px;
+}
+
+.velorawed-covers-list ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 2px;
+}
+
+.velorawed-covers-list li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 10px;
+  border-radius: 10px;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 1rem;
+  transition: background 360ms var(--ease-smooth), color 360ms var(--ease-smooth), padding-left 360ms var(--ease-smooth);
+}
+
+.velorawed-covers-list li svg {
+  flex: 0 0 auto;
+  color: var(--gold-light);
+}
+
+.velorawed-covers-list li:hover {
+  background: rgba(212, 175, 120, 0.08);
+  color: var(--white);
+  padding-left: 16px;
+}
+
+.velorawed-quote blockquote {
+  margin: 0;
+  padding-left: clamp(20px, 2vw, 28px);
+  border-left: 2px solid var(--gold-light);
+  color: var(--white);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(1.35rem, 1rem + 1.4vw, 1.85rem);
+  line-height: 1.42;
+}
+
+.velorawed-quote cite {
+  display: block;
+  margin-top: 22px;
+  font-style: normal;
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold-light);
+}

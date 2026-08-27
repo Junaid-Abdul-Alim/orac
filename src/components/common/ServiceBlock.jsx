@@ -24,7 +24,7 @@ const serviceIcon = (title = "") => {
 // children. The image inside still opens on its own via `ImagePanel`'s
 // `ImageReveal`, so a card entering is two things happening together: the
 // card sliding into place and its photo wiping open inside it.
-export default function ServiceBlock({ title, points, image, index = 0, variant = "panel" }) {
+export default function ServiceBlock({ title, tag, points, image, index = 0, variant = "panel" }) {
   return (
     <article className="service-block">
       {image ? (
@@ -35,6 +35,7 @@ export default function ServiceBlock({ title, points, image, index = 0, variant 
         <span>{pad2(index + 1)}</span>
       </div>
       <h3>{title}</h3>
+      {tag ? <p className="service-block-tag">{tag}</p> : null}
       <ul>
         {points.map((point) => (
           <li key={point}>{point}</li>

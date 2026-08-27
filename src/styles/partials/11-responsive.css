@@ -47,7 +47,10 @@
   }
 
   .leadership-grid,
-  .service-grid {
+  .service-grid,
+  .velorawed-pillars,
+  .ritual-grid,
+  .touch-row {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -82,8 +85,16 @@
   .split-layout,
   .editorial-layout,
   .editorial-layout.reverse,
-  .velorawed-layout {
+  .velorawed-layout,
+  .velorawed-pillars,
+  .velorawed-covers,
+  .ritual-grid,
+  .touch-row {
     grid-template-columns: 1fr;
+  }
+
+  .velorawed-covers {
+    gap: var(--space-lg);
   }
 
   /* Once stacked, every chapter reads copy-then-image; `reverse` is a

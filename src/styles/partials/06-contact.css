@@ -459,6 +459,12 @@
   line-height: 1.45;
 }
 
+.service-block-tag {
+  font-style: italic;
+  color: var(--gold);
+  margin: 6px 0 14px;
+}
+
 .service-block ul {
   display: grid;
   gap: 10px;

@@ -25,7 +25,7 @@ export const eventusServices = [
   },
   {
     title: "Entertainment",
-    points: ["Live DJ and sound", "Traditional Nadhaswaram ensembles", "Kids' games and engagement zones"],
+    points: ["Live DJ and sound", "Traditional Nadhaswaram ensembles", "Kids' fun games and engagement zones"],
   },
   {
     title: "Gifting & Keepsakes",
@@ -38,7 +38,7 @@ export const eventusServices = [
   {
     title: "Memory Design",
     points: [
-      "Wedding album design",
+      "Premium wedding album design",
       "Framed photography and wall art",
       "Aerial drone coverage of venue and events",
     ],
@@ -62,24 +62,84 @@ export const eventusServices = [
 ];
 
 export const eventusProcess = [
-  { title: "Consultation", body: "We understand your vision, guest count, and budget." },
-  { title: "Planning", body: "Decor, venue, catering, and vendors locked with clear pricing." },
-  { title: "Execution", body: "Our team manages every detail on the ground, on the day." },
-  { title: "Delivery", body: "VELORAWED delivers your films, albums, and memories." },
+  {
+    title: "Consultation",
+    body: "We begin by understanding your celebration, vision, guest profile, rituals, preferences, and budget.",
+  },
+  {
+    title: "Planning & Design",
+    body: "We shape the event through decor concepts, venue planning, hospitality flow, vendor coordination, and clear timelines.",
+  },
+  {
+    title: "Execution",
+    body: "Our team manages the celebration on-ground with precision, ensuring every element is delivered smoothly and beautifully.",
+  },
+  {
+    title: "Storytelling & Delivery",
+    body: "VELORAWED captures the celebration and delivers curated films, albums, and keepsakes that preserve the occasion long after it ends.",
+  },
 ];
 
-export const eventusPromise = [
+export const eventusPillars = [
   {
-    title: "Event Partner",
-    body: "Planning, decor, and execution handled by one accountable team.",
+    title: "One Accountable Team",
+    body: "Planning, decor, hospitality, and execution held by a single team - never stitched together from separate vendors.",
   },
   {
-    title: "Visual Studio",
-    body: "Photography and cinematography delivered through VELORAWED.",
+    title: "Rooted in Ritual",
+    body: "A working understanding of South Indian wedding traditions and family-led celebrations, honoured at every step.",
   },
   {
-    title: "Vision",
-    body: "Every detail, every vendor, and every moving part kept under one clear timeline.",
+    title: "Built Around You",
+    body: "An engagement model that flexes - from a single service to complete ownership of your celebration.",
+  },
+];
+
+export const eventusCelebrations = [
+  { title: "Weddings", body: "Sacred vows, thoughtfully planned and cinematically told." },
+  { title: "Reception", body: "A grand evening of glamour, warmth and celebration." },
+  { title: "Engagement", body: "Where two families begin one beautiful story." },
+  { title: "Mehendi", body: "Colour, intimacy and joy before the vows." },
+  { title: "Haldi", body: "Golden mornings, laughter and blessings." },
+  { title: "Sangeet", body: "Music, dance and the joy of two families united." },
+];
+
+export const eventusTouchPoints = [
+  { title: "Arrival & Gifting", body: "Pathways, welcome tokens and first impressions." },
+  { title: "Culinary Ritual", body: "Traditional dining, offered as part of the celebration." },
+  { title: "Guest Comfort", body: "Refreshment and thoughtful touches throughout." },
+];
+
+export const eventusCorporate = [
+  {
+    title: "Conferences & Galas",
+    tag: "Seminars, dealer meets & annual gatherings",
+    points: [
+      "Award nights and annual day ceremonies",
+      "Dealer and distributor meets",
+      "Leadership offsites and conclaves",
+      "Themed gala dinners and banquets",
+    ],
+  },
+  {
+    title: "Launches & Branding",
+    tag: "Product reveals & branded environments",
+    points: [
+      "Product and showroom launches",
+      "Sponsor walls and media backdrops",
+      "Stage, AV and lighting design",
+      "On-brand decor and signage",
+    ],
+  },
+  {
+    title: "Nights & Exhibitions",
+    tag: "Curated entertainment & showcases",
+    points: [
+      "Artist and DJ night curation",
+      "Exhibitions and trade showcases",
+      "Immersive installations",
+      "Guest and hospitality management",
+    ],
   },
 ];
 
@@ -91,25 +151,17 @@ export const velorawedServices = [
   "Pre-wedding & destination wedding shoots",
 ];
 
-export const clientReasons = [
+export const velorawedPillars = [
   {
-    title: "One Point of Contact",
-    body: "No juggling between decorators, caterers, and photographers separately. One team coordinates everything so nothing falls through the cracks.",
+    title: "Emotion First",
+    body: "We shoot for how a moment felt, not only how it looked - candid, unposed, and true to the room.",
   },
   {
-    title: "Photography Built In",
-    body: "Most event planners outsource photography to whoever is available. ORAC Eventus works with VELORAWED, built specifically to stay in sync with the planning team.",
+    title: "Ritual Fluent",
+    body: "A studio built around South Indian ceremony, so nothing sacred is missed and no frame feels generic.",
   },
   {
-    title: "Transparent Planning",
-    body: "Clear pricing, clear timelines, and regular updates through the planning process so you always know where things stand.",
-  },
-  {
-    title: "Rooted in Local Expertise",
-    body: "Based in Chennai, with deep familiarity in traditional South Indian wedding customs, vendors, and venues, plus the network to execute destination weddings beyond the city.",
-  },
-  {
-    title: "Flexible, Not Fixed",
-    body: "Engage ORAC Eventus for a single service - decor, photography, or catering coordination - or hand over the entire celebration.",
+    title: "Built to Last",
+    body: "Albums, frames, and films designed as heirlooms - meant to be opened again years from now.",
   },
 ];

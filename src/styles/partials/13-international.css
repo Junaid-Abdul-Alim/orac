@@ -1144,10 +1144,18 @@ a.neumatrix-index-item:focus-visible {
 
   /* The count and the carousel arrows both stop earning a horizontal column
      here: the head stacks, and the count drops since the arrows alone are
-     enough affordance for a touch-scrollable track. */
+     enough affordance for a touch-scrollable track. Title and aside were
+     previously left in the same flex row, which squeezed the title into a
+     sliver next to the catalogue button and broke it mid-word - stacking
+     them is what actually delivers the "head stacks" this comment describes. */
   .neumatrix-category-head {
-    align-items: flex-start;
+    flex-direction: column;
+    align-items: stretch;
     gap: 14px;
+  }
+
+  .neumatrix-category-title {
+    max-width: none;
   }
 
   .neumatrix-category-count {

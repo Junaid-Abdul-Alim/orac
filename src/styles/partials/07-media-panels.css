@@ -184,6 +184,136 @@
   aspect-ratio: 16 / 9.5;
 }
 
+/* The signature banner and the Eventus/Velorawed handoff line are single
+   centred statements, not a heading-plus-body block - `.section-header`'s
+   own width (760px, left-aligned by default) left both of them sitting
+   off-centre on wide viewports even with text-align applied locally. */
+.eventus-signature-banner .container,
+.eventus-handoff-section .container {
+  text-align: center;
+}
+
+.eventus-signature-banner .section-header,
+.eventus-handoff-section .section-header {
+  width: 100%;
+  max-width: min(620px, 100%);
+  margin: 0 auto;
+  text-align: center;
+}
+
+.eventus-handoff-section .section-header,
+.eventus-handoff-section .section-header > .eyebrow {
+  margin-bottom: 0;
+}
+
+/* Celebrations - six ritual cards instead of `.reason-panel-list` rows.
+   That component reads as an indexed policy list (Why ORAC, the About
+   pillars); six short ritual names in that format ran nine full-width rows
+   deep with no visual variety. Cards let each ritual carry its own icon and
+   read as a set, the way the reference's ritual grid did. */
+.ritual-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(16px, 1.8vw, 22px);
+}
+
+.ritual-card {
+  padding: clamp(20px, 1.8vw, 26px) clamp(18px, 1.6vw, 24px);
+  border: 1px solid rgba(184, 151, 90, 0.16);
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.6);
+  transition:
+    transform 360ms var(--ease-smooth),
+    border-color 360ms var(--ease-smooth),
+    box-shadow 360ms var(--ease-smooth);
+}
+
+.ritual-card:hover {
+  transform: translate3d(0, -4px, 0);
+  border-color: rgba(184, 151, 90, 0.32);
+  box-shadow: 0 24px 60px rgba(26, 24, 20, 0.07);
+}
+
+.ritual-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.ritual-card-index {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 0.9rem;
+  color: var(--ink-muted);
+  opacity: 0.55;
+}
+
+.ritual-card h3 {
+  font-size: 1.2rem;
+  margin: 0 0 8px;
+  display: inline-block;
+}
+
+.ritual-card h3::after {
+  content: "";
+  display: block;
+  width: 0;
+  height: 1px;
+  margin-top: 8px;
+  background: var(--gold);
+  transition: width 0.5s var(--ease-smooth);
+}
+
+.ritual-card:hover h3::after {
+  width: 28px;
+}
+
+.ritual-card p {
+  color: var(--ink-muted);
+  font-size: 0.96rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Guest touch points - a visually lighter, secondary row set apart from the
+   ritual cards above by a rule, so the two groups read as "the six
+   ceremonies" and "the details around them" rather than one long list. */
+.touch-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(20px, 2vw, 28px);
+  margin-top: var(--space-lg);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--rule);
+}
+
+.touch-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.touch-card svg {
+  flex: 0 0 auto;
+  margin-top: 3px;
+  color: var(--gold);
+}
+
+.touch-card h4 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.02rem;
+  margin: 0 0 4px;
+}
+
+.touch-card p {
+  color: var(--ink-muted);
+  font-size: 0.92rem;
+  line-height: 1.55;
+  margin: 0;
+}
+
 /* Large editorial media share one height band, matching the venture
    chapters' band so a banner on a business page and a chapter image on the
    homepage read at the same scale. */
