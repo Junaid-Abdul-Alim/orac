@@ -193,6 +193,22 @@
   text-align: center;
 }
 
+/* A quiet navy thread through the page, echoing VELOROWED's own surface at
+   the foot of it - the signature banner and handoff line each carry a
+   faint navy wash instead of the plain cream/white the rest of the page
+   uses, so the studio's identity below doesn't arrive as a sudden switch. */
+.eventus-signature-banner {
+  background-image: radial-gradient(circle at 50% 100%, rgba(34, 56, 94, 0.06), transparent 65%);
+}
+
+.eventus-handoff-section {
+  background-image: linear-gradient(180deg, transparent, rgba(14, 26, 47, 0.05) 100%);
+}
+
+.eventus-handoff-section .section-header > .eyebrow {
+  color: #22385e;
+}
+
 .eventus-signature-banner .section-header,
 .eventus-handoff-section .section-header {
   width: 100%;
@@ -230,7 +246,7 @@
 
 .ritual-card:hover {
   transform: translate3d(0, -4px, 0);
-  border-color: rgba(184, 151, 90, 0.32);
+  border-color: rgba(34, 56, 94, 0.28);
   box-shadow: 0 24px 60px rgba(26, 24, 20, 0.07);
 }
 
@@ -261,7 +277,7 @@
   width: 0;
   height: 1px;
   margin-top: 8px;
-  background: var(--gold);
+  background: #22385e;
   transition: width 0.5s var(--ease-smooth);
 }
 
@@ -297,7 +313,7 @@
 .touch-card svg {
   flex: 0 0 auto;
   margin-top: 3px;
-  color: var(--gold);
+  color: #22385e;
 }
 
 .touch-card h4 {

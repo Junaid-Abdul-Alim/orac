@@ -257,7 +257,15 @@
 }
 
 .velorawed-section {
-  background: radial-gradient(circle at 50% 0%, rgba(212, 175, 120, 0.12), transparent 40%), var(--ink);
+  /* VELORAWED's own surface within the Eventus world - a deep navy in
+     place of the shared warm --ink, so its studio identity reads as
+     distinct rather than a gold-on-black repeat of the section above it.
+     Gold stays as the accent (eyebrow, icons, quote), never the base. */
+  --velo-navy: #0e1a2f;
+  --velo-navy-2: #182a49;
+  --velo-navy-3: #22385e;
+  background: radial-gradient(circle at 50% 0%, rgba(34, 56, 94, 0.4), transparent 45%),
+    linear-gradient(165deg, var(--velo-navy-2), var(--velo-navy));
   color: var(--white);
 }
 
@@ -296,7 +304,7 @@
   display: block;
   width: clamp(52px, 6.4vw, 84px);
   height: auto;
-  filter: drop-shadow(0 26px 50px rgba(212, 175, 120, 0.16));
+  filter: drop-shadow(0 26px 50px rgba(34, 56, 94, 0.35));
 }
 
 .partner-title h2 {
@@ -375,9 +383,9 @@
 .velorawed-pillar {
   position: relative;
   padding: clamp(22px, 2vw, 30px) clamp(20px, 1.8vw, 26px);
-  border: 1px solid rgba(212, 175, 120, 0.18);
+  border: 1px solid rgba(126, 163, 194, 0.22);
   border-radius: var(--radius-lg);
-  background: linear-gradient(165deg, rgba(212, 175, 120, 0.08), transparent 60%), rgba(255, 255, 255, 0.03);
+  background: linear-gradient(165deg, rgba(126, 163, 194, 0.1), transparent 60%), rgba(255, 255, 255, 0.03);
   transition:
     transform 420ms var(--ease-smooth),
     border-color 420ms var(--ease-smooth),
@@ -386,8 +394,8 @@
 
 .velorawed-pillar:hover {
   transform: translate3d(0, -4px, 0);
-  border-color: rgba(212, 175, 120, 0.4);
-  background: linear-gradient(165deg, rgba(212, 175, 120, 0.14), transparent 65%), rgba(255, 255, 255, 0.045);
+  border-color: rgba(126, 163, 194, 0.45);
+  background: linear-gradient(165deg, rgba(126, 163, 194, 0.16), transparent 65%), rgba(255, 255, 255, 0.045);
 }
 
 .velorawed-pillar-top {
@@ -458,7 +466,7 @@
   align-items: start;
   margin-top: var(--space-xl);
   padding-top: var(--space-lg);
-  border-top: 1px solid rgba(212, 175, 120, 0.16);
+  border-top: 1px solid rgba(126, 163, 194, 0.2);
 }
 
 .velorawed-covers-list .eyebrow {
@@ -491,7 +499,7 @@
 }
 
 .velorawed-covers-list li:hover {
-  background: rgba(212, 175, 120, 0.08);
+  background: rgba(126, 163, 194, 0.12);
   color: var(--white);
   padding-left: 16px;
 }
