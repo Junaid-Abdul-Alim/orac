@@ -46,14 +46,4 @@ export const leadership = [
     role: "Director",
     focus: "ORAC Holdings, ORAC International",
   },
-  {
-    name: "Arjun Prabhakaran",
-    role: "Managing Director",
-    focus: "ORAC Eventus",
-  },
-  {
-    name: "Athila Ashrin Rahmathullah",
-    role: "Managing Director",
-    focus: "ORAC Luxe",
-  },
 ];

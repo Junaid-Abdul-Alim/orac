@@ -11,10 +11,6 @@ import { contactDetails } from "../data/contactData";
 // person on the right. See ORAC LUXE Website Corrections, item 8. The action
 // rows share the .contact-action system defined in 13-international.css.
 export default function LuxeContactCTA() {
-  const { luxe } = contactDetails;
-  const whatsappUrl = `https://wa.me/${luxe.phone.replace(/\D/g, "")}`;
-  const primaryEmail = luxe.emails[luxe.emails.length - 1];
-
   return (
     <section className="section international-contact-cta" aria-labelledby="luxe-contact-title">
       <div className="container">
@@ -29,31 +25,6 @@ export default function LuxeContactCTA() {
 
           <div className="international-contact-people">
             <Reveal as="article" className="international-contact-card" delay={130}>
-              <div className="international-contact-card-top">
-                <span className="eyebrow">Founder &amp; Creative Director</span>
-                <h3>Athila Ashrin Rahmathullah</h3>
-                <p>India</p>
-              </div>
-              <div className="international-contact-links">
-                <ContactActionRow
-                  icon={WhatsAppIcon}
-                  kind="WhatsApp"
-                  text={luxe.phone}
-                  href={whatsappUrl}
-                  channel="whatsapp"
-                  external
-                />
-                <ContactActionRow
-                  icon={GmailIcon}
-                  kind="Email"
-                  text={primaryEmail}
-                  href={`mailto:${primaryEmail}`}
-                  channel="email"
-                />
-              </div>
-            </Reveal>
-
-            <Reveal as="article" className="international-contact-card" delay={190}>
               <div className="international-contact-card-top">
                 <span className="eyebrow">Managing Director, ORAC Luxe</span>
                 <h3>Ohm Pranav</h3>
