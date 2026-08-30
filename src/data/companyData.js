@@ -38,12 +38,10 @@ export const companies = [
 export const leadership = [
   {
     name: "Ohm Pranav",
-    role: "Managing Director",
-    focus: "ORAC Holdings, ORAC International",
+    role: "Founder",
   },
   {
-    name: "Rajkumar Janjinam",
-    role: "Director",
-    focus: "ORAC Holdings, ORAC International",
+    name: "Rak J",
+    role: "Co-Founder",
   },
 ];

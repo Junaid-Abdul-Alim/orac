@@ -1,11 +1,8 @@
 import { Aperture, Clapperboard, Heart, Sparkles } from "lucide-react";
 import BrandLockup from "../components/common/BrandLockup";
-import EditorialGallery from "../components/common/EditorialGallery";
 import IconBadge from "../components/common/IconBadge";
-import ImagePanel from "../components/common/ImagePanel";
 import Reveal from "../components/common/Reveal";
 import { velorawedPillars, velorawedServices } from "../data/eventusData";
-import { velorawedImages } from "../data/eventusImages";
 import velorawedLogo from "../assets/logos/velorawed-gold.svg";
 import { pad2 } from "../utils/pad2";
 
@@ -50,18 +47,6 @@ export default function EventusVelorawedSection() {
             thoughtfully edited, and preserved as heirlooms for years to come.
           </p>
         </Reveal>
-      </div>
-
-      <div className="container velorawed-visuals">
-        <ImagePanel
-          image={velorawedImages.hero}
-          label="Film Frame"
-          title="Cinematic wedding films"
-          dark
-          className="velorawed-film-frame"
-          variant="frame"
-        />
-        <EditorialGallery images={velorawedImages.gallery} dark variant="frame" />
       </div>
 
       <div className="container">

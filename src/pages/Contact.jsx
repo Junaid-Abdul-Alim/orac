@@ -174,15 +174,10 @@ const contactEntries = [
   },
   {
     label: "Luxe Enquiry",
-    org: "ORAC Luxe / The House of Azrin",
-    person: `${contactDetails.luxe.name} / ${contactDetails.luxe.location}`,
+    org: "ORAC Luxe",
+    person: contactDetails.luxe.address,
     note: `${contactDetails.luxe.social} on Instagram`,
     actions: [
-      {
-        kind: "Phone",
-        text: contactDetails.luxe.phone,
-        href: `tel:${contactDetails.luxe.phone.replaceAll(" ", "")}`,
-      },
       ...contactDetails.luxe.emails.map((email) => ({
         kind: "Email",
         text: email,

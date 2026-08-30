@@ -28,7 +28,7 @@ export default function Leadership() {
             <article className="leader-tile" key={leader.name}>
               <span>{leader.role}</span>
               <h4>{leader.name}</h4>
-              <p className="leader-focus">{leader.focus}</p>
+              {leader.focus ? <p className="leader-focus">{leader.focus}</p> : null}
               {leader.body ? <p>{leader.body}</p> : null}
             </article>
           ))}

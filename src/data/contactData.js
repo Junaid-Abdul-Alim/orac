@@ -21,20 +21,15 @@ export const contactDetails = {
     email: "info@oracholdings.com",
   },
   eventus: {
-    address: "No. 120, Karunanithi Street, Thanthai Periyar Nagar, Tharamani, Chennai - 600113",
+    address: "41/22 - Raju Street, West Mambalam, Chennai 600033",
     phones: ["+91 88706 15820", "+91 76397 23555"],
     emails: ["oraceventus@gmail.com", "info@oracholdings.com"],
     website: "www.oracholdings.com",
     social: ["@oraceventus", "@velorawed"],
   },
   luxe: {
-    name: "The House of Azrin - By ORAC Luxe",
-    location: "India / Singapore",
-    phone: "+91 70103 60357",
-    emails: [
-      "studio@thehouseofazrin.com",
-      "thehouseofazrin@gmail.com",
-    ],
-    social: "@thehouseofazrin",
+    address: "41/22 - Raju Street, West Mambalam, Chennai 600033",
+    emails: ["studio@thehouseofazrin.com"],
+    social: "@orac_luxe",
   },
 };
