@@ -90,6 +90,12 @@ export default function useMotionReveal({ kind = "text", delay = 0, variant = "p
           element.dataset.motionState = "done";
         };
 
+        // Past the hasSettled() guard above, this branch always goes on to
+        // build a timeline with a ScrollTrigger, so this is the one point at
+        // which "armed" is truthful. See the note at the media.add() calls
+        // below for why it is no longer stamped outside these branches.
+        element.dataset.motionState = "armed";
+
         if (kind === "media") {
           const spec = MEDIA_VARIANTS[variant] || MEDIA_VARIANTS.panel;
           const box = findMediaBox(element);
@@ -161,7 +167,18 @@ export default function useMotionReveal({ kind = "text", delay = 0, variant = "p
       media.add(DESKTOP_QUERY, () => build(true));
       media.add(MOBILE_QUERY, () => build(false));
 
-      if (!element.dataset.motionState) element.dataset.motionState = "armed";
+      // Deliberately NOT stamped here. `armed` used to be written
+      // unconditionally at this point, outside both matchMedia branches - which
+      // meant an element could carry it while no tween existed at all. Both
+      // queries require `prefers-reduced-motion: no-preference`; an engine that
+      // reports neither `reduce` nor `no-preference` matches neither query, so
+      // `build()` never runs. The runtime had still added `orac-motion-ready`
+      // (it only checks that `reduce` does not match), so 14-motion.css was
+      // holding the element at opacity 0 with nothing left to release it - and
+      // sweepUnarmedReveals(), which looks for reveals with NO state at all,
+      // skipped it precisely because of that spurious `armed`. Stamping from
+      // inside build() instead means "armed" now guarantees a real trigger
+      // exists, and the stranded case falls through to the sweep as intended.
       // Synchronous, same tick: see gsap.js's refreshNow() for why a trigger
       // must be safely measured before the browser can process another event,
       // not merely before the next animation frame.

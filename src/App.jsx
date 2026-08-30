@@ -27,6 +27,22 @@ const pageTitles = {
 
 function ScrollManager() {
   const { pathname, hash } = useLocation();
+  // Moving focus into <main> is right when a route *changes* - it puts a screen
+  // reader at the top of the new page rather than leaving it on the link it
+  // just followed. Doing it on the very first render is not: the skip link
+  // sits before <main> in the DOM, so taking focus to <main> on load put it
+  // behind the caret and made it unreachable by Tab at all. Measured before
+  // this guard, activeElement after load was MAIN#main-content and the first
+  // Tab went straight into the hero's venture links - the skip link could
+  // never be focused, which is the entirety of what it exists to do.
+  //
+  // Tracked as "the last path actually handled" rather than a first-run
+  // boolean, because StrictMode double-invokes effects in development (mount,
+  // clean up, mount again): a boolean would be spent on the discarded first
+  // pass and the second would focus <main> anyway, making development behave
+  // differently from production. Comparing paths is idempotent, so a repeated
+  // run for the same route is correctly a no-op.
+  const lastFocusedPath = useRef(null);
 
   useEffect(() => {
     document.title = pageTitles[pathname] || "ORAC Holdings";
@@ -46,7 +62,11 @@ function ScrollManager() {
     }
 
     window.scrollTo({ top: 0, behavior: "auto" });
-    document.getElementById("main-content")?.focus({ preventScroll: true });
+    const isRouteChange = lastFocusedPath.current !== null && lastFocusedPath.current !== pathname;
+    lastFocusedPath.current = pathname;
+    if (isRouteChange) {
+      document.getElementById("main-content")?.focus({ preventScroll: true });
+    }
 
     // requestRefresh() (below) defers its own ScrollTrigger.refresh() by two
     // animation frames so React has committed the new route first. That

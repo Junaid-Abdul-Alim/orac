@@ -742,7 +742,7 @@ a.neumatrix-index-item:focus-visible {
   margin-bottom: var(--space-lg);
   padding: clamp(24px, 3vw, 36px);
   border: 1px solid rgba(184, 151, 90, 0.22);
-  border-radius: 28px;
+  border-radius: var(--radius-lg);
   background: rgba(255, 255, 255, 0.03);
 }
 

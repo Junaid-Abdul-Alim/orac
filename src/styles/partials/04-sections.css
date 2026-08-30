@@ -159,9 +159,21 @@
   gap: var(--gap-md);
 }
 
+/* Sized to the roster, not to the page. A fixed `repeat(4, 1fr)` stretched an
+   empty four-column grid across the full 1180px column: measured at 1440, the
+   two real leaders occupied 579px and left 601px - 51% of the grid - as dead
+   space to their right, with each tile thinned to 278px to fit a quarter it
+   did not need. `auto-fit` collapses the tracks nothing occupies, so the row
+   is exactly as wide as the people in it, and `justify-content: start` keeps
+   it left-aligned under the heading and against the `.continuum-mark-timeline`
+   rule beside it rather than floating centred. The 340px ceiling stops two
+   tiles from ballooning to half the page each; the 260px floor is what makes
+   it fall back to fewer columns as the container narrows. Adding a third or
+   fourth leader needs no change here. */
 .leadership-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(260px, 340px));
+  justify-content: start;
   gap: var(--gap-md);
 }
 

@@ -290,14 +290,14 @@
     min-height: calc(var(--product-media-height) + 146px);
     grid-template-rows: var(--product-media-height) auto auto 1fr;
     padding: 14px;
-    border-radius: 28px;
+    border-radius: var(--radius-lg);
   }
 
   .product-showcase-card .product-panel-image {
     height: var(--product-media-height);
     min-height: var(--product-media-height);
     margin: -14px -14px 8px;
-    border-radius: 28px 28px 20px 20px;
+    border-radius: var(--radius-lg) var(--radius-lg) 20px 20px;
   }
 
   .product-showcase-card .product-panel-image .safe-image-fallback,
@@ -735,7 +735,7 @@
   .product-showcase-card.product-panel {
     min-height: calc(var(--product-media-height) + 150px);
     grid-template-rows: var(--product-media-height) auto auto 1fr;
-    border-radius: 28px;
+    border-radius: var(--radius-lg);
     padding: 12px 12px 18px;
   }
 
@@ -752,7 +752,7 @@
   .product-showcase-card.product-panel .product-panel-image {
     width: calc(100% + 24px);
     margin: -12px -12px 8px;
-    border-radius: 28px 28px 20px 20px;
+    border-radius: var(--radius-lg) var(--radius-lg) 20px 20px;
   }
 
   /* The phone card frame is taller relative to its width, so cover already
@@ -770,7 +770,7 @@
 
   .hero-brand-panel {
     min-height: 138px;
-    border-radius: 26px;
+    border-radius: var(--radius-lg);
   }
 
   /* Statistics stack as three ruled rows under the map. Each keeps its

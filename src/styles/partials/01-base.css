@@ -85,17 +85,46 @@ main:focus {
   outline: none;
 }
 
+/* Hidden with the standard screen-reader-only pattern rather than by being
+   translated off the top of the screen. The old approach worked, but only for
+   as long as nothing between this link and the document root ever gained a
+   `transform`, `filter`, `perspective`, `backdrop-filter`, `contain: paint`
+   or `will-change` on one of those - any of which establishes a containing
+   block for fixed positioning, at which point `top: 12px` stops meaning "12px
+   from the viewport" and the pill lands somewhere over the content instead.
+   Clipping to a 1px box takes the element out of view by its own geometry, so
+   no ancestor can reintroduce it. The focused appearance is unchanged. */
 .skip-link {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.skip-link:focus,
+.skip-link:focus-visible {
   position: fixed;
   top: 12px;
   left: 50%;
+  transform: translateX(-50%);
   z-index: 1000;
-  transform: translate(-50%, -160%);
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  width: auto;
+  height: auto;
   min-height: 42px;
+  margin: 0;
   padding: 0 18px;
+  overflow: visible;
+  clip: auto;
+  clip-path: none;
   border: 1px solid rgba(184, 151, 90, 0.28);
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.92);
@@ -103,12 +132,6 @@ main:focus {
   box-shadow: 0 18px 54px rgba(26, 24, 20, 0.12);
   font-size: 0.82rem;
   font-weight: 600;
-  transition: transform 260ms var(--ease-smooth);
-}
-
-.skip-link:focus,
-.skip-link:focus-visible {
-  transform: translate(-50%, 0);
   outline: none;
 }
 
@@ -165,12 +188,21 @@ img {
   max-width: 100%;
 }
 
-.safe-image {
+/* The load fade is gated on `html.orac-motion-ready` for the same reason every
+   initial hidden state in 14-motion.css is: it is released only by React's
+   own onLoad handler setting `.is-loaded`, so anything that stops React from
+   running leaves it holding. Ungated, this was the one hidden state on the
+   site that broke the documented no-JavaScript / broken-bundle guarantee -
+   measured with scripting disabled, every image on every page computed to
+   opacity 0. Under the gate, a visitor without working JavaScript (and a
+   reduced-motion visitor, who is never given the class either) gets the
+   photograph immediately instead of a fade that can never start. */
+html.orac-motion-ready .safe-image {
   opacity: 0;
   transition: opacity 520ms var(--ease-smooth);
 }
 
-.safe-image.is-loaded {
+html.orac-motion-ready .safe-image.is-loaded {
   opacity: 1;
 }
 
@@ -181,16 +213,23 @@ img {
   background: linear-gradient(180deg, var(--surface-soft), var(--surface));
 }
 
+/* Same gate, same reason: this placeholder wash is cleared only by the
+   React-set `.is-loaded`, so ungated it would tint every image permanently
+   whenever that class never arrives. */
 .safe-image-frame::before {
   content: "";
   position: absolute;
   inset: 0;
   background: linear-gradient(180deg, rgba(184, 151, 90, 0.06), rgba(184, 151, 90, 0.02));
-  opacity: 1;
+  opacity: 0;
   transition: opacity 420ms var(--ease-smooth);
 }
 
-.safe-image-frame.is-loaded::before {
+html.orac-motion-ready .safe-image-frame::before {
+  opacity: 1;
+}
+
+html.orac-motion-ready .safe-image-frame.is-loaded::before {
   opacity: 0;
 }
 
@@ -277,6 +316,19 @@ p {
 
 .section {
   padding: var(--section-y) 0;
+}
+
+/* Anchor targets sit under a 64px fixed header, so anything jumped to needs to
+   clear it. `.section[id]` covers HoldingIntro's `#about` and any section
+   anchor added later; `#main-content` is the skip link's target, where a
+   keyboard user pressing Tab then Enter would otherwise land with the first
+   heading tucked behind the navbar. `.neumatrix-category` (the NEUMATRIX index
+   on /international - the only in-page anchor navigation the site actually has)
+   already declares its own, slightly larger, value in 13-international.css and
+   is deliberately left alone. */
+#main-content,
+.section[id] {
+  scroll-margin-top: calc(var(--nav-height) + 16px);
 }
 
 .muted-section,

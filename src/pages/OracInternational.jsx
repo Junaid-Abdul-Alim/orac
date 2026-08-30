@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ClipboardCheck, FileCheck2, Handshake, SearchCheck, Ship, Truck } from "lucide-react";
 import Reveal from "../components/common/Reveal";
 import SectionHeader from "../components/common/SectionHeader";
@@ -71,6 +71,80 @@ const heroGlobeProps = {
   arcColor: [0.72, 0.59, 0.35], // --gold
 };
 
+/**
+ * Switching paths unmounts one whole catalogue's worth of Reveal elements
+ * and mounts another's in the same commit - the biggest batch of
+ * ScrollTrigger churn anywhere on the site. Each newly mounted Reveal calls
+ * GSAP's ScrollTrigger.refresh() from its own effect (see src/motion/
+ * gsap.js's refreshNow - that synchronous, same-tick call is required, not
+ * incidental: it is what stops a separate, worse GSAP internals crash on
+ * ordinary page navigation, so it cannot be batched or deferred here). Each
+ * of those refreshes briefly scrolls the window to (0,0) to measure, then
+ * restores the prior position - and under `html { scroll-behavior: smooth }`
+ * (01-base.css, sitewide, for the skip link and hash navigation), Safari/
+ * WebKit does not always treat that reset as instant: it can play as a
+ * ~200ms animation, so a restore that lands mid-animation gets silently
+ * dropped. Confirmed via window.scrollTo instrumentation: switching this
+ * control reproduced a permanent scroll-to-0 in 3-10 of 10 WebKit runs.
+ *
+ * This was previously "fixed" by wrapping GSAP's own refresh calls site-wide
+ * (src/motion/gsap.js) - which broke navigation instead: every route's own
+ * mount-time Reveals went through the same wrapper, and their save/
+ * restore-to-"whatever scrollY was when I was called" fought App.jsx's
+ * ScrollManager, which legitimately resets scroll to 0 on every route
+ * change. Restoring "wherever it was" is only correct here, for this one
+ * same-page control where nothing should be moving the scroll at all - so
+ * the fix lives here, not in the shared primitive every page on the site
+ * depends on. Module-level rather than defined inside the component so it
+ * cannot be mistaken for something that runs during render (also what
+ * `react-hooks/immutability` was actually flagging about the DOM-mutating
+ * version of this that used to live inside the component body).
+ *
+ * `y` is the position to hold; `scroll-behavior` is forced to `auto` for the
+ * guard window so GSAP's own resets are genuinely instant instead of
+ * animated, and every check re-asserts `y` only if it drifted - never a
+ * blind re-scroll, so a visitor who scrolls away mid-guard is left alone.
+ * The guard is a fixed sequence (two animation frames, then two short
+ * timeouts covering the trailing refresh a lazily-loaded image can trigger
+ * ~650ms later - see runtime.js's requestRefreshWhenQuiet) rather than
+ * open-ended, and `clearScrollGuard` cancels it outright on unmount or a
+ * repeated click.
+ */
+function clearScrollGuard(guardRef) {
+  guardRef.current.forEach(({ type, id }) =>
+    type === "raf" ? cancelAnimationFrame(id) : window.clearTimeout(id)
+  );
+  guardRef.current = [];
+}
+
+function selectTradePathPreservingScroll(nextId, { setActivePath, guardRef }) {
+  clearScrollGuard(guardRef);
+
+  const y = window.scrollY;
+  const root = document.documentElement;
+  const previousScrollBehavior = root.style.scrollBehavior;
+  root.style.scrollBehavior = "auto";
+
+  setActivePath(nextId);
+
+  const reassert = () => {
+    if (Math.abs(window.scrollY - y) > 2) window.scrollTo(0, y);
+  };
+
+  const raf1 = requestAnimationFrame(() => {
+    reassert();
+    const raf2 = requestAnimationFrame(reassert);
+    guardRef.current.push({ type: "raf", id: raf2 });
+  });
+  const t1 = window.setTimeout(reassert, 400);
+  const t2 = window.setTimeout(() => {
+    reassert();
+    root.style.scrollBehavior = previousScrollBehavior;
+  }, 1100);
+
+  guardRef.current.push({ type: "raf", id: raf1 }, { type: "timeout", id: t1 }, { type: "timeout", id: t2 });
+}
+
 export default function OracInternational() {
   const scope = useRef(null);
   // Defaults to the Export path so the catalogue - the core of this page -
@@ -78,6 +152,9 @@ export default function OracInternational() {
   // freely between all three paths.
   const [activePath, setActivePath] = useState("export");
   usePageMotion(scope, "international");
+
+  const scrollGuardRef = useRef([]);
+  useEffect(() => () => clearScrollGuard(scrollGuardRef), []);
 
   return (
     <div className="venture-page venture-page-international" ref={scope} data-motion-identity="international">
@@ -192,14 +269,21 @@ export default function OracInternational() {
             </div>
           </Reveal>
 
-          <div className="product-collection-switch trade-path-switch" data-motion-grid role="group" aria-label="Trade catalogue paths">
+          <div
+            className="product-collection-switch trade-path-switch"
+            data-motion-grid
+            role="group"
+            aria-label="Trade catalogue paths"
+          >
             {tradePaths.map((path) => (
               <button
                 type="button"
                 key={path.id}
                 className={activePath === path.id ? "is-active" : ""}
                 aria-pressed={activePath === path.id}
-                onClick={() => setActivePath(path.id)}
+                onClick={() =>
+                  selectTradePathPreservingScroll(path.id, { setActivePath, guardRef: scrollGuardRef })
+                }
               >
                 <div className="trade-path-collage" aria-hidden="true">
                   <SafeImage

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function SafeImage({
   src,
@@ -14,7 +14,25 @@ export default function SafeImage({
 }) {
   const [failed, setFailed] = useState(!src);
   const [loaded, setLoaded] = useState(false);
+  const imgRef = useRef(null);
   const fetchpriority = priority ? "high" : undefined;
+
+  /* `onLoad` is the only thing that sets `.is-loaded`, and `.safe-image` is
+     held at opacity 0 until it does (01-base.css). A cached image can finish
+     decoding before React attaches that handler - a warm reload, a bfcache
+     restore, or any re-mount where the browser satisfies the request from
+     cache synchronously - and the event is then simply never delivered to
+     React, stranding a perfectly good photograph at opacity 0 for the rest of
+     the session. Asking the element directly on mount closes that window:
+     `complete` with a non-zero `naturalWidth` means decoded and ready, and
+     `complete` with a zero `naturalWidth` means it already errored, which the
+     onError handler likewise missed. */
+  useEffect(() => {
+    const img = imgRef.current;
+    if (!img || !img.complete) return;
+    if (img.naturalWidth > 0) setLoaded(true);
+    else setFailed(true);
+  }, [src]);
 
   if (failed) {
     const fallback = (
@@ -35,6 +53,7 @@ export default function SafeImage({
 
   const imgEl = (
     <img
+      ref={imgRef}
       className={`safe-image ${loaded ? "is-loaded" : ""} ${aspectRatio ? "safe-image-fill" : ""} ${className}`.trim()}
       src={src}
       srcSet={srcSet}
