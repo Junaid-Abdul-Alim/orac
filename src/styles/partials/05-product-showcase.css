@@ -138,38 +138,24 @@
   }
 }
 
-/* One fixed-size box per path, image collage filling the space above a
-   single title - matched 1:1 to the reference component's proportions
-   (p-6 / rounded-3xl / h-[320px] / mb-4 / w-44 / text-lg font-medium). */
+/* One fixed-size box per path, filled edge-to-edge by a cover image that
+   already carries its own title as artwork - no separate visible label
+   needed (kept as .sr-only text for accessibility). */
 .trade-path-switch button {
   min-height: auto;
   height: 320px;
-  padding: 24px;
+  padding: 0;
   border-radius: 24px;
   display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  gap: 0;
+  overflow: hidden;
 }
 
-.trade-path-title {
-  margin-top: auto;
-  font-family: var(--font-body);
-  font-size: 1.125rem;
-  font-weight: 500;
-  line-height: 1.3;
-  text-align: left;
-  transition: color 320ms var(--ease-smooth);
-}
-
-/* Audit follow-up (P1-L): active and hover shared one border colour/opacity,
-   and the title itself never changed - so once the pointer moved away
-   there was nothing distinguishing "the path you're viewing" from "the two
-   you aren't." That matters more now that Export loads pre-selected: which
-   catalogue is showing needs to read at a glance, not only on hover. A
-   stronger, gold-toned border plus the title switching to the same accent
-   used for the active label elsewhere on the page (`--gold-text`) gives it
-   a persistent state hover doesn't already have to supply. */
+/* Audit follow-up (P1-L): active and hover shared one border colour/opacity
+   - so once the pointer moved away there was nothing distinguishing "the
+   path you're viewing" from "the two you aren't." That matters more now
+   that Export loads pre-selected: which catalogue is showing needs to read
+   at a glance, not only on hover. A stronger, gold-toned border gives it a
+   persistent state hover doesn't already have to supply. */
 .trade-path-switch button.is-active {
   border-color: var(--gold);
   box-shadow:
@@ -177,59 +163,26 @@
     inset 0 0 0 1px rgba(184, 151, 90, 0.3);
 }
 
-.trade-path-switch button.is-active .trade-path-title {
-  color: var(--gold-text);
-  font-weight: 600;
-}
-
-/* Two product photographs, centred and rotated like a keepsake stack - the
-   visual entry point for each catalogue path before its title is even read.
-   Real ORAC product photography only (src/data/internationalImages.js /
-   neumatrixData.js), never stock imagery. */
-.trade-path-collage {
+/* The cover photograph is the entire visual surface of the button - its own
+   artwork already names the path (Export Products / Import Products /
+   NEUMATRIX), so it fills the box rather than sharing it with collage
+   photos or a text title. */
+.trade-path-cover {
   position: relative;
   flex: 1;
   min-height: 0;
-  margin-bottom: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
-.trade-path-collage-photo {
-  position: absolute;
-  width: 176px;
-  aspect-ratio: 4 / 3;
-  border-radius: 8px;
+.trade-path-cover-photo {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  background: #f7f7f5;
   transition: transform 400ms var(--ease-smooth);
 }
 
-.trade-path-collage-photo-back {
-  transform: rotate(-6deg);
-  box-shadow:
-    0 4px 6px -1px rgba(26, 24, 20, 0.14),
-    0 2px 4px -2px rgba(26, 24, 20, 0.1);
-  z-index: 1;
-}
-
-.trade-path-collage-photo-front {
-  transform: rotate(3deg);
-  box-shadow:
-    0 10px 15px -3px rgba(26, 24, 20, 0.16),
-    0 4px 6px -4px rgba(26, 24, 20, 0.1);
-  z-index: 2;
-}
-
-.trade-path-switch button:hover .trade-path-collage-photo-back,
-.trade-path-switch button.is-active .trade-path-collage-photo-back {
-  transform: rotate(-10deg) scale(1.05);
-}
-
-.trade-path-switch button:hover .trade-path-collage-photo-front,
-.trade-path-switch button.is-active .trade-path-collage-photo-front {
-  transform: rotate(5deg) scale(1.05);
+.trade-path-switch button:hover .trade-path-cover-photo,
+.trade-path-switch button.is-active .trade-path-cover-photo {
+  transform: scale(1.04);
 }
 
 .product-showcase-stage {

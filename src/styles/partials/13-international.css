@@ -907,6 +907,24 @@ a.neumatrix-index-item:focus-visible {
   color: rgba(255, 255, 255, 0.56);
 }
 
+/* Cover-only categories (e.g. AES / NEUMATRIX - Distribution) show a single
+   brand image instead of a product carousel — the full range lives in the
+   downloadable brochure linked in the head above, not as browsable cards. */
+.neumatrix-category-cover {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  aspect-ratio: 1 / 1;
+  max-width: 560px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.neumatrix-category-cover-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
 /* --- International contact CTA --- */
 .international-contact-cta {
   background: var(--surface-soft);

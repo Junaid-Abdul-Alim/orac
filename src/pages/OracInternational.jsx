@@ -31,26 +31,30 @@ import { internationalImages, productImageSlot } from "../data/internationalImag
 import { globeArcs, globeMarkerPoints } from "../data/reachData";
 import { pad2 } from "../utils/pad2";
 import usePageMotion from "../motion/usePageMotion";
+import exportPortfolioCover from "../assets/images/international/covers/export-portfolio-cover.webp";
+import importPortfolioCover from "../assets/images/international/covers/import-portfolio-cover.webp";
+import neumatrixCover from "../assets/images/international/covers/neumatrix-cover.webp";
 
 const serviceIcons = [Ship, Truck, SearchCheck, Handshake, ClipboardCheck, FileCheck2];
 
 // The three ways into ORAC International's catalogue - visitors pick a path
-// rather than scrolling past all of them stacked.
+// rather than scrolling past all of them stacked. Each cover already carries
+// its own title as artwork, so the switch needs no separate visible label.
 const tradePaths = [
   {
     id: "export",
     label: "Export Portfolio",
-    images: [productImageSlot("Cardamom"), productImageSlot("Cotton Yarn")],
+    cover: exportPortfolioCover,
   },
   {
     id: "import",
     label: "Import Portfolio",
-    images: [productImageSlot("Raw Cotton"), productImageSlot("Kidney Beans")],
+    cover: importPortfolioCover,
   },
   {
     id: "neumatrix",
     label: "NEUMATRIX",
-    images: [productImageSlot("Other LED Lights & Spares"), productImageSlot("Projector & Fog Lights")],
+    cover: neumatrixCover,
   },
 ];
 
@@ -285,21 +289,15 @@ export default function OracInternational() {
                   selectTradePathPreservingScroll(path.id, { setActivePath, guardRef: scrollGuardRef })
                 }
               >
-                <div className="trade-path-collage" aria-hidden="true">
+                <div className="trade-path-cover">
                   <SafeImage
-                    src={path.images[0].src}
-                    alt=""
-                    className="trade-path-collage-photo trade-path-collage-photo-back"
-                    fallbackLabel={path.images[0].label}
-                  />
-                  <SafeImage
-                    src={path.images[1].src}
-                    alt=""
-                    className="trade-path-collage-photo trade-path-collage-photo-front"
-                    fallbackLabel={path.images[1].label}
+                    src={path.cover}
+                    alt={path.label}
+                    className="trade-path-cover-photo"
+                    fallbackLabel={path.label}
                   />
                 </div>
-                <span className="trade-path-title">{path.label}</span>
+                <span className="trade-path-title sr-only">{path.label}</span>
               </button>
             ))}
           </div>
