@@ -49,12 +49,8 @@ export default function Footer() {
               <small>Holding desk</small>
             </Link>
             <Link to="/contact">
-              <span>Trade enquiry</span>
+              <span>Investment Enquiry</span>
               <small>International desk</small>
-            </Link>
-            <Link to="/contact">
-              <span>Event enquiry</span>
-              <small>Eventus desk</small>
             </Link>
           </div>
           <a className="footer-mail" href={`mailto:${contactDetails.holding.email}`}>

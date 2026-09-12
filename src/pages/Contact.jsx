@@ -61,7 +61,7 @@ const contactEntries = [
   {
     label: "General Enquiry",
     org: "ORAC Holdings",
-    person: "Ohm Pranav / Managing Director / India",
+    person: "Ohm Pranav / Founder / India",
     actions: [
       { kind: "Email", text: contactDetails.holding.email, href: `mailto:${contactDetails.holding.email}` },
       {
@@ -84,7 +84,7 @@ const contactEntries = [
   {
     label: "Investment Enquiry",
     org: "ORAC Holdings",
-    person: "Rak J / Director / Singapore",
+    person: "Rak J / Co-Founder / Singapore",
     note: contactDetails.international.address,
     actions: [
       {
@@ -96,6 +96,11 @@ const contactEntries = [
         kind: "Phone",
         text: contactDetails.international.phone,
         href: `tel:${contactDetails.international.phone.replaceAll(" ", "")}`,
+      },
+      {
+        kind: "Phone",
+        text: contactDetails.holding.phone,
+        href: `tel:${contactDetails.holding.phone.replaceAll(" ", "")}`,
       },
       {
         kind: "Web",
@@ -158,13 +163,24 @@ const contactEntries = [
     org: "ORAC Eventus",
     person: contactDetails.eventus.address,
     wide: true,
-    note: `${contactDetails.eventus.social.join(" / ")} on Instagram & Facebook`,
+    note: (
+      <>
+        Singapore office — {contactDetails.international.address}
+        <br />
+        {contactDetails.eventus.social.join(" / ")} on Instagram & Facebook
+      </>
+    ),
     actions: [
       ...contactDetails.eventus.phones.map((phone) => ({
         kind: "Phone",
         text: phone,
         href: `tel:${phone.replaceAll(" ", "")}`,
       })),
+      {
+        kind: "Phone",
+        text: contactDetails.international.phone,
+        href: `tel:${contactDetails.international.phone.replaceAll(" ", "")}`,
+      },
       ...contactDetails.eventus.emails.map((email) => ({
         kind: "Email",
         text: email,
@@ -183,6 +199,16 @@ const contactEntries = [
         text: email,
         href: `mailto:${email}`,
       })),
+      {
+        kind: "Email",
+        text: contactDetails.holding.secondaryEmail,
+        href: `mailto:${contactDetails.holding.secondaryEmail}`,
+      },
+      {
+        kind: "Phone",
+        text: contactDetails.holding.phone,
+        href: `tel:${contactDetails.holding.phone.replaceAll(" ", "")}`,
+      },
     ],
   },
 ];

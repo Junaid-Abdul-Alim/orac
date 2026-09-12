@@ -22,8 +22,8 @@ export const contactDetails = {
   },
   eventus: {
     address: "41/22 - Raju Street, West Mambalam, Chennai 600033",
-    phones: ["+91 88706 15820", "+91 76397 23555"],
-    emails: ["oraceventus@gmail.com", "info@oracholdings.com"],
+    phones: ["+91 88706 15820"],
+    emails: ["info@oracholdings.com"],
     website: "www.oracholdings.com",
     social: ["@oraceventus", "@velorawed"],
   },
