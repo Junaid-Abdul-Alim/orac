@@ -49,13 +49,10 @@ export default function OracEventus() {
   return (
     <div className="venture-page venture-page-eventus" ref={scope} data-motion-identity="eventus">
       <Hero
-        lockup={["ORAC", "Eventus"]}
         eyebrow="Event Management"
         title="ORAC EVENTUS"
         kicker="Weddings, Celebrations & Moments, Mastered"
-        text="Building celebrations that are felt, not just seen."
-        meta="Company Profile & Services Brochure 2026"
-        heroNote="EST. INDIA"
+        heroNote="EST 2026 / CHENNAI - SINGAPORE ALIGNED"
         image={eventusImages.hero}
         variant="frame"
       />

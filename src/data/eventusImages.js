@@ -1,10 +1,19 @@
 import eventusHero from "../assets/images/eventus/eventus-hero.webp";
+import eventusCover from "../assets/images/eventus/eventus-cover.webp";
 import eventusHomeFlatlay from "../assets/images/eventus/eventus-home-flatlay.webp";
 import weddingCouple from "../assets/images/eventus/wedding-couple.webp";
 import bridalEntry from "../assets/images/eventus/bridal-entry.webp";
 import cateringTable from "../assets/images/eventus/catering-table.webp";
 import eventTable from "../assets/images/eventus/event-table.webp";
 import floralTable from "../assets/images/eventus/floral-table.webp";
+import decorStyling from "../assets/images/eventus/decor-styling.webp";
+import venuesLogistics from "../assets/images/eventus/venues-logistics.webp";
+import cateringServices from "../assets/images/eventus/catering-services.webp";
+import entertainment from "../assets/images/eventus/entertainment.webp";
+import giftingKeepsakes from "../assets/images/eventus/gifting-keepsakes.webp";
+import memoryDesign from "../assets/images/eventus/memory-design.webp";
+import guestExperience from "../assets/images/eventus/guest-experience.webp";
+import planningCoordination from "../assets/images/eventus/planning-coordination.webp";
 import weddingFilmCamera from "../assets/images/velorawed/wedding-film-camera.webp";
 import weddingVideographer from "../assets/images/velorawed/wedding-videographer.webp";
 import weddingPhotographer from "../assets/images/velorawed/wedding-photographer.webp";
@@ -13,8 +22,8 @@ import { imageSlot } from "./imageSlot";
 
 export const eventusImages = {
   hero: {
-    src: eventusHero,
-    alt: "ORAC Eventus wedding celebration",
+    src: eventusCover,
+    alt: "An aerial view of a wedding ceremony mandap and seated guests on a lawn at sunset, by ORAC Eventus",
     label: "Eventus image",
     title: "Weddings, Celebrations & Moments, Mastered",
     description: "Wedding celebration imagery for ORAC Eventus.",
@@ -37,35 +46,43 @@ export const eventusImages = {
   services: {
     "Decor & Styling": imageSlot(
       "Eventus image",
-      "Mandap decor and wedding styling by ORAC Eventus",
-      eventusHero
+      "A draped and floral-crowned mandap entrance styled by ORAC Eventus",
+      decorStyling
     ),
     "Venues & Logistics": imageSlot(
       "Eventus image",
-      "Elegant wedding venue setup and logistics",
-      floralTable
+      "An aerial view of a themed wedding venue layout with dining and lounge zones",
+      venuesLogistics
     ),
-    "Catering Services": imageSlot("Eventus image", "Wedding catering and live counters", cateringTable),
-    Entertainment: imageSlot("Eventus image", "Wedding entertainment and live sound", eventTable),
+    "Catering Services": imageSlot(
+      "Eventus image",
+      "Chefs plating traditional dishes at a wedding buffet counter",
+      cateringServices
+    ),
+    Entertainment: imageSlot(
+      "Eventus image",
+      "A giant Jenga lawn game set up for wedding guest entertainment",
+      entertainment
+    ),
     "Gifting & Keepsakes": imageSlot(
       "Eventus image",
-      "Wedding keepsakes and celebration details",
-      bridalEntry
+      "Rows of curated wedding return-gift baskets tied with ribbon",
+      giftingKeepsakes
     ),
     "Memory Design": imageSlot(
       "Eventus image",
-      "Wedding albums, films, and memory design by VELORAWED",
-      weddingFilmCamera
+      "A couple browsing a printed wedding photo album by VELORAWED",
+      memoryDesign
     ),
     "Guest Experience": imageSlot(
       "Eventus image",
-      "Guest experience and hospitality at a wedding",
-      weddingCouple
+      "A coconut water cart set up for guest refreshment at a wedding",
+      guestExperience
     ),
     "Planning & Coordination": imageSlot(
       "Eventus image",
-      "Wedding planning coordination and event team details",
-      floralTable
+      "Wedding planning details laid out, from stationery to bridal accessories",
+      planningCoordination
     ),
   },
   gallery: [
