@@ -117,8 +117,8 @@
     display: none;
   }
 
-  .mobile-toggle {
-    display: grid;
+  .nav-island {
+    display: block;
   }
 
   .luxe-page .product-hero-inner {
@@ -819,6 +819,16 @@
     transition-duration: 0.001ms !important;
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
+  }
+
+  /* The nav island's per-item cascade uses transition-delay to stagger its
+     reveal - duration alone collapsing to ~0 still leaves each item waiting
+     out its delay (up to 480ms) before appearing. A reduced-motion visitor
+     gets no perceptible animation either way, so every item should be
+     available the instant the panel opens instead of trickling in. */
+  .nav-island-panel > a,
+  .nav-island-actions {
+    transition-delay: 0ms !important;
   }
 
   /* A reduced-motion visitor never receives a hidden initial state in the

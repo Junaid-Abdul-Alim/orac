@@ -52,7 +52,7 @@ input,
 textarea,
 select,
 .desktop-nav,
-.mobile-menu,
+.nav-island-panel,
 .button,
 .eyebrow,
 .brand small,
@@ -152,8 +152,8 @@ main:focus {
 
 .desktop-nav > a:focus-visible,
 .nav-contact-actions a:focus-visible,
-.mobile-toggle:focus-visible,
-.mobile-menu a:focus-visible,
+.nav-island-trigger:focus-visible,
+.nav-island-panel a:focus-visible,
 .product-carousel-controls button:focus-visible,
 .product-collection-switch button:focus-visible {
   outline: none;

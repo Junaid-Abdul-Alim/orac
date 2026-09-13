@@ -59,13 +59,12 @@
   color: var(--venture-accent);
 }
 
-.navbar[data-venture] .mobile-menu > a.active {
-  border-color: color-mix(in srgb, var(--venture-accent) 45%, transparent);
+.navbar[data-venture] .nav-island-panel > a.active .nav-island-dot {
+  background: var(--venture-accent);
 }
 
 .brand,
-.desktop-nav,
-.mobile-toggle {
+.desktop-nav {
   position: relative;
   z-index: 2;
 }
@@ -172,17 +171,54 @@
   color: var(--gold);
 }
 
-.mobile-toggle {
+/* Shape-morphing nav "island": one element whose own height and
+   border-radius animate between a closed pill and an opened panel - never
+   a trigger plus a separate absolutely-positioned dropdown. Sits above the
+   page (not full-screen) so it reads as a floating control, not a sheet. */
+.nav-island {
   display: none;
-  width: 42px;
-  height: 42px;
+  position: absolute;
+  /* Anchored to a fixed offset from the header's top edge, not vertically
+     centred via translateY(-50%) - that would recentre on every height
+     change and grow the panel upward as much as downward, pushing its
+     first items off the top of the viewport when opened. */
+  top: calc((var(--nav-height) - 58px) / 2);
+  right: max(var(--gutter), (100% - var(--max)) / 2);
+  z-index: 5;
+  width: 158px;
+  height: 58px;
+  overflow: hidden;
+  background: rgba(250, 248, 244, 0.98);
+  border: 1px solid rgba(184, 151, 90, 0.18);
+  border-radius: 12px;
+  box-shadow: var(--shadow-lg);
+  transition:
+    height 0.58s var(--ease-smooth),
+    border-radius 0.58s var(--ease-smooth),
+    border-color 0.58s var(--ease-smooth);
+}
+
+.nav-island.is-open {
+  height: 322px;
+  border-radius: 18px;
+  border-color: rgba(184, 151, 90, 0.28);
+}
+
+.nav-island-trigger {
+  display: grid;
   place-items: center;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.62);
+  width: 100%;
+  height: 58px;
+  background: transparent;
   cursor: pointer;
 }
 
-.mobile-toggle span {
+.nav-island-icon {
+  display: block;
+  width: 18px;
+}
+
+.nav-island-icon span {
   display: block;
   width: 18px;
   height: 1px;
@@ -190,92 +226,134 @@
   transition: transform 240ms var(--ease-smooth);
 }
 
-.mobile-toggle span + span {
+.nav-island-icon span + span {
   margin-top: 6px;
 }
 
-.mobile-toggle.is-open span:first-child {
+.nav-island.is-open .nav-island-icon span:first-child {
   transform: translateY(3.5px) rotate(40deg);
 }
 
-.mobile-toggle.is-open span:last-child {
+.nav-island.is-open .nav-island-icon span:last-child {
   transform: translateY(-3.5px) rotate(-40deg);
 }
 
-.mobile-menu {
-  position: fixed;
-  inset: 0;
-  z-index: 1;
+.nav-island-panel {
   display: grid;
   align-content: start;
-  gap: 10px;
-  min-height: 100svh;
-  /* `inset: 0` pins the panel's own box to the viewport height, so on a
-     short phone (measured: 320x568, five links plus two purpose lines
-     each) the content run taller than that box - the last entries and the
-     WhatsApp/Email row sat past the bottom edge with nothing to scroll
-     them into reach. The panel now scrolls its own content instead of
-     assuming every phone is tall enough for the full list. */
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  -webkit-overflow-scrolling: touch;
-  padding: calc(var(--nav-height) + 28px) var(--gutter) 32px;
-  background: rgba(250, 248, 244, 0.98);
+  gap: 4px;
+  padding: 0 10px 12px;
+}
+
+.nav-island-panel > a {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 9px 10px;
+  border-radius: 10px;
+  color: rgba(26, 24, 20, 0.72);
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
   opacity: 0;
-  pointer-events: none;
-  transform: translateY(-12px);
+  transform: translateY(-10px);
+  transition: opacity 0ms, transform 0ms;
+}
+
+.nav-island-panel > a:hover,
+.nav-island-panel > a.active {
+  background: rgba(184, 151, 90, 0.09);
+  color: var(--gold);
+}
+
+/* The active-page indicator: a pill that grows from nothing next to the
+   current label, rather than a dot or underline that simply appears. */
+.nav-island-dot {
+  width: 0;
+  height: 3px;
+  border-radius: 999px;
+  background: var(--gold-light);
+  transition: width 0.28s var(--ease-smooth);
+}
+
+.nav-island-panel > a.active .nav-island-dot {
+  width: 14px;
+}
+
+.nav-island-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 2px;
+  padding-top: 9px;
+  border-top: 1px solid rgba(184, 151, 90, 0.16);
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0ms, transform 0ms;
+}
+
+.nav-island-actions a {
+  display: inline-grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgba(184, 151, 90, 0.16);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.6);
+  color: rgba(26, 24, 20, 0.72);
+  transition:
+    color 220ms var(--ease-smooth),
+    border-color 220ms var(--ease-smooth),
+    background 220ms var(--ease-smooth);
+}
+
+.nav-island-actions a:hover {
+  border-color: rgba(184, 151, 90, 0.34);
+  background: rgba(184, 151, 90, 0.09);
+  color: var(--gold);
+}
+
+.nav-island-actions .nav-action-whatsapp:hover {
+  border-color: rgba(29, 168, 81, 0.36);
+  background: rgba(29, 168, 81, 0.08);
+}
+
+/* Cascade: items cannot animate in while the panel is clipped to 58px, so
+   the stagger is armed only in the open state and reset instantly (no
+   delay) on close. */
+.nav-island.is-open .nav-island-panel > a,
+.nav-island.is-open .nav-island-actions {
+  opacity: 1;
+  transform: translateY(0);
   transition:
     opacity 320ms var(--ease-smooth),
     transform 320ms var(--ease-smooth);
 }
 
-.mobile-menu.is-open {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translateY(0);
+.nav-island.is-open .nav-island-panel > a:nth-child(1) {
+  transition-delay: 0ms;
 }
 
-.mobile-menu > a {
-  display: grid;
-  gap: 5px;
-  padding: 17px 16px;
-  border: 1px solid rgba(184, 151, 90, 0.14);
-  border-radius: 18px;
-  background: rgba(255, 255, 255, 0.68);
-  color: var(--ink);
-  font-weight: 600;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
+.nav-island.is-open .nav-island-panel > a:nth-child(2) {
+  transition-delay: 160ms;
 }
 
-.mobile-contact-actions {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
+.nav-island.is-open .nav-island-panel > a:nth-child(3) {
+  transition-delay: 240ms;
 }
 
-.mobile-contact-actions a {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  min-height: 50px;
-  padding: 0 14px;
-  border: 1px solid rgba(184, 151, 90, 0.18);
-  border-radius: 18px;
-  background: rgba(255, 255, 255, 0.74);
-  color: var(--ink);
-  font-size: 0.9rem;
-  font-weight: 600;
+.nav-island.is-open .nav-island-panel > a:nth-child(4) {
+  transition-delay: 320ms;
 }
 
-/* Undoes the anchor's own uppercase transform, which otherwise inherits down
-   onto this purpose blurb - a full sentence reads far worse in caps than the
-   one-word venture label above it. */
-.mobile-menu small {
-  color: var(--ink-muted);
-  font-size: 0.8rem;
-  font-weight: 400;
-  letter-spacing: 0;
-  text-transform: none;
+.nav-island.is-open .nav-island-panel > a:nth-child(5) {
+  transition-delay: 400ms;
+}
+
+.nav-island.is-open .nav-island-actions {
+  transition-delay: 480ms;
 }

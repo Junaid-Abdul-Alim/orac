@@ -97,46 +97,64 @@ export default function Navbar() {
         </div>
       </nav>
 
-      <button
-        className={`mobile-toggle ${open ? "is-open" : ""}`}
-        type="button"
-        aria-label={open ? "Close menu" : "Open menu"}
-        aria-expanded={open}
-        onClick={() => setOpen((value) => !value)}
-      >
-        <span />
-        <span />
-      </button>
+      <div className={`nav-island ${open ? "is-open" : ""}`}>
+        <button
+          className="nav-island-trigger"
+          type="button"
+          aria-label={open ? "Close menu" : "Open menu"}
+          aria-expanded={open}
+          aria-controls="nav-island-panel"
+          onClick={() => setOpen((value) => !value)}
+        >
+          <span className="nav-island-icon">
+            <span />
+            <span />
+          </span>
+        </button>
 
-      <nav className={`mobile-menu ${open ? "is-open" : ""}`} aria-label="Mobile navigation" hidden={!open}>
-        <NavLink to="/" end>
-          Home
-        </NavLink>
-        {companies.map((company) => (
-          <NavLink key={company.id} to={company.route} className="nav-venture-link">
-            <span>{company.shortName}</span>
-            <small>{company.purpose}</small>
+        <nav
+          id="nav-island-panel"
+          className="nav-island-panel"
+          aria-label="Mobile navigation"
+          aria-hidden={!open}
+        >
+          <NavLink to="/" end tabIndex={open ? 0 : -1}>
+            <span>Home</span>
+            <i className="nav-island-dot" aria-hidden="true" />
           </NavLink>
-        ))}
-        <NavLink to="/contact">Contact</NavLink>
-        <div className="mobile-contact-actions" role="group" aria-label="Quick contact links">
-          <a
-            className="nav-action-whatsapp"
-            href={whatsappUrl}
-            target="_blank"
-            rel="noreferrer"
-            aria-label="Contact ORAC on WhatsApp"
-            onClick={() => setOpen(false)}
-          >
-            <WhatsAppIcon size={17} />
-            <span>WhatsApp</span>
-          </a>
-          <a href={emailUrl} aria-label="Email ORAC" onClick={() => setOpen(false)}>
-            <GmailIcon size={17} strokeWidth={1.7} />
-            <span>Email</span>
-          </a>
-        </div>
-      </nav>
+          {companies.map((company) => (
+            <NavLink key={company.id} to={company.route} className="nav-venture-link" tabIndex={open ? 0 : -1}>
+              <span>{company.shortName}</span>
+              <i className="nav-island-dot" aria-hidden="true" />
+            </NavLink>
+          ))}
+          <NavLink to="/contact" tabIndex={open ? 0 : -1}>
+            <span>Contact</span>
+            <i className="nav-island-dot" aria-hidden="true" />
+          </NavLink>
+          <div className="nav-island-actions" role="group" aria-label="Quick contact links">
+            <a
+              className="nav-action-whatsapp"
+              href={whatsappUrl}
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Contact ORAC on WhatsApp"
+              tabIndex={open ? 0 : -1}
+              onClick={() => setOpen(false)}
+            >
+              <WhatsAppIcon size={15} />
+            </a>
+            <a
+              href={emailUrl}
+              aria-label="Email ORAC"
+              tabIndex={open ? 0 : -1}
+              onClick={() => setOpen(false)}
+            >
+              <GmailIcon size={15} strokeWidth={1.7} />
+            </a>
+          </div>
+        </nav>
+      </div>
     </header>
   );
 }
