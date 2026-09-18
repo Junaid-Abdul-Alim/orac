@@ -157,6 +157,14 @@
   transform: translateY(-1px);
 }
 
+/* WhatsAppIcon paints itself in the brand gradient, so the row only has to
+   carry the matching green into its own hover chrome - no `color` here,
+   which the glyph no longer reads. */
+.nav-contact-actions .nav-action-whatsapp:hover {
+  border-color: rgba(29, 168, 81, 0.36);
+  background: rgba(29, 168, 81, 0.08);
+}
+
 .desktop-nav > a:hover,
 .desktop-nav > a.active {
   background: rgba(184, 151, 90, 0.09);
@@ -307,6 +315,11 @@
   border-color: rgba(184, 151, 90, 0.34);
   background: rgba(184, 151, 90, 0.09);
   color: var(--gold);
+}
+
+.nav-island-actions .nav-action-whatsapp:hover {
+  border-color: rgba(29, 168, 81, 0.36);
+  background: rgba(29, 168, 81, 0.08);
 }
 
 /* Cascade: items cannot animate in while the panel is clipped to 58px, so

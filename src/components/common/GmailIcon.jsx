@@ -6,10 +6,8 @@ import { useId } from "react";
  * lucide's generic outline `Mail` icon, the same reasoning that put a real
  * WhatsApp glyph on the WhatsApp actions (see WhatsAppIcon.jsx).
  *
- * Painted in the ORAC gold ramp (--gold-light to --gold) rather than Gmail's
- * own red, matching WhatsAppIcon.jsx's gradient stop-for-stop so the two
- * contact glyphs read as one family instead of two unrelated service badges
- * sitting side by side.
+ * Fixed to Gmail's own red gradient rather than `currentColor`, matching how
+ * WhatsAppIcon is pinned to WhatsApp green - a brand mark, not a themeable icon.
  */
 export default function GmailIcon({ size = 16, strokeWidth = 1.6, className = "", title }) {
   const gradientId = useId();
@@ -28,8 +26,8 @@ export default function GmailIcon({ size = 16, strokeWidth = 1.6, className = ""
       {title ? <title>{title}</title> : null}
       <defs>
         <linearGradient id={gradientId} x1="2" y1="5" x2="22" y2="19" gradientUnits="userSpaceOnUse">
-          <stop offset="0" stopColor="#d4af78" />
-          <stop offset="1" stopColor="#b8975a" />
+          <stop offset="0" stopColor="#EA4335" />
+          <stop offset="1" stopColor="#C5221F" />
         </linearGradient>
       </defs>
       <rect

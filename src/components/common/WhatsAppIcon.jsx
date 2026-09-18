@@ -15,11 +15,6 @@ import { useId } from "react";
  * fill with an off-axis tail carries more visual weight toward the tail than
  * a thin outline does, so it read as pulled left even though the geometry
  * itself isn't.
- *
- * Painted in the ORAC gold ramp (--gold-light to --gold) rather than
- * WhatsApp's own green, matching GmailIcon.jsx's gradient stop-for-stop so
- * the two contact glyphs read as one family instead of two unrelated
- * service badges sitting side by side.
  */
 export default function WhatsAppIcon({ size = 16, strokeWidth = 1.6, className = "", title }) {
   const gradientId = useId();
@@ -38,8 +33,8 @@ export default function WhatsAppIcon({ size = 16, strokeWidth = 1.6, className =
       {title ? <title>{title}</title> : null}
       <defs>
         <linearGradient id={gradientId} x1="3" y1="2" x2="21" y2="22" gradientUnits="userSpaceOnUse">
-          <stop offset="0" stopColor="#d4af78" />
-          <stop offset="1" stopColor="#b8975a" />
+          <stop offset="0" stopColor="#2CDA6A" />
+          <stop offset="1" stopColor="#0E8A61" />
         </linearGradient>
       </defs>
       <path
