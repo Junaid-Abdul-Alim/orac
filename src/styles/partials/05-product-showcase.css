@@ -127,14 +127,19 @@
   text-transform: uppercase;
 }
 
+/* Capped and centred rather than stretched to the full container width -
+   three small, evenly-sized picks under the heading, not three oversized
+   panels spanning the page. */
 .trade-path-switch {
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 24px;
+  gap: 14px;
+  max-width: 640px;
+  margin-inline: auto;
 }
 
 @media (min-width: 1024px) {
   .trade-path-switch {
-    gap: 32px;
+    gap: 18px;
   }
 }
 
@@ -143,9 +148,9 @@
    needed (kept as .sr-only text for accessibility). */
 .trade-path-switch button {
   min-height: auto;
-  height: 320px;
+  height: 168px;
   padding: 0;
-  border-radius: 24px;
+  border-radius: 18px;
   display: flex;
   overflow: hidden;
 }

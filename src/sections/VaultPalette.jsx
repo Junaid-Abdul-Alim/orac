@@ -4,9 +4,9 @@ import Reveal from "../components/common/Reveal";
 import SafeImage from "../components/common/SafeImage";
 
 /**
- * Vault XIII — The House of Azrin's colour index.
+ * Vault XIII — ORAC Luxe's colour index.
  *
- * The House's own Vault XIII artwork (see luxeData.js) already prints every
+ * ORAC Luxe's own Vault XIII artwork (see luxeData.js) already prints every
  * tone with its number, name and hex, so the section presents that artwork
  * and names it - nothing more. The selectable swatch grid and its live
  * readout that used to sit beneath the copy have been removed; the artwork

@@ -48,11 +48,10 @@ export default function Hero({
           {topAccessory}
           <div className="product-hero-copy-text">
             {logoIsHeading ? <h1 className="hero-logo-heading">{logoMark}</h1> : logoMark}
-            {/* A custom brand logo (Luxe's "House of Azrin" wordmark) already
-                names the venture, so the plain-text lockup directly beneath it
-                would just repeat the same name a second time before the H1
-                repeats it again - skip it whenever a logo image is doing that
-                job instead. */}
+            {/* A custom brand logo image already names the venture, so the
+                plain-text lockup directly beneath it would just repeat the
+                same name a second time before the H1 repeats it again - skip
+                it whenever a logo image is doing that job instead. */}
             {lockup && !brandLogo?.src ? <BrandLockup items={lockup} /> : null}
             {eyebrow ? <span className="eyebrow">{eyebrow}</span> : null}
             {title ? <h1>{title}</h1> : null}

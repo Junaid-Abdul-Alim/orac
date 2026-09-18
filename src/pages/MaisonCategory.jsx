@@ -31,7 +31,7 @@ export default function MaisonCategory() {
 
   useEffect(() => {
     if (category) {
-      document.title = `${category.name} | The House of Azrin`;
+      document.title = `${category.name} | ORAC Luxe`;
     }
   }, [category]);
 

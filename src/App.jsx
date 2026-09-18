@@ -21,7 +21,7 @@ const pageTitles = {
   "/": "ORAC Holdings | Trade, Events, Couture",
   "/international": "ORAC International | Global Import & Export",
   "/eventus": "ORAC Eventus | Weddings & Celebrations",
-  "/luxury-export": "The House of Azrin | ORAC Luxe",
+  "/luxury-export": "ORAC Luxe | Fashion & Textile",
   "/contact": "Contact ORAC Holdings",
 };
 

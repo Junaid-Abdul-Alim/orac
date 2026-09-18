@@ -158,7 +158,6 @@
     padding: 24px;
   }
 
-  .leadership-grid,
   .stat-grid,
   .service-grid,
   .product-showcase-grid,
@@ -168,6 +167,16 @@
   .editorial-gallery,
   .velorawed-section .editorial-gallery {
     grid-template-columns: 1fr;
+  }
+
+  /* Only two leaders exist today (companyData.js), so keeping this row at
+     the 1100px breakpoint's 2-column layout (line ~49 above) rather than
+     collapsing it to 1fr here reads as "side by side" the same way the
+     desktop auto-fit row does, all the way down to phone width - matching
+     the founders' section to the desktop-style horizontal pairing rather
+     than stacking them above the footer. */
+  .leadership-grid {
+    gap: 12px;
   }
 
   /* P0-4's ruled stat strip is a more specific selector than the plain
@@ -244,18 +253,6 @@
     border-radius: 0;
   }
 
-  .product-collection-row-head {
-    align-items: flex-start;
-  }
-
-  .product-collection-row-head h3 {
-    font-size: 2.45rem;
-  }
-
-  .product-collection-row-head p {
-    font-size: 0.93rem;
-  }
-
   .product-collection-categories {
     gap: 40px;
   }
@@ -276,6 +273,22 @@
   .product-collection-switch button {
     min-height: 86px;
     border-radius: 22px;
+  }
+
+  /* Export/Import/NEUMATRIX stay three-up and small here too, rather than
+     inheriting the generic switch's single-column stack above - the request
+     was to keep this specific picker horizontal at every width. */
+  .trade-path-switch {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    max-width: 420px;
+    padding: 8px;
+    border-radius: 20px;
+  }
+
+  .trade-path-switch button {
+    height: 96px;
+    border-radius: 12px;
   }
 
   /* --product-media-height is no longer redeclared here - the desktop
@@ -418,36 +431,49 @@
    the wide banner ratio are proportionate again, not a small logo lost in
    a wide empty band. */
 @media (max-width: 620px) {
+  /* Three-up, same as desktop's row (03-hero.css), instead of stacking to
+     one full-width column per aperture - the request was to keep the
+     three worlds side by side at phone width too. Each card is now
+     narrow (~110-120px), so the media ratio, logo cap and label all get
+     their own smaller phone-specific budget rather than inheriting the
+     desktop/tablet clamps, which assume far more width per card. */
   .origin-ventures {
-    grid-template-columns: 1fr;
-    grid-template-rows: repeat(3, minmax(0, 1fr));
-    gap: 8px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-rows: none;
+    gap: 6px;
   }
 
-  /* Stacked full-width bands have far less height per aperture than the
-     desktop three-up row, so the logo zone needs its own (smaller) budget
-     rather than inheriting the desktop clamp - see the min-height:0 note
-     above the media/link rules in 03-hero.css for why this genuinely has to
-     shrink rather than just clip. The desktop 4:5 ratio (03-hero.css) would
-     make three stacked full-width cards taller than the viewport itself -
-     a wide banner ratio here keeps each aperture visibly bigger than the
-     original compact strip without reopening the scroll the mobile hero is
-     built to avoid. */
   .venture-compact-media {
-    aspect-ratio: 16 / 7;
-    padding: 10px 14px;
+    aspect-ratio: 4 / 5;
+    padding: 6px 8px;
   }
 
   .venture-compact-logo {
-    width: min(56%, 160px);
+    width: min(80%, 90px);
   }
 
   .venture-compact-label {
-    padding: 10px 16px 12px;
+    padding: 6px 8px 8px;
+    justify-items: center;
+    text-align: center;
   }
 
   .venture-compact-label .eyebrow {
-    font-size: 0.66rem;
+    font-size: 0.56rem;
+    line-height: 1.2;
+  }
+
+  /* A 3-up row is far shorter than the old stacked bands, so forcing the
+     hero to fill the full viewport height (the phone zero-scroll rule
+     above this block) would now leave dead cream space above/below it -
+     the same fix the tablet 621-820px block already applies for the same
+     reason (03-hero.css). */
+  .home-hero {
+    min-height: auto;
+  }
+
+  .home-hero-inner {
+    min-height: auto;
   }
 
   /* .contact-directory-actions (2 columns) and .contact-directory-geo (3,
@@ -581,13 +607,6 @@
     width: 100%;
   }
 
-  /* Held at the enlarged scale below 820px too - `22vw` would collapse the
-     wordmark on a phone, so the tablet/handset step runs its own ramp. */
-  .luxe-page .azrin-hero-logo {
-    width: min(430px, 84vw);
-    max-height: clamp(170px, 30vw, 240px);
-  }
-
   .luxe-page .hero-meta {
     font-size: 0.88rem;
   }
@@ -606,18 +625,6 @@
     gap: 24px;
     padding: 0;
     border-radius: 0;
-  }
-
-  .product-collection-row-head {
-    display: grid;
-    gap: 14px;
-  }
-
-  /* The tally and the carousel arrows both stop earning their horizontal
-     column here: the collection head stacks, and each category keeps its
-     title and its controls on one line with the count dropped. */
-  .product-collection-tally {
-    justify-self: start;
   }
 
   .product-collection-categories {
@@ -662,19 +669,6 @@
 
   .product-category-count {
     display: none;
-  }
-
-  .product-collection-row-head > div:first-child {
-    gap: 11px;
-  }
-
-  .product-collection-row-head .icon-badge-soft {
-    width: 38px;
-    height: 38px;
-  }
-
-  .product-collection-row-head h3 {
-    font-size: 2rem;
   }
 
   .product-carousel-controls {
@@ -728,6 +722,19 @@
 
   .product-collection-switch span {
     font-size: 1.55rem;
+  }
+
+  /* Stays edge-to-edge (no padding) at true phone widths too - the cover
+     photo is the button's entire visual surface, so the generic switch's
+     16px inner padding above would just pad blank background around it. */
+  .trade-path-switch {
+    max-width: 340px;
+    gap: 6px;
+  }
+
+  .trade-path-switch button {
+    height: 82px;
+    padding: 0;
   }
 
   /* --product-media-height is no longer redeclared here either (see the

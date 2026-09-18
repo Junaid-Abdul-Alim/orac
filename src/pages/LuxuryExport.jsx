@@ -10,7 +10,6 @@ import SafeImage from "../components/common/SafeImage";
 import SectionHeader from "../components/common/SectionHeader";
 import VaultPalette from "../sections/VaultPalette";
 import { pad2 } from "../utils/pad2";
-import houseOfAzrinLogo from "../assets/logos/house-of-azrin.png";
 import usePageMotion from "../motion/usePageMotion";
 import {
   azrinFounder,
@@ -33,20 +32,13 @@ export default function LuxuryExport() {
 
   return (
     <div className="luxe-page venture-page venture-page-luxe" ref={scope} data-motion-identity="luxe">
-      {/* No eyebrow and no text title: the enlarged wordmark carries the
-          heading on its own (Hero promotes it to the H1), so the House is
-          named once instead of three times in a row. */}
       <Hero
-        lockup={["ORAC Luxe", "The House of Azrin"]}
+        eyebrow="Fashion & Textile"
+        title="ORAC LUXE"
         kicker={luxeTagline}
         text="A fabric-forward fashion house rooted in deliberate making - curated style, couture essentials, and bespoke artisan work, cut from a single considered palette."
         meta="Curated Style / Couture Essentials / The Bespoke Artisan"
-        heroNote="An ORAC Luxe Venture"
-        brandLogo={{
-          src: houseOfAzrinLogo,
-          alt: "The House of Azrin",
-          className: "azrin-hero-logo",
-        }}
+        heroNote="An ORAC Holding Venture"
         showBrandPanel={false}
       />
 
@@ -76,7 +68,7 @@ export default function LuxuryExport() {
           <SectionHeader
             eyebrow="II · The House Editions"
             title="Three ways into the House."
-            text="Every Azrin piece belongs to one of three editions - a way of choosing how considered you want the making to be."
+            text="Every ORAC Luxe piece belongs to one of three editions - a way of choosing how considered you want the making to be."
           />
           <div className="editions-grid" data-motion-grid>
             {houseEditions.map((edition, index) => {
@@ -96,10 +88,11 @@ export default function LuxuryExport() {
         </div>
       </section>
 
-      {/* iv) What is Azrin - an editorial spread (text against real atelier
-          photography), not text answered by more text with an empty column
-          beside it. Reuses the homepage venture-chapter's own editorial-layout
-          / seam-reveal pattern rather than inventing a new one. */}
+      {/* iv) What is ORAC Luxe - an editorial spread (text against real
+          atelier photography), not text answered by more text with an empty
+          column beside it. Reuses the homepage venture-chapter's own
+          editorial-layout / seam-reveal pattern rather than inventing a new
+          one. */}
       <section className="section luxe-founder-section">
         <div className="container editorial-layout">
           <div className="editorial-copy luxe-founder-copy">
@@ -113,7 +106,7 @@ export default function LuxuryExport() {
           </div>
           <ImagePanel
             image={luxeImages.hero}
-            label="The House of Azrin"
+            label="ORAC Luxe"
             className="editorial-media luxe-founder-media"
             variant="seam"
             delay={90}

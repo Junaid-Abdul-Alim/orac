@@ -440,10 +440,10 @@
 }
 
 /* Every venture hero uses one ramp. The old flat clamp(4.8rem, 7.1vw,
-   6.1rem) set "ORAC EVENTUS" on one line and "ORAC INTERNATIONAL" / "THE
-   HOUSE OF AZRIN" on two, so the three business heroes opened at three
-   different heights. This ramp still runs large, but the shared
-   --hero-copy-min floor below is what actually equalises the openings. */
+   6.1rem) set "ORAC EVENTUS" on one line and "ORAC INTERNATIONAL" / "ORAC
+   LUXE" on two, so the three business heroes opened at three different
+   heights. This ramp still runs large, but the shared --hero-copy-min floor
+   below is what actually equalises the openings. */
 .product-hero h1 {
   font-size: clamp(2.55rem, 1rem + 5vw, 5.6rem);
 }

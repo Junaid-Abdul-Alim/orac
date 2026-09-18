@@ -35,7 +35,7 @@ import { pad2 } from "../utils/pad2";
 
 export const luxeImages = {
   hero: imageSlot(
-    "The House of Azrin",
+    "ORAC Luxe",
     "A woman in a flowing burnt-orange gown on a Paris bridge, the Eiffel Tower behind her and motion-blurred figures in matching gowns passing by",
     luxeHomeEditorial
   ),
@@ -44,7 +44,7 @@ export const luxeImages = {
 // Full-bleed collage introducing the Maison Series categories together.
 export const maisonBanner = imageSlot(
   "The Maison Series",
-  "The House of Azrin — Dresses, Co-ords, Tunics, and Signature Bottoms styled together",
+  "ORAC Luxe — Dresses, Co-ords, Tunics, and Signature Bottoms styled together",
   maisonCollage
 );
 
@@ -55,14 +55,14 @@ export const luxeTagline = "Where Elegance meets Intention.";
 export const vaultXiii = {
   name: "Vault XIII",
   eyebrow: "The Palette",
-  tagline: "A vault of thirteen tones — the quiet language every Azrin piece is cut from.",
+  tagline: "A vault of thirteen tones — the quiet language every ORAC Luxe piece is cut from.",
   image: imageSlot(
     "Vault XIII",
-    "The House of Azrin Vault XIII colour palette — thirteen tones from ivory to burnt sienna",
+    "ORAC Luxe Vault XIII colour palette — thirteen tones from ivory to burnt sienna",
     vaultXiiiPalette,
     { mobileSrc: vaultXiiiPaletteMobile }
   ),
-  // The thirteen tones, read directly off the House's own Vault XIII artwork
+  // The thirteen tones, read directly off ORAC Luxe's own Vault XIII artwork
   // (vault-xiii-palette.jpg), which prints each card's number, name and hex.
   // The component previously showed six ORAC brand CSS values under invented
   // labels (Ink / Graphite / Stone / Gold / Champagne / Cream) that appear
@@ -105,12 +105,12 @@ export const houseEditions = [
   },
 ];
 
-// iv) Main content — "What is Azrin" (sample copy, refine as needed).
+// iv) Main content — "What is ORAC Luxe" (sample copy, refine as needed).
 export const whatIsAzrin = {
-  eyebrow: "What is Azrin",
+  eyebrow: "What is ORAC Luxe",
   title: "A house built on intention, not season.",
   paragraphs: [
-    "The House of Azrin is a fashion and textile venture under ORAC Luxe, built for people who believe that what they wear should be considered, not convenient.",
+    "ORAC Luxe is ORAC Holding's fashion and textile venture, built for people who believe that what they wear should be considered, not convenient.",
     "We work in three registers — a curated edit of timeless style, couture essentials made to last, and a bespoke atelier that turns a single vision into a single garment. Every stitch is set with the belief that clothing can carry intention.",
     "We are not a fast-fashion brand. There is no seasonal pressure, no volume target. There is only the work, done well, for a long relationship between the garment and the person who wears it.",
   ],
@@ -126,11 +126,7 @@ const makeModels = (label, stories, images) =>
       side: index % 2 === 0 ? "left" : "right",
       name: `Look ${number}`,
       story,
-      image: imageSlot(
-        `${label} · Look ${number}`,
-        `${label} look ${number} for The House of Azrin`,
-        images?.[index]
-      ),
+      image: imageSlot(`${label} · Look ${number}`, `${label} look ${number} for ORAC Luxe`, images?.[index]),
     };
   });
 
@@ -207,7 +203,7 @@ export const maisonSeries = [
     name: "Dresses",
     subtitle: "A-line & Shirt Dress",
     intro: "Fluid A-line and shirt-dress silhouettes, cut to move with you.",
-    landscape: imageSlot("Dresses", "The House of Azrin dresses — Maison Series", frontDresses),
+    landscape: imageSlot("Dresses", "ORAC Luxe dresses — Maison Series", frontDresses),
     models: makeModels("Dresses", dressesStories, dressesLooks),
   },
   {
@@ -216,7 +212,7 @@ export const maisonSeries = [
     name: "Co-ords",
     subtitle: "Two-piece sets",
     intro: "Considered two-piece sets that read as one intentional line.",
-    landscape: imageSlot("Co-ords", "The House of Azrin co-ords — Maison Series", frontCoOrds),
+    landscape: imageSlot("Co-ords", "ORAC Luxe co-ords — Maison Series", frontCoOrds),
     models: makeModels("Co-ords", coOrdsStories, coOrdsLooks),
   },
   {
@@ -225,7 +221,7 @@ export const maisonSeries = [
     name: "Tunics",
     subtitle: "Everyday ease",
     intro: "Elevated tunics built for ease without losing their line.",
-    landscape: imageSlot("Tunics", "The House of Azrin tunics — Maison Series", frontTunics),
+    landscape: imageSlot("Tunics", "ORAC Luxe tunics — Maison Series", frontTunics),
     models: makeModels("Tunics", tunicsStories, tunicsLooks),
   },
   {
@@ -236,7 +232,7 @@ export const maisonSeries = [
     intro: "Skirts and trousers engineered as the foundation of a considered wardrobe.",
     landscape: imageSlot(
       "Signature Bottoms",
-      "The House of Azrin signature bottoms — Maison Series",
+      "ORAC Luxe signature bottoms — Maison Series",
       frontSignatureBottoms
     ),
     models: makeModels("Signature Bottoms", signatureBottomsStories, signatureBottomsLooks),
@@ -251,7 +247,7 @@ export const catalogue = {
   eyebrow: "The Maison Catalogue",
   title: "Take the collection with you.",
   text: "A considered look-book of the Maison Series — silhouettes, fabrics, and the stories behind each piece.",
-  href: "/downloads/the-house-of-azrin-catalogue.pdf",
+  href: "/downloads/orac-luxe-catalogue.pdf",
   fileLabel: "Download catalogue (PDF)",
 };
 

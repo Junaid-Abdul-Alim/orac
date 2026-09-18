@@ -46,7 +46,7 @@ export default function InteractiveImage({ image, maxTilt = 12, className = "", 
         <SafeImage
           src={image?.src}
           alt={image?.alt || label || ""}
-          fallbackLabel={image?.label || label || "The House of Azrin"}
+          fallbackLabel={image?.label || label || "ORAC Luxe"}
           className="interactive-image-photo"
         />
       </div>

@@ -1,10 +1,9 @@
 import { useState } from "react";
-import { ArrowDownToLine, ArrowUpFromLine, FileDown } from "lucide-react";
+import { FileDown } from "lucide-react";
 import CarouselControls from "./CarouselControls";
 import Reveal from "./Reveal";
 import ProductPanel from "./ProductPanel";
 import ProductSpecModal from "./ProductSpecModal";
-import IconBadge from "./IconBadge";
 import useCardCarousel from "./useCardCarousel";
 import { pad2 } from "../../utils/pad2";
 
@@ -79,28 +78,15 @@ function ProductCategoryRow({ collectionId, category, index, getImage, onSelectP
   );
 }
 
+/* No per-collection row-head here: the showcase-level head above
+   (eyebrow + title + description, ProductCategoryShowcase below) already
+   states the collection's name and description - this component is only
+   ever handed one collection (OracInternational.jsx), so a second
+   "Export Portfolio" / "Import Portfolio" heading directly beneath the
+   first was a plain duplicate, not a distinct piece of information. */
 function ProductCollection({ collection, getImage, index, onSelectProduct }) {
-  const CollectionIcon = collection.id.includes("import") ? ArrowDownToLine : ArrowUpFromLine;
-
   return (
     <Reveal className="product-collection" delay={index * 110}>
-      <div className="product-collection-row-head">
-        <div>
-          <IconBadge icon={CollectionIcon} className="icon-badge-soft" size={17} />
-          <div>
-            <small>{collection.short}</small>
-            <h3>{collection.label}</h3>
-            <p>{collection.description}</p>
-          </div>
-        </div>
-        <p className="product-collection-tally">
-          <strong>{pad2(collection.categories.length)}</strong>
-          <span>categories</span>
-          <strong>{pad2(countProducts(collection.categories))}</strong>
-          <span>products</span>
-        </p>
-      </div>
-
       <div className="product-collection-categories">
         {collection.categories.map((category, categoryIndex) => (
           <ProductCategoryRow
