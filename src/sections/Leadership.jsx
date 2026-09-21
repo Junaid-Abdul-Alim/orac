@@ -1,4 +1,6 @@
 import ContinuumMark from "../components/motion/ContinuumMark";
+import ChapterMark from "../components/motion/ChapterMark";
+import { chapters } from "../data/storyData";
 import { leadership } from "../data/companyData";
 
 // Stage 6 of the homepage journey ("Leadership" - see
@@ -15,6 +17,9 @@ import { leadership } from "../data/companyData";
 export default function Leadership() {
   return (
     <section className="section leadership-section" data-continuum-phase="leadership">
+      <div className="container story-chapter-head">
+        <ChapterMark {...chapters.people} />
+      </div>
       <div className="container leadership-panel">
         {/* Calm and institutional: the thread becomes a plain guide with one
             node per leader, and stops moving. */}

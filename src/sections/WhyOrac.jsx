@@ -1,5 +1,7 @@
 import SectionHeader from "../components/common/SectionHeader";
 import ContinuumMark from "../components/motion/ContinuumMark";
+import ChapterMark from "../components/motion/ChapterMark";
+import { chapters } from "../data/storyData";
 
 const trustPoints = [
   {
@@ -35,6 +37,9 @@ export default function WhyOrac() {
         {/* The Luxe seam straightens here into a single architectural rule.
             Intensity drops for the rest of the page. */}
         <ContinuumMark kind="divider" className="why-divider" />
+        <div className="story-chapter-head">
+          <ChapterMark {...chapters.standard} />
+        </div>
         <SectionHeader
           bare
           eyebrow="Why ORAC"

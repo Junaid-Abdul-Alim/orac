@@ -1,0 +1,410 @@
+/* The homepage narrative layer (data/storyData.js, useStoryMotion.js).
+   Additive on purpose: it restyles the opening into a dark stage and adds
+   chapter marks, "why it exists" lines, and bridge title cards. Loaded after
+   the section partials so it can override their resting state, and before
+   14-motion.css so the motion layer still has the last word. */
+
+:root {
+  --stage: #0d0c0a;
+  --stage-2: #16130f;
+  --stage-text: #f4efe6;
+  --stage-muted: rgba(244, 239, 230, 0.66);
+  --stage-rule: rgba(212, 175, 120, 0.4);
+}
+
+/* ------------------------------------------------------------------
+   1. The opening - a dark stage. The three business cards stay bright, so
+   they read as lit windows into three worlds rather than as more cream.
+   ------------------------------------------------------------------ */
+.home-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  color: var(--stage-text);
+  background:
+    radial-gradient(ellipse 70% 55% at 50% -8%, rgba(212, 175, 120, 0.2), transparent 62%),
+    linear-gradient(180deg, var(--stage) 0%, var(--stage-2) 100%);
+}
+
+/* One slow pool of warm light behind the headline: the only ambient motion in
+   the opening, and it is a single element, not decoration scattered around. */
+.home-hero::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: -20% 10% 40%;
+  background: radial-gradient(ellipse at 50% 50%, rgba(212, 175, 120, 0.13), transparent 65%);
+  animation: stage-breathe 14s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+@keyframes stage-breathe {
+  from {
+    opacity: 0.55;
+    transform: translate3d(-4%, 0, 0) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(4%, 4%, 0) scale(1.06);
+  }
+}
+
+.origin-statement {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  align-items: end;
+  column-gap: clamp(28px, 6vw, 96px);
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto clamp(22px, 3.4vw, 44px);
+  text-align: left;
+}
+
+.origin-eyebrow {
+  grid-column: 1 / -1;
+  margin-bottom: clamp(10px, 1.4vw, 18px);
+}
+
+.home-hero .eyebrow {
+  color: var(--gold-light);
+}
+
+.home-hero .origin-headline {
+  max-width: none;
+  margin: 0;
+  color: var(--stage-text);
+  font-size: clamp(2.5rem, 1rem + 5.6vw, 5.9rem);
+  font-weight: 500;
+  line-height: 0.98;
+  letter-spacing: -0.01em;
+  text-wrap: nowrap;
+}
+
+/* Each line is a mask its text rises through. The small bottom padding keeps
+   descenders from being clipped by overflow: hidden. */
+.origin-line {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.1em;
+  margin-bottom: -0.1em;
+}
+
+.origin-line-inner {
+  display: block;
+  will-change: transform;
+}
+
+.origin-line:last-of-type .origin-line-inner {
+  color: var(--gold-light);
+  font-style: italic;
+}
+
+.origin-lede {
+  max-width: 34ch;
+  margin: 0;
+  padding-bottom: 0.4em;
+  color: var(--stage-muted);
+  font-size: clamp(1.02rem, 0.9rem + 0.45vw, 1.24rem);
+  line-height: 1.5;
+}
+
+/* Cards: bright plates on the dark stage. */
+.origin-venture.orac-frame-venture-compact {
+  background: #15130f;
+  border-color: rgba(244, 239, 230, 0.12);
+  box-shadow: 0 26px 60px rgba(0, 0, 0, 0.5);
+}
+
+.origin-venture.orac-frame-international.orac-frame-venture-compact,
+.origin-venture.orac-frame-eventus.orac-frame-venture-compact,
+.origin-venture.orac-frame-luxe.orac-frame-venture-compact {
+  border-color: rgba(244, 239, 230, 0.12);
+}
+
+.origin-venture:hover,
+.origin-venture:focus-within {
+  box-shadow: 0 34px 78px rgba(0, 0, 0, 0.62);
+}
+
+/* Eventus's photograph is already portrait-shaped, so unlike the other two it
+   had no overscan; give it a little so the scroll drift never shows an edge. */
+.origin-venture.orac-frame-eventus .venture-compact-bg {
+  left: -8%;
+  max-width: none;
+  width: 116%;
+}
+
+.venture-compact-link {
+  color: var(--stage-text);
+}
+
+.venture-compact-label {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  background: #15130f;
+}
+
+.origin-venture.orac-frame-international .venture-compact-label .eyebrow {
+  color: var(--accent-international-light);
+}
+
+.origin-venture.orac-frame-eventus .venture-compact-label .eyebrow {
+  color: var(--accent-eventus-light);
+}
+
+.origin-venture.orac-frame-luxe .venture-compact-label .eyebrow {
+  color: var(--accent-luxe-light);
+}
+
+.venture-compact-story {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  color: var(--stage-text);
+  font-size: clamp(1.05rem, 0.9rem + 0.5vw, 1.3rem);
+  font-style: italic;
+  line-height: 1.2;
+}
+
+.venture-compact-no {
+  color: var(--gold-light);
+  font-size: 0.72rem;
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+}
+
+.origin-tagline {
+  color: var(--stage-muted);
+}
+
+/* Desktop: square plates leave room for the statement above without pushing
+   the row below the fold. The source photographs are near-square already. */
+@media (min-width: 861px) {
+  .venture-compact-media {
+    aspect-ratio: 1 / 1;
+  }
+}
+
+/* Tablet and phone: the statement stacks, headline first. */
+@media (max-width: 860px) {
+  .origin-statement {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 14px;
+  }
+
+  .origin-lede {
+    max-width: 44ch;
+    padding-bottom: 0;
+  }
+}
+
+/* Phone: three narrow cards. The number and the eyebrow give way to the
+   one-line description, which is the thing a first-time visitor needs. */
+@media (max-width: 620px) {
+  .home-hero .origin-headline {
+    font-size: clamp(2.15rem, 9.6vw, 2.9rem);
+  }
+
+  .origin-lede {
+    font-size: 0.98rem;
+    line-height: 1.45;
+  }
+
+  .venture-compact-label {
+    gap: 5px;
+  }
+
+  .venture-compact-no {
+    display: none;
+  }
+
+  .venture-compact-story {
+    font-size: 0.86rem;
+    line-height: 1.2;
+  }
+}
+
+/* ------------------------------------------------------------------
+   2. Chapter marks
+   ------------------------------------------------------------------ */
+.story-chapter-head {
+  padding-bottom: clamp(20px, 3vw, 36px);
+}
+
+.chapter-mark {
+  display: flex;
+  align-items: center;
+  gap: clamp(12px, 2vw, 22px);
+  color: var(--gold-text);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.chapter-mark-no {
+  font-size: clamp(1.5rem, 1.2rem + 1vw, 2.1rem);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  line-height: 1;
+}
+
+.chapter-mark-rule {
+  flex: 0 1 clamp(48px, 12vw, 160px);
+  height: 1px;
+  background: var(--gold);
+}
+
+.chapter-mark-title {
+  color: var(--ink);
+}
+
+.chapter-mark-note {
+  margin-left: auto;
+  color: var(--ink-muted);
+  letter-spacing: 0.12em;
+  text-align: right;
+}
+
+@media (max-width: 620px) {
+  .chapter-mark {
+    flex-wrap: wrap;
+    row-gap: 4px;
+  }
+
+  .chapter-mark-note {
+    flex-basis: 100%;
+    margin-left: 0;
+    text-align: left;
+  }
+}
+
+/* ------------------------------------------------------------------
+   3. "Why it exists"
+   ------------------------------------------------------------------ */
+.chapter-why {
+  --why: var(--gold);
+  display: grid;
+  gap: 6px;
+  margin: 0 0 var(--space-md);
+  padding-left: clamp(14px, 1.6vw, 20px);
+  border-left: 2px solid var(--why);
+  color: var(--ink-soft);
+  font-size: clamp(1.15rem, 1rem + 0.5vw, 1.4rem);
+  font-style: italic;
+  line-height: 1.35;
+}
+
+.chapter-why-label {
+  color: var(--why);
+  font-size: 0.7rem;
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.venture-chapter-international .chapter-why {
+  --why: var(--accent-international);
+}
+
+.venture-chapter-eventus .chapter-why {
+  --why: var(--accent-eventus);
+}
+
+.venture-chapter-luxe .chapter-why {
+  --why: var(--accent-luxe);
+}
+
+/* ------------------------------------------------------------------
+   4. Bridges - dark title cards between worlds
+   ------------------------------------------------------------------ */
+.story-bridge {
+  position: relative;
+  display: grid;
+  align-items: center;
+  min-height: clamp(300px, 54vh, 540px);
+  padding: clamp(56px, 9vw, 120px) 0;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 60% 70% at 50% 50%, rgba(212, 175, 120, 0.1), transparent 70%),
+    linear-gradient(180deg, var(--stage) 0%, var(--stage-2) 50%, var(--stage) 100%);
+  color: var(--stage-text);
+}
+
+.story-bridge-bar {
+  position: absolute;
+  left: var(--gutter);
+  right: var(--gutter);
+  height: 1px;
+  background: var(--stage-rule);
+}
+
+.story-bridge-bar-top {
+  top: clamp(20px, 3vw, 36px);
+}
+
+.story-bridge-bar-bottom {
+  bottom: clamp(20px, 3vw, 36px);
+}
+
+.story-bridge-inner {
+  display: grid;
+  gap: clamp(20px, 3vw, 36px);
+}
+
+.story-bridge-cut,
+.story-bridge-kicker {
+  color: var(--gold-light);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.story-bridge-kicker {
+  justify-self: end;
+  color: var(--stage-muted);
+}
+
+.story-bridge-line {
+  max-width: 16ch;
+  margin: 0;
+  font-size: clamp(2.2rem, 1rem + 5.2vw, 5.6rem);
+  font-weight: 500;
+  line-height: 1.02;
+  letter-spacing: -0.01em;
+}
+
+/* The second beat of the line starts on its own line. */
+.story-bridge-word.is-beat-start::before {
+  content: "\A";
+  white-space: pre;
+}
+
+.story-bridge-word.is-second {
+  font-style: italic;
+  color: var(--gold-light);
+}
+
+@media (max-width: 620px) {
+  .story-bridge {
+    min-height: 260px;
+  }
+
+  .story-bridge-line {
+    max-width: none;
+  }
+
+  .story-bridge-kicker {
+    justify-self: start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-hero::before {
+    animation: none;
+  }
+}

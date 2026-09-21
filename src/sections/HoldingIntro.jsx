@@ -1,5 +1,7 @@
 import SectionHeader from "../components/common/SectionHeader";
 import ContinuumMark from "../components/motion/ContinuumMark";
+import ChapterMark from "../components/motion/ChapterMark";
+import { chapters } from "../data/storyData";
 
 // The institutional "About ORAC Holdings" framing only - leadership was
 // split out into Leadership.jsx and moved later in the homepage journey
@@ -20,6 +22,9 @@ export default function HoldingIntro() {
           It draws downward from the section's top edge, which is where the rail
           hands the thread over. */}
       <ContinuumMark kind="spine" className="holding-spine" />
+      <div className="container story-chapter-head">
+        <ChapterMark {...chapters.house} />
+      </div>
       <div className="container split-layout">
         <SectionHeader bare eyebrow="About ORAC Holdings" title="We build institutions designed to endure." />
         <div className="rich-copy">

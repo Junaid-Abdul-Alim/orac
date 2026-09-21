@@ -4,6 +4,7 @@ import { companies } from "../data/companyData";
 import { internationalImages } from "../data/internationalImages";
 import { eventusImages } from "../data/eventusImages";
 import { luxeImages } from "../data/luxeData";
+import { heroStory, ventureLines } from "../data/storyData";
 
 const ventureTones = {
   international: "international",
@@ -32,10 +33,23 @@ const ventureBackgrounds = {
 export default function OriginSequence() {
   return (
     <div className="origin-sequence">
-      {/* The wordmark itself was dropped from this view (the navbar already
-          carries it on every page); the page's H1 stays, just no longer
-          visible, so the homepage keeps exactly one real heading. */}
-      <h1 className="sr-only">ORAC Holdings</h1>
+      {/* The opening states, in plain words, what ORAC is before the three
+          worlds appear beneath it. This is the page's one visible H1; the
+          "ORAC Holdings" the sr-only H1 used to carry is kept for assistive
+          tech inside it. Each headline line sits in a mask (overflow: hidden)
+          so it can rise into place (useStoryMotion.js). */}
+      <div className="origin-statement">
+        <span className="eyebrow origin-eyebrow">{heroStory.eyebrow}</span>
+        <h1 className="origin-headline">
+          <span className="sr-only">ORAC Holdings: </span>
+          {heroStory.headline.map((line) => (
+            <span className="origin-line" key={line}>
+              <span className="origin-line-inner">{line}</span>
+            </span>
+          ))}
+        </h1>
+        <p className="origin-lede">{heroStory.lede}</p>
+      </div>
 
       <div className="origin-ventures">
         {companies.map((company, index) => {
@@ -52,7 +66,11 @@ export default function OriginSequence() {
                  one origin instead of a row of three cards. */
               delay={160 + index * 130}
             >
-              <Link to={company.route} className="venture-compact-link" aria-label={`Explore ${company.name}`}>
+              <Link
+                to={company.route}
+                className="venture-compact-link"
+                aria-label={`Explore ${company.name}`}
+              >
                 <div className="venture-compact-media">
                   <img
                     className="venture-compact-bg"
@@ -71,6 +89,12 @@ export default function OriginSequence() {
                 <div className="venture-compact-label">
                   <h2 className="sr-only">{company.shortName}</h2>
                   <span className="eyebrow">{company.label}</span>
+                  <span className="venture-compact-story">
+                    <span className="venture-compact-no" aria-hidden="true">
+                      {ventureLines[company.id].no}
+                    </span>
+                    {ventureLines[company.id].line}
+                  </span>
                 </div>
               </Link>
             </Frame>

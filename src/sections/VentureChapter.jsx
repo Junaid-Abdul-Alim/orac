@@ -2,6 +2,8 @@ import Button from "../components/common/Button";
 import ImagePanel from "../components/common/ImagePanel";
 import SectionHeader from "../components/common/SectionHeader";
 import ContinuumMark from "../components/motion/ContinuumMark";
+import ChapterMark from "../components/motion/ChapterMark";
+import { chapters, ventureWhy } from "../data/storyData";
 
 /**
  * How the continuum expresses itself inside each venture chapter, and which
@@ -46,6 +48,9 @@ export default function VentureChapter({
 
   return (
     <section className={`section venture-chapter venture-chapter-${tone}`} data-continuum-phase={tone}>
+      <div className="container story-chapter-head">
+        <ChapterMark {...chapters[tone]} />
+      </div>
       {/* Copy always precedes media in the DOM (reading order, and one
           predictable mobile stack for all three chapters); `reverse` only
           swaps the visual columns, and only once the layout is actually
@@ -53,6 +58,12 @@ export default function VentureChapter({
       <div className={`container editorial-layout ${reverse ? "reverse" : ""}`.trim()}>
         <div className="editorial-copy">
           <SectionHeader bare eyebrow={eyebrow} title={title} text={text} />
+          {ventureWhy[tone] ? (
+            <p className="chapter-why">
+              <span className="chapter-why-label">Why it exists</span>
+              {ventureWhy[tone]}
+            </p>
+          ) : null}
           {points.length ? (
             <div className="editorial-list">
               {points.map((point) => (

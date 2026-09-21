@@ -5,7 +5,10 @@ import GlobalReach from "../components/common/GlobalReach";
 import Leadership from "../sections/Leadership";
 import VentureChapter from "../sections/VentureChapter";
 import WhyOrac from "../sections/WhyOrac";
+import StoryBridge from "../sections/StoryBridge";
 import useHomeMotion from "../motion/useHomeMotion";
+import useStoryMotion from "../motion/useStoryMotion";
+import { bridges } from "../data/storyData";
 import { internationalImages } from "../data/internationalImages";
 import { eventusImages } from "../data/eventusImages";
 import { luxeImages } from "../data/luxeData";
@@ -16,6 +19,8 @@ export default function Home() {
   // continuum's timelines without adding a box to the layout.
   const scope = useRef(null);
   useHomeMotion(scope);
+  useStoryMotion(scope);
+  const bridge = (i) => <StoryBridge {...bridges[i]} index={i} total={bridges.length} />;
 
   return (
     <div className="home-motion-scope" ref={scope}>
@@ -41,6 +46,7 @@ export default function Home() {
         title="OUR GLOBAL REACH"
         text={`ORAC operates from India with ${focusedCountryCount} focused countries and five regional corridors across Asia, Africa, the Middle East, Europe, North America, South America, and Australia.`}
       />
+      {bridge(0)}
       <VentureChapter
         tone="eventus"
         reverse
@@ -57,6 +63,7 @@ export default function Home() {
         image={eventusImages.homeHero}
         imageLabel="Wedding Experience"
       />
+      {bridge(1)}
       <VentureChapter
         tone="luxe"
         eyebrow="ORAC Luxe"
@@ -72,6 +79,7 @@ export default function Home() {
         image={luxeImages.hero}
         imageLabel="ORAC Luxe"
       />
+      {bridge(2)}
       <WhyOrac />
       <Leadership />
     </div>

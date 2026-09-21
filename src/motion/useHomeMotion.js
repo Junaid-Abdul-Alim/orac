@@ -89,7 +89,13 @@ function parallax({ target, trigger, amount }) {
     {
       yPercent: amount,
       ease: "none",
-      scrollTrigger: { trigger, start: "top bottom", end: "bottom top", scrub: true, invalidateOnRefresh: true },
+      scrollTrigger: {
+        trigger,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: true,
+        invalidateOnRefresh: true,
+      },
     }
   );
 }
@@ -123,7 +129,11 @@ export default function useHomeMotion(scopeRef) {
           gsap.to(fork, { strokeDashoffset: 0, duration: 1.1, ease: "power1.inOut", delay: 0.2 });
         }
 
-        const ventureLinks = all(".origin-venture .venture-compact-link");
+        // Shifts the photographs, not the links: moving the whole link slid the
+        // card's contents sideways inside its frame and exposed a strip of the
+        // card background at one edge. Each photograph is overscanned (see
+        // 03-hero.css / 16-story.css) so its own drift never shows an edge.
+        const ventureLinks = all(".origin-venture .venture-compact-bg");
         if (ventureLinks.length === 3) {
           gsap.fromTo(
             ventureLinks,
@@ -442,7 +452,6 @@ export default function useHomeMotion(scopeRef) {
             },
           ],
         });
-
       };
 
       mm.add(DESKTOP_QUERY, () => build(true));
