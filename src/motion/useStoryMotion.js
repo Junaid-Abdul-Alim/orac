@@ -35,20 +35,10 @@ export default function useStoryMotion(scopeRef) {
       const mm = gsap.matchMedia();
 
       const build = (isDesktop) => {
-        /* 1. Opening ---------------------------------------------------- */
-        const lines = all(".origin-line-inner");
-        const fades = all(".origin-eyebrow, .origin-lede, .origin-tagline");
-        const captions = all(".venture-compact-story");
-        if (lines.length) gsap.set(lines, { yPercent: 112 });
-        if (fades.length) gsap.set(fades, { opacity: 0, y: isDesktop ? 18 : 12 });
-        if (captions.length) gsap.set(captions, { opacity: 0, y: 10 });
-
-        const open = gsap.timeline({ delay: 0.15, defaults: { ease: "power3.out" } });
-        if (fades.length) open.to(all(".origin-eyebrow"), { opacity: 1, y: 0, duration: 0.8 }, 0);
-        if (lines.length) open.to(lines, { yPercent: 0, duration: 1.25, stagger: 0.16 }, 0.1);
-        if (fades.length) open.to(all(".origin-lede"), { opacity: 1, y: 0, duration: 1 }, 0.7);
-        if (captions.length) open.to(captions, { opacity: 1, y: 0, duration: 0.9, stagger: 0.14 }, 1.0);
-        if (fades.length) open.to(all(".origin-tagline"), { opacity: 1, y: 0, duration: 0.9 }, 1.4);
+        /* The opening (OriginSequence.jsx) keeps its original, pre-existing
+           presentation and motion (Frame's own Reveal stagger) - reverted per
+           request, see git history around 517f157. Everything below is
+           unaffected: chapter marks, "why it exists" lines, and bridges. */
 
         /* 2. Chapter marks --------------------------------------------- */
         all("[data-chapter]").forEach((mark) => {
