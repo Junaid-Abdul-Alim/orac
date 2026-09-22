@@ -57,7 +57,7 @@
   --dur-slow: 420ms;
 
   --font-display: "Cormorant Garamond", Georgia, serif;
-  --font-body: "Jost", "DM Sans", Arial, sans-serif;
+  --font-body: var(--font-display);
 
   --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
 

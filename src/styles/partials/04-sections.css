@@ -751,7 +751,9 @@
 .venture-chapter-meta {
   color: var(--ink-muted);
   font-size: 0.78rem;
-  letter-spacing: 0.06em;
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
@@ -806,7 +808,6 @@
 
 .venture-chapter-international .venture-chapter-meta {
   color: var(--accent-international);
-  font-weight: 600;
 }
 
 /* Eventus - warm, human, felt rather than seen: the most generous corner
@@ -825,9 +826,6 @@
 
 .venture-chapter-eventus .venture-chapter-meta {
   color: var(--accent-eventus);
-  font-style: italic;
-  text-transform: none;
-  letter-spacing: 0;
 }
 
 /* Luxe - quiet, tactile, material-led: a soft tinted backdrop standing in
@@ -846,5 +844,4 @@
 
 .venture-chapter-luxe .venture-chapter-meta {
   color: var(--accent-luxe);
-  letter-spacing: 0.1em;
 }
