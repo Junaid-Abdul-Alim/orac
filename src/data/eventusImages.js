@@ -1,5 +1,4 @@
 import eventusHero from "../assets/images/eventus/eventus-hero.webp";
-import eventusCover from "../assets/images/eventus/eventus-cover.webp";
 import eventusHomeFlatlay from "../assets/images/eventus/eventus-home-flatlay.webp";
 import weddingCouple from "../assets/images/eventus/wedding-couple.webp";
 import bridalEntry from "../assets/images/eventus/bridal-entry.webp";
@@ -22,8 +21,8 @@ import { imageSlot } from "./imageSlot";
 
 export const eventusImages = {
   hero: {
-    src: eventusCover,
-    alt: "An aerial view of a wedding ceremony mandap and seated guests on a lawn at sunset, by ORAC Eventus",
+    src: eventusHero,
+    alt: "A bride and groom seated under a floral and gold mandap during a wedding ceremony, by ORAC Eventus",
     label: "Eventus image",
     title: "Weddings, Celebrations & Moments, Mastered",
     description: "Wedding celebration imagery for ORAC Eventus.",

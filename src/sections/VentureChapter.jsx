@@ -14,7 +14,11 @@ import { chapters, ventureWhy } from "../data/storyData";
 const CHAPTER_MOTION = {
   international: { variant: "door", mark: "route" },
   eventus: { variant: "frame", mark: "frame" },
-  luxe: { variant: "seam", mark: "seam" },
+  // No mark: the "seam" mark (a dashed stitch line down the image's left
+  // edge) read as an unwanted dotted border on the photograph and was
+  // removed per feedback. `variant: "seam"` still controls the image's own
+  // clip-path opening (04-sections.css), which is unrelated and unaffected.
+  luxe: { variant: "seam" },
 };
 
 /**
