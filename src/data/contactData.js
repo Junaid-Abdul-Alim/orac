@@ -29,7 +29,7 @@ export const contactDetails = {
   },
   luxe: {
     address: "41/22 - Raju Street, West Mambalam, Chennai 600033",
-    emails: ["studio@thehouseofazrin.com"],
+    emails: [],
     social: "@orac_luxe",
   },
 };

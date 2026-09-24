@@ -182,23 +182,25 @@
      centred via translateY(-50%) - that would recentre on every height
      change and grow the panel upward as much as downward, pushing its
      first items off the top of the viewport when opened. */
-  top: calc((var(--nav-height) - 58px) / 2);
+  top: calc((var(--nav-height) - 46px) / 2);
   right: max(var(--gutter), (100% - var(--max)) / 2);
   z-index: 5;
-  width: 158px;
-  height: 58px;
+  width: 46px;
+  height: 46px;
   overflow: hidden;
   background: rgba(250, 248, 244, 0.98);
   border: 1px solid rgba(184, 151, 90, 0.18);
-  border-radius: 12px;
+  border-radius: 14px;
   box-shadow: var(--shadow-lg);
   transition:
+    width 0.58s var(--ease-smooth),
     height 0.58s var(--ease-smooth),
     border-radius 0.58s var(--ease-smooth),
     border-color 0.58s var(--ease-smooth);
 }
 
 .nav-island.is-open {
+  width: 158px;
   height: 322px;
   border-radius: 18px;
   border-color: rgba(184, 151, 90, 0.28);
@@ -207,8 +209,9 @@
 .nav-island-trigger {
   display: grid;
   place-items: center;
-  width: 100%;
-  height: 58px;
+  width: 46px;
+  height: 46px;
+  flex-shrink: 0;
   background: transparent;
   cursor: pointer;
 }
